@@ -1,12 +1,17 @@
 import { Tabs } from 'expo-router';
 import React from 'react';
-import { Platform } from 'react-native';
-
-import { HapticTab } from '@/components/HapticTab';
-import { IconSymbol } from '@/components/ui/IconSymbol';
-import TabBarBackground from '@/components/ui/TabBarBackground';
+import { Platform, View, StyleSheet } from 'react-native';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { AntDesign } from '@expo/vector-icons';
+
+const tabIcons = {
+  profile: 'user',
+  staff: 'team',
+  index: 'home',
+  notifications: 'bells',
+  chat: 'message1',
+};
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -14,31 +19,65 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
+        tabBarShowLabel: false,
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
-        tabBarButton: HapticTab,
-        tabBarBackground: TabBarBackground,
         tabBarStyle: Platform.select({
           ios: {
             position: 'absolute',
           },
-          default: {},
+          default: {
+            backgroundColor: '#000',
+            position: 'absolute',
+            bottom: 10,
+            marginHorizontal: 10,
+            borderRadius: 30,
+            height: 60,
+            paddingVertical: 10,
+            paddingHorizontal: 4,
+          },
         }),
       }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="explore"
-        options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
-        }}
-      />
+      {Object.entries(tabIcons).map(([route, icon]) => (
+        <Tabs.Screen
+          key={route}
+          name={route}
+          options={{
+            tabBarIcon: ({ color, focused }) => (
+              <TabIcon color={color} focused={focused} name={icon} />
+            ),
+          }}
+        />
+      ))}
     </Tabs>
   );
 }
+
+// Componente para os ícones com o círculo ativo
+function TabIcon({ name, color, focused }: { name: string; color: string; focused: boolean }) {
+  return (
+    <View style={[focused ? styles.activeContainer : styles.iconContainer]}>
+      <AntDesign size={25} name={name} color={focused ? '#fff' : color} />
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  iconContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 10
+  },
+  activeContainer: {
+    backgroundColor: '#9370DB',
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    position: 'absolute',
+    bottom: -10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 4,
+    borderColor: '#000',
+  },
+});

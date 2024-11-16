@@ -7,7 +7,7 @@ interface TabContent {
 }
 
 interface TabsProps {
-  tabs: TabContent[];
+  tabs: { label: string; content: any; }[];
 }
 
 const Tabs: React.FC<TabsProps> = ({ tabs }) => {
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
   tabContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    backgroundColor: '#E4CCFF',
+    backgroundColor: '#f1f1f1',
     paddingVertical: 10,
     borderRadius: 12,
     padding: 10,
@@ -81,10 +81,12 @@ const styles = StyleSheet.create({
     color: '#fff',
     textAlign: 'center',
     fontWeight: 'bold',
+    fontFamily: 'PoppinsRegular',
   },
   inactiveText: {
     textAlign: 'center',
     color: '#000',
+    fontFamily: 'PoppinsRegular',
   },
   content: {
     flex: 1,
@@ -92,6 +94,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   contentText: {
+    fontFamily: 'PoppinsRegular',
     fontSize: 20,
   },
 });
