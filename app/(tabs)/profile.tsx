@@ -4,13 +4,13 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import Tabs from '@/components/tabs';
 import AboutUser from '@/components/aboutUser';
+import AboutStaff from '@/components/aboutStaff';
 
 export default function Profile() {
 
   const tabData = [
     { label: 'About', content: <AboutUser /> },
-    { label: 'Reviews', content: 'Este é o conteúdo da Tab 2. Você pode personalizar esse texto conforme sua necessidade.' },
-    { label: 'Staff', content: 'Este é o conteúdo da Tab 3. Aproveite para adicionar mais informações ou funcionalidades aqui.' },
+    { label: 'Staff', content: <AboutStaff /> },
   ];
 
   return (

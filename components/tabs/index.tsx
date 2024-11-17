@@ -66,11 +66,14 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginVertical: 20,
     marginHorizontal: 0,
-    width: '100%'
+    width: '100%',
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 2,
   },
   tab: {
     padding: 15,
-    width: '33%',
+    width: '50%',
     borderRadius: 10,
   },
   activeTab: {
