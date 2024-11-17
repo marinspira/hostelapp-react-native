@@ -21,46 +21,21 @@ export default function AboutUser() {
         interests: [''],
     });
 
-    const formFields = [
-        {
-            key: 'name',
-            label: 'Your name',
-            placeholder: 'Your name here',
-        },
-        {
-            key: 'description',
-            label: 'Description',
-            placeholder: 'Describe yourself',
-        },
-        {
-            key: 'instagram',
-            label: 'Instagram',
-            placeholder: '@HostelApp',
-        },
-        {
-            key: 'linkedin',
-            label: 'LinkedIn',
-            placeholder: '/in/HostelApp',
-        },
-        {
-            key: 'twitter',
-            label: 'Twitter',
-            placeholder: '@HostelApp',
-        },
-    ];
-
     return (
         <View style={styles.container}>
             <ScrollView style={styles.form}>
+                <Input label="Your name" placeholder='Your name here' />
+                <Input label="Your age" placeholder='' />
+                <Input label="Description" placeholder='Describe yourself' />
                 <Input label="Interests" />
-                {/* fazer um select de interesses */}
-                {formFields.map((field) => (
-                    <Input
-                        key={field.key}
-                        placeholder={field.placeholder}
-                        label={field.label}
-                    />
-                ))}
+                <Input label="Where are you from?" />
+                <Input label="Which languages do you speak?" />
+                <Input label="Are you a digital nomad?" />
+                <Input label="Do you smoke?" />
+                <Input label="Are you travelling with your pet?" />
+                <Input label="Instagram" placeholder='@HostelApp' />
+                <Input label="LinkedIn" placeholder='/in/HostelApp' />
+                <Input label="Twitter" placeholder='@HostelApp' />
             </ScrollView>
             <Pressable style={styles.loggoutButton}>
                 <Text style={styles.loggoutText}>Logout</Text>
@@ -78,7 +53,7 @@ const styles = StyleSheet.create({
     },
     form: {
         width: '100%',
-        marginTop: 40
+        marginTop: 20
     },
     loggoutButton: {
         borderColor: 'red',
@@ -87,7 +62,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 30,
         borderRadius: 25,
         backgroundColor: 'white',
-        alignSelf: 'center', 
+        alignSelf: 'center',
         marginTop: 30
     },
     loggoutText: {
