@@ -40,17 +40,15 @@ export default function AboutStaff() {
                 <Input label='Where is your dream place?' />
                 {/* select de países */}
 
-                {
-                    formFields.map((field) => (
-                        <Input
-                            key={field.key}
-                            label={field.label}
-                            placeholder={field.placeholder}
-                            value={dataStaff[field.key]}
-                            onChangeText={(text) => handleInputChange(field.key, text)}
-                        />
-                    ))
-                }
+                {formFields.map((field) => (
+                    <Input
+                        key={field.key}
+                        label={field.label}
+                        placeholder={field.placeholder}
+                        value={dataStaff[field.key]}
+                        onChangeText={(text) => handleInputChange(field.key, text)}
+                    />
+                ))}
             </ScrollView >
 
             {!staff && (
