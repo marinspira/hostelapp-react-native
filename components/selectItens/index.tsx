@@ -2,31 +2,42 @@ import React, { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 
-export default function SelectItens({
+// Definir a tipagem para as props do componente
+interface SelectItensProps {
+    label: string;
+    onChange: (selectedOptions: string[]) => void;
+    options?: string[];
+    suportText?: string;
+    maxSelections?: number;
+    selectInputItems?: string[];
+}
+
+const SelectItens: React.FC<SelectItensProps> = ({
     label,
-    options: initialOptions,
+    options: initialOptions = [],
     suportText,
-    onSelectionChange,
+    onChange,
     maxSelections = 1,
     selectInputItems
-}) {
-    const [selectedOptions, setSelectedOptions] = useState([]);
-    const [options, setOptions] = useState(initialOptions || []);
-    const [selectItem, setSelectItem] = useState()
+}) => {
+    // Tipagem do estado
+    const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+    const [options, setOptions] = useState<string[]>(initialOptions);
+    const [selectItem, setSelectItem] = useState<string | undefined>();
 
-    const toggleOption = (option) => {
+    // Função para alternar a seleção
+    const toggleOption = (option: string) => {
         const isSelected = selectedOptions.includes(option);
 
         // Calcular a nova lista de seleções
-        let newSelection;
+        let newSelection: string[];
 
         if (isSelected) {
-            // Se já estiver selecionado, remover da lista 
+            // Se já estiver selecionado, remover da lista
             newSelection = selectedOptions.filter((item) => item !== option);
             if (selectInputItems) {
-                setOptions(newSelection)
+                setOptions(newSelection);
             }
-
         } else {
             // Se não tiver atingido o limite, adicionar à lista ou manter a mesma seleção
             if (selectedOptions.length < maxSelections) {
@@ -38,11 +49,12 @@ export default function SelectItens({
 
         // Atualizar o estado e acionar callback
         setSelectedOptions(newSelection);
-        onSelectionChange && onSelectionChange(newSelection);
+        onChange && onChange(newSelection);
     };
 
-    const handlePickerChange = (item) => {
-        setSelectItem(item)
+    // Função para lidar com a mudança de seleção do Picker
+    const handlePickerChange = (item: string) => {
+        setSelectItem(item);
 
         if (!options.includes(item)) {
             // Adicionar ao options se não existir
@@ -50,36 +62,35 @@ export default function SelectItens({
             setOptions(updatedOptions);
             setSelectedOptions(updatedOptions);
         }
-    }
+    };
 
     return (
         <View style={styles.fieldContainer}>
-
-            {/* label and suport text */}
+            {/* label and support text */}
             <Text style={styles.formTitle}>{label}</Text>
             {suportText && <Text style={styles.suportText}>{suportText}</Text>}
 
             {/* select input */}
-            {selectInputItems &&
+            {selectInputItems && (
                 <View style={styles.selectInputContainer}>
                     <Picker
-                        selectedValue='Select an option'
+                        selectedValue={selectItem}
                         onValueChange={handlePickerChange}
                         style={styles.selectInput}
                     >
                         <Picker.Item label="Select an option" value={null} />
-                        {selectInputItems.map((options, index) => {
+                        {selectInputItems.map((option, index) => {
                             return (
-                                <Picker.Item key={index} style={styles.selectInputText} label={options} value={options} />
-                            )
+                                <Picker.Item key={index} style={styles.selectInputText} label={option} value={option} />
+                            );
                         })}
                     </Picker>
                 </View>
-            }
+            )}
 
             {/* options */}
             <View style={styles.optionsContainer}>
-                {options && options.map((option) => {
+                {options.map((option) => {
                     const isSelected = selectedOptions.includes(option);
                     return (
                         <Pressable
@@ -88,7 +99,7 @@ export default function SelectItens({
                             onPress={() => toggleOption(option)}
                         >
                             <Text style={[styles.buttonText, isSelected && styles.selectedButtonText]}>
-                                {option} {isSelected && "×"}
+                                {option} {isSelected && '×'}
                             </Text>
                         </Pressable>
                     );
@@ -96,7 +107,9 @@ export default function SelectItens({
             </View>
         </View>
     );
-}
+};
+
+export default SelectItens;
 
 const styles = StyleSheet.create({
     button: {
@@ -158,13 +171,10 @@ const styles = StyleSheet.create({
         backgroundColor: '#f7f7f7',
         width: '100%',
         borderRadius: 8,
-        padding: 0,
         display: 'flex',
         alignItems: 'center',
-        margin: 0,
-        padding: 0,
     },
     selectInputText: {
         fontSize: 14,
-    }
+    },
 });

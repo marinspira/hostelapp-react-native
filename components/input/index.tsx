@@ -1,7 +1,14 @@
-import React from 'react'
-import { StyleSheet, Text, TextInput, View, ScrollView } from 'react-native';
+import React from 'react';
+import { StyleSheet, Text, TextInput, View } from 'react-native';
 
-export default function Input({ label, placeholder, value, onChange }) {
+interface InputProps {
+    label: string;
+    placeholder: string;
+    value: string;
+    onChange: (text: string) => void; 
+}
+
+const Input: React.FC<InputProps> = ({ label, placeholder, value, onChange }) => {
     return (
         <View style={styles.fieldContainer}>
             <Text style={styles.formTitle}>{label}</Text>
@@ -9,13 +16,13 @@ export default function Input({ label, placeholder, value, onChange }) {
                 style={styles.input}
                 placeholder={placeholder}
                 value={value}
-                onChangeText={onChange}
+                onChangeText={onChange} // Função de callback que atualiza o valor
                 keyboardType="default"
                 multiline={true}
             />
         </View>
-    )
-}
+    );
+};
 
 const styles = StyleSheet.create({
     fieldContainer: {
@@ -37,4 +44,6 @@ const styles = StyleSheet.create({
         borderColor: '#ccc',
         borderWidth: 1,
     },
-})
+});
+
+export default Input;

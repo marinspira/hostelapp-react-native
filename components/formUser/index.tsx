@@ -1,41 +1,38 @@
-import { useState } from 'react';
+// Extern components
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { UserState } from '@/redux/slices/user/userSlice';
+
+// Intern Components
 import Input from '../input';
 import InputSelect from '../inputSelect';
-import SimpleButton from '../button';
 import SelectItens from '@/components/selectItens'
 
-export default function AboutUser() {
-    const [dataUser, setDataUser] = useState({
-        name: '',
-        age: null,
-        country: '',
-        passaportPhoto: '',
-        interests: [''],
-        description: '',
-        languages: [''],
-        digitalNomad: null,
-        smoker: null,
-        pets: null,
-        socialMedia: {
-            instagram: '',
-            linkedin: '',
-            twitter: '',
-        },
-    });
+export default function FormUser() {
+    const user = useSelector((state: { user: UserState }) => state.user)
+
+    const dispatch = useDispatch()
 
     const options = ['💻 IT', ' 📖 Books', '🌊 Surf', '📸 Photograph', '👗 Fashion', '🎥 Movie', '⚽ Futebol', '🧘🏽 Yoga', '🎮 Games', '🥗 Veg Food', '👟 Hikings']
+
+    function handleChange() {
+
+    }
 
     return (
         <View style={styles.container}>
             <ScrollView style={styles.form}>
-                {<Input
+                <Input
                     label="Your name"
                     placeholder='Your name here'
-                />}
+                    value=''
+                    onChange={handleChange}
+                />
                 <Input
                     label="Your birthday"
                     placeholder=''
+                    value=''
+                    onChange={handleChange}
                 />
                 <InputSelect
                     label="Where are you from?"
@@ -43,43 +40,66 @@ export default function AboutUser() {
                 />
                 <Input
                     label="Passaport photo"
+                    placeholder='Passaport photo'
+                    value=''
+                    onChange={handleChange}
                 />
                 <SelectItens
-                    label='Interests' 
-                    suportText='Select up to 5 options' 
-                    maxSelections={5} 
+                    label='Interests'
+                    suportText='Select up to 5 options'
+                    maxSelections={5}
                     options={options}
+                    onChange={handleChange}
+
                 />
                 <Input
                     label="Description"
                     placeholder='Describe yourself'
+                    value=''
+                    onChange={handleChange}
                 />
                 <SelectItens
                     label='Which languages do you speak?'
                     selectInputItems={['Portuguese', 'English', '']}
+                    onChange={handleChange}
+
                 />
                 <SelectItens
-                    label='Are you a digital nomad?' 
-                    suportText='Do you work online while travel?' 
+                    label='Are you a digital nomad?'
+                    suportText='Do you work online while travel?'
                     options={['💻 yes', '✖️ no']}
+                    onChange={handleChange}
+
                 />
                 <SelectItens
-                    label='Do you smoke?' options={['🚬 yes', '✖️ no']}
+                    label='Do you smoke?'
+                    options={['🚬 yes', '✖️ no']}
+                    onChange={handleChange}
+
                 />
                 <SelectItens
-                    label='Are you travelling with your pet?' options={['🦤 yes', '✖️ no']}
+                    label='Are you travelling with your pet?'
+                    options={['🦤 yes', '✖️ no']}
+                    onChange={handleChange}
+
                 />
                 <Input
                     label="Instagram"
                     placeholder='@HostelApp'
+                    value=''
+                    onChange={handleChange}
                 />
                 <Input
                     label="LinkedIn"
                     placeholder='/in/HostelApp'
+                    value=''
+                    onChange={handleChange}
                 />
                 <Input
                     label="Twitter"
                     placeholder='@HostelApp'
+                    value=''
+                    onChange={handleChange}
                 />
             </ScrollView>
             <Pressable style={styles.loggoutButton}>

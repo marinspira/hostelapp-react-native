@@ -4,7 +4,7 @@ import BlockedScreen from '@/components/blockedScreen';
 import Input from '@/components/input';
 import SelectItens from '../selectItens';
 
-export default function AboutStaff() {
+export default function FormStaff() {
     const [staff, setStaff] = useState(false);
 
     const [dataStaff, setDataStaff] = useState({
