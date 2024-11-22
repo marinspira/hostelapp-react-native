@@ -5,7 +5,6 @@ export default function Input({ label, placeholder, value, onChange }) {
     return (
         <View style={styles.fieldContainer}>
             <Text style={styles.formTitle}>{label}</Text>
-            {/* select de países */}
             <TextInput
                 style={styles.input}
                 placeholder={placeholder}

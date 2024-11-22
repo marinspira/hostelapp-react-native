@@ -1,31 +1,85 @@
 import React, { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 
-export default function SelectItens({ label, options, suportText, onSelectionChange, maxSelections = 1 }) {
+export default function SelectItens({
+    label,
+    options: initialOptions,
+    suportText,
+    onSelectionChange,
+    maxSelections = 1,
+    selectInputItems
+}) {
     const [selectedOptions, setSelectedOptions] = useState([]);
+    const [options, setOptions] = useState(initialOptions || []);
+    const [selectItem, setSelectItem] = useState()
 
     const toggleOption = (option) => {
         const isSelected = selectedOptions.includes(option);
-    
+
         // Calcular a nova lista de seleções
-        const newSelection = isSelected
-            ? selectedOptions.filter((item) => item !== option) // Remover se já estiver selecionado
-            : selectedOptions.length < maxSelections
-            ? [...selectedOptions, option] // Adicionar se não atingir o limite
-            : selectedOptions; // Manter o mesmo se o limite for atingido
-    
+        let newSelection;
+
+        if (isSelected) {
+            // Se já estiver selecionado, remover da lista 
+            newSelection = selectedOptions.filter((item) => item !== option);
+            if (selectInputItems) {
+                setOptions(newSelection)
+            }
+
+        } else {
+            // Se não tiver atingido o limite, adicionar à lista ou manter a mesma seleção
+            if (selectedOptions.length < maxSelections) {
+                newSelection = [...selectedOptions, option];
+            } else {
+                newSelection = selectedOptions;
+            }
+        }
+
         // Atualizar o estado e acionar callback
         setSelectedOptions(newSelection);
         onSelectionChange && onSelectionChange(newSelection);
     };
-    
+
+    const handlePickerChange = (item) => {
+        setSelectItem(item)
+
+        if (!options.includes(item)) {
+            // Adicionar ao options se não existir
+            const updatedOptions = [...options, item];
+            setOptions(updatedOptions);
+            setSelectedOptions(updatedOptions);
+        }
+    }
 
     return (
         <View style={styles.fieldContainer}>
+
+            {/* label and suport text */}
             <Text style={styles.formTitle}>{label}</Text>
             {suportText && <Text style={styles.suportText}>{suportText}</Text>}
+
+            {/* select input */}
+            {selectInputItems &&
+                <View style={styles.selectInputContainer}>
+                    <Picker
+                        selectedValue='Select an option'
+                        onValueChange={handlePickerChange}
+                        style={styles.selectInput}
+                    >
+                        <Picker.Item label="Select an option" value={null} />
+                        {selectInputItems.map((options, index) => {
+                            return (
+                                <Picker.Item key={index} style={styles.selectInputText} label={options} value={options} />
+                            )
+                        })}
+                    </Picker>
+                </View>
+            }
+
+            {/* options */}
             <View style={styles.optionsContainer}>
-                {options.map((option) => {
+                {options && options.map((option) => {
                     const isSelected = selectedOptions.includes(option);
                     return (
                         <Pressable
@@ -93,4 +147,24 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
         flexDirection: 'row',
     },
+    selectInputContainer: {
+        borderColor: '#ccc',
+        borderWidth: 1,
+        borderRadius: 8,
+        padding: 0,
+        marginBottom: 15,
+    },
+    selectInput: {
+        backgroundColor: '#f7f7f7',
+        width: '100%',
+        borderRadius: 8,
+        padding: 0,
+        display: 'flex',
+        alignItems: 'center',
+        margin: 0,
+        padding: 0,
+    },
+    selectInputText: {
+        fontSize: 14,
+    }
 });

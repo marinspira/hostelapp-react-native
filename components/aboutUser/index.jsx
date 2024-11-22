@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import Input from '../input';
+import InputSelect from '../inputSelect';
 import SimpleButton from '../button';
 import SelectItens from '@/components/selectItens'
 
@@ -28,19 +29,58 @@ export default function AboutUser() {
     return (
         <View style={styles.container}>
             <ScrollView style={styles.form}>
-                <Input label="Your name" placeholder='Your name here' />
-                <Input label="Your birthday" placeholder='' />
-                <Input label="Where are you from?" />
-                <Input label="Passaport photo" />
-                <SelectItens label='Interests' suportText='Select up to 5 options' maxSelections={5} options={options} />
-                <Input label="Description" placeholder='Describe yourself' />
-                <Input label="Which languages do you speak?" />
-                <SelectItens label='Are you a digital nomad?' suportText='Do you work online while travel?' options={['💻 yes', '✖️ no']} />
-                <SelectItens label='Do you smoke?' options={['🚬 yes', '✖️ no']} />
-                <SelectItens label='Are you travelling with your pet?' options={['🦤 yes', '✖️ no']} />
-                <Input label="Instagram" placeholder='@HostelApp' />
-                <Input label="LinkedIn" placeholder='/in/HostelApp' />
-                <Input label="Twitter" placeholder='@HostelApp' />
+                {<Input
+                    label="Your name"
+                    placeholder='Your name here'
+                />}
+                <Input
+                    label="Your birthday"
+                    placeholder=''
+                />
+                <InputSelect
+                    label="Where are you from?"
+                    selectInputItems={['Brazil', 'USA', 'France', 'Italy']}
+                />
+                <Input
+                    label="Passaport photo"
+                />
+                <SelectItens
+                    label='Interests' 
+                    suportText='Select up to 5 options' 
+                    maxSelections={5} 
+                    options={options}
+                />
+                <Input
+                    label="Description"
+                    placeholder='Describe yourself'
+                />
+                <SelectItens
+                    label='Which languages do you speak?'
+                    selectInputItems={['Portuguese', 'English', '']}
+                />
+                <SelectItens
+                    label='Are you a digital nomad?' 
+                    suportText='Do you work online while travel?' 
+                    options={['💻 yes', '✖️ no']}
+                />
+                <SelectItens
+                    label='Do you smoke?' options={['🚬 yes', '✖️ no']}
+                />
+                <SelectItens
+                    label='Are you travelling with your pet?' options={['🦤 yes', '✖️ no']}
+                />
+                <Input
+                    label="Instagram"
+                    placeholder='@HostelApp'
+                />
+                <Input
+                    label="LinkedIn"
+                    placeholder='/in/HostelApp'
+                />
+                <Input
+                    label="Twitter"
+                    placeholder='@HostelApp'
+                />
             </ScrollView>
             <Pressable style={styles.loggoutButton}>
                 <Text style={styles.loggoutText}>Logout</Text>
