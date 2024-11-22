@@ -3,14 +3,14 @@ import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import Tabs from '@/components/tabs';
-import AboutUser from '@/components/aboutUser';
-import AboutStaff from '@/components/aboutStaff';
+import FormUser from '@/components/formUser';
+import FormStaff from '@/components/formStaff';
 
 export default function Profile() {
 
   const tabData = [
-    { label: 'CHECK IN', content: <AboutUser /> },
-    { label: 'STAFF AREA', content: <AboutStaff /> },
+    { label: 'CHECK IN', content: <FormUser /> },
+    { label: 'STAFF AREA', content: <FormStaff /> },
   ];
 
   return (
