@@ -6,6 +6,7 @@ import { UserState } from '@/redux/slices/user/userSlice';
 // Intern Components
 import Input from '../input';
 import InputSelect from '../inputSelect';
+import InputDate from '../inputDate';
 import SelectItens from '@/components/selectItens'
 
 export default function FormUser() {
@@ -28,12 +29,7 @@ export default function FormUser() {
                     value=''
                     onChange={handleChange}
                 />
-                <Input
-                    label="Your birthday"
-                    placeholder=''
-                    value=''
-                    onChange={handleChange}
-                />
+                <InputDate/>
                 <InputSelect
                     label="Where are you from?"
                     selectInputItems={['Brazil', 'USA', 'France', 'Italy']}
@@ -54,7 +50,7 @@ export default function FormUser() {
                 />
                 <Input
                     label="Description"
-                    placeholder='Describe yourself'
+                    placeholder='Let your rommates get know you!'
                     value=''
                     onChange={handleChange}
                 />

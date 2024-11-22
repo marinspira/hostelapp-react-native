@@ -5,10 +5,11 @@ interface InputProps {
     label: string;
     placeholder: string;
     value: string;
-    onChange: (text: string) => void; 
+    onChange?: (text: string) => void;
+    onPress?: () => void;
 }
 
-const Input: React.FC<InputProps> = ({ label, placeholder, value, onChange }) => {
+const Input: React.FC<InputProps> = ({ label, placeholder, value, onChange, onPress }) => {
     return (
         <View style={styles.fieldContainer}>
             <Text style={styles.formTitle}>{label}</Text>
@@ -16,9 +17,11 @@ const Input: React.FC<InputProps> = ({ label, placeholder, value, onChange }) =>
                 style={styles.input}
                 placeholder={placeholder}
                 value={value}
-                onChangeText={onChange} // Função de callback que atualiza o valor
+                onChangeText={onChange}
+                onPress={onPress}
                 keyboardType="default"
                 multiline={true}
+                placeholderTextColor="#494949"
             />
         </View>
     );
@@ -39,10 +42,11 @@ const styles = StyleSheet.create({
     input: {
         backgroundColor: '#f7f7f7',
         width: '100%',
-        padding: 12,
+        padding: 16,
         borderRadius: 8,
         borderColor: '#ccc',
         borderWidth: 1,
+        fontSize: 14,
     },
 });
 
