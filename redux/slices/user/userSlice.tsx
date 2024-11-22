@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface UserState {
     name: string,
-    age: any,
+    birthday: number | null,
     country: string,
     passportPhoto: any,
     interests: string[],
@@ -18,9 +18,14 @@ export interface UserState {
     },
 }
 
+interface UpdateFieldPayload {
+    key: keyof UserState,
+    value: any
+}
+
 const initialState: UserState = {
     name: '',
-    age: null,
+    birthday: null,
     country: '',
     passportPhoto: '',
     interests: [''],
@@ -40,11 +45,17 @@ const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
+        updateField(state, action: PayloadAction<UpdateFieldPayload>) {
+            const { key, value } = action.payload;
+
+            // Garante que o campo dinâmico seja atualizado corretamente
+            (state[key] as any) = value; // `as any` necessário para suportar propriedades complexas
+        },
         setUser(state, action: PayloadAction<UserState>) {
-            return { ...state, ...action.payload }
-        }
-    }
+            return { ...state, ...action.payload }; // Substitui todo o estado do usuário
+        },
+    },
 })
 
-export const { setUser } = userSlice.actions
+export const { setUser, updateField } = userSlice.actions
 export default userSlice.reducer

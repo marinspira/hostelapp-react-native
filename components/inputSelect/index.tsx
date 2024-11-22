@@ -1,9 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 
-export default function InputSelect({ selectInputItems, label }) {
-    const [selectItem, setSelectItem] = useState()
+interface InputSelectProps {
+    selectInputItems: string[];
+    label: string;
+    value: string;
+    onChange: (value: string) => void;
+}
+
+export default function InputSelect({ selectInputItems, label, value, onChange }: InputSelectProps) {
+    const [selectItem, setSelectItem] = useState<string>(value);
 
     return (
         <View style={styles.fieldContainer}>
@@ -11,21 +18,20 @@ export default function InputSelect({ selectInputItems, label }) {
             <View style={styles.selectInputContainer}>
                 <Picker
                     selectedValue={selectItem}
-                    onValueChange={(itemValue) =>
-                        setSelectItem(itemValue)
-                    }
+                    onValueChange={(itemValue) => {
+                        setSelectItem(itemValue);
+                        onChange(itemValue);
+                    }}
                     style={styles.selectInput}
                 >
-                    {selectInputItems &&
-                        selectInputItems.map((itens, index) => {
-                            return (
-                                <Picker.Item key={index} style={styles.selectInputText} label={itens} value={itens} />
-                            )
-                        })}
+                    <Picker.Item label="Select an option" value={null} />
+                    {selectInputItems.map((item, index) => (
+                        <Picker.Item key={index} style={styles.selectInputText} label={item} value={item} />
+                    ))}
                 </Picker>
             </View>
         </View>
-    )
+    );
 }
 
 const styles = StyleSheet.create({
@@ -53,4 +59,4 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 8,
     },
-})
+});

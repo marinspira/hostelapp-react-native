@@ -1,7 +1,7 @@
 // Extern components
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { UserState } from '@/redux/slices/user/userSlice';
+import { updateField, UserState } from '@/redux/slices/user/userSlice';
 
 // Intern Components
 import Input from '../input';
@@ -16,86 +16,95 @@ export default function FormUser() {
 
     const options = ['💻 IT', ' 📖 Books', '🌊 Surf', '📸 Photograph', '👗 Fashion', '🎥 Movie', '⚽ Futebol', '🧘🏽 Yoga', '🎮 Games', '🥗 Veg Food', '👟 Hikings']
 
-    function handleChange() {
-
+    function handleChange(key: any, value: any) {
+        dispatch(updateField({ key, value }))
     }
 
     return (
         <View style={styles.container}>
             <ScrollView style={styles.form}>
+                {!user.name &&
+                    <Input
+                        label="Your name"
+                        placeholder='Your name here'
+                        value={user.name}
+                        onChange={(value) => handleChange('name', value)}
+                    />
+                }
+                {!user.birthday &&
+                    <InputDate
+                        onChange={(value) => handleChange('birthday', value)}
+                    />
+                }
+                {!user.country &&
+                    <InputSelect
+                        label="Where are you from?"
+                        selectInputItems={['Brazil', 'USA', 'France', 'Italy']}
+                        value={user.country}
+                        onChange={(value) => handleChange('birthday', value)}
+                    />
+                }
+                {!user.passportPhoto &&
+                    <Input
+                        label="Passaport photo"
+                        placeholder='Passaport photo'
+                        value={user.passportPhoto}
+                        onChange={(value) => handleChange('passportPhoto', value)}
+                    />
+                }
                 <Input
-                    label="Your name"
-                    placeholder='Your name here'
-                    value=''
-                    onChange={handleChange}
-                />
-                <InputDate/>
-                <InputSelect
-                    label="Where are you from?"
-                    selectInputItems={['Brazil', 'USA', 'France', 'Italy']}
-                />
-                <Input
-                    label="Passaport photo"
-                    placeholder='Passaport photo'
-                    value=''
-                    onChange={handleChange}
+                    label="Description"
+                    placeholder='Let your rommates get know you!'
+                    value={user.description}
+                    onChange={(value) => handleChange('description', value)}
                 />
                 <SelectItens
                     label='Interests'
                     suportText='Select up to 5 options'
                     maxSelections={5}
                     options={options}
-                    onChange={handleChange}
-
-                />
-                <Input
-                    label="Description"
-                    placeholder='Let your rommates get know you!'
-                    value=''
-                    onChange={handleChange}
+                    onChange={(value) => handleChange('interests', value)}
                 />
                 <SelectItens
                     label='Which languages do you speak?'
                     selectInputItems={['Portuguese', 'English', '']}
-                    onChange={handleChange}
-
+                    onChange={(value) => handleChange('languages', value)}
                 />
                 <SelectItens
                     label='Are you a digital nomad?'
                     suportText='Do you work online while travel?'
                     options={['💻 yes', '✖️ no']}
-                    onChange={handleChange}
+                    onChange={(value) => handleChange('digitalNomad', value)}
 
                 />
                 <SelectItens
                     label='Do you smoke?'
                     options={['🚬 yes', '✖️ no']}
-                    onChange={handleChange}
+                    onChange={(value) => handleChange('smoker', value)}
 
                 />
                 <SelectItens
                     label='Are you travelling with your pet?'
                     options={['🦤 yes', '✖️ no']}
-                    onChange={handleChange}
-
+                    onChange={(value) => handleChange('travelingWithPets', value)}
                 />
                 <Input
                     label="Instagram"
                     placeholder='@HostelApp'
-                    value=''
-                    onChange={handleChange}
+                    value={user.socialMedia.instagram}
+                    onChange={(value) => handleChange('instagram', value)}
                 />
                 <Input
                     label="LinkedIn"
                     placeholder='/in/HostelApp'
-                    value=''
-                    onChange={handleChange}
+                    value={user.socialMedia.linkedin}
+                    onChange={(value) => handleChange('linkedin', value)}
                 />
                 <Input
                     label="Twitter"
                     placeholder='@HostelApp'
-                    value=''
-                    onChange={handleChange}
+                    value={user.socialMedia.twitter}
+                    onChange={(value) => handleChange('twitter', value)}
                 />
             </ScrollView>
             <Pressable style={styles.loggoutButton}>
