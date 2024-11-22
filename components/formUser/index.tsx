@@ -8,6 +8,7 @@ import Input from '../input';
 import InputSelect from '../inputSelect';
 import InputDate from '../inputDate';
 import SelectItens from '@/components/selectItens'
+import { useEffect } from 'react';
 
 export default function FormUser() {
     const user = useSelector((state: { user: UserState }) => state.user)
@@ -20,38 +21,42 @@ export default function FormUser() {
         dispatch(updateField({ key, value }))
     }
 
+    useEffect(() => {
+        console.log(user)
+    }, [user])
+
     return (
         <View style={styles.container}>
             <ScrollView style={styles.form}>
-                {!user.name &&
+                {/* {!user.name && */}
                     <Input
                         label="Your name"
                         placeholder='Your name here'
                         value={user.name}
                         onChange={(value) => handleChange('name', value)}
                     />
-                }
-                {!user.birthday &&
+                {/* } */}
+                {/* {!user.birthday && */}
                     <InputDate
                         onChange={(value) => handleChange('birthday', value)}
                     />
-                }
-                {!user.country &&
+                {/* } */}
+                {/* {!user.country && */}
                     <InputSelect
                         label="Where are you from?"
                         selectInputItems={['Brazil', 'USA', 'France', 'Italy']}
                         value={user.country}
-                        onChange={(value) => handleChange('birthday', value)}
+                        onChange={(value) => handleChange('country', value)}
                     />
-                }
-                {!user.passportPhoto &&
+                {/* } */}
+                {/* {!user.passportPhoto && */}
                     <Input
                         label="Passaport photo"
                         placeholder='Passaport photo'
                         value={user.passportPhoto}
                         onChange={(value) => handleChange('passportPhoto', value)}
                     />
-                }
+                {/* } */}
                 <Input
                     label="Description"
                     placeholder='Let your rommates get know you!'
@@ -86,7 +91,8 @@ export default function FormUser() {
                 <SelectItens
                     label='Are you travelling with your pet?'
                     options={['🦤 yes', '✖️ no']}
-                    onChange={(value) => handleChange('travelingWithPets', value)}
+                    onChange={(value) => handleChange('pets', value)}
+                    maxSelections={999}
                 />
                 <Input
                     label="Instagram"

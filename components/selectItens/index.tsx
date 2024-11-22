@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 
-// Definir a tipagem para as props do componente
 interface SelectItensProps {
     label: string;
     onChange: (selectedOptions: string[]) => void;
@@ -20,16 +19,12 @@ const SelectItens: React.FC<SelectItensProps> = ({
     maxSelections = 1,
     selectInputItems
 }) => {
-    // Tipagem do estado
     const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
     const [options, setOptions] = useState<string[]>(initialOptions);
     const [selectItem, setSelectItem] = useState<string | undefined>();
 
-    // Função para alternar a seleção
     const toggleOption = (option: string) => {
         const isSelected = selectedOptions.includes(option);
-
-        // Calcular a nova lista de seleções
         let newSelection: string[];
 
         if (isSelected) {
@@ -47,20 +42,19 @@ const SelectItens: React.FC<SelectItensProps> = ({
             }
         }
 
-        // Atualizar o estado e acionar callback
         setSelectedOptions(newSelection);
         onChange && onChange(newSelection);
     };
 
-    // Função para lidar com a mudança de seleção do Picker
     const handlePickerChange = (item: string) => {
         setSelectItem(item);
 
-        if (!options.includes(item)) {
+        if ((!options.includes(item) && (options.length <= maxSelections))) {
             // Adicionar ao options se não existir
             const updatedOptions = [...options, item];
             setOptions(updatedOptions);
             setSelectedOptions(updatedOptions);
+            onChange && onChange(updatedOptions);
         }
     };
 

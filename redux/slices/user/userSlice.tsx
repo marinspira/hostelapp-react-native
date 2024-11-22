@@ -8,9 +8,9 @@ export interface UserState {
     interests: string[],
     description: string,
     languages: string[],
-    digitalNomad: boolean,
-    smoker: boolean,
-    pets: boolean,
+    digitalNomad: boolean | null,
+    smoker: boolean | null,
+    pets: boolean | null,
     socialMedia: {
         instagram: string,
         linkedin: string,
@@ -31,9 +31,9 @@ const initialState: UserState = {
     interests: [''],
     description: '',
     languages: [''],
-    digitalNomad: false,
-    smoker: false,
-    pets: false,
+    digitalNomad: null,
+    smoker: null,
+    pets: null,
     socialMedia: {
         instagram: '',
         linkedin: '',
@@ -47,9 +47,11 @@ const userSlice = createSlice({
     reducers: {
         updateField(state, action: PayloadAction<UpdateFieldPayload>) {
             const { key, value } = action.payload;
+            
 
             // Garante que o campo dinâmico seja atualizado corretamente
             (state[key] as any) = value; // `as any` necessário para suportar propriedades complexas
+            
         },
         setUser(state, action: PayloadAction<UserState>) {
             return { ...state, ...action.payload }; // Substitui todo o estado do usuário

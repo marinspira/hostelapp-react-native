@@ -33,7 +33,6 @@ const InputDate: React.FC<InputDateProps> = ({
         if (selectedDate) {
             setShow(false);
 
-            // Atualizar estado interno se `value` não for controlado externamente
             if (!onChange) {
                 setDate(selectedDate);
             }
@@ -43,7 +42,7 @@ const InputDate: React.FC<InputDateProps> = ({
         }
     };
 
-    const displayedValue = value ? value : date; // Priorizar `value` vindo das props
+    const displayedValue = value ? value : date; 
 
     return (
         <View>
