@@ -1,17 +1,18 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { StyleSheet, Text, TextInput, View, ScrollView } from 'react-native';
 import BlockedScreen from '@/components/blockedScreen';
-import Input from '@/components/input'
+import Input from '@/components/input';
+import SelectItens from '../selectItens';
 
 export default function AboutStaff() {
     const [staff, setStaff] = useState(false);
 
     const [dataStaff, setDataStaff] = useState({
-        skills: [''],
+        skills: [],
         education: '',
         workExperience: '',
         travelExperince: '',
-        interests: [''],
+        interests: [],
         anyRestriction: '',
     });
 
@@ -29,16 +30,41 @@ export default function AboutStaff() {
         }));
     };
 
+    useEffect(() => {
+        console.log(dataStaff.skills)
+        console.log('teste')
+    }, [dataStaff])
+
+    const handleSkillsChange = (selectedSkills) => {
+        setDataStaff((prevState) => ({
+            ...prevState,
+            skills: selectedSkills,
+        }));
+    };
+
     return (
         <View style={styles.container}>
             <ScrollView style={styles.form} contentContainerStyle={styles.formContent}>
-                <Input label='Skills' />
+                <SelectItens
+                    options={[
+                        'Reception',
+                        'Bartender',
+                        'Housekeeping',
+                        'Kitchen Assistant',
+                        'Gardener',
+                        'Baby-sitter',
+                        'Sports Teaching',
+                        'Animal Care',
+                        'Language Teaching',
+                        'Building',
+                    ]}
+                    label="Skills"
+                    onSelectionChange={handleSkillsChange}
+                />
 
-                <Input label='When are you planning your next trip?' />
-                {/* datas de pretençao de inicio e termino do voluntariado */}
+                <Input label="When are you planning your next trip?" />
 
-                <Input label='Where is your dream place?' />
-                {/* select de países */}
+                <Input label="Where is your dream place?" />
 
                 {formFields.map((field) => (
                     <Input
@@ -49,7 +75,7 @@ export default function AboutStaff() {
                         onChangeText={(text) => handleInputChange(field.key, text)}
                     />
                 ))}
-            </ScrollView >
+            </ScrollView>
 
             {!staff && (
                 <BlockedScreen
@@ -58,9 +84,8 @@ export default function AboutStaff() {
                         text: 'Find volunteering',
                     }}
                 />
-            )
-            }
-        </View >
+            )}
+        </View>
     );
 }
 
@@ -69,6 +94,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         position: 'relative',
+        paddingBottom: 50,
     },
     form: {
         width: '100%',
@@ -76,4 +102,4 @@ const styles = StyleSheet.create({
         backgroundColor: '#ffffff',
         borderRadius: 10,
     },
-})
+});

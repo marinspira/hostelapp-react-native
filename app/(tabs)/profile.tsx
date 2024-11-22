@@ -9,8 +9,8 @@ import AboutStaff from '@/components/aboutStaff';
 export default function Profile() {
 
   const tabData = [
-    { label: 'About', content: <AboutUser /> },
-    { label: 'Staff', content: <AboutStaff /> },
+    { label: 'CHECK IN', content: <AboutUser /> },
+    { label: 'STAFF AREA', content: <AboutStaff /> },
   ];
 
   return (

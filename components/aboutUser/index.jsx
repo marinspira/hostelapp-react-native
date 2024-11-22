@@ -2,37 +2,42 @@ import { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import Input from '../input';
 import SimpleButton from '../button';
+import SelectItens from '@/components/selectItens'
 
 export default function AboutUser() {
     const [dataUser, setDataUser] = useState({
         name: '',
         age: null,
-        description: '',
         country: '',
+        passaportPhoto: '',
+        interests: [''],
+        description: '',
         languages: [''],
+        digitalNomad: null,
+        smoker: null,
+        pets: null,
         socialMedia: {
             instagram: '',
             linkedin: '',
             twitter: '',
         },
-        digitalNomad: null,
-        smoker: null,
-        pets: null,
-        interests: [''],
     });
+
+    const options = ['💻 IT', ' 📖 Books', '🌊 Surf', '📸 Photograph', '👗 Fashion', '🎥 Movie', '⚽ Futebol', '🧘🏽 Yoga', '🎮 Games', '🥗 Veg Food', '👟 Hikings']
 
     return (
         <View style={styles.container}>
             <ScrollView style={styles.form}>
                 <Input label="Your name" placeholder='Your name here' />
-                <Input label="Your age" placeholder='' />
-                <Input label="Description" placeholder='Describe yourself' />
-                <Input label="Interests" />
+                <Input label="Your birthday" placeholder='' />
                 <Input label="Where are you from?" />
+                <Input label="Passaport photo" />
+                <SelectItens label='Interests' suportText='Select up to 5 options' maxSelections={5} options={options} />
+                <Input label="Description" placeholder='Describe yourself' />
                 <Input label="Which languages do you speak?" />
-                <Input label="Are you a digital nomad?" />
-                <Input label="Do you smoke?" />
-                <Input label="Are you travelling with your pet?" />
+                <SelectItens label='Are you a digital nomad?' suportText='Do you work online while travel?' options={['💻 yes', '✖️ no']} />
+                <SelectItens label='Do you smoke?' options={['🚬 yes', '✖️ no']} />
+                <SelectItens label='Are you travelling with your pet?' options={['🦤 yes', '✖️ no']} />
                 <Input label="Instagram" placeholder='@HostelApp' />
                 <Input label="LinkedIn" placeholder='/in/HostelApp' />
                 <Input label="Twitter" placeholder='@HostelApp' />
