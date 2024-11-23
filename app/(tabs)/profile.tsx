@@ -5,17 +5,23 @@ import { ThemedView } from '@/components/ThemedView';
 import Tabs from '@/components/tabs';
 import FormUser from '@/components/formUser';
 import FormStaff from '@/components/formStaff';
-import { useSelector } from 'react-redux';
-import { UserState } from '@/redux/slices/user/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateField, UserState } from '@/redux/slices/user/userSlice';
 
 export default function Profile() {
 
   const user = useSelector((state: { user: UserState }) => state.user)
 
+  const dispatch = useDispatch()
+
   const tabData = [
     { label: 'CHECK IN', content: <FormUser /> },
     { label: 'STAFF AREA', content: <FormStaff /> },
   ];
+
+  function handleImages(value: string | string[] | null) {
+    dispatch(updateField({ key: 'userPhotos', value }))
+  }
 
   return (
     <ParallaxScrollView
@@ -25,7 +31,10 @@ export default function Profile() {
           source={require('@/assets/images/me.jpg')}
           style={styles.imageProfile}
         />
-      }>
+      }
+      onChangeImageInput={handleImages}
+    >
+
       <ThemedView style={styles.userDataContainer}>
         {(user.name && user.birthday) && <ThemedText type="title">Maria Eduarda, 21 </ThemedText>}
         <Tabs tabs={tabData} />

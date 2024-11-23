@@ -9,7 +9,7 @@ interface InputProps {
     onPress?: () => void;
 }
 
-const Input: React.FC<InputProps> = ({ label, placeholder, value, onChange, onPress }) => {
+const Input: React.FC<InputProps> = ({ label, placeholder, value, onChange }) => {
     return (
         <View style={styles.fieldContainer}>
             <Text style={styles.formTitle}>{label}</Text>
@@ -18,7 +18,6 @@ const Input: React.FC<InputProps> = ({ label, placeholder, value, onChange, onPr
                 placeholder={placeholder}
                 value={value}
                 onChangeText={onChange}
-                onPress={onPress}
                 keyboardType="default"
                 multiline={true}
                 placeholderTextColor="#494949"

@@ -7,6 +7,7 @@ import { updateField, UserState } from '@/redux/slices/user/userSlice';
 import Input from '../input';
 import InputSelect from '../inputSelect';
 import InputDate from '../inputDate';
+import InputImage from '../inputImage';
 import SelectItens from '@/components/selectItens'
 import { useEffect } from 'react';
 
@@ -14,8 +15,6 @@ export default function FormUser() {
     const user = useSelector((state: { user: UserState }) => state.user)
 
     const dispatch = useDispatch()
-
-    const options = ['💻 IT', ' 📖 Books', '🌊 Surf', '📸 Photograph', '👗 Fashion', '🎥 Movie', '⚽ Futebol', '🧘🏽 Yoga', '🎮 Games', '🥗 Veg Food', '👟 Hikings']
 
     function handleChange(key: any, value: any) {
         dispatch(updateField({ key, value }))
@@ -28,35 +27,27 @@ export default function FormUser() {
     return (
         <View style={styles.container}>
             <ScrollView style={styles.form}>
-                {/* {!user.name && */}
-                    <Input
-                        label="Your name"
-                        placeholder='Your name here'
-                        value={user.name}
-                        onChange={(value) => handleChange('name', value)}
-                    />
-                {/* } */}
-                {/* {!user.birthday && */}
-                    <InputDate
-                        onChange={(value) => handleChange('birthday', value)}
-                    />
-                {/* } */}
-                {/* {!user.country && */}
-                    <InputSelect
-                        label="Where are you from?"
-                        selectInputItems={['Brazil', 'USA', 'France', 'Italy']}
-                        value={user.country}
-                        onChange={(value) => handleChange('country', value)}
-                    />
-                {/* } */}
-                {/* {!user.passportPhoto && */}
-                    <Input
-                        label="Passaport photo"
-                        placeholder='Passaport photo'
-                        value={user.passportPhoto}
-                        onChange={(value) => handleChange('passportPhoto', value)}
-                    />
-                {/* } */}
+                <Input
+                    label="Your name"
+                    placeholder='Your name here'
+                    value={user.name}
+                    onChange={(value) => handleChange('name', value)}
+                />
+                <InputDate
+                    onChange={(value) => handleChange('birthday', value)}
+                />
+                <InputSelect
+                    label="Where are you from?"
+                    selectInputItems={['Brazil', 'USA', 'France', 'Italy']}
+                    value={user.country}
+                    onChange={(value) => handleChange('country', value)}
+                />
+                <InputImage
+                    maxSelections={1}
+                    label='Passaport/ID photo'
+                    suportText='Only the hostel administration has access to this information.'
+                    onChange={(value) => handleChange('passaportPhoto', value)}
+                />
                 <Input
                     label="Description"
                     placeholder='Let your rommates get know you!'
@@ -67,7 +58,7 @@ export default function FormUser() {
                     label='Interests'
                     suportText='Select up to 5 options'
                     maxSelections={5}
-                    options={options}
+                    options={['💻 IT', ' 📖 Books', '🌊 Surf', '📸 Photograph', '👗 Fashion', '🎥 Movie', '⚽ Futebol', '🧘🏽 Yoga', '🎮 Games', '🥗 Veg Food', '👟 Hikings']}
                     onChange={(value) => handleChange('interests', value)}
                 />
                 <SelectItens
@@ -97,19 +88,19 @@ export default function FormUser() {
                 <Input
                     label="Instagram"
                     placeholder='@HostelApp'
-                    value={user.socialMedia.instagram}
+                    value={user.instagram}
                     onChange={(value) => handleChange('instagram', value)}
                 />
                 <Input
                     label="LinkedIn"
                     placeholder='/in/HostelApp'
-                    value={user.socialMedia.linkedin}
+                    value={user.linkedin}
                     onChange={(value) => handleChange('linkedin', value)}
                 />
                 <Input
                     label="Twitter"
                     placeholder='@HostelApp'
-                    value={user.socialMedia.twitter}
+                    value={user.twitter}
                     onChange={(value) => handleChange('twitter', value)}
                 />
             </ScrollView>
