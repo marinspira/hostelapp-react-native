@@ -1,11 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, PanResponder } from 'react-native';
 
-interface TabContent {
-  label: string;
-  content: string;
-}
-
 interface TabsProps {
   tabs: { label: string; content: any; }[];
 }
@@ -59,16 +54,10 @@ const styles = StyleSheet.create({
   tabContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    paddingVertical: 10,
     borderRadius: 12,
     textAlign: 'center',
     marginVertical: 20,
-    // marginHorizontal: 0,
-    // width: '100%',
-    // shadowOpacity: 0.25,
-    // shadowRadius: 4,
-    // elevation: 2,
-    gap: 10
+    gap: 10,
   },
   tab: {
     padding: 15,

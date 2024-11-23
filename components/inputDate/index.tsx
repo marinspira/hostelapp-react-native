@@ -6,7 +6,7 @@ import Input from '../input';
 interface InputDateProps {
     label?: string;
     placeholder?: string;
-    value?: Date | undefined; 
+    value?: Date;
     onChange?: (date: Date) => void;
 }
 
@@ -17,12 +17,12 @@ const InputDate: React.FC<InputDateProps> = ({
     onChange,
 }) => {
     const [show, setShow] = useState(false);
-    const [date, setDate] = useState<Date>(value || new Date());
+    const [date, setDate] = useState<Date | undefined>(value || undefined);
 
     const showCalendar = () => {
         setShow(true);
         DateTimePickerAndroid.open({
-            value: date,
+            value: date || new Date(),
             onChange: handleChange,
             mode: 'date',
             is24Hour: true,
@@ -32,17 +32,12 @@ const InputDate: React.FC<InputDateProps> = ({
     const handleChange = (event: any, selectedDate?: Date) => {
         if (selectedDate) {
             setShow(false);
-
-            if (!onChange) {
-                setDate(selectedDate);
-            }
-
-            // Notificar o componente pai sobre a mudança
+            setDate(selectedDate);
             onChange?.(selectedDate);
         }
     };
 
-    const displayedValue = value ? value : date; 
+    const displayedValue = value ? value : date;
 
     return (
         <View>
@@ -50,12 +45,12 @@ const InputDate: React.FC<InputDateProps> = ({
                 onPress={showCalendar}
                 label={label}
                 placeholder={placeholder}
-                value={displayedValue.toLocaleDateString('en-GB')}
+                value={displayedValue?.toLocaleDateString('en-GB')}
             />
             {show && (
                 <DateTimePicker
                     testID="dateTimePicker"
-                    value={displayedValue}
+                    value={displayedValue ? displayedValue : new Date()}
                     mode="date"
                     is24Hour={true}
                     onChange={handleChange}

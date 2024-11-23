@@ -4,12 +4,12 @@ import { StyleSheet, Text, TextInput, View } from 'react-native';
 interface InputProps {
     label: string;
     placeholder: string;
-    value: string;
+    value: any;
     onChange?: (text: string) => void;
     onPress?: () => void;
 }
 
-const Input: React.FC<InputProps> = ({ label, placeholder, value, onChange }) => {
+const Input: React.FC<InputProps> = ({ label, placeholder, value, onChange, onPress }) => {
     return (
         <View style={styles.fieldContainer}>
             <Text style={styles.formTitle}>{label}</Text>
@@ -18,6 +18,7 @@ const Input: React.FC<InputProps> = ({ label, placeholder, value, onChange }) =>
                 placeholder={placeholder}
                 value={value}
                 onChangeText={onChange}
+                onPress={onPress}
                 keyboardType="default"
                 multiline={true}
                 placeholderTextColor="#494949"

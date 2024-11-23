@@ -3,44 +3,29 @@ import { StyleSheet, Text, TextInput, View, ScrollView } from 'react-native';
 import BlockedScreen from '@/components/blockedScreen';
 import Input from '@/components/input';
 import SelectItens from '../selectItens';
+import { useDispatch, useSelector } from 'react-redux';
+import { StaffState, updateStaffFields } from '@/redux/slices/user/staffSlice'
+import InputSelect from '../inputSelect';
 
 export default function FormStaff() {
-    const [staff, setStaff] = useState(false);
 
-    const [dataStaff, setDataStaff] = useState({
-        skills: [],
-        education: '',
-        workExperience: '',
-        travelExperince: '',
-        interests: [],
-        anyRestriction: '',
-    });
+    const staff = useSelector((state: { staff: StaffState }) => state.staff)
+    const dispatch = useDispatch()
 
-    const formFields = [
+    const formFields: { key: keyof StaffState; label: string; placeholder: string }[] = [
         { key: 'education', label: 'Education', placeholder: 'Exemplo: Graduado em desenvolvimento de software' },
         { key: 'workExperience', label: 'Work Experience', placeholder: 'Digite sua experiência profissional' },
-        { key: 'travelExperince', label: 'Travel Experience', placeholder: 'Descreva suas experiências de viagem' },
+        { key: 'travelExperience', label: 'Travel Experience', placeholder: 'Descreva suas experiências de viagem' },
         { key: 'anyRestriction', label: 'Any Restriction', placeholder: 'Liste quaisquer restrições' },
     ];
 
-    const handleInputChange = (key, value) => {
-        setDataStaff((prevState) => ({
-            ...prevState,
-            [key]: value,
-        }));
-    };
+    function handleChange<T extends keyof StaffState>(key: T, value: StaffState[T]) {
+        dispatch(updateStaffFields({ key, value }));
+    }
 
     useEffect(() => {
-        console.log(dataStaff.skills)
-        console.log('teste')
-    }, [dataStaff])
-
-    const handleSkillsChange = (selectedSkills) => {
-        setDataStaff((prevState) => ({
-            ...prevState,
-            skills: selectedSkills,
-        }));
-    };
+        console.log(staff)
+    }, [staff])
 
     return (
         <View style={styles.container}>
@@ -59,24 +44,27 @@ export default function FormStaff() {
                         'Building',
                     ]}
                     label="Skills"
-                    onSelectionChange={handleSkillsChange}
+                    suportText='Select up to 5 options'
+                    maxSelections={5}
+                    onChange={(value) => handleChange('skills', value)}
                 />
-
-                <Input label="When are you planning your next trip?" />
-
-                <Input label="Where is your dream place?" />
-
+                <InputSelect
+                    label="When are you planning your next trip?"
+                    selectInputItems={['Brazil', 'USA', 'France', 'Italy']}
+                    suportText='We will suggest you to hosts in this place :)'
+                    value={staff.nextDesiredTrip}
+                    onChange={(value) => handleChange('nextDesiredTrip', value)}
+                />
                 {formFields.map((field) => (
                     <Input
                         key={field.key}
                         label={field.label}
                         placeholder={field.placeholder}
-                        value={dataStaff[field.key]}
-                        onChangeText={(text) => handleInputChange(field.key, text)}
+                        value={staff[field.key]}
+                        onChange={(value) => handleChange(field.key, value)}
                     />
                 ))}
             </ScrollView>
-
             {!staff && (
                 <BlockedScreen
                     btn={{
@@ -102,4 +90,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#ffffff',
         borderRadius: 10,
     },
+    formContent: {
+
+    }
 });

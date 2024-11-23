@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface StaffState {
+export interface StaffState {
     skills:  string[];
+    nextDesiredTrip: string;
     education: string;
     workExperience: string,
     travelExperience: string,
@@ -9,8 +10,14 @@ interface StaffState {
     anyRestriction: string,
 }
 
+interface setStaffPayload {
+    key: keyof StaffState,
+    value: any
+}
+
 const initialState: StaffState = {
     skills: [],
+    nextDesiredTrip: '',
     education: '',
     workExperience: '',
     travelExperience: '',
@@ -22,14 +29,13 @@ const staffSlice = createSlice({
     name: 'staff',
     initialState,
     reducers: {
-        setStaff(state, action: PayloadAction<StaffState>) {
-            return { ...state, ...action.payload };
-        },
-        resetStaff() {
-            return initialState;
+        updateStaffFields(state, action: PayloadAction<setStaffPayload>) {
+            const { key, value } = action.payload;
+            (state[key] as any) = value;
+
         },
     },
 });
 
-export const { setStaff, resetStaff } = staffSlice.actions;
+export const { updateStaffFields } = staffSlice.actions;
 export default staffSlice.reducer;

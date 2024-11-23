@@ -61,12 +61,14 @@ export default function ParallaxScrollView({
           ]}>
           {headerImage}
         </Animated.View>
-        <View style={styles.photoSelector}>
-          <InputImage
-            maxSelections={5}
-            onChange={(value) => onChangeImageInput?.(value)}
-          />
-        </View>
+        {onChangeImageInput &&
+          <View style={styles.photoSelector}>
+            <InputImage
+              maxSelections={5}
+              onChange={(value) => onChangeImageInput?.(value)}
+            />
+          </View>
+        }
         <ThemedView style={styles.content}>
           {children}
         </ThemedView>
@@ -88,12 +90,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingBottom: 40,
     overflow: 'hidden',
-    paddingTop: 0,
+    paddingTop: 20,
     marginTop: 0
   },
   photoSelector: {
     zIndex: 9,
-    top: 420,
+    top: 430,
     position: 'absolute',
     left: 20
   }

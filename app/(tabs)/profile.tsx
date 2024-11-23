@@ -11,7 +11,6 @@ import { updateField, UserState } from '@/redux/slices/user/userSlice';
 export default function Profile() {
 
   const user = useSelector((state: { user: UserState }) => state.user)
-
   const dispatch = useDispatch()
 
   const tabData = [

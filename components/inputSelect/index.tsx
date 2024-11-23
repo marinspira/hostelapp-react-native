@@ -6,15 +6,17 @@ interface InputSelectProps {
     selectInputItems: string[];
     label: string;
     value: string;
+    suportText?: string;
     onChange: (value: string) => void;
 }
 
-export default function InputSelect({ selectInputItems, label, value, onChange }: InputSelectProps) {
+export default function InputSelect({ selectInputItems, label, value, onChange, suportText }: InputSelectProps) {
     const [selectItem, setSelectItem] = useState<string>(value);
 
     return (
         <View style={styles.fieldContainer}>
             <Text style={styles.formTitle}>{label}</Text>
+            {suportText && <Text style={styles.suportText}>{suportText}</Text>}
             <View style={styles.selectInputContainer}>
                 <Picker
                     selectedValue={selectItem}
@@ -58,5 +60,11 @@ const styles = StyleSheet.create({
         borderColor: '#ccc',
         borderWidth: 1,
         borderRadius: 8,
+    },
+    suportText: {
+        fontSize: 12,
+        marginBottom: 15,
+        color: '#b1b1b1',
+        marginTop: -3,
     },
 });
