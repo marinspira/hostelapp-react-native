@@ -72,21 +72,18 @@ export default function FormUser() {
                 <SelectItens
                     label='Are you a digital nomad?'
                     suportText='Do you work online while travel?'
-                    options={['💻 yes', '✖️ no']}
                     onChange={(value) => handleChange('digitalNomad', value)}
                     value={user.digitalNomad}
                     boolean={true}
                 />
                 <SelectItens
                     label='Do you smoke?'
-                    options={['🚬 yes', '✖️ no']}
                     onChange={(value) => handleChange('smoker', value)}
                     value={user.smoker}
                     boolean={true}
                 />
                 <SelectItens
                     label='Are you travelling with your pet?'
-                    options={['🦤 yes', '✖️ no']}
                     onChange={(value) => handleChange('pets', value)}
                     value={user.pets}
                     boolean={true}
@@ -110,9 +107,6 @@ export default function FormUser() {
                     onChange={(value) => handleChange('twitter', value)}
                 />
             </ScrollView>
-            <Pressable style={styles.loggoutButton}>
-                <Text style={styles.loggoutText}>Logout</Text>
-            </Pressable>
         </View>
     );
 }
