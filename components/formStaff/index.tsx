@@ -46,6 +46,7 @@ export default function FormStaff() {
                     label="Skills"
                     suportText='Select up to 5 options'
                     maxSelections={5}
+                    value={staff.skills}
                     onChange={(value) => handleChange('skills', value)}
                 />
                 <InputSelect

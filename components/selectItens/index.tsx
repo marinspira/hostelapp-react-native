@@ -9,6 +9,8 @@ interface SelectItensProps {
     suportText?: string;
     maxSelections?: number;
     selectInputItems?: string[];
+    value: string[] | boolean | null,
+    boolean?: boolean
 }
 
 const SelectItens: React.FC<SelectItensProps> = ({
@@ -17,37 +19,44 @@ const SelectItens: React.FC<SelectItensProps> = ({
     suportText,
     onChange,
     maxSelections = 1,
-    selectInputItems
+    selectInputItems,
+    value,
+    boolean = false
 }) => {
     const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
     const [options, setOptions] = useState<string[]>(initialOptions);
-    const [selectItem, setSelectItem] = useState<string | undefined>();
+    const [selectedItem, setSelectedItem] = useState<any>();
 
-    const toggleOption = (option: string) => {
-        const isSelected = selectedOptions.includes(option);
-        let newSelection: string[];
+    const toggleOption = (option: any) => {
 
-        if (isSelected) {
-            // Se já estiver selecionado, remover da lista
-            newSelection = selectedOptions.filter((item) => item !== option);
-            if (selectInputItems) {
-                setOptions(newSelection);
-            }
+        if (maxSelections === 1) {
+            setSelectedItem(option)
+            onChange && onChange(option);
         } else {
-            // Se não tiver atingido o limite, adicionar à lista ou manter a mesma seleção
-            if (selectedOptions.length < maxSelections) {
-                newSelection = [...selectedOptions, option];
+            const isSelected = selectedOptions.includes(option);
+            let newSelection: string[];
+
+            if (isSelected) {
+                newSelection = selectedOptions.filter((item) => item !== option);
+                if (selectInputItems) {
+                    setOptions(newSelection);
+                }
             } else {
-                newSelection = selectedOptions;
+                if (selectedOptions.length < maxSelections) {
+                    newSelection = [...selectedOptions, option];
+                } else {
+                    newSelection = selectedOptions;
+                }
             }
+
+            setSelectedOptions(newSelection);
+            onChange && onChange(newSelection);
         }
 
-        setSelectedOptions(newSelection);
-        onChange && onChange(newSelection);
     };
 
-    const handlePickerChange = (item: string) => {
-        setSelectItem(item);
+    const handleSelectInput = (item: string) => {
+        setSelectedItem(item);
 
         if ((!options.includes(item) && (options.length <= maxSelections))) {
             // Adicionar ao options se não existir
@@ -68,8 +77,8 @@ const SelectItens: React.FC<SelectItensProps> = ({
             {selectInputItems && (
                 <View style={styles.selectInputContainer}>
                     <Picker
-                        selectedValue={selectItem}
-                        onValueChange={handlePickerChange}
+                        selectedValue={selectedItem}
+                        onValueChange={handleSelectInput}
                         style={styles.selectInput}
                     >
                         <Picker.Item label="Select an option" value={null} />
@@ -84,21 +93,59 @@ const SelectItens: React.FC<SelectItensProps> = ({
 
             {/* options */}
             <View style={styles.optionsContainer}>
-                {options.map((option) => {
-                    const isSelected = selectedOptions.includes(option);
-                    return (
+                {boolean ? (
+                    <>
                         <Pressable
-                            key={option}
-                            style={[styles.button, isSelected && styles.selectedButton]}
-                            onPress={() => toggleOption(option)}
+                            style={[
+                                styles.button,
+                                selectedItem === true && styles.selectedButton,
+                            ]}
+                            onPress={() => toggleOption(true)}
                         >
-                            <Text style={[styles.buttonText, isSelected && styles.selectedButtonText]}>
-                                {option} {isSelected && '×'}
+                            <Text
+                                style={[
+                                    styles.buttonText,
+                                    selectedItem === true && styles.selectedButtonText,
+                                ]}
+                            >
+                                Yes {selectedItem === true && '×'}
                             </Text>
                         </Pressable>
-                    );
-                })}
+                        <Pressable
+                            style={[
+                                styles.button,
+                                selectedItem === false && styles.selectedButton,
+                            ]}
+                            onPress={() => toggleOption(false)}
+                        >
+                            <Text
+                                style={[
+                                    styles.buttonText,
+                                    selectedItem === false && styles.selectedButtonText,
+                                ]}
+                            >
+                                No {selectedItem === false && '×'}
+                            </Text>
+                        </Pressable>
+                    </>
+                ) : (
+                    options?.map((option) => {
+                        const isSelected = selectedOptions.includes(option);
+                return (
+                <Pressable
+                    key={option}
+                    style={[styles.button, isSelected && styles.selectedButton]}
+                    onPress={() => toggleOption(option)}
+                >
+                    <Text style={[styles.buttonText, isSelected && styles.selectedButtonText]}>
+                        {option} {isSelected && '×'}
+                    </Text>
+                </Pressable>
+                );
+                    })
+                )}
             </View>
+
         </View>
     );
 };

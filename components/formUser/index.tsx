@@ -60,30 +60,36 @@ export default function FormUser() {
                     maxSelections={5}
                     options={['💻 IT', ' 📖 Books', '🌊 Surf', '📸 Photograph', '👗 Fashion', '🎥 Movie', '⚽ Futebol', '🧘🏽 Yoga', '🎮 Games', '🥗 Veg Food', '👟 Hikings']}
                     onChange={(value) => handleChange('interests', value)}
+                    value={user.interests}
                 />
                 <SelectItens
                     label='Which languages do you speak?'
                     selectInputItems={['Portuguese', 'English', '']}
                     onChange={(value) => handleChange('languages', value)}
+                    value={user.languages}
+                    maxSelections={5}
                 />
                 <SelectItens
                     label='Are you a digital nomad?'
                     suportText='Do you work online while travel?'
                     options={['💻 yes', '✖️ no']}
                     onChange={(value) => handleChange('digitalNomad', value)}
-
+                    value={user.digitalNomad}
+                    boolean={true}
                 />
                 <SelectItens
                     label='Do you smoke?'
                     options={['🚬 yes', '✖️ no']}
                     onChange={(value) => handleChange('smoker', value)}
-
+                    value={user.smoker}
+                    boolean={true}
                 />
                 <SelectItens
                     label='Are you travelling with your pet?'
                     options={['🦤 yes', '✖️ no']}
                     onChange={(value) => handleChange('pets', value)}
-                    maxSelections={999}
+                    value={user.pets}
+                    boolean={true}
                 />
                 <Input
                     label="Instagram"
