@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 import { UserState } from '@/redux/slices/user/userSlice'
 import { Colors } from '@/constants/Colors'
 import Car from '@/assets/images/illustrations/car.svg'
+import Title from '@/components/title'
 
 export default function Grettings({ }) {
 
@@ -10,9 +11,9 @@ export default function Grettings({ }) {
 
     return (
         <View style={styles.box}>
-            <Text style={styles.greetings}>Hello, {user.name} 👋🏼</Text>
+            <Title marginTop={0} text={`Hello, ${user.name} 👋🏼`} fontSize={25} color={Colors.white} />
             <View style={styles.imgContainer}>
-                <Car width={150} height={150} />
+                <Car width={200} height={200} />
             </View>
             <Text></Text>
         </View>
@@ -24,7 +25,7 @@ const styles = StyleSheet.create({
         padding: 20,
         backgroundColor: Colors.purple,
         borderRadius: 10,
-        marginBottom: 30,
+        marginBottom: 60,
         minHeight: 150,
         position: 'relative'
     },
@@ -35,7 +36,7 @@ const styles = StyleSheet.create({
     },
     imgContainer: {
         position: 'absolute',
-        right: -20,
-        bottom: -30
+        right: -25,
+        bottom: -50
     }
 })

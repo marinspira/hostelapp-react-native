@@ -4,11 +4,13 @@ import { AntDesign } from '@expo/vector-icons';
 import defaultImg from '@/assets/images/unnamed.png';
 import ProfilesGroup from '@/components/profilesGroup';
 import SlideImage from '@/components/slideImages';
+import Title from '../title';
 
-function EventList({ data, btnText }) {
+function EventList({ data, btnText, title }) {
 
     return (
         <View>
+            <Title text={title} />
             {data.map((item, index) => (
                 <View style={styles.container} key={index}>
                     <SlideImage images={item.imgs ? item.imgs : [defaultImg]} />

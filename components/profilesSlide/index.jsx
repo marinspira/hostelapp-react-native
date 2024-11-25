@@ -3,8 +3,9 @@ import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import profileDefault from '../../assets/images/unnamed.png';
 import { Colors } from '../../constants/Colors';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import Title from '@/components/sectionTitle'
 
-function ProfilesSlide({ style }) {
+function ImgSlide({ style, title }) {
 
     const users = [
         {
@@ -46,26 +47,32 @@ function ProfilesSlide({ style }) {
     ];
 
     return (
-        <ScrollView style={style} horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.scrollView}>
-            {users.map((user, index) => (
-                <View key={index} style={styles.profileContainer}>
-                    <Image
-                        style={styles.img}
-                        source={user.profileImg ? { uri: user.profileImg } : profileDefault}
-                        alt={user.name}
-                    />
-                    <Text>{user.name}</Text>
-                    <View style={styles.likeGuest}>
-                        <Ionicons name="heart-outline" size={24} color="black" />
-                        <MaterialCommunityIcons name="chat-remove-outline" size={24} color="#cdcdcd" />
+        <View>
+            <Title text={title} marginTop={40} />
+            <ScrollView style={styles.container} horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.scrollView}>
+                {users.map((user, index) => (
+                    <View key={index} style={styles.profileContainer}>
+                        <Image
+                            style={styles.img}
+                            source={user.profileImg ? { uri: user.profileImg } : profileDefault}
+                            alt={user.name}
+                        />
+                        <Text>{user.name}</Text>
+                        <View style={styles.likeGuest}>
+                            <Ionicons name="heart-outline" size={24} color="black" />
+                            <MaterialCommunityIcons name="chat-remove-outline" size={24} color="#cdcdcd" />
+                        </View>
                     </View>
-                </View>
-            ))}
-        </ScrollView>
+                ))}
+            </ScrollView>
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
+    container: {
+        marginTop: 15
+    },
     scrollView: {
         alignItems: 'center',
         paddingHorizontal: -10,
@@ -91,10 +98,10 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         gap: 10,
         marginTop: 5,
-        borderTopWidth: 2,
-        borderColor: Colors.gray,
+        borderTopWidth: 3,
+        borderColor: Colors.purple,
         paddingTop: 10
     }
 });
 
-export default ProfilesSlide;
+export default ImgSlide;

@@ -50,9 +50,9 @@ export default function HomeScreen() {
     <SafeAreaView>
       <View>
         <ScrollView style={styles.container}>
-          <Greetings/>
-          <ProfilesSlide style='' />
-          <EventList data={events} btnText='Join' />
+          <Greetings />
+          <ProfilesSlide style='' title="Chat with who is staying with you" />
+          <EventList title='What is happening near you' data={events} btnText='Join' />
         </ScrollView>
       </View>
     </SafeAreaView>
