@@ -54,7 +54,7 @@ export default function TabLayout() {
 }
 
 // Componente para os ícones com o círculo ativo
-function TabIcon({ name, color, focused }: { name: string; color: string; focused: boolean }) {
+function TabIcon({ name, color, focused }: { name: any; color: string; focused: boolean }) {
   return (
     <View style={[focused ? styles.activeContainer : styles.iconContainer]}>
       <AntDesign size={25} name={name} color={focused ? '#fff' : color} />

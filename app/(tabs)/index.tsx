@@ -1,8 +1,9 @@
-import { StyleSheet, Image, Platform, View, Text, ScrollView } from 'react-native';
+import { StyleSheet, View, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import EventList from '@/components/eventList'
 import ProfilesSlide from '@/components/profilesSlide'
 import profileDefault from '@/assets/images/unnamed.png'
+import Greetings from '@/components/greetings'
 
 export default function HomeScreen() {
 
@@ -49,7 +50,7 @@ export default function HomeScreen() {
     <SafeAreaView>
       <View>
         <ScrollView style={styles.container}>
-          <Text>Home</Text>
+          <Greetings/>
           <ProfilesSlide style='' />
           <EventList data={events} btnText='Join' />
         </ScrollView>

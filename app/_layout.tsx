@@ -4,6 +4,7 @@ import { Stack } from 'expo-router';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { Poppins_400Regular, Poppins_700Bold } from '@expo-google-fonts/poppins';
+import * as Svg from 'react-native-svg';
 
 import { StatusBar } from 'expo-status-bar';
 

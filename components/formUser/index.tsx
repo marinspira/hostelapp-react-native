@@ -45,7 +45,7 @@ export default function FormUser() {
                 <InputImage
                     maxSelections={1}
                     label='Passaport/ID photo'
-                    suportText='Only the hostel administration has access to this information.'
+                    suportText='Only the hostel administration can see this information.'
                     onChange={(value) => handleChange('passaportPhoto', value)}
                 />
                 <Input
