@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native'
 import { Colors } from '@/constants/Colors'
 import Car from '@/assets/images/illustrations/car.svg'
-import Title from '@/components/text/title'
+import Title from '@/components/guest/text/title'
 
 export default function Grettings({ user }: any) {
 

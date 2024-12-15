@@ -1,5 +1,5 @@
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
-import SimpleButton from '@/components/button';
+import SimpleButton from '@/components/guest/button';
 import access from '@/assets/images/access.png'
 import activities from '@/assets/images/activities.png'
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Text, View } from 'react-native'
-import ChatList from '@/components/chatList'
+import ChatList from '@/components/guest/chatList'
 import profileDefault from '@/assets/images/unnamed.png'
 
 export default function Chat() {

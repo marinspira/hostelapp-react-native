@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
-import BlockedScreen from '@/components/blockedScreen';
-import Input from '@/components/input';
+import BlockedScreen from '@/components/guest/blockedScreen';
+import Input from '@/components/guest/input';
 import SelectItens from '../selectItens';
 import { useDispatch, useSelector } from 'react-redux';
 import { StaffState, updateStaffFields } from '@/redux/slices/user/staffSlice'
@@ -70,7 +70,7 @@ export default function FormStaff() {
                 <BlockedScreen
                     btn={{
                         onPress: () => console.log('Redirecionando para voluntariado...'),
-                        text: 'Find volunteering',
+                        text: 'Find a work exchange',
                     }}
                 />
             )}

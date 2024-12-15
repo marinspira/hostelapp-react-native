@@ -2,8 +2,8 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import defaultImg from '@/assets/images/unnamed.png';
-import ProfilesGroup from '@/components/profilesGroup';
-import SlideImage from '@/components/slideImages';
+import ProfilesGroup from '@/components/guest/profilesGroup';
+import SlideImage from '@/components/guest/slideImages';
 import Title from '../text/title';
 
 function EventList({ data, btnText, title }) {

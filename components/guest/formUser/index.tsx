@@ -8,7 +8,7 @@ import Input from '../input';
 import InputSelect from '../inputSelect';
 import InputDate from '../inputDate';
 import InputImage from '../inputImage';
-import SelectItens from '@/components/selectItens'
+import SelectItens from '@/components/guest/selectItens'
 import { useEffect } from 'react';
 
 export default function FormUser() {

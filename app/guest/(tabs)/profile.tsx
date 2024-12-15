@@ -2,9 +2,9 @@ import { Image, StyleSheet } from 'react-native';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import Tabs from '@/components/tabs';
-import FormUser from '@/components/formUser';
-import FormStaff from '@/components/formStaff';
+import Tabs from '@/components/guest/tabs';
+import FormUser from '@/components/guest/formUser';
+import FormStaff from '@/components/guest/formStaff';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateField, UserState } from '@/redux/slices/user/userSlice';
 
