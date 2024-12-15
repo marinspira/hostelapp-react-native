@@ -4,7 +4,7 @@ import BlockedScreen from '@/components/guest/blockedScreen';
 import Input from '@/components/guest/input';
 import SelectItens from '../selectItens';
 import { useDispatch, useSelector } from 'react-redux';
-import { StaffState, updateStaffFields } from '@/redux/slices/user/staffSlice'
+import { StaffState, updateStaffFields } from '@/redux/slices/staff/staffSlice'
 import InputSelect from '../inputSelect';
 
 export default function FormStaff() {

@@ -24,7 +24,7 @@ type HeartIcons = { [key: number]: JSX.Element };
 function ImgSlide({ title }: ImgSlideProps) {
     const userId = 1;
 
-    const guests: Guest[] = [
+    const initialGuests: Guest[] = [
         { user: 1, profileImg: '', name: 'Maria Fernanda', likes: [3, 1, 2] },
         { user: 2, profileImg: '', name: 'João', likes: [3, 4] },
         { user: 3, profileImg: '', name: 'Ana', likes: [1, 2] },
@@ -36,32 +36,29 @@ function ImgSlide({ title }: ImgSlideProps) {
         { user: 9, profileImg: '', name: 'Ana', likes: [] },
     ];
 
+    const [guests, setGuests] = useState<Guest[]>(initialGuests);
     const [heartIcons, setHeartIcon] = useState<HeartIcons>({});
 
     useEffect(() => {
+        updateHeartIcons();
+    }, [guests]);
+
+    const updateHeartIcons = () => {
         const icons: HeartIcons = {};
+        const loggedUser  = guests.find((guest) => guest.user === userId);
 
-        // Localiza o usuário logado
-        const loggedUser = guests.find((guest) => guest.user === userId);
-
-        // Garante que o usuário logado foi encontrado
-        if (!loggedUser) {
-            console.error('Usuário logado não encontrado!');
+        if (!loggedUser ) {
+            console.error('User not found!');
             return;
         }
 
         guests.forEach((guest) => {
-            // Verifica se o usuário atual foi curtido pelo usuário logado
-            const isLikedByLoggedUser = guest.likes.includes(userId);
-
-            // Verifica se o usuário logado foi curtido pelo usuário atual
-            const isLikedByFriend = loggedUser.likes.includes(guest.user);
-
-            const caseKey = `${isLikedByLoggedUser}-${isLikedByFriend}`;
+            const isLikedByLoggedUser  = guest.likes.includes(userId);
+            const isLikedByFriend = loggedUser .likes.includes(guest.user);
+            const caseKey = `${isLikedByLoggedUser }-${isLikedByFriend}`;
 
             switch (caseKey) {
                 case 'true-true':
-                    // Full heart
                     icons[guest.user] = (
                         <>
                             <AntDesign
@@ -76,7 +73,6 @@ function ImgSlide({ title }: ImgSlideProps) {
                     break;
 
                 case 'true-false':
-                    // O usuário logado curtiu, mas a outra pessoa não
                     icons[guest.user] = (
                         <>
                             <IconHalfHeart onPress={() => handleClickHeart(guest.user)} isInvertedSide={false} />
@@ -86,7 +82,6 @@ function ImgSlide({ title }: ImgSlideProps) {
                     break;
 
                 case 'false-true':
-                    // A outra pessoa curtiu, mas o usuário logado não
                     icons[guest.user] = (
                         <>
                             <IconHalfHeart onPress={() => handleClickHeart(guest.user)} isInvertedSide={true} />
@@ -97,7 +92,6 @@ function ImgSlide({ title }: ImgSlideProps) {
 
                 case 'false-false':
                 default:
-                    // Empty heart
                     icons[guest.user] = (
                         <>
                             <AntDesign
@@ -113,14 +107,35 @@ function ImgSlide({ title }: ImgSlideProps) {
             }
         });
 
-        // Atualiza o estado depois do loop
         setHeartIcon(icons);
-
-    }, []);
+    };
 
     const handleClickHeart = (guestUserId: number): void => {
         console.log(`Heart clicked for guest user ID: ${guestUserId}`);
-        // Aqui você pode adicionar a lógica para alterar os likes
+    
+        setGuests((prevGuests) => {
+            return prevGuests.map((guest) => {
+                // Se o convidado for o usuário logado
+                if (guest.user === userId) {
+                    const isLikedByFriend = guest.likes.includes(guestUserId);
+                    const updatedLikes = isLikedByFriend
+                        ? guest.likes.filter((id) => id !== guestUserId) // Remove like
+                        : [...guest.likes, guestUserId]; // Adiciona like
+                    return { ...guest, likes: updatedLikes };
+                }
+    
+                // Se o convidado for o convidado que está sendo clicado
+                if (guest.user === guestUserId) {
+                    const isLikedByLoggedUser  = guest.likes.includes(userId);
+                    const updatedLikes = isLikedByLoggedUser 
+                        ? guest.likes.filter((id) => id !== userId) // Remove like
+                        : [...guest.likes, userId]; // Adiciona like
+                    return { ...guest, likes: updatedLikes };
+                }
+    
+                return guest;
+            });
+        });
     };
 
     return (

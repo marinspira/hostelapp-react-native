@@ -1,19 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-export interface StaffState {
-    skills:  string[];
-    nextDesiredTrip: string;
-    education: string;
-    workExperience: string,
-    travelExperience: string,
-    interests: string[],
-    anyRestriction: string,
-}
-
-interface setStaffPayload {
-    key: keyof StaffState,
-    value: any
-}
+import { StaffState, setStaffPayload } from '@/interfaces/staff/staff';
 
 const initialState: StaffState = {
     skills: [],
