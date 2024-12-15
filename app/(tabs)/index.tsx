@@ -4,8 +4,12 @@ import EventList from '@/components/eventList'
 import ProfilesSlide from '@/components/profilesSlide'
 import profileDefault from '@/assets/images/unnamed.png'
 import Greetings from '@/components/greetings'
+import { useSelector } from 'react-redux';
+import { UserState } from '@/redux/slices/user/userSlice';
 
 export default function HomeScreen() {
+
+  const user = useSelector((state: { user: UserState }) => state.user)
 
   type Person = {
     avatar: string;
@@ -50,7 +54,7 @@ export default function HomeScreen() {
     <SafeAreaView>
       <View>
         <ScrollView style={styles.container}>
-          <Greetings />
+          <Greetings user={user} />
           <ProfilesSlide style='' title="Chat with who is staying with you" />
           <EventList title='What is happening near you' data={events} btnText='Join' />
         </ScrollView>
@@ -61,6 +65,6 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20
+    padding: 20,
   }
 });

@@ -1,13 +1,9 @@
-import { Image, StyleSheet, Text, View } from 'react-native'
-import { useSelector } from 'react-redux'
-import { UserState } from '@/redux/slices/user/userSlice'
+import { StyleSheet, Text, View } from 'react-native'
 import { Colors } from '@/constants/Colors'
 import Car from '@/assets/images/illustrations/car.svg'
-import Title from '@/components/title'
+import Title from '@/components/text/title'
 
-export default function Grettings({ }) {
-
-    const user = useSelector((state: { user: UserState }) => state.user)
+export default function Grettings({ user }: any) {
 
     return (
         <View style={styles.box}>
@@ -25,7 +21,7 @@ const styles = StyleSheet.create({
         padding: 20,
         backgroundColor: Colors.purple,
         borderRadius: 10,
-        marginBottom: 60,
+        marginBottom: 20,
         minHeight: 150,
         position: 'relative'
     },

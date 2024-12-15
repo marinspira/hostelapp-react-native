@@ -15,6 +15,8 @@ export interface UserState {
     instagram: string,
     linkedin: string,
     twitter: string,
+    reviews: [{}],
+    likedBy: []
 }
 
 interface UpdateFieldPayload {
@@ -37,6 +39,8 @@ const initialState: UserState = {
     instagram: '',
     linkedin: '',
     twitter: '',
+    reviews: [{}],
+    likedBy: []
 }
 
 const userSlice = createSlice({

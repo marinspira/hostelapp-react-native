@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { StyleSheet, Text, TextInput, View, ScrollView } from 'react-native';
+import { useEffect } from 'react';
+import { StyleSheet, View, ScrollView } from 'react-native';
 import BlockedScreen from '@/components/blockedScreen';
 import Input from '@/components/input';
 import SelectItens from '../selectItens';

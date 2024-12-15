@@ -4,7 +4,7 @@ import { AntDesign } from '@expo/vector-icons';
 import defaultImg from '@/assets/images/unnamed.png';
 import ProfilesGroup from '@/components/profilesGroup';
 import SlideImage from '@/components/slideImages';
-import Title from '../title';
+import Title from '../text/title';
 
 function EventList({ data, btnText, title }) {
 
