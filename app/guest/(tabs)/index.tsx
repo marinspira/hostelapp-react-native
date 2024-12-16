@@ -1,7 +1,7 @@
 import { StyleSheet, View, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import EventList from '@/components/guest/eventList'
-import ProfilesSlide from '@/components/guest/profilesSlide'
+import ProfilesSlide from '@/components/guest/profilesLikes'
 import profileDefault from '@/assets/images/unnamed.png'
 import Greetings from '@/components/guest/greetings'
 import { useSelector } from 'react-redux';

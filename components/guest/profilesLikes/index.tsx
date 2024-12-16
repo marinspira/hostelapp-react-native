@@ -8,7 +8,7 @@ import Title from '@/components/guest/text/title';
 import IconHalfHeart from '@/components/guest/iconHalfFilledHeart';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-interface ImgSlideProps {
+interface ProfilesLikesProps {
     title: string;
 }
 
@@ -21,7 +21,7 @@ interface Guest {
 
 type HeartIcons = { [key: number]: JSX.Element };
 
-function ImgSlide({ title }: ImgSlideProps) {
+function ProfilesLikes({ title }: ProfilesLikesProps) {
     const userId = 1;
 
     const initialGuests: Guest[] = [
@@ -192,4 +192,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default ImgSlide;
+export default ProfilesLikes;
