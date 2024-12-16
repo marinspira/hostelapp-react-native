@@ -13,7 +13,7 @@ interface ImgSlideProps {
 }
 
 interface Guest {
-    user: number;
+    id: number;
     profileImg: any;
     name: string;
     likes: number[];
@@ -25,15 +25,15 @@ function ImgSlide({ title }: ImgSlideProps) {
     const userId = 1;
 
     const initialGuests: Guest[] = [
-        { user: 1, profileImg: '', name: 'Maria Fernanda', likes: [3, 1, 2] },
-        { user: 2, profileImg: '', name: 'João', likes: [3, 4] },
-        { user: 3, profileImg: '', name: 'Ana', likes: [1, 2] },
-        { user: 4, profileImg: '', name: 'Claudia', likes: [1] },
-        { user: 5, profileImg: '', name: 'José', likes: [2, 3] },
-        { user: 6, profileImg: '', name: 'Ana', likes: [3, 4] },
-        { user: 7, profileImg: '', name: 'Leila', likes: [] },
-        { user: 8, profileImg: '', name: 'Arthur', likes: [] },
-        { user: 9, profileImg: '', name: 'Ana', likes: [] },
+        { id: 1, profileImg: '', name: 'Maria Fernanda', likes: [3, 2, 4] },
+        { id: 2, profileImg: '', name: 'João', likes: [3, 4] },
+        { id: 3, profileImg: '', name: 'Ana Cecília', likes: [1, 2] },
+        { id: 4, profileImg: '', name: 'Claudia', likes: [1] },
+        { id: 5, profileImg: '', name: 'José', likes: [2, 3] },
+        { id: 6, profileImg: '', name: 'Ana', likes: [3, 4] },
+        { id: 7, profileImg: '', name: 'Leila', likes: [] },
+        { id: 8, profileImg: '', name: 'Arthur', likes: [] },
+        { id: 9, profileImg: '', name: 'Ana', likes: [] },
     ];
 
     const [guests, setGuests] = useState<Guest[]>(initialGuests);
@@ -45,27 +45,27 @@ function ImgSlide({ title }: ImgSlideProps) {
 
     const updateHeartIcons = () => {
         const icons: HeartIcons = {};
-        const loggedUser  = guests.find((guest) => guest.user === userId);
+        const loggedUser = guests.find((guest) => guest.id === userId);
 
-        if (!loggedUser ) {
+        if (!loggedUser) {
             console.error('User not found!');
             return;
         }
 
         guests.forEach((guest) => {
-            const isLikedByLoggedUser  = guest.likes.includes(userId);
-            const isLikedByFriend = loggedUser .likes.includes(guest.user);
-            const caseKey = `${isLikedByLoggedUser }-${isLikedByFriend}`;
+            const isLikedByFriend = guest.likes.includes(userId);
+            const isLikedByLoggedUser = loggedUser.likes.includes(guest.id);
+            const caseKey = `${isLikedByLoggedUser}-${isLikedByFriend}`;
 
             switch (caseKey) {
                 case 'true-true':
-                    icons[guest.user] = (
+                    icons[guest.id] = (
                         <>
                             <AntDesign
                                 name="heart"
                                 size={24}
                                 color={Colors.purple}
-                                onPress={() => handleClickHeart(guest.user)}
+                                onPress={() => handleClickHeart(guest.id)}
                             />
                             <Ionicons name="chatbox-outline" size={24} color={Colors.purple} />
                         </>
@@ -73,18 +73,18 @@ function ImgSlide({ title }: ImgSlideProps) {
                     break;
 
                 case 'true-false':
-                    icons[guest.user] = (
+                    icons[guest.id] = (
                         <>
-                            <IconHalfHeart onPress={() => handleClickHeart(guest.user)} isInvertedSide={false} />
+                            <IconHalfHeart onPress={() => handleClickHeart(guest.id)} isInvertedSide={false} />
                             <MaterialCommunityIcons name="chat-remove-outline" size={24} color="#cdcdcd" />
                         </>
                     );
                     break;
 
                 case 'false-true':
-                    icons[guest.user] = (
+                    icons[guest.id] = (
                         <>
-                            <IconHalfHeart onPress={() => handleClickHeart(guest.user)} isInvertedSide={true} />
+                            <IconHalfHeart onPress={() => handleClickHeart(guest.id)} isInvertedSide={true} />
                             <MaterialCommunityIcons name="chat-remove-outline" size={24} color="#cdcdcd" />
                         </>
                     );
@@ -92,13 +92,13 @@ function ImgSlide({ title }: ImgSlideProps) {
 
                 case 'false-false':
                 default:
-                    icons[guest.user] = (
+                    icons[guest.id] = (
                         <>
                             <AntDesign
                                 name="hearto"
                                 size={24}
                                 color={Colors.purple}
-                                onPress={() => handleClickHeart(guest.user)}
+                                onPress={() => handleClickHeart(guest.id)}
                             />
                             <MaterialCommunityIcons name="chat-remove-outline" size={24} color="#cdcdcd" />
                         </>
@@ -111,28 +111,15 @@ function ImgSlide({ title }: ImgSlideProps) {
     };
 
     const handleClickHeart = (guestUserId: number): void => {
-        console.log(`Heart clicked for guest user ID: ${guestUserId}`);
-    
         setGuests((prevGuests) => {
             return prevGuests.map((guest) => {
-                // Se o convidado for o usuário logado
-                if (guest.user === userId) {
-                    const isLikedByFriend = guest.likes.includes(guestUserId);
-                    const updatedLikes = isLikedByFriend
+                if (guest.id === userId) {
+                    const isLikedByLoggedUser = guest.likes.includes(guestUserId);
+                    const updatedLikes = isLikedByLoggedUser
                         ? guest.likes.filter((id) => id !== guestUserId) // Remove like
                         : [...guest.likes, guestUserId]; // Adiciona like
                     return { ...guest, likes: updatedLikes };
                 }
-    
-                // Se o convidado for o convidado que está sendo clicado
-                if (guest.user === guestUserId) {
-                    const isLikedByLoggedUser  = guest.likes.includes(userId);
-                    const updatedLikes = isLikedByLoggedUser 
-                        ? guest.likes.filter((id) => id !== userId) // Remove like
-                        : [...guest.likes, userId]; // Adiciona like
-                    return { ...guest, likes: updatedLikes };
-                }
-    
                 return guest;
             });
         });
@@ -141,20 +128,27 @@ function ImgSlide({ title }: ImgSlideProps) {
     return (
         <View>
             <Title text={title} marginTop={40} />
-            <ScrollView style={styles.container} horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.scrollView}>
-                {guests.map((user, index) => (
-                    <View key={index} style={styles.profileContainer}>
-                        <Image
-                            style={styles.img}
-                            source={user.profileImg ? { uri: user.profileImg } : (profileDefault as any)}
-                            accessibilityLabel={user.name}
-                        />
-                        <Text>{user.name.split(' ')[0]}</Text>
-                        <View style={styles.likeGuest}>
-                            {heartIcons[user.user]}
+            <ScrollView
+                style={styles.container}
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={styles.scrollView}
+            >
+                {guests
+                    .filter((user) => user.id !== userId)
+                    .map((user, index) => (
+                        <View key={index} style={styles.profileContainer}>
+                            <Image
+                                style={styles.img}
+                                source={user.profileImg ? { uri: user.profileImg } : (profileDefault as any)}
+                                accessibilityLabel={user.name}
+                            />
+                            <Text>{user.name.split(' ')[0]}</Text>
+                            <View style={styles.likeGuest}>
+                                {heartIcons[user.id]}
+                            </View>
                         </View>
-                    </View>
-                ))}
+                    ))}
             </ScrollView>
         </View>
     );
