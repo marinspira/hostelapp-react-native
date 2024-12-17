@@ -6,9 +6,12 @@ import profileDefault from '@/assets/images/unnamed.png'
 import Greetings from '@/components/guest/greetings'
 import { useSelector } from 'react-redux';
 import { UserState } from '@/redux/slices/user/userSlice';
-import Toast from 'react-native-toast-message';
+import { useTranslation } from 'react-i18next';
+import '@/assets/translations/i18n'
 
 export default function HomeScreen() {
+
+  const { t, i18n } = useTranslation();
 
   const user = useSelector((state: { user: UserState }) => state.user)
 
@@ -56,8 +59,8 @@ export default function HomeScreen() {
       <View>
         <ScrollView style={styles.container}>
           <Greetings user={user} />
-          <ProfilesSlide title="Chat with who is staying with you" />
-          <EventList title='What is happening near you' data={events} btnText='Join' />
+          <ProfilesSlide title={t('Converse com quem está hospedado com você')} />
+          <EventList title={t('Eventos perto de você')} data={events} btnText='Join' />
         </ScrollView>
       </View>
     </SafeAreaView>

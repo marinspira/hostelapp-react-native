@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import DateTimePicker, { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import Input from '../input';
 
 interface InputDateProps {
-    label?: string;
+    label?: any;
     placeholder?: string;
     value?: Date;
     onChange?: (date: Date) => void;
 }
 
 const InputDate: React.FC<InputDateProps> = ({
-    label = 'Your birthday',
+    label,
     placeholder = 'DD/MM/YYYY',
     value,
     onChange,

@@ -78,11 +78,13 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: 'bold',
     fontFamily: 'PoppinsRegular',
+    textTransform: 'uppercase'
   },
   inactiveText: {
     textAlign: 'center',
     color: '#000',
     fontFamily: 'PoppinsRegular',
+    textTransform: 'uppercase'
   },
   content: {
     flex: 1,

@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import '@/assets/translations/i18n'
+import { useTranslation } from 'react-i18next';
 
 interface SelectItensProps {
     label: string;
     onChange: (selectedOptions: string[]) => void;
-    options?: string[];
+    options?: any;
     suportText?: string;
     maxSelections?: number;
     selectInputItems?: string[];
@@ -23,6 +25,9 @@ const SelectItens: React.FC<SelectItensProps> = ({
     value,
     boolean = false
 }) => {
+
+    const { t, i18n } = useTranslation();
+
     const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
     const [options, setOptions] = useState<string[]>(initialOptions);
     const [selectedItem, setSelectedItem] = useState<any>();
@@ -81,7 +86,7 @@ const SelectItens: React.FC<SelectItensProps> = ({
                         onValueChange={handleSelectInput}
                         style={styles.selectInput}
                     >
-                        <Picker.Item label="Select an option" value={null} />
+                        <Picker.Item label={t('Selecione uma opção')} value={null} />
                         {selectInputItems.map((option, index) => {
                             return (
                                 <Picker.Item key={index} style={styles.selectInputText} label={option} value={option} />
@@ -108,7 +113,7 @@ const SelectItens: React.FC<SelectItensProps> = ({
                                     selectedItem === true && styles.selectedButtonText,
                                 ]}
                             >
-                                Yes {selectedItem === true && '×'}
+                                {t('Sim')} {selectedItem === true && '×'}
                             </Text>
                         </Pressable>
                         <Pressable
@@ -124,24 +129,24 @@ const SelectItens: React.FC<SelectItensProps> = ({
                                     selectedItem === false && styles.selectedButtonText,
                                 ]}
                             >
-                                No {selectedItem === false && '×'}
+                                {t('Não')} {selectedItem === false && '×'}
                             </Text>
                         </Pressable>
                     </>
                 ) : (
                     options?.map((option) => {
                         const isSelected = selectedOptions.includes(option);
-                return (
-                <Pressable
-                    key={option}
-                    style={[styles.button, isSelected && styles.selectedButton]}
-                    onPress={() => toggleOption(option)}
-                >
-                    <Text style={[styles.buttonText, isSelected && styles.selectedButtonText]}>
-                        {option} {isSelected && '×'}
-                    </Text>
-                </Pressable>
-                );
+                        return (
+                            <Pressable
+                                key={option}
+                                style={[styles.button, isSelected && styles.selectedButton]}
+                                onPress={() => toggleOption(option)}
+                            >
+                                <Text style={[styles.buttonText, isSelected && styles.selectedButtonText]}>
+                                    {option} {isSelected && '×'}
+                                </Text>
+                            </Pressable>
+                        );
                     })
                 )}
             </View>

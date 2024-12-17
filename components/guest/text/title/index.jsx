@@ -1,6 +1,8 @@
 import { Colors } from '@/constants/Colors'
 import React from 'react'
 import { StyleSheet, Text } from 'react-native'
+import { useTranslation } from 'react-i18next';
+import '@/assets/translations/i18n'
 
 export default function Title({
     text,
@@ -9,6 +11,9 @@ export default function Title({
     fontSize = 20,
     color = Colors.black
 }) {
+
+    const { t, i18n } = useTranslation();
+
     return (
         <Text
             style={[styles.text, {

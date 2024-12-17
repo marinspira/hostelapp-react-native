@@ -2,6 +2,7 @@
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateField, UserState } from '@/redux/slices/user/userSlice';
+import { useTranslation } from 'react-i18next';
 
 // Intern Components
 import Input from '../input';
@@ -10,8 +11,11 @@ import InputDate from '../inputDate';
 import InputImage from '../inputImage';
 import SelectItens from '@/components/guest/selectItens'
 import { useEffect } from 'react';
+import '@/assets/translations/i18n'
 
 export default function FormUser() {
+    const { t, i18n } = useTranslation();
+
     const user = useSelector((state: { user: UserState }) => state.user)
 
     const dispatch = useDispatch()
@@ -28,62 +32,75 @@ export default function FormUser() {
         <View style={styles.container}>
             <ScrollView style={styles.form}>
                 <Input
-                    label="Your name"
-                    placeholder='Your name here'
+                    label={t('Seu nome')}
+                    placeholder={t('Seu nome')}
                     value={user.name}
                     onChange={(value) => handleChange('name', value)}
                 />
                 <InputDate
+                    label={t('Seu aniversário')}
                     onChange={(value) => handleChange('birthday', value)}
                 />
                 <InputSelect
-                    label="Where are you from?"
+                    label={t('De onde você é?')}
                     selectInputItems={['Brazil', 'USA', 'France', 'Italy']}
                     value={user.country}
                     onChange={(value) => handleChange('country', value)}
                 />
                 <InputImage
                     maxSelections={1}
-                    label='Passaport/ID photo'
-                    suportText='Only the hostel administration can see this information.'
+                    label={t('Foto do seu Passaporte/Identidade')}
+                    suportText={t('Apenas a administração do hotel pode ver essa informação')}
                     onChange={(value) => handleChange('passaportPhoto', value)}
                 />
                 <Input
-                    label="Description"
-                    placeholder='Let your rommates get know you!'
+                    label={t('Descrição')}
+                    placeholder={t('Deixe seus colegas de quarto conhecerem você!')}
                     value={user.description}
                     onChange={(value) => handleChange('description', value)}
                 />
                 <SelectItens
-                    label='Interests'
-                    suportText='Select up to 5 options'
+                    label={t('Interesses')}
+                    suportText={t('select_options', { number: 5 })}
                     maxSelections={5}
-                    options={['💻 IT', ' 📖 Books', '🌊 Surf', '📸 Photograph', '👗 Fashion', '🎥 Movie', '⚽ Futebol', '🧘🏽 Yoga', '🎮 Games', '🥗 Veg Food', '👟 Hikings']}
+                    options={[
+                        t('TI'),
+                        t('Livros'),
+                        '🌊 Surf',
+                        t('Fotografia'),
+                        t('Moda'),
+                        t('Filmes'),
+                        t('Futebol'),
+                        t('Jogos'),
+                        t('Veganismo'),
+                        t('Trilhas'),
+                        '🧘🏽 Yoga',
+                    ]}
                     onChange={(value) => handleChange('interests', value)}
                     value={user.interests}
                 />
                 <SelectItens
-                    label='Which languages do you speak?'
+                    label={t('Quais idiomas você fala?')}
                     selectInputItems={['Portuguese', 'English', '']}
                     onChange={(value) => handleChange('languages', value)}
                     value={user.languages}
                     maxSelections={5}
                 />
                 <SelectItens
-                    label='Are you a digital nomad?'
-                    suportText='Do you work online while travel?'
+                    label={t('Você é nômade digital?')}
+                    suportText={t('Você trabalha online enquanto viaja?')}
                     onChange={(value) => handleChange('digitalNomad', value)}
                     value={user.digitalNomad}
                     boolean={true}
                 />
                 <SelectItens
-                    label='Do you smoke?'
+                    label={t('Você fuma?')}
                     onChange={(value) => handleChange('smoker', value)}
                     value={user.smoker}
                     boolean={true}
                 />
                 <SelectItens
-                    label='Are you travelling with your pet?'
+                    label={t('Você está viajando com o seu animal de estimação?')}
                     onChange={(value) => handleChange('pets', value)}
                     value={user.pets}
                     boolean={true}

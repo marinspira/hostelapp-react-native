@@ -11,8 +11,12 @@ export default function Grettings({ user }: any) {
 
     return (
         <View style={styles.box}>
-            <Text>{t('Olá')}</Text>
-            <Title marginTop={0} text={`Hello, ${user.name} 👋🏼`} fontSize={25} color={Colors.white} />
+            <Title
+                marginTop={0}
+                text={t('Olá', { name: user.name })}
+                fontSize={25}
+                color={Colors.white}
+            />
             <View style={styles.imgContainer}>
                 <Car width={200} height={200} />
             </View>

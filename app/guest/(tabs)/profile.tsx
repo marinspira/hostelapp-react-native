@@ -7,15 +7,19 @@ import FormUser from '@/components/guest/formUser';
 import FormStaff from '@/components/guest/formStaff';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateField, UserState } from '@/redux/slices/user/userSlice';
+import { useTranslation } from 'react-i18next';
+import '@/assets/translations/i18n'
 
 export default function Profile() {
+
+  const { t, i18n } = useTranslation();
 
   const user = useSelector((state: { user: UserState }) => state.user)
   const dispatch = useDispatch()
 
   const tabData = [
     { label: 'CHECK IN', content: <FormUser /> },
-    { label: 'STAFF AREA', content: <FormStaff /> },
+    { label: t('Área do funcionário'), content: <FormStaff /> },
   ];
 
   function handleImages(value: string | string[] | null) {
