@@ -37,7 +37,7 @@ export default function TabLayout() {
             paddingHorizontal: 4,
           },
         }),
-      }}>
+      }}>        
       {Object.entries(tabIcons).map(([route, icon]) => (
         <Tabs.Screen
           key={route}

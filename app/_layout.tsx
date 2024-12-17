@@ -4,7 +4,6 @@ import { Stack } from 'expo-router';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { Poppins_400Regular, Poppins_700Bold } from '@expo-google-fonts/poppins';
-import * as Svg from 'react-native-svg';
 
 import { StatusBar } from 'expo-status-bar';
 
@@ -14,8 +13,24 @@ import 'react-native-reanimated';
 
 import { Provider } from 'react-redux';
 import store from '@/redux/store'
+import Toast from 'react-native-toast-message';
+import { View } from 'react-native';
 
 SplashScreen.preventAutoHideAsync();
+
+type ToastProps = {
+  type: 'success' | 'error' | 'info';
+  title: string;
+  message: string;
+};
+
+export const showToast = ({ type, title, message }: ToastProps): void => {
+  Toast.show({
+    type,
+    text1: title,
+    text2: message,
+  });
+};
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -37,6 +52,7 @@ export default function RootLayout() {
 
   return (
     <Provider store={store}>
+      <Toast />
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <Stack>
           <Stack.Screen name="guest/(tabs)" options={{ headerShown: false }} />

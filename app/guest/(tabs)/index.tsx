@@ -6,6 +6,7 @@ import profileDefault from '@/assets/images/unnamed.png'
 import Greetings from '@/components/guest/greetings'
 import { useSelector } from 'react-redux';
 import { UserState } from '@/redux/slices/user/userSlice';
+import Toast from 'react-native-toast-message';
 
 export default function HomeScreen() {
 
@@ -55,7 +56,7 @@ export default function HomeScreen() {
       <View>
         <ScrollView style={styles.container}>
           <Greetings user={user} />
-          <ProfilesSlide style='' title="Chat with who is staying with you" />
+          <ProfilesSlide title="Chat with who is staying with you" />
           <EventList title='What is happening near you' data={events} btnText='Join' />
         </ScrollView>
       </View>
