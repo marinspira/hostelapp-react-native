@@ -2,16 +2,20 @@ import { StyleSheet, Text, View } from 'react-native'
 import { Colors } from '@/constants/Colors'
 import Car from '@/assets/images/illustrations/car.svg'
 import Title from '@/components/guest/text/title'
+import { useTranslation } from 'react-i18next';
+import '@/assets/translations/i18n'
 
 export default function Grettings({ user }: any) {
 
+    const { t, i18n } = useTranslation();
+
     return (
         <View style={styles.box}>
+            <Text>{t('Olá')}</Text>
             <Title marginTop={0} text={`Hello, ${user.name} 👋🏼`} fontSize={25} color={Colors.white} />
             <View style={styles.imgContainer}>
                 <Car width={200} height={200} />
             </View>
-            <Text></Text>
         </View>
     )
 }
