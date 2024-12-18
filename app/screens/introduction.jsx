@@ -1,58 +1,91 @@
-import { View } from "react-native";
+import { FlatList, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import React from "react";
+import { useLocalSearchParams } from "expo-router";
+import IntroductionItems from "@/components/introductionItems";
 
-function IntroductionScreen(){
+import GuestImg1 from '@/assets/images/illustrations/undraw/dating.svg'
+import GuestImg2 from '@/assets/images/illustrations/undraw/drinking.svg'
+import GuestImg3 from '@/assets/images/illustrations/undraw/house.svg'
+import HostImg1 from '@/assets/images/illustrations/undraw/resume.svg'
+import HostImg2 from '@/assets/images/illustrations/undraw/interview.svg'
+import HostImg3 from '@/assets/images/illustrations/undraw/todo.svg'
+import HostImg4 from '@/assets/images/illustrations/undraw/talking.svg'
+
+import { useTranslation } from 'react-i18next';
+import '@/assets/translations/i18n'
+
+function IntroductionScreen() {
+    const { role } = useLocalSearchParams();
+    const { t, i18n } = useTranslation();
 
     const guestFuncionalities = [
         {
-            img: '',
-            title: 'Conecte-se com viajantes hospedados com você',
-            description: 'Veja os perfis dos hóspedes que estão hospedados com você, curta e habilite o chat quando eles te curtirem de volta',
+            id: '1',
+            img: <GuestImg1 width={380} height={380} />,
+            title: t('Conecte-se com viajantes hospedados com você'),
+            description: t('Veja os perfis dos hóspedes que estão hospedados com você, curta e habilite o chat quando eles te curtirem de volta'),
         },
         {
-            img: '',
-            title: 'Sugira e participe de eventos que estão acontecendo no hotel ou na cidade',
-            description: 'Descubra eventos criados por outros hóspedes ou pelo hostel e participe de experiências únicas.',
+            id: '2',
+            img: <GuestImg2 width={270} height={270} />,
+            title: t('Sugira e participe de eventos no hotel ou na cidade'),
+            description: t('Descubra eventos criados por outros hóspedes ou pelo hostel e participe de experiências únicas.'),
         },
         {
-            img: '',
-            title: 'Hospede-se sem pagar nada em qualquer lugar do mundo',
-            description: 'Troque serviços por hospedagens em qualquer lugar do mundo e aprimore suas habilidades e experiências.',
+            id: '3',
+            img: <GuestImg3 width={350} height={350} />,
+            title: t('Hospede-se em qualquer lugar do mundo sem pagar nada!'),
+            description: t('Troque serviços por hospedagens em qualquer lugar do mundo e aprimore suas habilidades e experiências.'),
         },
     ];
-    
+
     const hostFuncionalities = [
         {
-            img: '',
-            title: 'Check-in rápido e seguro',
-            description: 'Realize checkins de forma eficiente validando passaportes ou documentos de identidade enviados pelos hóspedes garantindo segurança e agilidade.',
+            id: '1',
+            img: <HostImg1 width={300} height={300} />,
+            title: t('Check-in rápido e seguro'),
+            description: t('Realize checkins de forma eficiente validando passaportes ou documentos de identidade enviados pelos hóspedes garantindo segurança e agilidade.'),
         },
         {
-            img: '',
-            title: 'Publique e gerencie oportunidades de voluntariado',
-            description: 'Anuncie vagas para serviços que você precisa, em troca de hospedagem, e simplifique o processo de seleção e aprovação diretamente pelo app.',
+            id: '2',
+            img: <HostImg2 width={300} height={300} />,
+            title: t('Publique e gerencie oportunidades de voluntariado'),
+            description: t('Anuncie vagas para serviços que você precisa, em troca de hospedagem, e simplifique o processo de seleção e aprovação diretamente pelo app.'),
         },
         {
-            img: '',
-            title: 'Gerencie tarefas de funcionários',
-            description: 'Atribua e monitore tarefas em tempo real, incluindo limpeza, recepção e outras atividades.',
+            id: '3',
+            img: <HostImg3 width={300} height={300} />,
+            title: t('Gerencie e acompanhe o progresso das tarefas de funcionários'),
+            description: t('Atribua e monitore o status das tarefas em andamento ou concluídas e confira fotos como prova de execução.'),
         },
         {
-            img: '',
-            title: 'Acompanhe o progresso das tarefas',
-            description: 'Veja o status das tarefas em andamento ou concluídas e confira fotos como prova de execução.',
-        },
-        {
-            img: '',
-            title: 'Atribua quartos aos hóspedes',
-            description: 'Organize a alocação de quartos de forma eficiente e rápida.',
+            id: '4',
+            img: <HostImg4 width={300} height={300} />,
+            title: t('Atribua quartos aos hóspedes'),
+            description: t('Organize a alocação de quartos de forma eficiente e rápida.'),
         },
     ];
 
     return (
-        <View>
-
-        </View>
-    )
+        <SafeAreaView>
+            <View style={styles.container}>
+                <FlatList
+                    data={role === "guest" ? guestFuncionalities : hostFuncionalities}
+                    renderItem={({ item }) => (
+                        <IntroductionItems item={item} />
+                    )}
+                    keyExtractor={item => item.id}
+                />
+            </View>
+        </SafeAreaView>
+    );
 }
 
 export default IntroductionScreen;
+
+const styles = StyleSheet.create({
+    container: {
+        padding: 20,
+
+    }
+})

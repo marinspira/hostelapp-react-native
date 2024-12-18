@@ -62,6 +62,21 @@ i18n
                     'Começar como Hóspede': 'Get Start as Guest',
                     'Seu passaporte para transformar a maneira de viajar': 'Your passport to transform the way of traveling! 🗺️',
                     'Conecte-se com outros viajantes, descubra eventos perto de você e troque serviços por hospedagens em qualquer lugar do mundo.': 'Connect with other travelers, discover events near you and exchange services for accommodation anywhere in the world.',
+                    'Conecte-se com viajantes hospedados com você': 'Connect with travelers staying with you',
+                    'Veja os perfis dos hóspedes que estão hospedados com você, curta e habilite o chat quando eles te curtirem de volta': 'See the profiles of guests who are staying with you, like them and enable chat when they like you back.',
+                    'Sugira e participe de eventos no hotel ou na cidade': 'Suggest and participate in events at the hotel or in the city',
+                    'Descubra eventos criados por outros hóspedes ou pelo hostel e participe de experiências únicas.': 'Discover events created by other guests or the hostel and participate in unique experiences.',
+                    'Hospede-se em qualquer lugar do mundo sem pagar nada!': 'Stay anywhere in the world without paying anything!',
+                    'Troque serviços por hospedagens em qualquer lugar do mundo e aprimore suas habilidades e experiências.': 'Exchange services for accommodation anywhere in the world and improve your skills and experience.',
+                    'Check-in rápido e seguro': 'Fast and secure check-in',
+                    'Realize checkins de forma eficiente validando passaportes ou documentos de identidade enviados pelos hóspedes garantindo segurança e agilidade.': 'Perform check-ins efficiently by validating passports or identity documents sent by guests, ensuring security and agility.',
+                    'Publique e gerencie oportunidades de voluntariado': 'Publish and manage volunteer opportunities',
+                    'Anuncie vagas para serviços que você precisa, em troca de hospedagem, e simplifique o processo de seleção e aprovação diretamente pelo app.': 'Advertise vacancies for services you need, in exchange for accommodation, and simplify the selection and approval process directly through the app.',
+                    'Gerencie e acompanhe o progresso das tarefas de funcionários': 'Manage and track employee task progress',
+                    'Atribua e monitore o status das tarefas em andamento ou concluídas e confira fotos como prova de execução.': 'Assign and monitor the status of in-progress or completed tasks and check out photos for proof of execution.',
+                    'Atribua quartos aos hóspedes': 'Assign rooms to guests',
+                    'Organize a alocação de quartos de forma eficiente e rápida.': 'Arrange room allocation efficiently and quickly.',
+
                 },
             },
             pt: {
@@ -222,7 +237,7 @@ i18n
                     "Habilidades": "Compétences",
                     "Encontrar uma oportunidade": "Trouver une opportunité"
                 }
-            }                            
+            }
         },
         fallbackLng: 'en', // Idioma de fallback caso a tradução não exista
         react: {

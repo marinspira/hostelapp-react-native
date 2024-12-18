@@ -1,18 +1,20 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
 import Trip from '@/assets/images/illustrations/waiting3.svg';
 import ButtonWithIcon from '@/components/buttons/ButtonWithIcon';
 import { Colors } from '@/constants/Colors';
 import { useTranslation } from 'react-i18next';
 import '@/assets/translations/i18n'
 import AntDesign from '@expo/vector-icons/AntDesign';
+import { useRouter } from "expo-router";
 
 function WelcomeScreen() {
 
     const { t, i18n } = useTranslation();
+    const router = useRouter();
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <View style={styles.content}>
                 <Trip width={350} height={350} />
                 <Text style={styles.greetings}>{t('Welcome to HostelApp!')}</Text>
@@ -26,6 +28,9 @@ function WelcomeScreen() {
                     borderColor={Colors.white}
                     backgroundColor={Colors.purple}
                     textColor={Colors.white}
+                    onPress={() => {
+                        router.push('/screens/introduction?role=guest');
+                    }}
                 />
                 <ButtonWithIcon
                     backgroundColor={Colors.white}
@@ -34,9 +39,12 @@ function WelcomeScreen() {
                     icon={<AntDesign name="arrowright" size={24} color={Colors.white} />}
                     borderColor={Colors.purple}
                     textColor={Colors.purple}
+                    onPress={() => {
+                        router.push('/screens/introduction?role=host');
+                    }}
                 />
             </View>
-        </View>
+        </SafeAreaView>
     );
 }
 
@@ -58,11 +66,12 @@ const styles = StyleSheet.create({
         gap: 20,
     },
     title: {
-        fontSize: 26,
+        fontSize: 30,
         fontWeight: '600',
         fontFamily: 'PoppinsBold',
         color: Colors.white,
         marginTop: 5,
+        width: '100%'
         // textAlign: 'center'
     },
     greetings: {

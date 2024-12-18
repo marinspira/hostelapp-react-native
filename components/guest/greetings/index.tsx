@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native'
 import { Colors } from '@/constants/Colors'
-import Car from '@/assets/images/illustrations/car.svg'
+import Car from '@/assets/images/illustrations/undraw/car.svg'
 import Title from '@/components/guest/text/title'
 import { useTranslation } from 'react-i18next';
 import '@/assets/translations/i18n'
