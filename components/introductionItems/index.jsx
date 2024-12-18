@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import {
     View,
     Text,
     StyleSheet,
     useWindowDimensions,
-    Image,
 } from "react-native";
 
 
@@ -12,7 +11,7 @@ function IntroductionItems({ item }) {
     const { width } = useWindowDimensions()
 
     return (
-        <View style={[styles.container]}>
+        <View style={[styles.container, { width, resizeMode: 'contain' }]}>
             {item.img}
             <Text style={styles.title}>{item.title}</Text>
             <Text style={styles.description}>{item.description}</Text>
@@ -22,15 +21,17 @@ function IntroductionItems({ item }) {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        // flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        width: '100%'
+        width: '100%',
+        padding: 20
     },
     title: {
         fontFamily: 'PoppinsBold',
         width: '100%',
         fontSize: 24,
+        marginBottom: 10
     },
     description: {
         fontFamily: 'PoppinsRegular',

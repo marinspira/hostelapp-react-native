@@ -1,5 +1,5 @@
-import { FlatList, SafeAreaView, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import { Animated, FlatList, SafeAreaView, StatusBar, StyleSheet, View } from "react-native";
+import React, { useRef, useState } from "react";
 import { useLocalSearchParams } from "expo-router";
 import IntroductionItems from "@/components/introductionItems";
 
@@ -13,10 +13,14 @@ import HostImg4 from '@/assets/images/illustrations/undraw/talking.svg'
 
 import { useTranslation } from 'react-i18next';
 import '@/assets/translations/i18n'
+import Paginator from "@/components/paginator";
 
 function IntroductionScreen() {
     const { role } = useLocalSearchParams();
     const { t, i18n } = useTranslation();
+
+    const [currentIndex, setCurrentIndex] = useState()
+    const scrollX = useRef(new Animated.Value(0)).current
 
     const guestFuncionalities = [
         {
@@ -27,13 +31,13 @@ function IntroductionScreen() {
         },
         {
             id: '2',
-            img: <GuestImg2 width={270} height={270} />,
+            img: <GuestImg2 width={270} height={400} />,
             title: t('Sugira e participe de eventos no hotel ou na cidade'),
             description: t('Descubra eventos criados por outros hóspedes ou pelo hostel e participe de experiências únicas.'),
         },
         {
             id: '3',
-            img: <GuestImg3 width={350} height={350} />,
+            img: <GuestImg3 width={350} height={380} />,
             title: t('Hospede-se em qualquer lugar do mundo sem pagar nada!'),
             description: t('Troque serviços por hospedagens em qualquer lugar do mundo e aprimore suas habilidades e experiências.'),
         },
@@ -66,17 +70,41 @@ function IntroductionScreen() {
         },
     ];
 
+    const viewableItemsChanged = useRef(({ viewbleItems }) => {
+        setCurrentIndex(viewbleItems[0]?.index)
+    })
+
+    // const viewConfig = useRef({ viewAreaCoveragePercentThreshold: 50 }).current;
+
+    const slideRef = useRef(null)
+
     return (
-        <SafeAreaView>
-            <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
+            <StatusBar style="dark-content" />
+            <View style={{ flex: 3 }}>
                 <FlatList
                     data={role === "guest" ? guestFuncionalities : hostFuncionalities}
                     renderItem={({ item }) => (
                         <IntroductionItems item={item} />
                     )}
                     keyExtractor={item => item.id}
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    pagingEnabled
+                    bounces={false}
+                    onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: scrollX } } }], {
+                        useNativeDriver: false
+                    })}
+                    scrollEventThrottle={32}
+                    // onViewableItemsChanged={viewableItemsChanged}
+                    // viewabilityConfig={viewConfig}
+                    ref={slideRef}
                 />
             </View>
+            <Paginator
+                data={role === "guest" ? guestFuncionalities : hostFuncionalities}
+                scrollX={scrollX}
+            />
         </SafeAreaView>
     );
 }
@@ -85,7 +113,6 @@ export default IntroductionScreen;
 
 const styles = StyleSheet.create({
     container: {
-        padding: 20,
-
+        height: '100%',
     }
 })
