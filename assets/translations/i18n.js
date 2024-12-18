@@ -58,6 +58,10 @@ i18n
                     'Liste aqui quaisquer restrições': 'List any restrictions here',
                     'Habilidades': 'Skills',
                     'Encontrar uma oportunidade': 'Find an work exchange',
+                    'Começar como Host': 'Get Start as Host',
+                    'Começar como Hóspede': 'Get Start as Guest',
+                    'Seu passaporte para transformar a maneira de viajar': 'Your passport to transform the way of traveling! 🗺️',
+                    'Conecte-se com outros viajantes, descubra eventos perto de você e troque serviços por hospedagens em qualquer lugar do mundo.': 'Connect with other travelers, discover events near you and exchange services for accommodation anywhere in the world.',
                 },
             },
             pt: {

@@ -1,6 +1,5 @@
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
-import SimpleButton from '@/components/guest/button';
-import access from '@/assets/images/access.png'
+import { Image, StyleSheet, Text, View } from "react-native";
+import SimpleButton from '@/components/buttons/SimpleButton';
 import activities from '@/assets/images/activities.png'
 
 export default function BlockedScreen({ btn }) {
