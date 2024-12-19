@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import '@/assets/translations/i18n'
 import { Colors } from '@/constants/Colors'
 import IOSAuthentication from '@/components/authentication/apple';
+import { StatusBar } from 'expo-status-bar';
 import GoogleAuthentication from '@/components/authentication/google';
 
 function LoginScreen() {
@@ -16,6 +17,7 @@ function LoginScreen() {
 
     return (
         <View style={styles.container}>
+                        <StatusBar style="dark" />
             <Logo width={120} height={120} />
             <Text style={styles.title}>Logar como {role === 'guest' ? 'Hóspede' : 'Host'}</Text>
 
@@ -27,7 +29,7 @@ function LoginScreen() {
                 onPress={() => router.push("/screens/welcome")}
                 backgroundColor="transparent"
                 textColor={Colors.black}
-                fontSize={14}
+                fontSize={16}
             />
         </View>
     )
@@ -40,6 +42,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: Colors.white
     },
     title: {
         fontFamily: 'PoppinsRegular',

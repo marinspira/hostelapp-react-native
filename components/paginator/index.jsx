@@ -28,7 +28,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         height: 64,
         width: '100%',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        marginTop: 40
     },
     dot: {
         height: 10,

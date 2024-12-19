@@ -16,7 +16,7 @@ function IOSAuthentication() {
                             AppleAuthentication.AppleAuthenticationScope.EMAIL,
                         ],
                     });
-                    // signed in
+                    console.log(credential)
                 } catch (e) {
                     if (e.code === 'ERR_REQUEST_CANCELED') {
                         // handle that the user canceled the sign-in flow
@@ -37,8 +37,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         width: '80%',
         maxWidth: 280,
-        paddingVertical: 15,
+        paddingVertical: 26,
         borderRadius: 5,
-        marginBottom: 10
+        marginBottom: 20,
     },
 })

@@ -41,7 +41,7 @@ function GoogleAuthentication() {
     return (
         <TouchableOpacity style={styles.container} onPress={() => promptAsync()}>
             <Image source={google} style={styles.logo}/>
-            <Text style={styles.text}>Login with Google</Text>
+            <Text style={styles.text}>Sign in with Google</Text>
         </TouchableOpacity>
     )
 }
@@ -52,22 +52,25 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: '#fff',
         elevation: 2,
+        shadowOpacity: 0.2,
+        shadowOffset: 10,
         paddingHorizontal: 20,
         width: '80%',
         maxWidth: 280,
         paddingVertical: 15,
         borderRadius: 5,
         flexDirection: 'row',
-        gap: 20,
+        gap: 10,
         alignItems: 'center',
         justifyContent: 'center',
         marginBottom: 10
     },
     logo: {
-        width: 25,
-        height: 25
+        width: 20,
+        height: 20
     },
     text: {
-        fontSize: 16
+        fontSize: 22,
+        fontWeight: 600
     }
 })

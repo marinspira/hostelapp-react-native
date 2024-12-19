@@ -10,7 +10,7 @@ export default function SimpleButton
         textColor = Colors.white,
         width = 'auto',
         textTransform = '',
-        fontSize = 16
+        fontSize = 18
     }) {
     return (
         <Pressable
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         borderRadius: 5,
         // elevation: 4,
-        shadowOpacity: 0.25,
+        // shadowOpacity: 0.25,
         shadowRadius: 4,
     },
     buttonText: {

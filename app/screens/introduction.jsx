@@ -1,4 +1,5 @@
-import { Animated, FlatList, SafeAreaView, StatusBar, StyleSheet, View } from "react-native";
+import { Animated, FlatList, SafeAreaView, StyleSheet, View } from "react-native";
+import { StatusBar } from 'expo-status-bar';
 import React, { useRef, useState } from "react";
 import { Redirect, router, useLocalSearchParams } from "expo-router";
 
@@ -34,7 +35,7 @@ function IntroductionScreen() {
         },
         {
             id: '2',
-            img: <GuestImg2 width={270} height={400} />,
+            img: <GuestImg2 width={270} height={380} />,
             title: t('Sugira e participe de eventos no hotel ou na cidade'),
             description: t('Descubra eventos criados por outros hóspedes ou pelo hostel e participe de experiências únicas.'),
         },
@@ -96,8 +97,8 @@ function IntroductionScreen() {
 
     return (
         <SafeAreaView style={styles.container}>
-            <StatusBar style="light" backgroundColor={Colors.purple} />
-            <View style={{ flex: 3 }}>
+            <StatusBar style="dark" />
+            <View style={styles.contentContainer}>
                 <FlatList
                     data={data}
                     renderItem={({ item }) => <IntroductionItems item={item} />}
@@ -115,8 +116,8 @@ function IntroductionScreen() {
                     onViewableItemsChanged={onViewableItemsChanged}
                     viewabilityConfig={viewabilityConfig}
                 />
+                <Paginator data={data} scrollX={scrollX} />
             </View>
-            <Paginator data={data} scrollX={scrollX} />
             <View style={styles.buttonsContainer}>
                 {isLastSlide ? (
                     <SimpleButton
@@ -146,9 +147,16 @@ export default IntroductionScreen;
 const styles = StyleSheet.create({
     container: {
         height: '100%',
+        justifyContent: 'space-between',
+        backgroundColor: Colors.white,
     },
     buttonsContainer: {
         padding: 20,
         gap: 10,
+        height: '15%'
     },
+    contentContainer: {
+        height: '85%',
+        justifyContent: 'flex-end'
+    }
 });

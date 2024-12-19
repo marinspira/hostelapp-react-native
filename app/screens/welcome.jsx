@@ -14,7 +14,7 @@ function WelcomeScreen() {
     const router = useRouter();
 
     return (
-        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
             <View style={styles.content}>
                 <Trip width={350} height={350} />
                 <Text style={styles.greetings}>{t('Welcome to HostelApp!')}</Text>
@@ -44,7 +44,7 @@ function WelcomeScreen() {
                     }}
                 />
             </View>
-        </SafeAreaView>
+        </View>
     );
 }
 

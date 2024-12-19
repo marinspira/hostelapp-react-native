@@ -30,13 +30,13 @@ const styles = StyleSheet.create({
     title: {
         fontFamily: 'PoppinsBold',
         width: '100%',
-        fontSize: 24,
+        fontSize: 28,
         marginBottom: 10
     },
     description: {
         fontFamily: 'PoppinsRegular',
         width: '100%',
-        fontSize: 16,
+        fontSize: 18,
     }
 });
 
