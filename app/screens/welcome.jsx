@@ -1,12 +1,13 @@
 import React from 'react';
 import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
-import Trip from '@/assets/images/illustrations/waiting3.svg';
+import Trip from '@/assets/images/illustrations/vacations.svg';
 import ButtonWithIcon from '@/components/buttons/ButtonWithIcon';
 import { Colors } from '@/constants/Colors';
 import { useTranslation } from 'react-i18next';
 import '@/assets/translations/i18n'
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { useRouter } from "expo-router";
+import { StatusBar } from 'expo-status-bar';
 
 function WelcomeScreen() {
 
@@ -15,8 +16,9 @@ function WelcomeScreen() {
 
     return (
         <View style={styles.container}>
+            <StatusBar style="dark" />
             <View style={styles.content}>
-                <Trip width={350} height={350} />
+                <Trip width={350} height={280} />
                 <Text style={styles.greetings}>{t('Welcome to HostelApp!')}</Text>
                 <Text style={styles.title}>{t('Seu passaporte para transformar a maneira de viajar')}</Text>
             </View>
@@ -54,7 +56,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 20,
-        backgroundColor: Colors.purple,
+        backgroundColor: Colors.white,
     },
     content: {
         flex: 1,
@@ -69,16 +71,16 @@ const styles = StyleSheet.create({
         fontSize: 30,
         fontWeight: '600',
         fontFamily: 'PoppinsBold',
-        color: Colors.white,
+        color: Colors.black,
         marginTop: 5,
         width: '100%'
         // textAlign: 'center'
     },
     greetings: {
-        color: Colors.white,
+        color: Colors.purple,
         fontSize: 18,
         width: '100%',
-        fontFamily: 'PoppinsRegular',
+        fontFamily: 'PoppinsBold',
         marginTop: 30,
     }
 });

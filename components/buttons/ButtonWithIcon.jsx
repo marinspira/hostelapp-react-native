@@ -45,25 +45,24 @@ export default function ButtonWithIcon
 
 const styles = StyleSheet.create({
     button: {
-        paddingVertical: 18,
-        paddingHorizontal: 25,
-        borderRadius: 100,
+        paddingVertical: 15,
+        paddingHorizontal: 15,
+        borderRadius: 10,
         // elevation: 4,
         shadowOpacity: 0.25,
         shadowRadius: 4,
         display: 'flex',
-        flexDirection: 'row'
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center'
     },
     buttonText: {
-        fontSize: 18,
+        fontSize: 20,
         fontFamily: 'PoppinsRegular',
     },
     iconContainer: {
         borderWidth: 2,
-        borderRadius: 100,
+        borderRadius: 10,
         padding: 8,
-        position: 'absolute',
-        right: 15,
-        top: 10
     }
 })
