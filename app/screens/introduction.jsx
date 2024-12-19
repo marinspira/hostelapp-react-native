@@ -1,7 +1,6 @@
 import { Animated, FlatList, SafeAreaView, StatusBar, StyleSheet, View } from "react-native";
 import React, { useRef, useState } from "react";
-import { useLocalSearchParams } from "expo-router";
-import IntroductionItems from "@/components/introductionItems";
+import { Redirect, router, useLocalSearchParams } from "expo-router";
 
 import GuestImg1 from '@/assets/images/illustrations/undraw/dating.svg'
 import GuestImg2 from '@/assets/images/illustrations/undraw/drinking.svg'
@@ -13,20 +12,24 @@ import HostImg4 from '@/assets/images/illustrations/undraw/talking.svg'
 
 import { useTranslation } from 'react-i18next';
 import '@/assets/translations/i18n'
+
+import IntroductionItems from "@/components/introductionItems";
 import Paginator from "@/components/paginator";
+import { Colors } from '@/constants/Colors'
+import SimpleButton from '@/components/buttons/SimpleButton'
 
 function IntroductionScreen() {
     const { role } = useLocalSearchParams();
     const { t, i18n } = useTranslation();
 
-    const [currentIndex, setCurrentIndex] = useState()
-    const scrollX = useRef(new Animated.Value(0)).current
+    const scrollX = useRef(new Animated.Value(0)).current;
+    const [currentIndex, setCurrentIndex] = useState(0);
 
     const guestFuncionalities = [
         {
             id: '1',
             img: <GuestImg1 width={380} height={380} />,
-            title: t('Conecte-se com viajantes hospedados com você'),
+            title: t('Conecte-se e converse com viajantes hospedados com você'),
             description: t('Veja os perfis dos hóspedes que estão hospedados com você, curta e habilite o chat quando eles te curtirem de volta'),
         },
         {
@@ -46,65 +49,94 @@ function IntroductionScreen() {
     const hostFuncionalities = [
         {
             id: '1',
-            img: <HostImg1 width={300} height={300} />,
+            img: <HostImg1 width={300} height={380} />,
             title: t('Check-in rápido e seguro'),
             description: t('Realize checkins de forma eficiente validando passaportes ou documentos de identidade enviados pelos hóspedes garantindo segurança e agilidade.'),
         },
         {
             id: '2',
-            img: <HostImg2 width={300} height={300} />,
+            img: <HostImg2 width={300} height={400} />,
             title: t('Publique e gerencie oportunidades de voluntariado'),
             description: t('Anuncie vagas para serviços que você precisa, em troca de hospedagem, e simplifique o processo de seleção e aprovação diretamente pelo app.'),
         },
         {
             id: '3',
-            img: <HostImg3 width={300} height={300} />,
+            img: <HostImg3 width={300} height={380} />,
             title: t('Gerencie e acompanhe o progresso das tarefas de funcionários'),
             description: t('Atribua e monitore o status das tarefas em andamento ou concluídas e confira fotos como prova de execução.'),
         },
         {
             id: '4',
-            img: <HostImg4 width={300} height={300} />,
+            img: <HostImg4 width={300} height={320} />,
             title: t('Atribua quartos aos hóspedes'),
             description: t('Organize a alocação de quartos de forma eficiente e rápida.'),
         },
     ];
 
-    const viewableItemsChanged = useRef(({ viewbleItems }) => {
-        setCurrentIndex(viewbleItems[0]?.index)
-    })
+    const data = role === "guest" ? guestFuncionalities : hostFuncionalities;
 
-    // const viewConfig = useRef({ viewAreaCoveragePercentThreshold: 50 }).current;
+    const onViewableItemsChanged = useRef(({ viewableItems }) => {
+        if (viewableItems.length > 0) {
+            setCurrentIndex(viewableItems[0].index);
+        }
+    }).current;
 
-    const slideRef = useRef(null)
+    const viewabilityConfig = useRef({ viewAreaCoveragePercentThreshold: 50 }).current;
+
+    const slideRef = useRef(null);
+
+    const isLastSlide = currentIndex === data.length - 1;
+
+    const handleNextSlide = () => {
+        if (currentIndex < data.length - 1) {
+            slideRef.current.scrollToIndex({ index: currentIndex + 1 });
+        }
+    };
+
 
     return (
         <SafeAreaView style={styles.container}>
-            <StatusBar style="dark-content" />
+            <StatusBar style="light" backgroundColor={Colors.purple} />
             <View style={{ flex: 3 }}>
                 <FlatList
-                    data={role === "guest" ? guestFuncionalities : hostFuncionalities}
-                    renderItem={({ item }) => (
-                        <IntroductionItems item={item} />
-                    )}
-                    keyExtractor={item => item.id}
+                    data={data}
+                    renderItem={({ item }) => <IntroductionItems item={item} />}
+                    keyExtractor={(item) => item.id}
                     horizontal
                     showsHorizontalScrollIndicator={false}
                     pagingEnabled
                     bounces={false}
-                    onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: scrollX } } }], {
-                        useNativeDriver: false
-                    })}
+                    onScroll={Animated.event(
+                        [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+                        { useNativeDriver: false }
+                    )}
                     scrollEventThrottle={32}
-                    // onViewableItemsChanged={viewableItemsChanged}
-                    // viewabilityConfig={viewConfig}
                     ref={slideRef}
+                    onViewableItemsChanged={onViewableItemsChanged}
+                    viewabilityConfig={viewabilityConfig}
                 />
             </View>
-            <Paginator
-                data={role === "guest" ? guestFuncionalities : hostFuncionalities}
-                scrollX={scrollX}
-            />
+            <Paginator data={data} scrollX={scrollX} />
+            <View style={styles.buttonsContainer}>
+                {isLastSlide ? (
+                    <SimpleButton
+                        text={t("Começar")}
+                        onPress={role === "guest" ?
+                            () => { router.push('/screens/login?role=guest'); }
+                            :
+                            () => { router.push('/screens/login?role=host'); }
+                        }
+                    />
+                ) : (
+                    <SimpleButton text={t("Próximo")} onPress={handleNextSlide} />
+                )}
+                <SimpleButton
+                    text={role === "guest" ? t("Sou host") : t("Sou hóspede")}
+                    onPress={() => router.push("/screens/welcome")}
+                    backgroundColor="transparent"
+                    textColor={Colors.purple}
+                />
+            </View>
         </SafeAreaView>
     );
 }
@@ -114,5 +146,9 @@ export default IntroductionScreen;
 const styles = StyleSheet.create({
     container: {
         height: '100%',
-    }
-})
+    },
+    buttonsContainer: {
+        padding: 20,
+        gap: 10,
+    },
+});

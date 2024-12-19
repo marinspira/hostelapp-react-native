@@ -1,7 +1,6 @@
 import React from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import { Colors } from '@/constants/Colors'
-import AntDesign from '@expo/vector-icons/AntDesign';
 
 export default function ButtonWithIcon
     ({
@@ -49,7 +48,7 @@ const styles = StyleSheet.create({
         paddingVertical: 18,
         paddingHorizontal: 25,
         borderRadius: 100,
-        elevation: 4,
+        // elevation: 4,
         shadowOpacity: 0.25,
         shadowRadius: 4,
         display: 'flex',
