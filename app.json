@@ -16,7 +16,11 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.marinspira.mobile"
     },
     "web": {
       "bundler": "metro",
@@ -25,7 +29,9 @@
     },
     "plugins": [
       "expo-router",
-      ["expo-apple-authentication"],
+      [
+        "expo-apple-authentication"
+      ],
       [
         "expo-image-picker",
         {
@@ -60,6 +66,14 @@
         "wasm",
         "svg"
       ]
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "e33c9e7a-0840-4f65-902e-f536c4405ed7"
+      }
     }
   }
 }

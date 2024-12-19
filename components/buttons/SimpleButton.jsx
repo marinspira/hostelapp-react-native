@@ -9,7 +9,8 @@ export default function SimpleButton
         backgroundColor = Colors.purple,
         textColor = Colors.white,
         width = 'auto',
-        textTransform = ''
+        textTransform = '',
+        fontSize = 16
     }) {
     return (
         <Pressable
@@ -23,7 +24,7 @@ export default function SimpleButton
             ]}
             onPress={onPress}
         >
-            <Text style={[styles.buttonText, { color: textColor, textTransform: textTransform }]}>
+            <Text style={[styles.buttonText, { color: textColor, textTransform, fontSize }]}>
                 {text}
             </Text>
         </Pressable>
@@ -40,9 +41,7 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
     },
     buttonText: {
-        fontWeight: 'bold',
-        fontSize: 18,
-        fontFamily: 'PoppinsRegular',
-        textAlign: 'center'
+        textAlign: 'center',
+        fontFamily: 'PoppinsRegular'
     },
 })

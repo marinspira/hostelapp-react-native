@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, Platform } from 'react-native'
 import React from 'react'
 import { router, useLocalSearchParams } from 'expo-router';
 import SimpleButton from '@/components/buttons/SimpleButton'
@@ -6,7 +6,8 @@ import Logo from '@/assets/images/illustrations/undraw/cabin.svg'
 import { useTranslation } from 'react-i18next';
 import '@/assets/translations/i18n'
 import { Colors } from '@/constants/Colors'
-import * as AppleAuthentication from 'expo-apple-authentication';
+import IOSAuthentication from '@/components/authentication/apple';
+import GoogleAuthentication from '@/components/authentication/google';
 
 function LoginScreen() {
 
@@ -17,34 +18,16 @@ function LoginScreen() {
         <View style={styles.container}>
             <Logo width={120} height={120} />
             <Text style={styles.title}>Logar como {role === 'guest' ? 'Hóspede' : 'Host'}</Text>
-            <AppleAuthentication.AppleAuthenticationButton
-                buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
-                buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.BLACK}
-                cornerRadius={5}
-                style={styles.button}
-                onPress={async () => {
-                    try {
-                        const credential = await AppleAuthentication.signInAsync({
-                            requestedScopes: [
-                                AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
-                                AppleAuthentication.AppleAuthenticationScope.EMAIL,
-                            ],
-                        });
-                        // signed in
-                    } catch (e) {
-                        if (e.code === 'ERR_REQUEST_CANCELED') {
-                            // handle that the user canceled the sign-in flow
-                        } else {
-                            // handle other errors
-                        }
-                    }
-                }}
-            />
+
+            {Platform.OS === 'ios' && <IOSAuthentication />}
+            <GoogleAuthentication />
+
             <SimpleButton
-                text={role === "guest" ? t("Sou host") : t("Sou hóspede")}
+                text={role === "guest" ? t("Não é hospede? Logar como host") : t("Não é host? Logar como hóspede")}
                 onPress={() => router.push("/screens/welcome")}
                 backgroundColor="transparent"
-                textColor={Colors.purple}
+                textColor={Colors.black}
+                fontSize={14}
             />
         </View>
     )
@@ -59,13 +42,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     title: {
-        fontFamily: 'PoppinsBold',
-        marginTop: 50,
+        fontFamily: 'PoppinsRegular',
+        marginTop: 30,
         fontSize: 26,
-        marginBottom: 150
-    },
-    button: {
-        width: 200,
-        height: 44,
+        marginBottom: 40
     },
 })
