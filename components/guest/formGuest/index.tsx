@@ -1,10 +1,7 @@
-// Extern components
-import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateField, UserState } from '@/redux/slices/user/userSlice';
+import { updateField } from '@/redux/slices/guest/slice';
 import { useTranslation } from 'react-i18next';
-
-// Intern Components
 import Input from '../input';
 import InputSelect from '../inputSelect';
 import InputDate from '../inputDate';
@@ -12,11 +9,12 @@ import InputImage from '../inputImage';
 import SelectItens from '@/components/guest/selectItens'
 import { useEffect } from 'react';
 import '@/assets/translations/i18n'
+import { GuestState } from '@/redux/slices/guest/interfaces';
 
-export default function FormUser() {
+export default function FormGuest() {
     const { t, i18n } = useTranslation();
 
-    const user = useSelector((state: { user: UserState }) => state.user)
+    const guest = useSelector((state: { guest: GuestState }) => state.guest)
 
     const dispatch = useDispatch()
 
@@ -25,8 +23,8 @@ export default function FormUser() {
     }
 
     useEffect(() => {
-        console.log(user)
-    }, [user])
+        console.log(guest)
+    }, [guest])
 
     return (
         <View style={styles.container}>
@@ -34,7 +32,7 @@ export default function FormUser() {
                 <Input
                     label={t('Seu nome')}
                     placeholder={t('Seu nome')}
-                    value={user.name}
+                    value={guest.name}
                     onChange={(value) => handleChange('name', value)}
                 />
                 <InputDate
@@ -44,7 +42,7 @@ export default function FormUser() {
                 <InputSelect
                     label={t('De onde você é?')}
                     selectInputItems={['Brazil', 'USA', 'France', 'Italy']}
-                    value={user.country}
+                    value={guest.country}
                     onChange={(value) => handleChange('country', value)}
                 />
                 <InputImage
@@ -56,7 +54,7 @@ export default function FormUser() {
                 <Input
                     label={t('Descrição')}
                     placeholder={t('Deixe seus colegas de quarto conhecerem você!')}
-                    value={user.description}
+                    value={guest.description}
                     onChange={(value) => handleChange('description', value)}
                 />
                 <SelectItens
@@ -77,50 +75,50 @@ export default function FormUser() {
                         '🧘🏽 Yoga',
                     ]}
                     onChange={(value) => handleChange('interests', value)}
-                    value={user.interests}
+                    value={guest.interests}
                 />
                 <SelectItens
                     label={t('Quais idiomas você fala?')}
                     selectInputItems={['Portuguese', 'English', '']}
                     onChange={(value) => handleChange('languages', value)}
-                    value={user.languages}
+                    value={guest.languages}
                     maxSelections={5}
                 />
                 <SelectItens
                     label={t('Você é nômade digital?')}
                     suportText={t('Você trabalha online enquanto viaja?')}
                     onChange={(value) => handleChange('digitalNomad', value)}
-                    value={user.digitalNomad}
+                    value={guest.digitalNomad}
                     boolean={true}
                 />
                 <SelectItens
                     label={t('Você fuma?')}
                     onChange={(value) => handleChange('smoker', value)}
-                    value={user.smoker}
+                    value={guest.smoker}
                     boolean={true}
                 />
                 <SelectItens
                     label={t('Você está viajando com o seu animal de estimação?')}
                     onChange={(value) => handleChange('pets', value)}
-                    value={user.pets}
+                    value={guest.pets}
                     boolean={true}
                 />
                 <Input
                     label="Instagram"
                     placeholder='@HostelApp'
-                    value={user.instagram}
+                    value={guest.instagram}
                     onChange={(value) => handleChange('instagram', value)}
                 />
                 <Input
                     label="LinkedIn"
                     placeholder='/in/HostelApp'
-                    value={user.linkedin}
+                    value={guest.linkedin}
                     onChange={(value) => handleChange('linkedin', value)}
                 />
                 <Input
                     label="Twitter"
                     placeholder='@HostelApp'
-                    value={user.twitter}
+                    value={guest.twitter}
                     onChange={(value) => handleChange('twitter', value)}
                 />
             </ScrollView>

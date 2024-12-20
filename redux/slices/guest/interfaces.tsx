@@ -1,5 +1,5 @@
-export interface UserState {
-    userPhotos: string | string[] | null,
+export interface GuestState {
+    guestPhotos: string | string[] | null,
     name: string,
     birthday: number | null,
     country: string,
@@ -18,6 +18,6 @@ export interface UserState {
 }
 
 export interface UpdateFieldPayload {
-    key: keyof UserState,
+    key: keyof GuestState,
     value: any
 }

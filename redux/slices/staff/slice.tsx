@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { StaffState, setStaffPayload } from '@/interfaces/staff/staff';
+import { setStaffPayload, StaffState } from './interfaces';
 
 const initialState: StaffState = {
     skills: [],

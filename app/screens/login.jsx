@@ -17,12 +17,12 @@ function LoginScreen() {
 
     return (
         <View style={styles.container}>
-                        <StatusBar style="dark" />
+            <StatusBar style="dark" />
             <Logo width={120} height={120} />
             <Text style={styles.title}>Logar como {role === 'guest' ? 'Hóspede' : 'Host'}</Text>
 
-            {Platform.OS === 'ios' && <IOSAuthentication />}
-            <GoogleAuthentication />
+            {Platform.OS === 'ios' && <IOSAuthentication role={role} />}
+            <GoogleAuthentication role={role} />
 
             <SimpleButton
                 text={role === "guest" ? t("Não é hospede? Logar como host") : t("Não é host? Logar como hóspede")}

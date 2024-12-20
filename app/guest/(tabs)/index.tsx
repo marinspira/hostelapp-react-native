@@ -5,7 +5,7 @@ import ProfilesSlide from '@/components/guest/profilesLikes'
 import profileDefault from '@/assets/images/unnamed.png'
 import Greetings from '@/components/guest/greetings'
 import { useSelector } from 'react-redux';
-import { UserState } from '@/redux/slices/user/userSlice';
+import { UserState } from '@/redux/slices/user/interfaces';
 import { useTranslation } from 'react-i18next';
 import '@/assets/translations/i18n'
 

@@ -3,10 +3,10 @@ import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import Tabs from '@/components/guest/tabs';
-import FormUser from '@/components/guest/formUser';
+import FormUser from '@/components/guest/formGuest';
 import FormStaff from '@/components/guest/formStaff';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateField, UserState } from '@/redux/slices/user/userSlice';
+import { updateField, UserState } from '@/redux/slices/guest/slice';
 import { useTranslation } from 'react-i18next';
 import '@/assets/translations/i18n'
 

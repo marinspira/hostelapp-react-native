@@ -4,10 +4,11 @@ import BlockedScreen from '@/components/guest/blockedScreen';
 import Input from '@/components/guest/input';
 import SelectItens from '../selectItens';
 import { useDispatch, useSelector } from 'react-redux';
-import { StaffState, updateStaffFields } from '@/redux/slices/user/staffSlice'
 import InputSelect from '../inputSelect';
 import { useTranslation } from 'react-i18next';
 import '@/assets/translations/i18n'
+import { StaffState } from '@/redux/slices/staff/interfaces';
+import { updateStaffFields } from '@/redux/slices/staff/slice';
 
 export default function FormStaff() {
 

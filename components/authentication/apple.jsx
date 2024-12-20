@@ -1,7 +1,7 @@
 import * as AppleAuthentication from 'expo-apple-authentication';
 import { StyleSheet } from 'react-native';
 
-function IOSAuthentication() {
+function IOSAuthentication({ role }) {
     return (
         <AppleAuthentication.AppleAuthenticationButton
             buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
