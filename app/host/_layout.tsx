@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Stack, Redirect } from 'expo-router';
 import { useStorageState } from '@/hooks/useStorageState';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { showToast } from '../_layout';
 
 export default function HostLayout() {
   const [[loading, storedUser], setStoredUser] = useStorageState('user');
@@ -23,7 +24,14 @@ export default function HostLayout() {
   }
 
   if (!user || user.role !== 'host') {
-    return <Redirect href="/publicScreens/welcome" />;
+    showToast({
+      type: 'error',
+      title: 'Você é hóspede ou host?',
+      message: 'Esse usuário está cadastrado como Hóspede. Faça login como hóspede ou acesse com outra conta.'
+    })
+    return (
+      <Redirect href="/publicScreens/welcome" />
+    );
   }
 
   return (

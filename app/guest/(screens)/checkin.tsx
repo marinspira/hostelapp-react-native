@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import '@/assets/translations/i18n'
 import { updateField } from '@/redux/slices/guest/slice';
 
-export default function Profile() {
+export default function Checkin() {
 
   const { t, i18n } = useTranslation();
 

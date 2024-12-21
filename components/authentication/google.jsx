@@ -51,22 +51,11 @@ function GoogleAuthentication({ role }) {
                     role
                 };
 
-                // Salvar no AsyncStorage
-                await AsyncStorage.setItem('user', JSON.stringify(userData));
-
                 // Atualizar estado global
                 dispatch(setUser(userData));
 
                 // Enviar ao backend
                 dispatch(sendUserToBackend({ user: userData }));
-
-                if (role === 'guest') {
-                    router.push('/guest/(tabs)');
-                } else if (role === 'host') {
-                    router.push('/host/(tabs)');
-                } else {
-                    router.push('/publicScreen/welcome');
-                }
 
             } catch (error) {
                 console.error('Error handling token:', error);
