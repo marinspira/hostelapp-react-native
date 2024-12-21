@@ -3,18 +3,17 @@ import { BackendResponse, ThunkArgs, User, UserState } from './interfaces';
 
 const initialState: UserState = {
   data: null,
-  role: null,
   loading: false,
   error: null,
 };
 
 // Thunk para enviar os dados do usuário ao backend
-export const sendUserToBackend = createAsyncThunk<BackendResponse, ThunkArgs, { rejectValue: string }>
-  ('user/sendToBackend', async ({ user }, { rejectWithValue }) => {
+export const sendUserToBackend = createAsyncThunk<BackendResponse, ThunkArgs, { rejectValue: string }>(
+  'user/sendToBackend',
+  async ({ user }, { rejectWithValue }) => {
 
     try {
-
-      const response = await fetch('https://your-backend-url.com/api/user', {
+      const response = await fetch(`http://localhost:5000/api/auth/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...user }),
@@ -26,8 +25,8 @@ export const sendUserToBackend = createAsyncThunk<BackendResponse, ThunkArgs, { 
     } catch (error) {
       return rejectWithValue((error as Error).message);
     }
-
-  });
+  }
+);
 
 const userSlice = createSlice({
   name: 'user',

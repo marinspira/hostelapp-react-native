@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import google from '@/assets/images/google.png'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch } from 'react-redux';
-import { setUser, setRole } from "@/redux/slices/user/slice";
+import { setUser, sendUserToBackend } from "@/redux/slices/user/slice";
 import { router } from "expo-router";
 
 WebBrowser.maybeCompleteAuthSession()
@@ -46,6 +46,7 @@ function GoogleAuthentication({ role }) {
                 const userData = {
                     name: userInfo.name,
                     email: userInfo.email,
+                    googleId: userInfo.id,
                     picture: userInfo.picture,
                     role
                 };
@@ -57,7 +58,7 @@ function GoogleAuthentication({ role }) {
                 dispatch(setUser(userData));
 
                 // Enviar ao backend
-                // dispatch(sendUserToBackend({ user: userInfo, role }));
+                dispatch(sendUserToBackend({ user: userData }));
 
                 if (role === 'guest') {
                     router.push('/guest/(tabs)');

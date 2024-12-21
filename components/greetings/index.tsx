@@ -8,7 +8,6 @@ import '@/assets/translations/i18n'
 export default function Grettings({ username }: any) {
 
     const { t, i18n } = useTranslation();
-    console.log(username)
 
     return (
         <View style={styles.box}>
