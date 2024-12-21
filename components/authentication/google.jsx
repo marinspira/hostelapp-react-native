@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: '#fff',
         elevation: 2,
-        shadowOpacity: 0.2,
+        boxShadow: 0.2,
         shadowOffset: 10,
         paddingHorizontal: 20,
         width: '80%',

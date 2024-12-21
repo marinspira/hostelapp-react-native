@@ -1,6 +1,6 @@
 import React from 'react';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { Stack } from 'expo-router';
+import { Slot } from 'expo-router';
 
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
@@ -8,14 +8,13 @@ import { Poppins_400Regular, Poppins_700Bold } from '@expo-google-fonts/poppins'
 
 import { StatusBar } from 'expo-status-bar';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import 'react-native-reanimated';
 
 import { Provider } from 'react-redux';
 import store from '@/redux/store'
 import Toast from 'react-native-toast-message';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useStorageState } from '@/hooks/useStorageState';
 import { User } from '@/redux/slices/user/interfaces';
 
@@ -60,24 +59,7 @@ export default function RootLayout() {
     <Provider store={store}>
       <Toast />
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <Stack>
-          {user?.role === 'guest' ? (
-            <>
-              <Stack.Screen name="guest" options={{ headerShown: false }} />
-              <Stack.Screen name="+not-found" />
-            </>
-          ) : user?.role === 'host' ? (
-            <>
-              <Stack.Screen name="host" options={{ headerShown: false }} />
-              <Stack.Screen name="+not-found" />
-            </>
-          ) : (
-            <>
-              <Stack.Screen name="publicScreens" options={{ headerShown: false }} />
-              <Stack.Screen name="+not-found" />
-            </>
-          )}
-        </Stack>
+        <Slot />
         <StatusBar style="auto" />
       </ThemeProvider>
     </Provider>
