@@ -18,7 +18,7 @@ export default function Index() {
   if (user?.role === 'guest') {
     return <Redirect href="/guest" />;
   } else if (user?.role === 'host') {
-    return <Redirect href="/host/(tabs)/index" />;
+    return <Redirect href="/host/(tabs)" />;
   }
 
   return <Redirect href="/publicScreens/welcome" />;

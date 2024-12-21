@@ -3,9 +3,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import EventList from '@/components/guest/eventList'
 import ProfilesSlide from '@/components/guest/profilesLikes'
 import profileDefault from '@/assets/images/unnamed.png'
-import Greetings from '@/components/guest/greetings'
+import Greetings from '@/components/greetings'
 import { useSelector } from 'react-redux';
-import { UserState } from '@/redux/slices/user/interfaces';
+import { User } from '@/redux/slices/user/interfaces';
 import { useTranslation } from 'react-i18next';
 import '@/assets/translations/i18n'
 
@@ -13,8 +13,7 @@ export default function HomeScreen() {
 
   const { t, i18n } = useTranslation();
 
-  
-  const user = useSelector((state: { user: UserState }) => state.user)
+  const user = useSelector((state: { user: User }) => state.user)
 
   type Person = {
     avatar: string;
@@ -59,7 +58,7 @@ export default function HomeScreen() {
     <SafeAreaView>
       <View>
         <ScrollView style={styles.container}>
-          <Greetings user={user} />
+          <Greetings username={user?.data?.name} />
           <ProfilesSlide title={t('Converse com quem está hospedado com você')} />
           <EventList title={t('Eventos perto de você')} data={events} btnText='Join' />
         </ScrollView>

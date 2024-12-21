@@ -43,14 +43,18 @@ function GoogleAuthentication({ role }) {
 
             try {
                 const userInfo = await getGoogleUserInfo(token);
-                const userData = { ...userInfo, role };
+                const userData = {
+                    name: userInfo.name,
+                    email: userInfo.email,
+                    picture: userInfo.picture,
+                    role
+                };
 
                 // Salvar no AsyncStorage
                 await AsyncStorage.setItem('user', JSON.stringify(userData));
 
                 // Atualizar estado global
                 dispatch(setUser(userData));
-                dispatch(setRole(role));
 
                 // Enviar ao backend
                 // dispatch(sendUserToBackend({ user: userInfo, role }));

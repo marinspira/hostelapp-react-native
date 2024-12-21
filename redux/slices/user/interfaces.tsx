@@ -7,7 +7,7 @@ export interface User {
 }
 
 export interface UserState {
-    user: User | null;
+    data: User | null;
     role: string | null;
     loading: boolean;
     error: string | null;

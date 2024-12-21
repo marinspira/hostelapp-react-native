@@ -5,15 +5,16 @@ import Title from '@/components/guest/text/title'
 import { useTranslation } from 'react-i18next';
 import '@/assets/translations/i18n'
 
-export default function Grettings({ user }: any) {
+export default function Grettings({ username }: any) {
 
     const { t, i18n } = useTranslation();
+    console.log(username)
 
     return (
         <View style={styles.box}>
             <Title
                 marginTop={0}
-                text={t('Olá', { name: user.name })}
+                text={t('Olá', { name: username?.split(' ')[0] })}
                 fontSize={25}
                 color={Colors.white}
             />

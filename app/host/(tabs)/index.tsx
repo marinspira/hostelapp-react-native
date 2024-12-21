@@ -1,8 +1,8 @@
 import { StyleSheet, View, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import Greetings from '@/components/guest/greetings'
+import Greetings from '@/components/greetings'
 import { useSelector } from 'react-redux';
-import { UserState } from '@/redux/slices/user/interfaces';
+import { User } from '@/redux/slices/user/interfaces';
 import { useTranslation } from 'react-i18next';
 import '@/assets/translations/i18n'
 
@@ -10,13 +10,13 @@ export default function HostHomeScreen() {
 
   const { t, i18n } = useTranslation();
 
-  const user = useSelector((state: { user: UserState }) => state.user)
+  const user = useSelector((state: { user: User }) => state.user)
 
   return (
     <SafeAreaView>
       <View>
         <ScrollView style={styles.container}>
-          <Greetings user={user} />
+          <Greetings username={user?.data?.name} />
         </ScrollView>
       </View>
     </SafeAreaView>
