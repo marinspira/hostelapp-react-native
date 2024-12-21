@@ -55,8 +55,13 @@ function GoogleAuthentication({ role }) {
                 // Enviar ao backend
                 // dispatch(sendUserToBackend({ user: userInfo, role }));
 
-                router.push('/guest/(tabs)');
-
+                if (role === 'guest') {
+                    router.push('/guest/(tabs)');
+                } else if (role === 'host') {
+                    router.push('/host/(tabs)');
+                } else {
+                    router.push('/publicScreen/welcome');
+                }
 
             } catch (error) {
                 console.error('Error handling token:', error);
