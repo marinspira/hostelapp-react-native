@@ -13,6 +13,7 @@ export default function HomeScreen() {
 
   const { t, i18n } = useTranslation();
 
+  
   const user = useSelector((state: { user: UserState }) => state.user)
 
   type Person = {

@@ -31,7 +31,7 @@ function WelcomeScreen() {
                     backgroundColor={Colors.purple}
                     textColor={Colors.white}
                     onPress={() => {
-                        router.push('/screens/introduction?role=guest');
+                        router.push('/publicScreens/introduction?role=guest');
                     }}
                 />
                 <ButtonWithIcon
@@ -42,7 +42,7 @@ function WelcomeScreen() {
                     borderColor={Colors.purple}
                     textColor={Colors.purple}
                     onPress={() => {
-                        router.push('/screens/introduction?role=host');
+                        router.push('/publicScreens/introduction?role=host');
                     }}
                 />
             </View>

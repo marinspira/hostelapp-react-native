@@ -35,7 +35,7 @@
       [
         "expo-image-picker",
         {
-          "photosPermission": "The app accesses your photos to let you share them with your friends."
+          "photosPermission": "Allow HostelApp to access your photos."
         }
       ],
       [
@@ -45,6 +45,13 @@
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#6c63ff"
+        }
+      ],
+      [
+        "expo-secure-store",
+        {
+          "configureAndroidBackup": true,
+          "faceIDPermission": "Allow HostelApp to access your Face ID biometric data."
         }
       ]
     ],

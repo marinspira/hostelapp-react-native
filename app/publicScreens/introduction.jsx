@@ -94,7 +94,6 @@ function IntroductionScreen() {
         }
     };
 
-
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar style="dark" />
@@ -123,9 +122,9 @@ function IntroductionScreen() {
                     <SimpleButton
                         text={t("Começar")}
                         onPress={role === "guest" ?
-                            () => { router.push('/screens/login?role=guest'); }
+                            () => { router.push('/publicScreens/login?role=guest'); }
                             :
-                            () => { router.push('/screens/login?role=host'); }
+                            () => { router.push('/publicScreens/login?role=host'); }
                         }
                     />
                 ) : (
@@ -133,7 +132,7 @@ function IntroductionScreen() {
                 )}
                 <SimpleButton
                     text={role === "guest" ? t("Sou host") : t("Sou hóspede")}
-                    onPress={() => router.push("/screens/welcome")}
+                    onPress={() => router.push("/publicScreens/welcome")}
                     backgroundColor="transparent"
                     textColor={Colors.purple}
                 />

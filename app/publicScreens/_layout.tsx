@@ -6,7 +6,7 @@ export default function RootLayout() {
 
   return (
     <>
-    <StatusBar style="light" />
+    <StatusBar style="dark" />
     <Stack>
       <Stack.Screen name="login" options={{ headerShown: false }} />
       <Stack.Screen name="welcome" options={{ headerShown: false }} />

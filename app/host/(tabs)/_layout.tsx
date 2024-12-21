@@ -6,14 +6,14 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import { AntDesign } from '@expo/vector-icons';
 
 const tabIcons = {
-  profile: 'user',
-  staff: 'team',
+  // profile: 'user',
+  // staff: 'team',
   index: 'home',
-  notifications: 'bells',
-  chat: 'message1',
+  // notifications: 'bells',
+  // chat: 'message1',
 };
 
-export default function GuestTabLayout() {
+export default function TabLayout() {
   const colorScheme = useColorScheme();
 
   return (
