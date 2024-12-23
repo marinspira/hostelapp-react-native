@@ -14,16 +14,16 @@ import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Colors } from '@/constants/Colors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function Checkin() {
   const { t } = useTranslation();
   const [[loading, storedUser]] = useStorageState('user');
   const user = storedUser ? (JSON.parse(storedUser) as User) : null;
-  const teste = JSON.stringify(user)
 
   const getFromSecureStore = async () => {
     const result = await AsyncStorage.getItem('user');
-    console.log('value:', result);
+    console.log('value:', user);
   };
   const guest = useSelector((state: { guest: GuestState }) => state.guest);
   const dispatch = useDispatch();
@@ -56,27 +56,28 @@ export default function Checkin() {
   }
 
   return (
-    <ScrollView style={{backgroundColor: 'white'}}>
-      <View style={styles.container}>
-        {user?.picture ? (
-          <Image source={{ uri: user.picture }} style={styles.imageProfile} />
-        ) : (
-          <Human width={100} height={100} />
-        )}
-        <Text>{teste}</Text>
-        <Text style={styles.userName}>{user?.name}</Text>
-        <InputDate
-          label={t('Seu aniversário')}
-          onChange={(value) => handleChange('birthday', value)}
-        />
-        <FormUser />
-        <SimpleButton
-          text={t('Continuar')}
-          onPress={handleForm}
-          disabled={!isOfAge || !guest.birthday}
-        />
-      </View>
-    </ScrollView>
+    <SafeAreaView>
+      <ScrollView style={{ backgroundColor: 'white' }}>
+        <View style={styles.container}>
+          {user?.picture ? (
+            <Image source={{ uri: user.picture }} style={styles.imageProfile} />
+          ) : (
+            <Human width={100} height={100} />
+          )}
+          <Text style={styles.userName}>{user?.name}</Text>
+          <InputDate
+            label={t('Seu aniversário')}
+            onChange={(value) => handleChange('birthday', value)}
+          />
+          <FormUser />
+          <SimpleButton
+            text={t('Continuar')}
+            onPress={handleForm}
+            disabled={!isOfAge || !guest.birthday}
+          />
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
