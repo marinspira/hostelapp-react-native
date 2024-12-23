@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { ActivityIndicator, Button, StyleSheet, Text, View } from 'react-native'
 import { logout } from '@/redux/slices/user/slice';
 import { useStorageState } from '@/hooks/useStorageState';
+import { router } from 'expo-router';
 
 export default function LogoutButton() {
     const dispatch = useDispatch();
@@ -13,6 +14,7 @@ export default function LogoutButton() {
             const result = await dispatch(logout()).unwrap();
             if (result) {
                 clearStorage();
+                router.push('/publicScreens/welcome')
             }
         } catch (err) {
             console.error('Logout failed:', err);
