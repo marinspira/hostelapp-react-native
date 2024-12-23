@@ -1,12 +1,12 @@
 import { Tabs } from 'expo-router';
 import React from 'react';
-import { Platform, View, StyleSheet } from 'react-native';
+import { Platform, View, StyleSheet, Settings } from 'react-native';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { AntDesign } from '@expo/vector-icons';
 
 const tabIcons = {
-  profile: 'user',
+  settings: 'user',
   staff: 'team',
   index: 'home',
   notifications: 'bells',

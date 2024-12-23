@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction, isRejectedWithValue } from '@reduxjs/toolkit';
 import { BackendResponse, ThunkArgs, User, UserState } from './interfaces';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
@@ -46,14 +46,12 @@ export const appleAuth = createAsyncThunk<BackendResponse, { identityToken: stri
   }
 );
 
-
-// Thunk para enviar os dados do usuário ao backend
 export const googleAuth = createAsyncThunk<BackendResponse, ThunkArgs, { rejectValue: string }>(
   'user/sendToBackend',
   async ({ user }, { rejectWithValue }) => {
 
     try {
-      const response = await fetch(`http://localhost:5000/api/auth/login`, {
+      const response = await fetch(`http://localhost:5000/api/auth/googleLogin`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...user }),
@@ -87,12 +85,48 @@ export const googleAuth = createAsyncThunk<BackendResponse, ThunkArgs, { rejectV
   }
 );
 
+export const logout = createAsyncThunk<void, void, { rejectValue: string }>(
+  'user/logout',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await fetch('https://7ad3-94-119-32-13.ngrok-free.app/api/auth/logout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+
+        console.log(errorData)
+        throw new Error(errorData.message || 'Logout failed');
+      }
+
+      const result = await response.json()
+
+      console.log('resu', result)
+      return result
+      // return result as BackendResponse;
+
+    } catch (error) {
+      if (error instanceof Error) {
+        return rejectWithValue(error.message);
+      }
+      return rejectWithValue('An unexpected error occurred');
+    }
+  }
+);
+
 const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
     setUser: (state, action: PayloadAction<User>) => {
       state.data = action.payload;
+    },
+    resetUserState: (state) => {
+      state.data = null;
+      state.error = null;
+      state.loading = false;
     },
   },
   extraReducers: (builder) => {
@@ -121,9 +155,23 @@ const userSlice = createSlice({
       .addCase(appleAuth.rejected, (state, action) => {
         state.error = action.payload || 'Unknown error';
         state.loading = false;
+      })
+      // logout
+      .addCase(logout.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(logout.fulfilled, (state) => {
+        state.data = null;
+        state.loading = false;
+      })
+      .addCase(logout.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || 'An unexpected error occurred';
       });
   },
 });
 
+export const { resetUserState } = userSlice.actions;
 export const { setUser } = userSlice.actions;
 export default userSlice.reducer;
