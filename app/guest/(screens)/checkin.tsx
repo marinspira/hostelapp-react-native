@@ -1,63 +1,100 @@
-import { Image, StyleSheet } from 'react-native';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import Tabs from '@/components/guest/tabs';
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import FormUser from '@/components/guest/formGuest';
-import FormStaff from '@/components/guest/formStaff';
+import { useTranslation } from 'react-i18next';
+import '@/assets/translations/i18n';
+import { User } from '@/redux/slices/user/interfaces';
+import Human from '@/assets/images/illustrations/undraw/human.svg';
+import { useStorageState } from '@/hooks/useStorageState';
+import SimpleButton from '@/components/buttons/SimpleButton';
+import InputDate from '@/components/guest/inputDate';
 import { useDispatch, useSelector } from 'react-redux';
 import { GuestState } from '@/redux/slices/guest/interfaces';
-import { useTranslation } from 'react-i18next';
-import '@/assets/translations/i18n'
 import { updateField } from '@/redux/slices/guest/slice';
+import { router } from 'expo-router';
+import { useEffect, useState } from 'react';
+import { Colors } from '@/constants/Colors';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Checkin() {
+  const { t } = useTranslation();
+  const [[loading, storedUser]] = useStorageState('user');
+  const user = storedUser ? (JSON.parse(storedUser) as User) : null;
+  const teste = JSON.stringify(user)
 
-  const { t, i18n } = useTranslation();
+  const getFromSecureStore = async () => {
+    const result = await AsyncStorage.getItem('user');
+    console.log('value:', result);
+  };
+  const guest = useSelector((state: { guest: GuestState }) => state.guest);
+  const dispatch = useDispatch();
 
-  const user = useSelector((state: { user: GuestState }) => state.user)
-  const dispatch = useDispatch()
+  useEffect(() => {
+    getFromSecureStore()
+  }, [])
 
-  const tabData = [
-    { label: 'CHECK IN', content: <FormUser /> },
-    { label: t('Área do funcionário'), content: <FormStaff /> },
-  ];
+  const [isOfAge, setIsOfAge] = useState(false);
 
-  function handleImages(value: string | string[] | null) {
-    dispatch(updateField({ key: 'guestPhotos', value }))
+  function handleChange(key: any, value: any) {
+    dispatch(updateField({ key, value }));
+
+    // Verifica se a pessoa tem mais de 16 anos
+    if (key === 'birthday') {
+      const today = new Date();
+      const birthDate = new Date(value);
+      const age = today.getFullYear() - birthDate.getFullYear();
+      const isOlderThan16 = age > 16 || (age === 16 && today >= new Date(birthDate.setFullYear(today.getFullYear())));
+      setIsOfAge(isOlderThan16);
+    }
+  }
+
+  function handleForm() {
+    if (!isOfAge) {
+      alert(t('Você deve ter mais de 16 anos para continuar.'));
+      return;
+    }
+    router.push('/guest/(tabs)');
   }
 
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/me.jpg')}
-          style={styles.imageProfile}
+    <ScrollView style={{backgroundColor: 'white'}}>
+      <View style={styles.container}>
+        {user?.picture ? (
+          <Image source={{ uri: user.picture }} style={styles.imageProfile} />
+        ) : (
+          <Human width={100} height={100} />
+        )}
+        <Text>{teste}</Text>
+        <Text style={styles.userName}>{user?.name}</Text>
+        <InputDate
+          label={t('Seu aniversário')}
+          onChange={(value) => handleChange('birthday', value)}
         />
-      }
-      onChangeImageInput={handleImages}
-    >
-
-      <ThemedView style={styles.userDataContainer}>
-        {(user.name && user.birthday) && <ThemedText type="title">Maria Eduarda, 21 </ThemedText>}
-        <Tabs tabs={tabData} />
-      </ThemedView>
-    </ParallaxScrollView>
+        <FormUser />
+        <SimpleButton
+          text={t('Continuar')}
+          onPress={handleForm}
+          disabled={!isOfAge || !guest.birthday}
+        />
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  userDataContainer: {
-    flexDirection: 'column',
-    gap: 8,
+  container: {
+    padding: 20,
+    alignItems: 'center',
+    backgroundColor: Colors.white
   },
   imageProfile: {
-    height: '100%',
-    width: '100%',
+    height: 100,
+    width: 100,
     objectFit: 'cover',
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+    borderRadius: 100,
+  },
+  userName: {
+    marginTop: 20,
+    fontFamily: 'PoppinsBold',
+    fontSize: 25,
   },
 });

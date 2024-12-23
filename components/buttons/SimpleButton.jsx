@@ -10,7 +10,8 @@ export default function SimpleButton
         textColor = Colors.white,
         width = 'auto',
         textTransform = '',
-        fontSize = 18
+        fontSize = 18,
+        disabled
     }) {
     return (
         <Pressable
@@ -22,7 +23,7 @@ export default function SimpleButton
                     textTransform: 'uppercase'
                 }
             ]}
-            onPress={onPress}
+            onPress={!disabled ? onPress : null}
         >
             <Text style={[styles.buttonText, { color: textColor, textTransform, fontSize }]}>
                 {text}

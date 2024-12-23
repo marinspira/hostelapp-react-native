@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import { User } from '@/redux/slices/user/interfaces';
 import { useTranslation } from 'react-i18next';
 import '@/assets/translations/i18n'
+import { Colors } from '@/constants/Colors';
 
 export default function HomeScreen() {
 
@@ -70,5 +71,6 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     padding: 20,
+    backgroundColor: Colors.gray
   }
 });

@@ -18,6 +18,7 @@ export interface UserState {
 // Parâmetros para o Thunk
 export interface ThunkArgs {
     user: User;
+    token: any;
     role: string;
 }
 

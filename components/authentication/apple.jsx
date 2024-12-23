@@ -1,7 +1,14 @@
 import * as AppleAuthentication from 'expo-apple-authentication';
 import { StyleSheet } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { appleAuth } from "@/redux/slices/user/slice";
+import { useStorageState } from '@/hooks/useStorageState';
 
 function IOSAuthentication({ role }) {
+
+    const dispatch = useDispatch();
+    const [[loading, storedUser], setStoredUser] = useStorageState('user');
+
     return (
         <AppleAuthentication.AppleAuthenticationButton
             buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
@@ -16,20 +23,31 @@ function IOSAuthentication({ role }) {
                             AppleAuthentication.AppleAuthenticationScope.EMAIL,
                         ],
                     });
-                    console.log(credential)
+
+                    const fullName = `${credential.fullName.givenName} ${credential.fullName.familyName}`
+                    const identityToken = credential.identityToken
+
+                    // Dispatch para autenticar e salvar os dados no Redux
+                    const result = await dispatch(appleAuth({ identityToken, fullName, role })).unwrap();
+
+                    // Armazena os dados retornados do dispatch no armazenamento seguro
+                    setStoredUser(JSON.stringify(result));
+
+                    console.log('Dados armazenados com sucesso:', result);
+
                 } catch (e) {
                     if (e.code === 'ERR_REQUEST_CANCELED') {
-                        // handle that the user canceled the sign-in flow
+                        console.log('User canceled sign-in flow');
                     } else {
-                        // handle other errors
+                        console.error('Error during Apple Sign-In:', e);
                     }
                 }
             }}
         />
-    )
+    );
 }
 
-export default IOSAuthentication
+export default IOSAuthentication;
 
 const styles = StyleSheet.create({
     button: {
@@ -41,4 +59,4 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         marginBottom: 20,
     },
-})
+});

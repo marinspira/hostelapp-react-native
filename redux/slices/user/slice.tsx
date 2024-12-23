@@ -9,8 +9,46 @@ const initialState: UserState = {
   error: null,
 };
 
+export const appleAuth = createAsyncThunk<BackendResponse, { identityToken: string; fullName: string; role: string }, { rejectValue: string }>(
+  'user/appleAuth',
+  async ({ identityToken, fullName, role }, { rejectWithValue }) => {
+
+    try {
+      const response = await fetch('https://7ad3-94-119-32-13.ngrok-free.app/api/auth/appleLogin', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ identityToken, fullName, role })
+      });
+
+      if (!response.ok) {
+        const errorDetails = await response.json();
+        console.error("Failed to login:", errorDetails);
+        throw new Error('Failed to send user data');
+      }
+
+      const user = await response.json();
+
+      // Redirecionar com base nos dados do usuário
+      if (user.isNewUser) {
+        router.push(user.role === 'guest' ? '/guest/(screens)/checkin' : '/host/register');
+      } else {
+        router.push(user.role === 'guest' ? '/guest/(tabs)' : '/host/(tabs)');
+      }
+
+      return user as BackendResponse;
+
+    } catch (error) {
+      console.error('Erro em appleAuth:', error);
+      return rejectWithValue((error as Error).message);
+    }
+  }
+);
+
+
 // Thunk para enviar os dados do usuário ao backend
-export const sendUserToBackend = createAsyncThunk<BackendResponse, ThunkArgs, { rejectValue: string }>(
+export const googleAuth = createAsyncThunk<BackendResponse, ThunkArgs, { rejectValue: string }>(
   'user/sendToBackend',
   async ({ user }, { rejectWithValue }) => {
 
@@ -41,8 +79,9 @@ export const sendUserToBackend = createAsyncThunk<BackendResponse, ThunkArgs, { 
       }
 
       return data as BackendResponse;
+
     } catch (error) {
-      console.error("Error in sendUserToBackend:", error);
+      console.error("Error in googleAuth:", error);
       return rejectWithValue((error as Error).message);
     }
   }
@@ -58,14 +97,28 @@ const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(sendUserToBackend.pending, (state) => {
+      // googleAuth
+      .addCase(googleAuth.pending, (state) => {
         state.loading = true;
       })
-      .addCase(sendUserToBackend.fulfilled, (state, action: PayloadAction<BackendResponse>) => {
+      .addCase(googleAuth.fulfilled, (state, action: PayloadAction<BackendResponse>) => {
         state.data = action.payload.data;
         state.loading = false;
       })
-      .addCase(sendUserToBackend.rejected, (state, action) => {
+      .addCase(googleAuth.rejected, (state, action) => {
+        state.error = action.payload || 'Unknown error';
+        state.loading = false;
+      })
+      // appleAuth
+      .addCase(appleAuth.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(appleAuth.fulfilled, (state, action: PayloadAction<BackendResponse>) => {
+        state.data = action.payload.data;
+        state.loading = false;
+      })
+      .addCase(appleAuth.rejected, (state, action) => {
         state.error = action.payload || 'Unknown error';
         state.loading = false;
       });

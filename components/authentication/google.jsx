@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import google from '@/assets/images/google.png'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch } from 'react-redux';
-import { setUser, sendUserToBackend } from "@/redux/slices/user/slice";
+import { setUser, googleAuth } from "@/redux/slices/user/slice";
 import { router } from "expo-router";
 
 WebBrowser.maybeCompleteAuthSession()
@@ -55,7 +55,7 @@ function GoogleAuthentication({ role }) {
                 dispatch(setUser(userData));
 
                 // Enviar ao backend
-                dispatch(sendUserToBackend({ user: userData }));
+                dispatch(googleAuth({ user: userData }));
 
             } catch (error) {
                 console.error('Error handling token:', error);

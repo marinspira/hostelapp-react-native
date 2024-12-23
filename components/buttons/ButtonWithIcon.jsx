@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
         borderRadius: 10,
         // elevation: 4,
-        shadowOpacity: 0.25,
+        // shadowOpacity: 0.25,
         shadowRadius: 4,
         display: 'flex',
         flexDirection: 'row',

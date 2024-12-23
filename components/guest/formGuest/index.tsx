@@ -29,16 +29,16 @@ export default function FormGuest() {
     return (
         <View style={styles.container}>
             <ScrollView style={styles.form}>
-                <Input
+                {/* <Input
                     label={t('Seu nome')}
                     placeholder={t('Seu nome')}
                     value={guest.name}
                     onChange={(value) => handleChange('name', value)}
-                />
-                <InputDate
+                /> */}
+                {/* <InputDate
                     label={t('Seu aniversário')}
                     onChange={(value) => handleChange('birthday', value)}
-                />
+                /> */}
                 <InputSelect
                     label={t('De onde você é?')}
                     selectInputItems={['Brazil', 'USA', 'France', 'Italy']}
@@ -128,7 +128,7 @@ export default function FormGuest() {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        // flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         paddingBottom: 70,

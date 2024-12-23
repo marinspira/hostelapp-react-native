@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import Trip from '@/assets/images/illustrations/vacations.svg';
 import ButtonWithIcon from '@/components/buttons/ButtonWithIcon';
 import { Colors } from '@/constants/Colors';
@@ -10,7 +10,6 @@ import { useRouter } from "expo-router";
 import { StatusBar } from 'expo-status-bar';
 
 function WelcomeScreen() {
-
     const { t, i18n } = useTranslation();
     const router = useRouter();
 

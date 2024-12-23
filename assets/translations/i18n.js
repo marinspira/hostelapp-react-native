@@ -79,7 +79,8 @@ i18n
                     'Sou host': 'I am a host',
                     'Sou hóspede': 'I am a guest',
                     'Próximo': 'Next',
-                    'Começar': 'Get start'
+                    'Começar': 'Get start',
+                    'Esse campo é obrigatório': 'This field is required'
                 },
             },
             pt: {

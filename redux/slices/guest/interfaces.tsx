@@ -1,6 +1,6 @@
 export interface GuestState {
-    guestPhotos: string | string[] | null,
-    name: string,
+    guestPhotos: string[] | null,
+    // name: string,
     birthday: number | null,
     country: string,
     passaportPhoto: any,
