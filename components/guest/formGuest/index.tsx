@@ -1,16 +1,17 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateField } from '@/redux/slices/guest/slice';
 import { useTranslation } from 'react-i18next';
-import Input from '../../inputs/input';
-import InputSelect from '../../inputs/inputSelect';
-import InputDate from '../../inputs/inputDate';
-import InputImage from '../../inputs/inputImage';
+import Input from '@/components/inputs/input';
+import InputSelect from '@/components/inputs/inputSelect';
+import InputImage from '@/components/inputs/inputImage';
 import SelectItens from '@/components/guest/selectItens'
 import { useEffect } from 'react';
 import '@/assets/translations/i18n'
 import { GuestState } from '@/redux/slices/guest/interfaces';
+import InputPhone from '@/components/inputs/inputPhone';
+import countries from '@/utils/coutries'
 
 interface FormProps {
     inputs: {
@@ -44,22 +45,16 @@ export default function FormGuest({ inputs }: FormProps) {
     return (
         <View style={styles.container}>
             <View style={styles.form}>
-                {/* <Input
-                    label={t('Seu nome')}
-                    placeholder={t('Seu nome')}
-                    value={guest.name}
-                    onChange={(value) => handleChange('name', value)}
-                /> */}
-                {/* <InputDate
-                    label={t('Seu aniversário')}
-                    onChange={(value) => handleChange('birthday', value)}
-                /> */}
                 {inputs?.from && <InputSelect
                     label={t('De onde você é?')}
-                    selectInputItems={['Brazil', 'USA', 'France', 'Italy']}
+                    selectInputItems={countries}
                     value={guest.country}
                     onChange={(value) => handleChange('country', value)}
                 />}
+                <InputPhone
+                    label={t('Seu número de celular')}
+                    onChange={(value) => handleChange('phoneNumber', value)}
+                />
                 {inputs?.passaportImg && <InputImage
                     maxSelections={1}
                     label={t('Foto do seu Passaporte/Identidade')}

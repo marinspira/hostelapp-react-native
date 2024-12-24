@@ -9,8 +9,10 @@ interface InputDateProps {
     placeholder?: string;
     value?: Date;
     onChange?: (date: Date) => void;
-    maximumDate?: Date,
-    minimumDate?: Date
+    maximumDate?: Date;
+    minimumDate?: Date;
+    errorMessage?: any;
+    suportText?: string
 }
 
 const InputDate: React.FC<InputDateProps> = ({
@@ -19,10 +21,24 @@ const InputDate: React.FC<InputDateProps> = ({
     value,
     onChange,
     maximumDate,
-    minimumDate
+    minimumDate,
+    errorMessage,
+    suportText
 }) => {
     const [show, setShow] = useState(false);
     const [date, setDate] = useState<Date | undefined>(value || undefined);
+    const [error, setError] = useState<string | null>(null);
+
+    const validateDate = (selectedDate?: Date) => {
+        if (selectedDate) {
+            if (maximumDate && selectedDate > maximumDate || minimumDate && selectedDate < minimumDate) {
+                setError(errorMessage);
+                return false;
+            }
+        }
+        setError(null);
+        return true;
+    };
 
     const showCalendar = () => {
         setShow(true);
@@ -35,19 +51,20 @@ const InputDate: React.FC<InputDateProps> = ({
     };
 
     const handleChange = (event: any, selectedDate?: Date) => {
-        if (selectedDate) {
-            setShow(false);
+        setShow(false);
+        if (validateDate(selectedDate)) {
             setDate(selectedDate);
-            onChange?.(selectedDate);
+            onChange?.(selectedDate!);
         }
     };
 
-    const displayedValue = value ? value : date;
+    const displayedValue = value || date;
 
     if (Platform.OS === 'ios') {
         return (
             <View style={styles.inputDateIos}>
                 <Text style={styles.label}>{label}</Text>
+                {suportText && <Text style={styles.suportText}>{suportText}</Text>}
                 <DateTimePicker
                     testID="dateTimePicker"
                     value={displayedValue ? displayedValue : new Date()}
@@ -57,9 +74,11 @@ const InputDate: React.FC<InputDateProps> = ({
                     locale="en-GB"
                     style={styles.datePickerIos}
                     textColor="#000"
+                    themeVariant="light"
                 />
+                {error && <Text style={styles.errorText}>{error}dsds</Text>}
             </View>
-        )
+        );
     } else {
         return (
             <View style={styles.container}>
@@ -69,7 +88,7 @@ const InputDate: React.FC<InputDateProps> = ({
                     placeholder={placeholder}
                     value={displayedValue?.toLocaleDateString('en-GB')}
                 />
-                {show &&
+                {show && (
                     <DateTimePicker
                         testID="dateTimePicker"
                         value={displayedValue ? displayedValue : new Date()}
@@ -80,9 +99,10 @@ const InputDate: React.FC<InputDateProps> = ({
                         minimumDate={minimumDate}
                         maximumDate={maximumDate}
                     />
-                }
+                )}
+                {error && <Text style={styles.errorText}>{error}</Text>}
             </View>
-        )
+        );
     }
 };
 
@@ -90,11 +110,11 @@ export default InputDate;
 
 const styles = StyleSheet.create({
     container: {
-        width: '100%'
+        width: '100%',
     },
     inputDateIos: {
         padding: 0,
-        marginBottom: 40
+        marginBottom: 4
     },
     label: {
         fontSize: 12,
@@ -105,8 +125,18 @@ const styles = StyleSheet.create({
         letterSpacing: 2,
     },
     datePickerIos: {
-        position: 'absolute',
         left: -10,
-        top: 20
     },
-})
+    errorText: {
+        color: 'red',
+        fontSize: 12,
+        position: 'absolute',
+        top: 55
+    },
+    suportText: {
+        fontSize: 12,
+        marginBottom: 10,
+        color: '#b1b1b1',
+        marginTop: -3,
+    },
+});

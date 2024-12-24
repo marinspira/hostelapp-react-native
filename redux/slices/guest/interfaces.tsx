@@ -1,7 +1,8 @@
 export interface GuestState {
     guestPhotos: string[] | null,
+    phoneNumber: string,
     // name: string,
-    birthday: number | null,
+    birthday: string | null,
     country: string,
     passaportPhoto: any,
     interests: string[],
@@ -14,7 +15,8 @@ export interface GuestState {
     linkedin: string,
     twitter: string,
     reviews: [{}],
-    likedBy: []
+    likedBy: [],
+    showProfileAuthorization: boolean | null
 }
 
 export interface UpdateFieldPayload {

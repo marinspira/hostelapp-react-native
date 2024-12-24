@@ -10,25 +10,34 @@ import { useDispatch, useSelector } from 'react-redux';
 import { GuestState } from '@/redux/slices/guest/interfaces';
 import { updateField } from '@/redux/slices/guest/slice';
 import { router } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Colors } from '@/constants/Colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import InputImage from '@/components/inputs/inputImage';
 import InputCheckbox from '@/components/inputs/inputCheckbox';
+import { useFormatDate } from '@/hooks/useFormateDate';
+import { logout } from '@/redux/slices/user/slice';
 
 export default function Checkin() {
   const { t } = useTranslation();
-  const [[loading, storedUser]] = useStorageState('user');
+
+  const [[loading, storedUser]] = useStorageState('user')
   const user = storedUser ? (JSON.parse(storedUser) as User) : null;
 
   const guest = useSelector((state: { guest: GuestState }) => state.guest);
   const dispatch = useDispatch();
 
+
   const [isOfAge, setIsOfAge] = useState(false);
 
   function handleChange(key: any, value: any) {
-    dispatch(updateField({ key, value }));
+    if (key === 'guestPhotos') {
+      const updatedPhotos = Array.isArray(value) ? value : [value];
+      dispatch(updateField({ key, value: updatedPhotos }));
+    } else {
+      dispatch(updateField({ key, value }));
+    }
 
     // Verifica se a pessoa tem mais de 16 anos
     if (key === 'birthday') {
@@ -40,14 +49,10 @@ export default function Checkin() {
     }
   }
 
-  useEffect(() => {
-    console.log(isOfAge)
-  }, [])
-
   function handleForm() {
     if (!isOfAge) {
       alert(t('Você deve ter mais de 16 anos para continuar.'));
-      return;
+      return
     }
     router.push('/guest/(tabs)');
   }
@@ -61,31 +66,34 @@ export default function Checkin() {
           <View style={styles.userContent}>
             <InputImage
               borderRadius='100%'
-              onChange={() => console.log('change')}
+              onChange={(value) => handleChange('guestPhotos', value)}
               imgWidth={75}
               defaultImg={user?.picture}
             />
             <View>
               <Text style={styles.userName}>{user?.name} Maria Eduarda</Text>
-              <Text style={styles.suportText}>Complete seu perfil</Text>
+              <Text style={styles.suportText}>{t('Complete seu perfil')}</Text>
             </View>
           </View>
           <InputDate
             label={t('Seu aniversário')}
-            onChange={(value) => handleChange('birthday', value)}
+            onChange={(value) => handleChange('birthday', useFormatDate(value))}
+            errorMessage={t('Você deve ser maior que 16 anos para prosseguir')}
+            minimumDate={new Date('2008-01-01')}
+            suportText={t('Você só pode alterar esse campo uma vez. Necessário ser +16.')}
           />
           <FormUser inputs={{ from: true, passaportImg: true }} />
         </ScrollView>
         <View style={styles.buttonContainer}>
           <InputCheckbox
             text={t('Permitir que outros hóspedes vejam você? (Você só verá outros hóspedes se essa opção estiver ativada)')}
-            onChange={() => console.log('teste')}
+            onChange={(value) => handleChange('showProfileAuthorization', value)}
             initialChecked={true}
           />
           <SimpleButton
             text={t('Continuar')}
             onPress={handleForm}
-            disabled={!isOfAge || !guest.birthday}
+            disabled={!guest.birthday}
             width='100%'
           />
         </View>

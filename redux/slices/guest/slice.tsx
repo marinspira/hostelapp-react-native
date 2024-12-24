@@ -2,8 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { GuestState, UpdateFieldPayload } from "./interfaces";
 
 const initialState: GuestState = {
-    guestPhotos: null,
-    name: '',
+    guestPhotos: [],
     birthday: null,
     country: '',
     passaportPhoto: '',
@@ -17,7 +16,8 @@ const initialState: GuestState = {
     linkedin: '',
     twitter: '',
     reviews: [{}],
-    likedBy: []
+    likedBy: [],
+    showProfileAuthorization: null
 }
 
 const guestSlice = createSlice({

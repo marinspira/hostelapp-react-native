@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { Platform, Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import { Colors } from '@/constants/Colors';
+import '@/assets/translations/i18n';
+import { useTranslation } from 'react-i18next';
 
 interface InputSelectProps {
     selectInputItems: string[];
@@ -11,13 +14,14 @@ interface InputSelectProps {
 }
 
 export default function InputSelect({ selectInputItems, label, value, onChange, suportText }: InputSelectProps) {
-    const [selectItem, setSelectItem] = useState<string>(value);
+    const [selectItem, setSelectItem] = useState<string>(value || '');
     const [showModal, setShowModal] = useState<boolean>(false);
+
+    const { t } = useTranslation();
 
     const handleValueChange = (itemValue: string) => {
         setSelectItem(itemValue);
         onChange(itemValue);
-        setShowModal(false); // Fecha o modal após a seleção
     };
 
     return (
@@ -30,36 +34,42 @@ export default function InputSelect({ selectInputItems, label, value, onChange, 
                 <>
                     <Pressable
                         style={styles.selectInputContainer}
-                        onPress={() => Platform.OS === 'ios' && setShowModal(true)}
+                        onPress={() => setShowModal(true)}
                     >
                         <Text style={styles.selectInputText}>
-                            {selectItem || 'Select an option'}
+                            {selectItem || t('Selecione uma opção')}
                         </Text>
                     </Pressable>
                     <Modal
                         visible={showModal}
-                        transparent={true}
+                        transparent
                         animationType="slide"
                         onRequestClose={() => setShowModal(false)}
                     >
                         <View style={styles.modalOverlay}>
                             <View style={styles.modalContent}>
-                                <Text style={styles.modalTitle}>Select an Option</Text>
+                                <Text style={styles.modalTitle}>{label}</Text>
                                 <Picker
                                     selectedValue={selectItem}
-                                    onValueChange={handleValueChange}
+                                    onValueChange={(itemValue) => setSelectItem(itemValue)}
                                     style={styles.selectInput}
+                                    itemStyle={{ color: '#000' }}
                                 >
-                                    <Picker.Item label="Select an option" value={null} />
+                                    {!selectItem && (
+                                        <Picker.Item label={t('Selecione uma opção')} value={null} style={{ color: '#aaa' }} />
+                                    )}
                                     {selectInputItems.map((item, index) => (
                                         <Picker.Item key={index} label={item} value={item} />
                                     ))}
                                 </Picker>
                                 <Pressable
                                     style={styles.closeButton}
-                                    onPress={() => setShowModal(false)}
+                                    onPress={() => {
+                                        setShowModal(false);
+                                        onChange(selectItem);
+                                    }}
                                 >
-                                    <Text style={styles.closeButtonText}>Close</Text>
+                                    <Text style={styles.closeButtonText}>{t('Selecionar')}</Text>
                                 </Pressable>
                             </View>
                         </View>
@@ -75,7 +85,9 @@ export default function InputSelect({ selectInputItems, label, value, onChange, 
                         onValueChange={handleValueChange}
                         style={styles.selectInput}
                     >
-                        <Picker.Item label="Select an option" value={null} />
+                        {!selectItem && (
+                            <Picker.Item label={t('Selecione uma opção')} value={null} style={{ color: '#aaa' }} />
+                        )}
                         {selectInputItems.map((item, index) => (
                             <Picker.Item key={index} label={item} value={item} />
                         ))}
@@ -102,6 +114,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#f7f7f7',
         width: '100%',
         borderRadius: 8,
+        color: '#000',
     },
     selectInputText: {
         fontSize: 14,
@@ -139,20 +152,20 @@ const styles = StyleSheet.create({
         padding: 20,
     },
     modalTitle: {
-        fontSize: 16,
+        fontSize: 18,
         fontWeight: 'bold',
-        marginBottom: 10,
+        marginBottom: 25,
         textAlign: 'center',
     },
     closeButton: {
         marginTop: 20,
-        backgroundColor: '#007BFF',
+        backgroundColor: Colors.purple,
         padding: 10,
         borderRadius: 8,
         alignItems: 'center',
     },
     closeButtonText: {
         color: 'white',
-        fontSize: 14,
+        fontSize: 16,
     },
 });

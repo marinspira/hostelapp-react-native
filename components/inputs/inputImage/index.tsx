@@ -17,7 +17,6 @@ const { width } = Dimensions.get('window');
 
 const InputImage: React.FC<InputImageProps> = ({
     label,
-    maxSelections = 1,
     onChange,
     suportText,
     borderRadius,
@@ -25,7 +24,6 @@ const InputImage: React.FC<InputImageProps> = ({
     defaultImg
 }) => {
     const [image, setImage] = useState<string | null>(defaultImg || null);
-    const [imagesArray, setImagesArray] = useState<string[]>([]);
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -36,15 +34,15 @@ const InputImage: React.FC<InputImageProps> = ({
         });
 
         if (!result.canceled) {
-            if (maxSelections <= 1) {
-                setImage(result.assets[0].uri);
-                onChange(result.assets[0].uri)
-            } else {
-                setImagesArray((prevArray) => [...prevArray, result.assets[0].uri]);
-                onChange([...imagesArray, result.assets[0].uri]);
-            }
+            setImage(result.assets[0].uri);
+            onChange(result.assets[0].uri)
         }
     };
+
+    const handleRemoveImg = () => {
+        setImage(null)
+        onChange(null)
+    }
 
     const [currentIndex, setCurrentIndex] = useState(0);
     const flatListRef = useRef<FlatList>(null);
@@ -61,9 +59,9 @@ const InputImage: React.FC<InputImageProps> = ({
             <View style={styles.row}>
                 {image ? (
                     <Pressable onPress={pickImage}>
-                        <Pressable onPress={() => setImage(null)} style={styles.removePhoto}>
+                        {!borderRadius && <Pressable onPress={handleRemoveImg} style={styles.removePhoto}>
                             <Text>X</Text>
-                        </Pressable>
+                        </Pressable>}
                         <Image source={{ uri: image }} style={[styles.image, { borderRadius, width: imgWidth, height: imgWidth }]} />
                     </Pressable>
                 ) :
@@ -72,26 +70,6 @@ const InputImage: React.FC<InputImageProps> = ({
                             <Text style={styles.imgPickerBtnText}>+</Text>
                         </Pressable>
                     )
-                }
-                {imagesArray &&
-                    <FlatList
-                        ref={flatListRef}
-                        data={imagesArray}
-                        horizontal
-                        pagingEnabled
-                        showsHorizontalScrollIndicator={false}
-                        onScroll={handleScroll}
-                        scrollEventThrottle={16}
-                        keyExtractor={(item, index) => `${item}-${index}`}
-                        renderItem={({ item, index }) => (
-                            <Image
-                                source={{ uri: item }}
-                                style={[
-                                    styles.image,
-                                ]}
-                            />
-                        )}
-                    />
                 }
             </View>
         </View>
