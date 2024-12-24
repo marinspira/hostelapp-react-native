@@ -18,7 +18,7 @@ export default function SimpleButton
             style={[
                 styles.button,
                 {
-                    backgroundColor: backgroundColor,
+                    backgroundColor: disabled ? '#6c63ff6b' : backgroundColor,
                     width: width,
                     textTransform: 'uppercase'
                 }

@@ -8,7 +8,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { ThemedView } from '@/components/ThemedView';
 import { useBottomTabOverflow } from '@/components/guest/ui/TabBarBackground';
-import InputImage from './guest/inputImage';
+import InputImage from './inputs/inputImage';
 
 const HEADER_HEIGHT = 550;
 

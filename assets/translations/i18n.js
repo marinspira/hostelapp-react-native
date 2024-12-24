@@ -80,7 +80,8 @@ i18n
                     'Sou hóspede': 'I am a guest',
                     'Próximo': 'Next',
                     'Começar': 'Get start',
-                    'Esse campo é obrigatório': 'This field is required'
+                    'Esse campo é obrigatório': 'This field is required',
+                    'Permitir que outros hóspedes vejam você? (Você só verá outros hóspedes se essa opção estiver ativada)' : 'Allow other guests to see your profile? (You will only see other guests if this option is enabled)'
                 },
             },
             pt: {

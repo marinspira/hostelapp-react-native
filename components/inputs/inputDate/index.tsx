@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import DateTimePicker, { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import Input from '../input';
 import { Platform } from 'react-native';
 
@@ -47,6 +47,7 @@ const InputDate: React.FC<InputDateProps> = ({
     if (Platform.OS === 'ios') {
         return (
             <View style={styles.inputDateIos}>
+                <Text style={styles.label}>{label}</Text>
                 <DateTimePicker
                     testID="dateTimePicker"
                     value={displayedValue ? displayedValue : new Date()}
@@ -55,6 +56,7 @@ const InputDate: React.FC<InputDateProps> = ({
                     onChange={handleChange}
                     locale="en-GB"
                     style={styles.datePickerIos}
+                    textColor="#000"
                 />
             </View>
         )
@@ -91,16 +93,20 @@ const styles = StyleSheet.create({
         width: '100%'
     },
     inputDateIos: {
-        backgroundColor: '#f7f7f7',
-        width: '100%', // Ocupa toda a largura disponível
-        padding: 0, // Remove padding para evitar deslocamento
-        borderRadius: 8,
-        borderColor: '#ccc',
-        borderWidth: 1,
-        fontSize: 14,
+        padding: 0,
+        marginBottom: 40
+    },
+    label: {
+        fontSize: 12,
+        fontWeight: 'bold',
+        marginBottom: 8,
+        color: '#333',
+        textTransform: 'uppercase',
+        letterSpacing: 2,
     },
     datePickerIos: {
-        width: '100%', // Garante que o DatePicker ocupe toda a largura
-        height: '100%', // Ajusta a altura ao tamanho do input
+        position: 'absolute',
+        left: -10,
+        top: 20
     },
 })

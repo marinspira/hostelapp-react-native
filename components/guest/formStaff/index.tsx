@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 import BlockedScreen from '@/components/guest/blockedScreen';
-import Input from '@/components/guest/input';
+import Input from '@/components/inputs/input';
 import SelectItens from '../selectItens';
 import { useDispatch, useSelector } from 'react-redux';
-import InputSelect from '../inputSelect';
+import InputSelect from '../../inputs/inputSelect';
 import { useTranslation } from 'react-i18next';
 import '@/assets/translations/i18n'
 import { StaffState } from '@/redux/slices/staff/interfaces';

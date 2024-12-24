@@ -2,17 +2,29 @@ import { useRef, useState } from 'react';
 import { Image, View, StyleSheet, Text, Pressable, Dimensions, NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { FlatList } from 'react-native';
+import { Colors } from '@/constants/Colors';
 
 interface InputImageProps {
     label?: string,
-    maxSelections: number,
+    maxSelections?: number,
     onChange: (value: string | string[] | null) => void;
-    suportText?: string
+    suportText?: string,
+    borderRadius?: string,
+    imgWidth?: number,
+    defaultImg?: string
 }
 const { width } = Dimensions.get('window');
 
-const InputImage: React.FC<InputImageProps> = ({ label, maxSelections = 1, onChange, suportText }) => {
-    const [image, setImage] = useState<string | null>(null);
+const InputImage: React.FC<InputImageProps> = ({
+    label,
+    maxSelections = 1,
+    onChange,
+    suportText,
+    borderRadius,
+    imgWidth = 85,
+    defaultImg
+}) => {
+    const [image, setImage] = useState<string | null>(defaultImg || null);
     const [imagesArray, setImagesArray] = useState<string[]>([]);
 
     const pickImage = async () => {
@@ -47,10 +59,20 @@ const InputImage: React.FC<InputImageProps> = ({ label, maxSelections = 1, onCha
             <Text style={styles.formTitle}>{label}</Text>
             {suportText && <Text style={styles.suportText}>{suportText}</Text>}
             <View style={styles.row}>
-                <Pressable onPress={pickImage} style={styles.imgPickerBtn}>
-                    <Text style={styles.imgPickerBtnText}>+</Text>
-                </Pressable>
-                {image && <Image source={{ uri: image }} style={styles.image} />}
+                {image ? (
+                    <Pressable onPress={pickImage}>
+                        <Pressable onPress={() => setImage(null)} style={styles.removePhoto}>
+                            <Text>X</Text>
+                        </Pressable>
+                        <Image source={{ uri: image }} style={[styles.image, { borderRadius, width: imgWidth, height: imgWidth }]} />
+                    </Pressable>
+                ) :
+                    (
+                        <Pressable onPress={pickImage} style={[styles.imgPickerBtn, { borderRadius, width: imgWidth, height: imgWidth }]}>
+                            <Text style={styles.imgPickerBtnText}>+</Text>
+                        </Pressable>
+                    )
+                }
                 {imagesArray &&
                     <FlatList
                         ref={flatListRef}
@@ -87,9 +109,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     image: {
-        width: 70,
-        height: 70,
-        marginLeft: 10
+        width: 85,
+        height: 85,
     },
     formTitle: {
         fontSize: 12,
@@ -118,4 +139,17 @@ const styles = StyleSheet.create({
         color: '#b1b1b1',
         marginTop: -3,
     },
+    removePhoto: {
+        borderWidth: 1,
+        width: 20,
+        height: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 100,
+        position: 'absolute',
+        zIndex: 9,
+        backgroundColor: Colors.white,
+        right: -8,
+        top: -3
+    }
 })

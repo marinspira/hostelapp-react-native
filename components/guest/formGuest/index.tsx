@@ -3,10 +3,10 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateField } from '@/redux/slices/guest/slice';
 import { useTranslation } from 'react-i18next';
-import Input from '../input';
-import InputSelect from '../inputSelect';
-import InputDate from '../inputDate';
-import InputImage from '../inputImage';
+import Input from '../../inputs/input';
+import InputSelect from '../../inputs/inputSelect';
+import InputDate from '../../inputs/inputDate';
+import InputImage from '../../inputs/inputImage';
 import SelectItens from '@/components/guest/selectItens'
 import { useEffect } from 'react';
 import '@/assets/translations/i18n'
