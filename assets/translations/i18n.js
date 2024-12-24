@@ -86,7 +86,7 @@ i18n
                     'Seu número de celular': 'Your phone number',
                     'Você só pode alterar esse campo uma vez. Necessário ser +16.': 'You can only change this field once. Must be +16.',
                     'Selecionar': 'Select',
-                    '': '',
+                    'Você deve ter mais de 16 anos para continuar.': 'You must be over 16 to continue.',
                     '': '',
                     '': '',
                     '': '',
