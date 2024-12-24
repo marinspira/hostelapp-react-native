@@ -1,3 +1,4 @@
+import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateField } from '@/redux/slices/guest/slice';
@@ -11,7 +12,21 @@ import { useEffect } from 'react';
 import '@/assets/translations/i18n'
 import { GuestState } from '@/redux/slices/guest/interfaces';
 
-export default function FormGuest() {
+interface FormProps {
+    inputs: {
+        from?: boolean,
+        passaportImg?: boolean,
+        description?: boolean,
+        interests?: boolean,
+        languages?: boolean,
+        nomad?: boolean,
+        smoke?: boolean,
+        pets?: boolean,
+        sociais?: boolean
+    }
+}
+
+export default function FormGuest({ inputs }: FormProps) {
     const { t, i18n } = useTranslation();
 
     const guest = useSelector((state: { guest: GuestState }) => state.guest)
@@ -28,7 +43,7 @@ export default function FormGuest() {
 
     return (
         <View style={styles.container}>
-            <ScrollView style={styles.form}>
+            <View style={styles.form}>
                 {/* <Input
                     label={t('Seu nome')}
                     placeholder={t('Seu nome')}
@@ -39,25 +54,25 @@ export default function FormGuest() {
                     label={t('Seu aniversário')}
                     onChange={(value) => handleChange('birthday', value)}
                 /> */}
-                <InputSelect
+                {inputs?.from && <InputSelect
                     label={t('De onde você é?')}
                     selectInputItems={['Brazil', 'USA', 'France', 'Italy']}
                     value={guest.country}
                     onChange={(value) => handleChange('country', value)}
-                />
-                <InputImage
+                />}
+                {inputs?.passaportImg && <InputImage
                     maxSelections={1}
                     label={t('Foto do seu Passaporte/Identidade')}
                     suportText={t('Apenas a administração do hotel pode ver essa informação')}
                     onChange={(value) => handleChange('passaportPhoto', value)}
-                />
-                <Input
+                />}
+                {inputs?.description && <Input
                     label={t('Descrição')}
                     placeholder={t('Deixe seus colegas de quarto conhecerem você!')}
                     value={guest.description}
                     onChange={(value) => handleChange('description', value)}
-                />
-                <SelectItens
+                />}
+                {inputs?.interests && <SelectItens
                     label={t('Interesses')}
                     suportText={t('select_options', { number: 5 })}
                     maxSelections={5}
@@ -76,14 +91,14 @@ export default function FormGuest() {
                     ]}
                     onChange={(value) => handleChange('interests', value)}
                     value={guest.interests}
-                />
-                <SelectItens
+                />}
+                {inputs?.languages && <SelectItens
                     label={t('Quais idiomas você fala?')}
                     selectInputItems={['Portuguese', 'English', '']}
                     onChange={(value) => handleChange('languages', value)}
                     value={guest.languages}
                     maxSelections={5}
-                />
+                />}
                 <SelectItens
                     label={t('Você é nômade digital?')}
                     suportText={t('Você trabalha online enquanto viaja?')}
@@ -103,25 +118,29 @@ export default function FormGuest() {
                     value={guest.pets}
                     boolean={true}
                 />
-                <Input
-                    label="Instagram"
-                    placeholder='@HostelApp'
-                    value={guest.instagram}
-                    onChange={(value) => handleChange('instagram', value)}
-                />
-                <Input
-                    label="LinkedIn"
-                    placeholder='/in/HostelApp'
-                    value={guest.linkedin}
-                    onChange={(value) => handleChange('linkedin', value)}
-                />
-                <Input
-                    label="Twitter"
-                    placeholder='@HostelApp'
-                    value={guest.twitter}
-                    onChange={(value) => handleChange('twitter', value)}
-                />
-            </ScrollView>
+                {inputs?.sociais && (
+                    <>
+                        <Input
+                            label="Instagram"
+                            placeholder='@HostelApp'
+                            value={guest.instagram}
+                            onChange={(value) => handleChange('instagram', value)}
+                        />
+                        <Input
+                            label="LinkedIn"
+                            placeholder='/in/HostelApp'
+                            value={guest.linkedin}
+                            onChange={(value) => handleChange('linkedin', value)}
+                        />
+                        <Input
+                            label="Twitter"
+                            placeholder='@HostelApp'
+                            value={guest.twitter}
+                            onChange={(value) => handleChange('twitter', value)}
+                        />
+                    </>
+                )}
+            </View>
         </View>
     );
 }
@@ -131,7 +150,7 @@ const styles = StyleSheet.create({
         // flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        paddingBottom: 70,
+        width: '100%',
     },
     form: {
         width: '100%',

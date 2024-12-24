@@ -24,5 +24,5 @@ export default function Index() {
     }
   }
 
-  return <Redirect href="/publicScreens/welcome" />;
+  return <Redirect href="/guest/(screens)/checkin" />;
 }
