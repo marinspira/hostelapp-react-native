@@ -29,7 +29,7 @@ export const saveGuest = createAsyncThunk<any, void, { state: RootState }>(
 
             console.log(guestData)
 
-            const response = await fetch('https://7ad3-94-119-32-13.ngrok-free.app/api/guest/saveGuest', {
+            const response = await fetch(`${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/api/guest/saveGuest`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({guestData}),

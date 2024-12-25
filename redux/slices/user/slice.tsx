@@ -12,9 +12,8 @@ const initialState: UserState = {
 export const appleAuth = createAsyncThunk<BackendResponse, { identityToken: string; fullName: string; role: string }, { rejectValue: string }>(
   'user/appleAuth',
   async ({ identityToken, fullName, role }, { rejectWithValue }) => {
-
     try {
-      const response = await fetch('https://7ad3-94-119-32-13.ngrok-free.app/api/auth/appleLogin', {
+      const response = await fetch(`${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/api/auth/appleLogin`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -51,7 +50,7 @@ export const googleAuth = createAsyncThunk<BackendResponse, ThunkArgs, { rejectV
   async ({ user }, { rejectWithValue }) => {
 
     try {
-      const response = await fetch(`http://localhost:5000/api/auth/googleLogin`, {
+      const response = await fetch(`${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/api/auth/googleLogin`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...user }),
@@ -89,7 +88,7 @@ export const logout = createAsyncThunk<void, void, { rejectValue: string }>(
   'user/logout',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await fetch('https://7ad3-94-119-32-13.ngrok-free.app/api/auth/logout', {
+      const response = await fetch(`${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/api/auth/logout`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
       });
