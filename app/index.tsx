@@ -27,10 +27,14 @@ export default function Index() {
       } catch (error) {
         console.error('Erro ao autenticar usuário:', error);
         setStoredUser(null);
+        router.push('/publicScreens/welcome')
+        return
       }
     };
 
-    authenticateUser();
+    if (navigator.onLine) {
+      authenticateUser();
+    }
   }, [user, dispatch, setStoredUser])
 
   if (loading) {
