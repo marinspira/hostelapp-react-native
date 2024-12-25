@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateField } from '@/redux/slices/guest/slice';
+import { updateGuestField } from '@/redux/slices/guest/slice';
 import { useTranslation } from 'react-i18next';
 import Input from '@/components/inputs/input';
 import InputSelect from '@/components/inputs/inputSelect';
@@ -35,7 +35,7 @@ export default function FormGuest({ inputs }: FormProps) {
     const dispatch = useDispatch()
 
     function handleChange(key: any, value: any) {
-        dispatch(updateField({ key, value }))
+        dispatch(updateGuestField({ key, value }))
     }
 
     useEffect(() => {

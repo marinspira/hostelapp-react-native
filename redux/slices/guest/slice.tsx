@@ -1,11 +1,13 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { GuestState, UpdateFieldPayload } from "./interfaces";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { GuestState, updateGuestFieldPayload } from "./interfaces";
+import { RootState } from "@/redux/store";
 
 const initialState: GuestState = {
     guestPhotos: [],
+    phoneNumber: null,
     birthday: null,
     country: '',
-    passaportPhoto: '',
+    passaportPhoto: null,
     interests: [],
     description: '',
     languages: [],
@@ -15,25 +17,50 @@ const initialState: GuestState = {
     instagram: '',
     linkedin: '',
     twitter: '',
-    reviews: [{}],
-    likedBy: [],
-    showProfileAuthorization: null
+    showProfileAuthorization: true
 }
+
+export const saveGuest = createAsyncThunk<any, void, { state: RootState }>(
+    'guest/save',
+    async (_, { getState, rejectWithValue }) => {
+        try {
+            const state = getState() as RootState;
+            const guestData = state.guest;
+
+            console.log(guestData)
+
+            const response = await fetch('https://7ad3-94-119-32-13.ngrok-free.app/api/guest/saveGuest', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({guestData}),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to save or update guest data.');
+            }
+
+            const result = await response.json();
+            return result;
+
+        } catch (error: any) {
+            return rejectWithValue(error.message);
+        }
+    }
+)
 
 const guestSlice = createSlice({
     name: 'guest',
     initialState,
     reducers: {
-        updateField(state, action: PayloadAction<UpdateFieldPayload>) {
-            const { key, value } = action.payload;
-            (state[key] as any) = value;
-
-        },
         setGuest(state, action: PayloadAction<GuestState>) {
             return { ...state, ...action.payload };
+        },
+        updateGuestField(state, action: PayloadAction<updateGuestFieldPayload>) {
+            const { key, value } = action.payload;
+            (state[key] as any) = value;
         },
     },
 })
 
-export const { setGuest, updateField } = guestSlice.actions
+export const { setGuest, updateGuestField } = guestSlice.actions
 export default guestSlice.reducer

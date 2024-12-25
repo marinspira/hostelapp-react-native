@@ -8,7 +8,7 @@ import SimpleButton from '@/components/buttons/SimpleButton';
 import InputDate from '@/components/inputs/inputDate';
 import { useDispatch, useSelector } from 'react-redux';
 import { GuestState } from '@/redux/slices/guest/interfaces';
-import { updateField } from '@/redux/slices/guest/slice';
+import { saveGuest, updateGuestField } from '@/redux/slices/guest/slice';
 import { router } from 'expo-router';
 import { useState } from 'react';
 import { Colors } from '@/constants/Colors';
@@ -18,6 +18,7 @@ import InputImage from '@/components/inputs/inputImage';
 import InputCheckbox from '@/components/inputs/inputCheckbox';
 import { useFormatDate } from '@/hooks/useFormateDate';
 import { logout } from '@/redux/slices/user/slice';
+import { AppDispatch } from '@/redux/store';
 
 export default function Checkin() {
   const { t } = useTranslation();
@@ -26,7 +27,7 @@ export default function Checkin() {
   const user = storedUser ? (JSON.parse(storedUser) as User) : null;
 
   const guest = useSelector((state: { guest: GuestState }) => state.guest);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
 
   const [isOfAge, setIsOfAge] = useState(false);
@@ -34,9 +35,9 @@ export default function Checkin() {
   function handleChange(key: any, value: any) {
     if (key === 'guestPhotos') {
       const updatedPhotos = Array.isArray(value) ? value : [value];
-      dispatch(updateField({ key, value: updatedPhotos }));
+      dispatch(updateGuestField({ key, value: updatedPhotos }));
     } else {
-      dispatch(updateField({ key, value }));
+      dispatch(updateGuestField({ key, value }));
     }
 
     // Verifica se a pessoa tem mais de 16 anos
@@ -50,11 +51,12 @@ export default function Checkin() {
   }
 
   function handleForm() {
-    if (!isOfAge) {
+    if (isOfAge) {
       alert(t('Você deve ter mais de 16 anos para continuar.'));
       return
     }
-    router.push('/guest/(tabs)');
+    dispatch(saveGuest())
+    // router.push('/guest/(tabs)');
   }
 
   return (
@@ -79,7 +81,7 @@ export default function Checkin() {
             label={t('Seu aniversário')}
             onChange={(value) => handleChange('birthday', useFormatDate(value))}
             errorMessage={t('Você deve ser maior que 16 anos para prosseguir')}
-            minimumDate={new Date('2008-01-01')}
+            maximumDate={new Date('2008-01-01')}
             suportText={t('Você só pode alterar esse campo uma vez. Necessário ser +16.')}
           />
           <FormUser inputs={{ from: true, passaportImg: true }} />

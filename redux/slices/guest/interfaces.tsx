@@ -1,10 +1,11 @@
+type PhotoType = string | File;
+
 export interface GuestState {
-    guestPhotos: string[] | null,
-    phoneNumber: string,
-    // name: string,
+    guestPhotos: PhotoType[] | null,
+    phoneNumber: string | null,
     birthday: string | null,
     country: string,
-    passaportPhoto: any,
+    passaportPhoto: PhotoType | null,
     interests: string[],
     description: string,
     languages: string[],
@@ -14,12 +15,10 @@ export interface GuestState {
     instagram: string,
     linkedin: string,
     twitter: string,
-    reviews: [{}],
-    likedBy: [],
     showProfileAuthorization: boolean | null
 }
 
-export interface UpdateFieldPayload {
+export interface updateGuestFieldPayload {
     key: keyof GuestState,
     value: any
 }

@@ -8,7 +8,7 @@ import FormStaff from '@/components/guest/formStaff';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import '@/assets/translations/i18n'
-import { updateField } from '@/redux/slices/guest/slice';
+import { updateGuestField } from '@/redux/slices/guest/slice';
 import { User } from '@/redux/slices/user/interfaces';
 
 export default function Profile() {
@@ -24,7 +24,7 @@ export default function Profile() {
   ];
 
   function handleImages(value: string | string[] | null) {
-    dispatch(updateField({ key: 'guestPhotos', value }))
+    dispatch(updateGuestField({ key: 'guestPhotos', value }))
   }
 
   return (
