@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, PayloadAction, isRejectedWithValue } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { BackendResponse, ThunkArgs, User, UserState } from './interfaces';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
@@ -8,6 +8,33 @@ const initialState: UserState = {
   loading: false,
   error: null,
 };
+
+export const isAuthenticated = createAsyncThunk<BackendResponse, void, { rejectValue: string }>(
+  'user/isAuthenticated',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await fetch(`${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/api/auth/isAuthenticated`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include'
+      })
+
+      if (!response.ok) {
+        const errorDetails = await response.json();
+        console.error("Failed to authenticate", errorDetails);
+        throw new Error('Failed to send user data');
+      }
+
+      const user = await response.json();
+      console.log('user do slice', user)
+      return user as BackendResponse
+
+    } catch (error) {
+      console.error("Unexpected error occurred during authentication", error);
+      return rejectWithValue((error as Error).message)
+    }
+  }
+)
 
 export const appleAuth = createAsyncThunk<BackendResponse, { identityToken: string; fullName: string; role: string }, { rejectValue: string }>(
   'user/appleAuth',
@@ -130,6 +157,18 @@ const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      // isAuthenticated
+      .addCase(isAuthenticated.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(isAuthenticated.fulfilled, (state, action: PayloadAction<BackendResponse>) => {
+        state.data = action.payload.data;
+        state.loading = false;
+      })
+      .addCase(isAuthenticated.rejected, (state, action) => {
+        state.error = action.payload || 'Unknown error';
+        state.loading = false;
+      })
       // googleAuth
       .addCase(googleAuth.pending, (state) => {
         state.loading = true;
