@@ -3,7 +3,7 @@ export interface User {
     role: string;
     name: string;
     email: string;
-    picture?: string;
+    // picture?: string;
     googleId: string | null;
     appleId: string | null;
     [key: string]: any; // Para incluir propriedades adicionais do Google API

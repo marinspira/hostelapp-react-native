@@ -1,29 +1,34 @@
-import { useRef, useState } from 'react';
-import { Image, View, StyleSheet, Text, Pressable, Dimensions, NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
+import { useState } from 'react';
+import { Image, View, StyleSheet, Text, Pressable } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import { FlatList } from 'react-native';
 import { Colors } from '@/constants/Colors';
+import { useUploadImages } from '@/hooks/useUploadImagesImage';
 
 interface InputImageProps {
     label?: string,
     maxSelections?: number,
-    onChange: (value: string | string[] | null) => void;
     suportText?: string,
     borderRadius?: string,
     imgWidth?: number,
     defaultImg?: string
+    endpoit: string
 }
-const { width } = Dimensions.get('window');
 
-const InputImage: React.FC<InputImageProps> = ({
-    label,
-    onChange,
-    suportText,
-    borderRadius,
-    imgWidth = 85,
-    defaultImg
-}) => {
+const InputImage: React.FC<InputImageProps> = ({ label, suportText, borderRadius, imgWidth = 85, defaultImg, endpoit }) => {
+
     const [image, setImage] = useState<string | null>(defaultImg || null);
+    const { uploadFile, isUploading, progress, error } = useUploadImages();
+
+    const handleUpload = async (file: any) => {
+        if (file) {
+            try {
+                const response = await uploadFile(file, endpoit);
+                console.log('Upload bem-sucedido:', response);
+            } catch (err) {
+                console.error('Erro no upload:', err);
+            }
+        }
+    }
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -35,42 +40,34 @@ const InputImage: React.FC<InputImageProps> = ({
 
         if (!result.canceled) {
             setImage(result.assets[0].uri);
-            onChange(result.assets[0].uri)
+            handleUpload(result.assets[0].uri)
         }
     };
 
     const handleRemoveImg = () => {
         setImage(null)
-        onChange(null)
+        handleUpload(null)
     }
-
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const flatListRef = useRef<FlatList>(null);
-
-    const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-        const slideIndex = Math.round(event.nativeEvent.contentOffset.x / width);
-        setCurrentIndex(slideIndex);
-    };
 
     return (
         <View style={styles.container}>
             <Text style={styles.formTitle}>{label}</Text>
             {suportText && <Text style={styles.suportText}>{suportText}</Text>}
             <View style={styles.row}>
-                {image ? (
+                {!isUploading && !error && image ? (
                     <Pressable onPress={pickImage}>
-                        {!borderRadius && <Pressable onPress={handleRemoveImg} style={styles.removePhoto}>
-                            <Text>X</Text>
-                        </Pressable>}
+                        {!borderRadius &&
+                            <Pressable onPress={handleRemoveImg} style={styles.removePhoto}>
+                                <Text>X</Text>
+                            </Pressable>
+                        }
                         <Image source={{ uri: image }} style={[styles.image, { borderRadius, width: imgWidth, height: imgWidth }]} />
                     </Pressable>
-                ) :
-                    (
-                        <Pressable onPress={pickImage} style={[styles.imgPickerBtn, { borderRadius, width: imgWidth, height: imgWidth }]}>
-                            <Text style={styles.imgPickerBtnText}>+</Text>
-                        </Pressable>
-                    )
-                }
+                ) : (
+                    <Pressable onPress={pickImage} style={[styles.imgPickerBtn, { borderRadius, width: imgWidth, height: imgWidth }]}>
+                        <Text style={styles.imgPickerBtnText}>{isUploading ? `${progress}%` : '+'}</Text>
+                    </Pressable>
+                )}
             </View>
         </View>
     );

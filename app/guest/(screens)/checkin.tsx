@@ -32,13 +32,6 @@ export default function Checkin() {
   const [isTooYoung, setIsTooYoung] = useState(false);
 
   function handleChange(key: any, value: any) {
-    if (key === 'guestPhotos') {
-      const updatedPhotos = Array.isArray(value) ? value : [value];
-      dispatch(updateGuestField({ key, value: updatedPhotos }));
-    } else {
-      dispatch(updateGuestField({ key, value }));
-    }
-
     // Verify if +16
     if (key === 'birthday') {
       const today = new Date();
@@ -47,6 +40,8 @@ export default function Checkin() {
       const isOlderThan16 = age > 16 || (age === 16 && today >= new Date(birthDate.setFullYear(today.getFullYear())));
       setIsTooYoung(isOlderThan16);
     }
+
+    dispatch(updateGuestField({ key, value }));
   }
 
   function handleForm() {
@@ -69,7 +64,7 @@ export default function Checkin() {
       return
     }
 
-    // if success
+    // Update isNewUser to false if success
     const updateStoredUser = async () => {
       try {
         const result = await dispatch(saveGuest()).unwrap();
@@ -94,9 +89,9 @@ export default function Checkin() {
           <View style={styles.userContent}>
             <InputImage
               borderRadius='100%'
-              onChange={(value) => handleChange('guestPhotos', value)}
               imgWidth={75}
-              defaultImg={user?.picture}
+              defaultImg={guest?.guestPhotos?.[0]}
+              endpoit='/api/guest/saveGuestProfileImages'
             />
             <View>
               <Text style={styles.userName}>{user?.name} Maria Eduarda</Text>

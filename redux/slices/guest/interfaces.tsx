@@ -1,7 +1,7 @@
 type PhotoType = string | File;
 
 export interface GuestState {
-    guestPhotos: PhotoType[] | null,
+    guestPhotos: string[] | null,
     phoneNumber: string | null,
     birthday: string | null,
     country: string,
