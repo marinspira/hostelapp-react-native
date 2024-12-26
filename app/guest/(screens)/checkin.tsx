@@ -23,14 +23,13 @@ import { AppDispatch } from '@/redux/store';
 export default function Checkin() {
   const { t } = useTranslation();
 
-  const [[loading, storedUser]] = useStorageState('user')
+  const [[loading, storedUser], setStoredUser, clearStorage] = useStorageState('user')
   const user = storedUser ? (JSON.parse(storedUser) as User) : null;
 
   const guest = useSelector((state: { guest: GuestState }) => state.guest);
   const dispatch = useDispatch<AppDispatch>();
 
-
-  const [isOfAge, setIsOfAge] = useState(false);
+  const [isTooYoung, setIsTooYoung] = useState(false);
 
   function handleChange(key: any, value: any) {
     if (key === 'guestPhotos') {
@@ -40,23 +39,50 @@ export default function Checkin() {
       dispatch(updateGuestField({ key, value }));
     }
 
-    // Verifica se a pessoa tem mais de 16 anos
+    // Verify if +16
     if (key === 'birthday') {
       const today = new Date();
       const birthDate = new Date(value);
       const age = today.getFullYear() - birthDate.getFullYear();
       const isOlderThan16 = age > 16 || (age === 16 && today >= new Date(birthDate.setFullYear(today.getFullYear())));
-      setIsOfAge(isOlderThan16);
+      setIsTooYoung(isOlderThan16);
     }
   }
 
   function handleForm() {
-    if (isOfAge) {
+    if (isTooYoung) {
       alert(t('Você deve ter mais de 16 anos para continuar.'));
+
+      const handleLogout = async () => {
+        try {
+          const result = await dispatch(logout()).unwrap();
+          if (result) {
+            clearStorage();
+            router.push('/publicScreens/welcome')
+          }
+        } catch (err) {
+          console.error('Logout failed:', err);
+        }
+      }
+
+      handleLogout()
       return
     }
-    dispatch(saveGuest())
-    // router.push('/guest/(tabs)');
+
+    // if success
+    const updateStoredUser = async () => {
+      try {
+        const result = await dispatch(saveGuest()).unwrap();
+
+        if (result && storedUser) {
+          const user = { ...JSON.parse(storedUser), isNewUser: false };
+          setStoredUser(JSON.stringify(user));
+        }
+      } catch (error) {
+        console.error('Erro ao atualizar storedUser:', error);
+      }
+    }
+    updateStoredUser()
   }
 
   return (
@@ -80,7 +106,7 @@ export default function Checkin() {
           <InputDate
             label={t('Seu aniversário')}
             onChange={(value) => handleChange('birthday', useFormatDate(value))}
-            errorMessage={t('Você deve ser maior que 16 anos para prosseguir')}
+            errorMessage={t('Você deve ser maior que 16 anos para prosseguir.')}
             maximumDate={new Date('2008-01-01')}
             suportText={t('Você só pode alterar esse campo uma vez. Necessário ser +16.')}
           />

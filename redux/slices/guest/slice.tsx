@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { GuestState, updateGuestFieldPayload } from "./interfaces";
 import { RootState } from "@/redux/store";
+import { router } from "expo-router";
+import { BackendResponse } from "../user/interfaces";
 
 const initialState: GuestState = {
     guestPhotos: [],
@@ -20,7 +22,7 @@ const initialState: GuestState = {
     showProfileAuthorization: true
 }
 
-export const saveGuest = createAsyncThunk<any, void, { state: RootState }>(
+export const saveGuest = createAsyncThunk<BackendResponse, void, { state: RootState }>(
     'guest/save',
     async (_, { getState, rejectWithValue }) => {
         try {
@@ -32,15 +34,17 @@ export const saveGuest = createAsyncThunk<any, void, { state: RootState }>(
             const response = await fetch(`${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/api/guest/saveGuest`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({guestData}),
+                body: JSON.stringify({ guestData }),
             });
 
             if (!response.ok) {
                 throw new Error('Failed to save or update guest data.');
             }
 
+            router.push('/guest/(tabs)');
+
             const result = await response.json();
-            return result;
+            return result as BackendResponse
 
         } catch (error: any) {
             return rejectWithValue(error.message);

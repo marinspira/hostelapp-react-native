@@ -76,7 +76,7 @@ const InputDate: React.FC<InputDateProps> = ({
                     textColor="#000"
                     themeVariant="light"
                 />
-                {error && <Text style={styles.errorText}>{error}dsds</Text>}
+                {error && <Text style={styles.errorText}>{error}</Text>}
             </View>
         );
     } else {
@@ -130,8 +130,9 @@ const styles = StyleSheet.create({
     errorText: {
         color: 'red',
         fontSize: 12,
-        position: 'absolute',
-        top: 55
+        // position: 'absolute',
+        // top: 75
+        marginTop: 10
     },
     suportText: {
         fontSize: 12,

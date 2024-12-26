@@ -111,7 +111,7 @@ export const googleAuth = createAsyncThunk<BackendResponse, ThunkArgs, { rejectV
   }
 );
 
-export const logout = createAsyncThunk<void, void, { rejectValue: string }>(
+export const logout = createAsyncThunk<BackendResponse, void, { rejectValue: string }>(
   'user/logout',
   async (_, { rejectWithValue }) => {
     try {
@@ -122,16 +122,12 @@ export const logout = createAsyncThunk<void, void, { rejectValue: string }>(
 
       if (!response.ok) {
         const errorData = await response.json();
-
-        console.log(errorData)
         throw new Error(errorData.message || 'Logout failed');
       }
 
       const result = await response.json()
 
-      console.log('resu', result)
-      return result
-      // return result as BackendResponse;
+      return result as BackendResponse;
 
     } catch (error) {
       if (error instanceof Error) {
