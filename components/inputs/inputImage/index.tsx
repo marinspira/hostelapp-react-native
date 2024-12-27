@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Image, View, StyleSheet, Text, Pressable } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { Colors } from '@/constants/Colors';
-import { useUploadImages } from '@/hooks/useUploadImagesImage';
+import { useUploadImages } from '@/hooks/useUploadImage';
 
 interface InputImageProps {
     label?: string,

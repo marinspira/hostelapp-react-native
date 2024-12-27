@@ -25,15 +25,17 @@ const initialState: GuestState = {
 export const saveGuest = createAsyncThunk<BackendResponse, void, { state: RootState }>(
     'guest/save',
     async (_, { getState, rejectWithValue }) => {
+
         try {
             const state = getState() as RootState;
             const guestData = state.guest;
 
-            console.log(guestData)
+            console.log('slice', guestData)
 
             const response = await fetch(`${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/api/guest/saveGuest`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
                 body: JSON.stringify({ guestData }),
             });
 
