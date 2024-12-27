@@ -94,7 +94,7 @@ export default function Checkin() {
               endpoit='/api/guest/saveGuestProfileImages'
             />
             <View>
-              <Text style={styles.userName}>{user?.name} Maria Eduarda</Text>
+              <Text style={styles.userName}>{user?.name}</Text>
               <Text style={styles.suportText}>{t('Complete seu perfil')}</Text>
             </View>
           </View>

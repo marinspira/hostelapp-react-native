@@ -72,15 +72,15 @@ export const appleAuth = createAsyncThunk<BackendResponse, { identityToken: stri
   }
 );
 
-export const googleAuth = createAsyncThunk<BackendResponse, ThunkArgs, { rejectValue: string }>(
+export const googleAuth = createAsyncThunk<BackendResponse, { token: string, role: string }, { rejectValue: string }>(
   'user/sendToBackend',
-  async ({ user }, { rejectWithValue }) => {
-
+  async ({ token, role }, { rejectWithValue }) => {
+    console.log(token)
     try {
       const response = await fetch(`${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/api/auth/googleLogin`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...user }),
+        body: JSON.stringify({ token, role }),
       });
 
       if (!response.ok) {
@@ -89,20 +89,17 @@ export const googleAuth = createAsyncThunk<BackendResponse, ThunkArgs, { rejectV
         throw new Error('Failed to send user data');
       }
 
-      const data = await response.json();
-      console.log(data)
-
-      // Save to AsyncStorage
-      await AsyncStorage.setItem('user', JSON.stringify(user));
+      const user = await response.json();
+      console.log(user)
 
       // Redirect based on user state and role
-      if (data.isNewUser) {
-        router.push(data.role === 'guest' ? '/guest/checkin' : '/host/register');
+      if (user.isNewUser) {
+        router.push(user.role === 'guest' ? '/guest/checkin' : '/host/register');
       } else {
-        router.push(data.role === 'guest' ? '/guest/(tabs)' : '/host/(tabs)');
+        router.push(user.role === 'guest' ? '/guest/(tabs)' : '/host/(tabs)');
       }
 
-      return data as BackendResponse;
+      return user as BackendResponse;
 
     } catch (error) {
       console.error("Error in googleAuth:", error);
