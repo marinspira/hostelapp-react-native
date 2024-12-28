@@ -40,7 +40,15 @@ const InputImage: React.FC<InputImageProps> = ({ label, suportText, borderRadius
 
         if (!result.canceled) {
             setImage(result.assets[0].uri);
-            handleUpload(result.assets[0].uri)
+
+            const imageUri = result.assets[0].uri;
+            const filename = result.assets[0].fileName;
+            const match = /\.(\w+)$/.exec(filename as string);
+            const type = match ? `image/${match[1]}` : `image`;
+            const img = new FormData();
+            img.append('photo', { uri: imageUri, name: filename, type } as any);
+
+            handleUpload(img)
         }
     };
 
