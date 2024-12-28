@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { BackendResponse, User, UserState } from './interfaces';
 import { router } from 'expo-router';
+import { showToast } from '@/components/toast';
 
 const initialState: UserState = {
   data: null,
@@ -25,6 +26,13 @@ export const isAuthenticated = createAsyncThunk<BackendResponse, void, { rejectV
       }
 
       const user = await response.json();
+
+      // showToast({
+      //   type: user.success === true ? 'success' : 'error',
+      //   title: 'Login',
+      //   message: user.message,
+      // });
+
       return user as BackendResponse
 
     } catch (error) {

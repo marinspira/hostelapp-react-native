@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import profileDefault from '@/assets/images/unnamed.png';
 import { Colors } from '@/constants/Colors';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -7,8 +7,6 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import Title from '@/components/guest/text/title';
 import IconHalfHeart from '@/components/guest/iconHalfFilledHeart';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { showToast } from '@/app/_layout';
-import Toast from 'react-native-toast-message';
 
 interface ProfilesLikesProps {
     title: string;
