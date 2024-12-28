@@ -5,7 +5,6 @@ import { useEffect } from "react";
 import google from '@/assets/images/google.png'
 import { useDispatch } from 'react-redux';
 import { googleAuth } from "@/redux/slices/user/slice";
-import { useStorageState } from '@/hooks/useStorageState';
 
 WebBrowser.maybeCompleteAuthSession()
 
@@ -17,7 +16,6 @@ const android = process.env.EXPO_PUBLIC_GOOGLE_ANDROID_CLIENT_ID
 function GoogleAuthentication({ role }) {
 
     const dispatch = useDispatch()
-    const [[loading, storedUser], setStoredUser] = useStorageState('user');
 
     const [request, response, promptAsync] = Google.useAuthRequest({
         expoClientId: expo,
@@ -36,10 +34,7 @@ function GoogleAuthentication({ role }) {
             const { authentication } = response;
             const token = authentication?.accessToken;
 
-            const result = await dispatch(googleAuth({ token, role })).unwrap();
-            setStoredUser(JSON.stringify(result));
-
-            console.log('Login with Google succefully:', result);
+            dispatch(googleAuth({ token, role })).unwrap();
         }
     }
 

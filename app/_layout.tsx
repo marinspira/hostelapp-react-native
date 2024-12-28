@@ -13,8 +13,6 @@ import 'react-native-reanimated';
 import { Provider } from 'react-redux';
 import { store, persistor } from '@/redux/store'
 import Toast from 'react-native-toast-message';
-import { useStorageState } from '@/hooks/useStorageState';
-import { User } from '@/redux/slices/user/interfaces';
 import { PersistGate } from 'redux-persist/integration/react';
 
 SplashScreen.preventAutoHideAsync();

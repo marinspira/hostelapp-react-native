@@ -2,14 +2,11 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import FormUser from '@/components/guest/formGuest';
 import { useTranslation } from 'react-i18next';
 import '@/assets/translations/i18n';
-import { User } from '@/redux/slices/user/interfaces';
-import { useStorageState } from '@/hooks/useStorageState';
 import SimpleButton from '@/components/buttons/SimpleButton';
 import InputDate from '@/components/inputs/inputDate';
 import { useDispatch, useSelector } from 'react-redux';
 import { GuestState } from '@/redux/slices/guest/interfaces';
-import { saveGuest, updateGuestField } from '@/redux/slices/guest/slice';
-import { router } from 'expo-router';
+import { updateGuestField } from '@/redux/slices/guest/slice';
 import { useState } from 'react';
 import { Colors } from '@/constants/Colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -18,14 +15,11 @@ import InputImage from '@/components/inputs/inputImage';
 import InputCheckbox from '@/components/inputs/inputCheckbox';
 import { useFormatDate } from '@/hooks/useFormateDate';
 import { logout } from '@/redux/slices/user/slice';
-import { AppDispatch } from '@/redux/store';
+import { AppDispatch, RootState } from '@/redux/store';
 
 export default function Checkin() {
   const { t } = useTranslation();
-
-  const [[loading, storedUser], setStoredUser, clearStorage] = useStorageState('user')
-  const user = storedUser ? (JSON.parse(storedUser) as User) : null;
-
+  const user = useSelector((state: RootState) => state.user.data);
   const guest = useSelector((state: { guest: GuestState }) => state.guest);
   const dispatch = useDispatch<AppDispatch>();
 
@@ -50,11 +44,7 @@ export default function Checkin() {
 
       const handleLogout = async () => {
         try {
-          const result = await dispatch(logout()).unwrap();
-          if (result) {
-            clearStorage();
-            router.push('/public')
-          }
+          dispatch(logout()).unwrap();
         } catch (err) {
           console.error('Logout failed:', err);
         }
@@ -63,21 +53,6 @@ export default function Checkin() {
       handleLogout()
       return
     }
-
-    // Update isNewUser to false if success
-    const updateStoredUser = async () => {
-      try {
-        const result = await dispatch(saveGuest()).unwrap();
-
-        if (result && storedUser) {
-          const user = { ...JSON.parse(storedUser), isNewUser: false };
-          setStoredUser(JSON.stringify(user));
-        }
-      } catch (error) {
-        console.error('Erro ao atualizar storedUser:', error);
-      }
-    }
-    updateStoredUser()
   }
 
   return (

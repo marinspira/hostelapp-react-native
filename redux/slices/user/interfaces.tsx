@@ -1,12 +1,8 @@
 export interface User {
-    id: string;
     role: string;
     name: string;
     email: string;
-    // picture?: string;
-    googleId: string | null;
-    appleId: string | null;
-    [key: string]: any; // Para incluir propriedades adicionais do Google API
+    isNewUser: string;
 }
 
 export interface UserState {

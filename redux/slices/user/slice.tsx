@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { BackendResponse, ThunkArgs, User, UserState } from './interfaces';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { BackendResponse, User, UserState } from './interfaces';
 import { router } from 'expo-router';
 
 const initialState: UserState = {
@@ -26,7 +25,6 @@ export const isAuthenticated = createAsyncThunk<BackendResponse, void, { rejectV
       }
 
       const user = await response.json();
-      console.log('user do slice', user)
       return user as BackendResponse
 
     } catch (error) {
@@ -56,11 +54,10 @@ export const appleAuth = createAsyncThunk<BackendResponse, { identityToken: stri
 
       const user = await response.json();
 
-      // Redirecionar com base nos dados do usuário
-      if (user.isNewUser) {
-        router.push(user.role === 'guest' ? '/guest/(screens)/checkin' : '/host/register');
+      if (user.data.isNewUser) {
+        router.push(user.data.role === 'guest' ? '/guest/(screens)/checkin' : '/host/register');
       } else {
-        router.push(user.role === 'guest' ? '/guest/(tabs)' : '/host/(tabs)');
+        router.push(user.data.role === 'guest' ? '/guest/(tabs)' : '/host/(tabs)');
       }
 
       return user as BackendResponse;
@@ -90,13 +87,11 @@ export const googleAuth = createAsyncThunk<BackendResponse, { token: string, rol
       }
 
       const user = await response.json();
-      console.log(user)
 
-      // Redirect based on user state and role
-      if (user.isNewUser) {
-        router.push(user.role === 'guest' ? '/guest/checkin' : '/host/register');
+      if (user.data.isNewUser) {
+        router.push(user.data.role === 'guest' ? '/guest/checkin' : '/host/register');
       } else {
-        router.push(user.role === 'guest' ? '/guest/(tabs)' : '/host/(tabs)');
+        router.push(user.data.role === 'guest' ? '/guest/(tabs)' : '/host/(tabs)');
       }
 
       return user as BackendResponse;
@@ -123,6 +118,8 @@ export const logout = createAsyncThunk<BackendResponse, void, { rejectValue: str
       }
 
       const result = await response.json()
+
+      router.push('/public')
 
       return result as BackendResponse;
 

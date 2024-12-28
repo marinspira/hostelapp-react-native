@@ -2,12 +2,10 @@ import * as AppleAuthentication from 'expo-apple-authentication';
 import { StyleSheet } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { appleAuth } from "@/redux/slices/user/slice";
-import { useStorageState } from '@/hooks/useStorageState';
 
 function IOSAuthentication({ role }) {
 
     const dispatch = useDispatch();
-    const [[loading, storedUser], setStoredUser] = useStorageState('user');
 
     return (
         <AppleAuthentication.AppleAuthenticationButton
@@ -27,13 +25,7 @@ function IOSAuthentication({ role }) {
                     const fullName = `${credential.fullName.givenName} ${credential.fullName.familyName}`
                     const identityToken = credential.identityToken
 
-                    // Dispatch para autenticar e salvar os dados no Redux
-                    const result = await dispatch(appleAuth({ identityToken, fullName, role })).unwrap();
-
-                    // Armazena os dados retornados do dispatch no armazenamento seguro
-                    setStoredUser(JSON.stringify(result));
-
-                    console.log('Dados armazenados com sucesso:', result);
+                    dispatch(appleAuth({ identityToken, fullName, role })).unwrap();
 
                 } catch (e) {
                     if (e.code === 'ERR_REQUEST_CANCELED') {

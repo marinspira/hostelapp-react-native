@@ -1,4 +1,4 @@
-import { Redirect, router, useRootNavigationState } from 'expo-router';
+import { Redirect } from 'expo-router';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
@@ -7,7 +7,7 @@ export default function Index() {
   const user = useSelector((state: RootState) => state.user.data);
 
   useEffect(() => {
-    console.log('Index Component - User State:', user);
+    console.log('Index. User State:', user);
   }, [user]);
 
   if (!user) {
