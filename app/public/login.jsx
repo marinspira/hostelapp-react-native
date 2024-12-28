@@ -26,7 +26,7 @@ function LoginScreen() {
 
             <SimpleButton
                 text={role === "guest" ? t("Não é hospede? Logar como host") : t("Não é host? Logar como hóspede")}
-                onPress={() => router.push("/publicScreens/welcome")}
+                onPress={() => router.push("/public")}
                 backgroundColor="transparent"
                 textColor={Colors.black}
                 fontSize={16}

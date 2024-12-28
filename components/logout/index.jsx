@@ -14,7 +14,7 @@ export default function LogoutButton() {
             const result = await dispatch(logout()).unwrap();
             if (result) {
                 clearStorage();
-                router.push('/publicScreens/welcome')
+                router.push('/public')
             }
         } catch (err) {
             console.error('Logout failed:', err);

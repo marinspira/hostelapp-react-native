@@ -122,9 +122,9 @@ function IntroductionScreen() {
                     <SimpleButton
                         text={t("Começar")}
                         onPress={role === "guest" ?
-                            () => { router.push('/publicScreens/login?role=guest'); }
+                            () => { router.push('/public/login?role=guest'); }
                             :
-                            () => { router.push('/publicScreens/login?role=host'); }
+                            () => { router.push('/public/login?role=host'); }
                         }
                     />
                 ) : (
@@ -132,7 +132,7 @@ function IntroductionScreen() {
                 )}
                 <SimpleButton
                     text={role === "guest" ? t("Sou host") : t("Sou hóspede")}
-                    onPress={() => router.push("/publicScreens/welcome")}
+                    onPress={() => router.push("/public")}
                     backgroundColor="transparent"
                     textColor={Colors.purple}
                 />
