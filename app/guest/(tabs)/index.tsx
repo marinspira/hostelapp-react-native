@@ -5,7 +5,7 @@ import ProfilesSlide from '@/components/guest/profilesLikes'
 import profileDefault from '@/assets/images/unnamed.png'
 import Greetings from '@/components/greetings'
 import { useSelector } from 'react-redux';
-import { User } from '@/redux/slices/user/interfaces';
+import { UserState } from '@/redux/slices/user/interfaces';
 import { useTranslation } from 'react-i18next';
 import '@/assets/translations/i18n'
 import { Colors } from '@/constants/Colors';
@@ -14,7 +14,7 @@ export default function HomeScreen() {
 
   const { t, i18n } = useTranslation();
 
-  const user = useSelector((state: { user: User }) => state.user)
+  const user = useSelector((state: { user: UserState }) => state.user.data)
 
   type Person = {
     avatar: string;
@@ -56,10 +56,10 @@ export default function HomeScreen() {
   ]
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.safeArea}>
       <View>
         <ScrollView style={styles.container}>
-          <Greetings username={user?.data?.name} />
+          <Greetings username={user?.name} />
           <ProfilesSlide title={t('Converse com quem está hospedado com você')} />
           <EventList title={t('Eventos perto de você')} data={events} btnText='Join' />
         </ScrollView>
@@ -72,5 +72,9 @@ const styles = StyleSheet.create({
   container: {
     padding: 20,
     backgroundColor: Colors.gray
-  }
+  },
+  safeArea: {
+    flex: 1,
+    backgroundColor: Colors.gray,
+  },
 });
