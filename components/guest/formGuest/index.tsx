@@ -9,7 +9,7 @@ import InputImage from '@/components/inputs/inputImage';
 import SelectItens from '@/components/guest/selectItens'
 import { useEffect } from 'react';
 import '@/assets/translations/i18n'
-import { GuestState } from '@/redux/slices/guest/interfaces';
+import { Guest } from '@/redux/slices/guest/interfaces';
 import InputPhone from '@/components/inputs/inputPhone';
 import countries from '@/utils/coutries'
 
@@ -30,7 +30,7 @@ interface FormProps {
 export default function FormGuest({ inputs }: FormProps) {
     const { t, i18n } = useTranslation();
 
-    const guest = useSelector((state: { guest: GuestState }) => state.guest)
+    const guest = useSelector((state: { guest: Guest }) => state.guest)
 
     const dispatch = useDispatch()
 
@@ -59,7 +59,8 @@ export default function FormGuest({ inputs }: FormProps) {
                     maxSelections={1}
                     label={t('Foto do seu Passaporte/Identidade')}
                     suportText={t('Apenas a administração do hotel pode ver essa informação')}
-                    onChange={(value) => handleChange('passaportPhoto', value)}
+                    id=''
+                    endpoit=''
                 />}
                 {inputs?.description && <Input
                     label={t('Descrição')}

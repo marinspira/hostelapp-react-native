@@ -1,34 +1,38 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { GuestState, updateGuestFieldPayload } from "./interfaces";
+import { Guest, updateGuestFieldPayload } from "./interfaces";
 import { RootState } from "@/redux/store";
 import { router } from "expo-router";
-import { BackendResponse } from "../user/interfaces";
+import { BackendResponse } from "../guest/interfaces";
 
-const initialState: GuestState = {
-    guestPhotos: [],
-    phoneNumber: null,
-    birthday: null,
-    country: '',
-    passaportPhoto: null,
-    interests: [],
-    description: '',
-    languages: [],
-    digitalNomad: null,
-    smoker: null,
-    pets: null,
-    instagram: '',
-    linkedin: '',
-    twitter: '',
-    showProfileAuthorization: true
-}
+const initialState = {
+    data: {
+        guestPhotos: [],
+        phoneNumber: null,
+        birthday: null,
+        country: '',
+        passaportPhoto: null,
+        interests: [],
+        description: null,
+        languages: [],
+        digitalNomad: null,
+        smoker: null,
+        pets: null,
+        instagram: null,
+        linkedin: null,
+        twitter: null,
+        showProfileAuthorization: true,
+    } as Guest,
+    loading: false,
+    error: null as string | null,
+};
 
-export const saveGuest = createAsyncThunk<BackendResponse, void, { state: RootState }>(
+export const saveGuest = createAsyncThunk<BackendResponse, void, { state: RootState; rejectValue: string }>(
     'guest/save',
     async (_, { getState, rejectWithValue }) => {
 
         try {
             const state = getState() as RootState;
-            const guestData = state.guest;
+            const guestData = state.guest.data;
 
             console.log('slice', guestData)
 
@@ -58,13 +62,32 @@ const guestSlice = createSlice({
     name: 'guest',
     initialState,
     reducers: {
-        setGuest(state, action: PayloadAction<GuestState>) {
+        setGuest(state, action: PayloadAction<Guest>) {
             return { ...state, ...action.payload };
         },
         updateGuestField(state, action: PayloadAction<updateGuestFieldPayload>) {
             const { key, value } = action.payload;
-            (state[key] as any) = value;
+            (state.data[key] as any) = value;
         },
+    },
+    extraReducers: (builder) => {
+        builder
+            .addCase(saveGuest.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(saveGuest.fulfilled, (state, action: PayloadAction<BackendResponse>) => {
+                state.loading = false;
+                if (action.payload.success) {
+                    return { ...state, ...action.payload.data };
+                } else {
+                    state.error = action.payload.message || 'Failed to save guest data.';
+                }
+            })
+            .addCase(saveGuest.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload || 'An error occurred while saving guest data.';
+            });
     },
 })
 

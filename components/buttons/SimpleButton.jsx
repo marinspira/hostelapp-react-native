@@ -11,7 +11,7 @@ export default function SimpleButton
         width = 'auto',
         textTransform = '',
         fontSize = 18,
-        disabled
+        disabled = false
     }) {
     return (
         <Pressable

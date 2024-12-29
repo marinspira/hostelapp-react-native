@@ -5,8 +5,8 @@ import '@/assets/translations/i18n';
 import SimpleButton from '@/components/buttons/SimpleButton';
 import InputDate from '@/components/inputs/inputDate';
 import { useDispatch, useSelector } from 'react-redux';
-import { GuestState } from '@/redux/slices/guest/interfaces';
-import { updateGuestField } from '@/redux/slices/guest/slice';
+import { Guest } from '@/redux/slices/guest/interfaces';
+import { saveGuest, updateGuestField } from '@/redux/slices/guest/slice';
 import { useState } from 'react';
 import { Colors } from '@/constants/Colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -16,11 +16,12 @@ import InputCheckbox from '@/components/inputs/inputCheckbox';
 import { useFormatDate } from '@/hooks/useFormateDate';
 import { logout } from '@/redux/slices/user/slice';
 import { AppDispatch, RootState } from '@/redux/store';
+import { showToast } from '@/components/toast';
 
 export default function Checkin() {
   const { t } = useTranslation();
   const user = useSelector((state: RootState) => state.user.data);
-  const guest = useSelector((state: { guest: GuestState }) => state.guest);
+  const guest = useSelector((state: RootState) => state.guest.data);
   const dispatch = useDispatch<AppDispatch>();
 
   const [isTooYoung, setIsTooYoung] = useState(false);
@@ -39,9 +40,18 @@ export default function Checkin() {
   }
 
   function handleForm() {
-    if (isTooYoung) {
-      alert(t('Você deve ter mais de 16 anos para continuar.'));
+    console.log('form', guest)
+    if (!guest.birthday || !guest.country) {
+      showToast({
+        type: 'error',
+        title: t('Formulário incompleto'),
+        message: t('Por favor, preencha sua data de nascimento e origem.')
+      })
 
+      return
+    }
+
+    if (isTooYoung) {
       const handleLogout = async () => {
         try {
           dispatch(logout()).unwrap();
@@ -53,6 +63,8 @@ export default function Checkin() {
       handleLogout()
       return
     }
+
+    dispatch(saveGuest())
   }
 
   return (
@@ -92,7 +104,7 @@ export default function Checkin() {
           <SimpleButton
             text={t('Continuar')}
             onPress={handleForm}
-            disabled={!guest.birthday}
+            // disabled={!guest.birthday && !guest.country}
             width='100%'
           />
         </View>

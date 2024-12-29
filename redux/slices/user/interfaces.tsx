@@ -11,14 +11,6 @@ export interface UserState {
     error: string | null;
 }
 
-// Parâmetros para o Thunk
-export interface ThunkArgs {
-    user: User;
-    token: any;
-    role: string;
-}
-
-// Resposta esperada do backend
 export interface BackendResponse {
     success: boolean;
     data: User;
