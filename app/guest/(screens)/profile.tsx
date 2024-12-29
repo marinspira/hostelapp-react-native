@@ -10,12 +10,14 @@ import { useTranslation } from 'react-i18next';
 import '@/assets/translations/i18n'
 import { updateGuestField } from '@/redux/slices/guest/slice';
 import { User } from '@/redux/slices/user/interfaces';
+import { RootState } from '@/redux/store';
 
 export default function Profile() {
 
   const { t, i18n } = useTranslation();
 
-  const user = useSelector((state: { user: User }) => state.user)
+  const user = useSelector((state: RootState) => state.user.data)
+  const guest = useSelector((state: RootState) => state.guest.data)
   const dispatch = useDispatch()
 
   const tabData = [
@@ -40,7 +42,7 @@ export default function Profile() {
     >
 
       <ThemedView style={styles.userDataContainer}>
-        {(user.name && user.birthday) && <ThemedText type="title">Maria Eduarda, 21 </ThemedText>}
+        {(user?.name && guest?.birthday) && <ThemedText type="title">Maria Eduarda, 21 </ThemedText>}
         <Tabs tabs={tabData} />
       </ThemedView>
     </ParallaxScrollView>

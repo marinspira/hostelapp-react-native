@@ -16,7 +16,6 @@ export default function LogoutButton() {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Logout</Text>
             <Button title="Logout" onPress={handleLogout} />
         </View>
     );

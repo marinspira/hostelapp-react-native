@@ -14,7 +14,7 @@ import InputPhone from '@/components/inputs/inputPhone';
 import countries from '@/utils/coutries'
 
 interface FormProps {
-    inputs: {
+    inputs?: {
         from?: boolean,
         passaportImg?: boolean,
         description?: boolean,
