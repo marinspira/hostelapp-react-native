@@ -5,6 +5,7 @@ import { Colors } from '@/constants/Colors';
 import { useUploadImages } from '@/hooks/useUploadImage';
 
 interface InputImageProps {
+    id: string,
     label?: string,
     maxSelections?: number,
     suportText?: string,
@@ -14,7 +15,7 @@ interface InputImageProps {
     endpoit: string
 }
 
-const InputImage: React.FC<InputImageProps> = ({ label, suportText, borderRadius, imgWidth = 85, defaultImg, endpoit }) => {
+const InputImage: React.FC<InputImageProps> = ({ id, label, suportText, borderRadius, imgWidth = 85, defaultImg, endpoit }) => {
 
     const [image, setImage] = useState<string | null>(defaultImg || null);
     const { uploadFile, isUploading, progress, error } = useUploadImages();
@@ -23,9 +24,9 @@ const InputImage: React.FC<InputImageProps> = ({ label, suportText, borderRadius
         if (file) {
             try {
                 const response = await uploadFile(file, endpoit);
-                console.log('Upload bem-sucedido:', response);
+                console.log(`Success upload: ${id}:`, response);
             } catch (err) {
-                console.error('Erro no upload:', err);
+                console.error(`Error upload: ${id}:`, err);
             }
         }
     }
@@ -42,10 +43,14 @@ const InputImage: React.FC<InputImageProps> = ({ label, suportText, borderRadius
             setImage(result.assets[0].uri);
 
             const imageUri = result.assets[0].uri;
-            const filename = result.assets[0].fileName;
-            const match = /\.(\w+)$/.exec(filename as string);
-            const type = match ? `image/${match[1]}` : `image`;
+            const originalFilename = result.assets[0].fileName;
+            const match = /\.(\w+)$/.exec(originalFilename as string);
+            const fileExtension = match ? match[1] : 'jpg';
+            const type = `image/${fileExtension}`;
+            const filename = `${id}.${fileExtension}`;
+
             const img = new FormData();
+            img.append('id', id);
             img.append('photo', { uri: imageUri, name: filename, type } as any);
 
             handleUpload(img)

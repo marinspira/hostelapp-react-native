@@ -63,6 +63,7 @@ export default function Checkin() {
         <ScrollView style={styles.scrollView}>
           <View style={styles.userContent}>
             <InputImage
+              id='0'
               borderRadius='100%'
               imgWidth={75}
               defaultImg={guest?.guestPhotos?.[0]}
