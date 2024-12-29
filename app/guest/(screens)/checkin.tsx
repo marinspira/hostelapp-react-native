@@ -5,7 +5,7 @@ import '@/assets/translations/i18n';
 import SimpleButton from '@/components/buttons/SimpleButton';
 import InputDate from '@/components/inputs/inputDate';
 import { useDispatch, useSelector } from 'react-redux';
-import { Guest } from '@/redux/slices/guest/interfaces';
+import { updateUserField } from '@/redux/slices/user/slice';
 import { saveGuest, updateGuestField } from '@/redux/slices/guest/slice';
 import { useState } from 'react';
 import { Colors } from '@/constants/Colors';
@@ -64,7 +64,17 @@ export default function Checkin() {
       return
     }
 
-    dispatch(saveGuest())
+    save()
+  }
+
+  const save = async () => {
+    const result = await dispatch(saveGuest())
+
+    if (result) {
+      dispatch(updateUserField({ key: 'isNewUser', value: false }));
+      console.log(user)
+    }
+
   }
 
   return (

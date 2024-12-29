@@ -152,6 +152,11 @@ const userSlice = createSlice({
       state.error = null;
       state.loading = false;
     },
+    updateUserField: (state, action: PayloadAction<{ key: keyof User; value: any }>) => {
+      if (state.data) {
+        state.data[action.payload.key] = action.payload.value;
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -210,4 +215,5 @@ const userSlice = createSlice({
 
 export const { resetUserState } = userSlice.actions;
 export const { setUser } = userSlice.actions;
+export const { updateUserField } = userSlice.actions;
 export default userSlice.reducer;

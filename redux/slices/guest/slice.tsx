@@ -44,7 +44,9 @@ export const saveGuest = createAsyncThunk<BackendResponse, void, { state: RootSt
             });
 
             if (!response.ok) {
-                throw new Error('Failed to save or update guest data.');
+                const errorDetails = await response.json();
+                console.error("Failed to login:", errorDetails);
+                throw new Error('Failed to send user data');
             }
 
             router.push('/guest/(tabs)');
@@ -53,7 +55,8 @@ export const saveGuest = createAsyncThunk<BackendResponse, void, { state: RootSt
             return result as BackendResponse
 
         } catch (error: any) {
-            return rejectWithValue(error.message);
+            console.log(error)
+            return rejectWithValue(error);
         }
     }
 )

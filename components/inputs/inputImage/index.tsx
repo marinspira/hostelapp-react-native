@@ -3,6 +3,9 @@ import { Image, View, StyleSheet, Text, Pressable } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { Colors } from '@/constants/Colors';
 import { useUploadImages } from '@/hooks/useUploadImage';
+import { showToast } from '@/components/toast';
+import { useTranslation } from 'react-i18next';
+import '@/assets/translations/i18n';
 
 interface InputImageProps {
     id: string,
@@ -19,6 +22,8 @@ const InputImage: React.FC<InputImageProps> = ({ id, label, suportText, borderRa
 
     const [image, setImage] = useState<string | null>(defaultImg || null);
     const { uploadFile, isUploading, progress, error } = useUploadImages();
+    const { t } = useTranslation();
+
 
     const handleUpload = async (file: any) => {
         if (file) {
@@ -40,10 +45,24 @@ const InputImage: React.FC<InputImageProps> = ({ id, label, suportText, borderRa
         });
 
         if (!result.canceled) {
-            setImage(result.assets[0].uri);
 
-            const imageUri = result.assets[0].uri;
-            const originalFilename = result.assets[0].fileName;
+            const asset = result.assets[0];
+
+            const maxFileSize = 3 * 1024 * 1024;
+            if (asset.fileSize && asset.fileSize > maxFileSize) {
+                console.error(`File size exceeds the limit of 3MB.`);
+                showToast({
+                    type: 'error',
+                    title: t('Arquivo muito grande'),
+                    message: t('Por favor, selecione uma imagem com tamanho menor que 3MB.')
+                })
+                return;
+            }
+
+            setImage(asset.uri);
+
+            const imageUri = asset.uri;
+            const originalFilename = asset.fileName;
             const match = /\.(\w+)$/.exec(originalFilename as string);
             const fileExtension = match ? match[1] : 'jpg';
             const type = `image/${fileExtension}`;

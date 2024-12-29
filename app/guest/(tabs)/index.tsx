@@ -9,6 +9,7 @@ import { UserState } from '@/redux/slices/user/interfaces';
 import { useTranslation } from 'react-i18next';
 import '@/assets/translations/i18n'
 import { Colors } from '@/constants/Colors';
+import { StatusBar } from 'expo-status-bar';
 
 export default function HomeScreen() {
 
@@ -57,6 +58,7 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView style={styles.safeArea}>
+      <StatusBar style='dark' />
       <View>
         <ScrollView style={styles.container}>
           <Greetings username={user?.name} />
