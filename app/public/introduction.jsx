@@ -1,8 +1,7 @@
-import { Animated, FlatList, SafeAreaView, StyleSheet, View } from "react-native";
+import { SafeAreaView, StyleSheet, View } from "react-native";
 import { StatusBar } from 'expo-status-bar';
-import React, { useRef, useState } from "react";
-import { Redirect, router, useLocalSearchParams } from "expo-router";
-
+import React from "react";
+import { useLocalSearchParams, router } from "expo-router";
 import GuestImg1 from '@/assets/images/illustrations/undraw/dating.svg'
 import GuestImg2 from '@/assets/images/illustrations/undraw/drinking.svg'
 import GuestImg3 from '@/assets/images/illustrations/undraw/house.svg'
@@ -10,21 +9,16 @@ import HostImg1 from '@/assets/images/illustrations/undraw/resume.svg'
 import HostImg2 from '@/assets/images/illustrations/undraw/interview.svg'
 import HostImg3 from '@/assets/images/illustrations/undraw/todo.svg'
 import HostImg4 from '@/assets/images/illustrations/undraw/talking.svg'
-
 import { useTranslation } from 'react-i18next';
 import '@/assets/translations/i18n'
-
+import Slide from "@/components/slide";
 import IntroductionItems from "@/components/introductionItems";
-import Paginator from "@/components/paginator";
-import { Colors } from '@/constants/Colors'
 import SimpleButton from '@/components/buttons/SimpleButton'
+import { Colors } from '@/constants/Colors'
 
 function IntroductionScreen() {
     const { role } = useLocalSearchParams();
     const { t, i18n } = useTranslation();
-
-    const scrollX = useRef(new Animated.Value(0)).current;
-    const [currentIndex, setCurrentIndex] = useState(0);
 
     const guestFuncionalities = [
         {
@@ -76,68 +70,33 @@ function IntroductionScreen() {
 
     const data = role === "guest" ? guestFuncionalities : hostFuncionalities;
 
-    const onViewableItemsChanged = useRef(({ viewableItems }) => {
-        if (viewableItems.length > 0) {
-            setCurrentIndex(viewableItems[0].index);
-        }
-    }).current;
-
-    const viewabilityConfig = useRef({ viewAreaCoveragePercentThreshold: 50 }).current;
-
-    const slideRef = useRef(null);
-
-    const isLastSlide = currentIndex === data.length - 1;
-
-    const handleNextSlide = () => {
-        if (currentIndex < data.length - 1) {
-            slideRef.current.scrollToIndex({ index: currentIndex + 1 });
-        }
-    };
-
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar style="dark" />
-            <View style={styles.contentContainer}>
-                <FlatList
-                    data={data}
-                    renderItem={({ item }) => <IntroductionItems item={item} />}
-                    keyExtractor={(item) => item.id}
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    pagingEnabled
-                    bounces={false}
-                    onScroll={Animated.event(
-                        [{ nativeEvent: { contentOffset: { x: scrollX } } }],
-                        { useNativeDriver: false }
-                    )}
-                    scrollEventThrottle={32}
-                    ref={slideRef}
-                    onViewableItemsChanged={onViewableItemsChanged}
-                    viewabilityConfig={viewabilityConfig}
-                />
-                <Paginator data={data} scrollX={scrollX} />
-            </View>
-            <View style={styles.buttonsContainer}>
-                {isLastSlide ? (
-                    <SimpleButton
-                        text={t("Começar")}
-                        onPress={role === "guest" ?
-                            () => { router.push('/public/login?role=guest'); }
-                            :
-                            () => { router.push('/public/login?role=host'); }
-                        }
-                    />
-                ) : (
-                    <SimpleButton text={t("Próximo")} onPress={handleNextSlide} />
-                )}
-                <SimpleButton
-                    text={role === "guest" ? t("Sou host") : t("Sou hóspede")}
-                    onPress={() => router.push("/public")}
-                    backgroundColor="transparent"
-                    textColor={Colors.light.tint}
-                />
-            </View>
-        </SafeAreaView>
+            <Slide data={data} component={(item) => <IntroductionItems item={item} />}
+                renderButtons={(isLastSlide, handleNextSlide) => (
+                    <View style={styles.buttonsContainer}>
+                        {isLastSlide ? (
+                            <SimpleButton
+                                text={t("Começar")}
+                                onPress={role === "guest" ?
+                                    () => { router.push('/public/login?role=guest'); }
+                                    :
+                                    () => { router.push('/public/login?role=host'); }
+                                }
+                            />
+                        ) : (
+                            <SimpleButton text={t("Próximo")} onPress={handleNextSlide} />
+                        )}
+                        <SimpleButton
+                            text={role === "guest" ? t("Sou host") : t("Sou hóspede")}
+                            onPress={() => router.push("/public")}
+                            backgroundColor="transparent"
+                            textColor={Colors.light.tint}
+                        />
+                    </View>
+                )} />
+        </SafeAreaView >
     );
 }
 
@@ -154,8 +113,5 @@ const styles = StyleSheet.create({
         gap: 10,
         height: '15%'
     },
-    contentContainer: {
-        height: '85%',
-        justifyContent: 'flex-end'
-    }
+
 });

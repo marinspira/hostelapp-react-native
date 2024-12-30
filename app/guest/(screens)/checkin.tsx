@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateUserField } from '@/redux/slices/user/slice';
 import { saveGuest, updateGuestField } from '@/redux/slices/guest/slice';
 import { useState } from 'react';
-import { Colors } from '@/constants/Colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import InputImage from '@/components/inputs/inputImage';
@@ -127,13 +126,13 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 20,
     alignItems: 'center',
-    // backgroundColor: Colors.white,
+    backgroundColor: "#fff",
     height: '100%',
     justifyContent: 'space-between'
   },
   safeArea: {
     flex: 1,
-    // backgroundColor: Colors.white,
+    backgroundColor: "#fff",
   },
   scrollView: {
     width: '100%',

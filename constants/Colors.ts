@@ -25,7 +25,7 @@ export const Colors: Record<Theme, {
     icon: '#687076',
     tabIconDefault: '#687076',
     tabIconSelected: '#6c63ff',
-    tint: lilac,
+    tint: purple,
     statusBar: 'dark',
     border: '#eaeaea',
   },
