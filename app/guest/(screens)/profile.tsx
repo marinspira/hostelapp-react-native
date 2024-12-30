@@ -1,7 +1,5 @@
-import { Image, StyleSheet } from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
 import Tabs from '@/components/guest/tabs';
 import FormUser from '@/components/guest/formGuest';
 import FormStaff from '@/components/guest/formStaff';
@@ -32,7 +30,7 @@ export default function Profile() {
 
   return (
     <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
+      // headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
       headerImage={
         <Image
           source={require('@/assets/images/me.jpg')}
@@ -41,10 +39,10 @@ export default function Profile() {
       }
     >
 
-      <ThemedView style={styles.userDataContainer}>
-        {(user?.name && guest?.birthday) && <ThemedText type="title">Maria Eduarda, 21 </ThemedText>}
+      <View style={styles.userDataContainer}>
+        {(user?.name && guest?.birthday) && <Text>Maria Eduarda, 21 </Text>}
         <Tabs tabs={tabData} />
-      </ThemedView>
+      </View>
     </ParallaxScrollView>
   );
 }

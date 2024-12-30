@@ -127,13 +127,13 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 20,
     alignItems: 'center',
-    backgroundColor: Colors.white,
+    // backgroundColor: Colors.white,
     height: '100%',
     justifyContent: 'space-between'
   },
   safeArea: {
     flex: 1,
-    backgroundColor: Colors.white,
+    // backgroundColor: Colors.white,
   },
   scrollView: {
     width: '100%',
@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
   },
   checkinText: {
     fontFamily: 'PoppinsBold',
-    color: Colors.purple,
+    // color: Colors.purple,
     fontSize: 20,
     width: '100%',
     textAlign: 'center',

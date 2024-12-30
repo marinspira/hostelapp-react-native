@@ -64,7 +64,7 @@ export default function Settings() {
     {
       icon: <SimpleLineIcons name="logout" size={24} color={dynamicStyles.icon} />,
       title: t('Logout'),
-      onPress: { handleLogout }
+      onPress: () => handleLogout()
     },
   ];
 
