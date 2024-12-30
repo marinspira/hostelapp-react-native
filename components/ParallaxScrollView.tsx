@@ -15,19 +15,17 @@ const HEADER_HEIGHT = 550;
 type Props = PropsWithChildren<{
   headerImage: ReactElement;
   headerBackgroundColor: { dark: string; light: string };
-  onChangeImageInput?: (value: string | string[] | null) => void
 }>;
 
 export default function ParallaxScrollView({
   children,
   headerImage,
   headerBackgroundColor,
-  onChangeImageInput
 }: Props) {
   const colorScheme = useColorScheme() ?? 'light';
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
   const scrollOffset = useScrollViewOffset(scrollRef);
-  const bottom = useBottomTabOverflow();
+  const bottom =  0;
 
   const headerAnimatedStyle = useAnimatedStyle(() => {
     return {
@@ -61,14 +59,6 @@ export default function ParallaxScrollView({
           ]}>
           {headerImage}
         </Animated.View>
-        {onChangeImageInput &&
-          <View style={styles.photoSelector}>
-            <InputImage
-              maxSelections={5}
-              onChange={(value) => onChangeImageInput?.(value)}
-            />
-          </View>
-        }
         <ThemedView style={styles.content}>
           {children}
         </ThemedView>
@@ -91,7 +81,8 @@ const styles = StyleSheet.create({
     paddingBottom: 40,
     overflow: 'hidden',
     paddingTop: 20,
-    marginTop: 0
+    marginTop: 0,
+    backgroundColor: 'white'
   },
   photoSelector: {
     zIndex: 9,

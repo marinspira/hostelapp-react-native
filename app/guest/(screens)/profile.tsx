@@ -11,6 +11,7 @@ import '@/assets/translations/i18n'
 import { updateGuestField } from '@/redux/slices/guest/slice';
 import { User } from '@/redux/slices/user/interfaces';
 import { RootState } from '@/redux/store';
+import { Colors } from '@/constants/Colors';
 
 export default function Profile() {
 
@@ -38,7 +39,6 @@ export default function Profile() {
           style={styles.imageProfile}
         />
       }
-      onChangeImageInput={handleImages}
     >
 
       <ThemedView style={styles.userDataContainer}>
@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
   userDataContainer: {
     flexDirection: 'column',
     gap: 8,
+    backgroundColor: 'white'
   },
   imageProfile: {
     height: '100%',

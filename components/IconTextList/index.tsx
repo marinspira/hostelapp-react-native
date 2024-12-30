@@ -10,30 +10,27 @@ interface IconTextItem {
 }
 
 interface IconTextListProps {
-    content: IconTextItem[]; 
+    content: IconTextItem[];
 }
 
 export default function IconTextList({ content }: IconTextListProps) {
     return (
         <View>
-            <FlatList
-                data={content}
-                keyExtractor={(item) => item.title}
-                renderItem={({ item }) => (
-                    <TouchableOpacity
-                        onPress={item.onPress}
-                        style={styles.container}
-                        accessibilityLabel={item.title}
-                        accessibilityRole="button"
-                    >
-                        {item.icon}
-                        <View style={styles.info}>
-                            <Text style={styles.title}>{item.title}</Text>
-                            {item.description && <Text style={styles.description}>{item.description}</Text>}
-                        </View>
-                    </TouchableOpacity>
-                )}
-            />
+            {content.map((item, index) => (
+                <TouchableOpacity
+                    key={index}
+                    onPress={item.onPress}
+                    style={styles.container}
+                    accessibilityLabel={item.title}
+                    accessibilityRole="button"
+                >
+                    {item.icon}
+                    <View style={styles.info}>
+                        <Text style={styles.title}>{item.title}</Text>
+                        {item.description && <Text style={styles.description}>{item.description}</Text>}
+                    </View>
+                </TouchableOpacity>
+            ))}
         </View>
     )
 }

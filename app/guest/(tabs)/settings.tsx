@@ -78,9 +78,8 @@ export default function Settings() {
       <ScrollView style={styles.container}>
         <View style={{ paddingBottom: 80 }}>
           <TouchableOpacity onPress={() => router.push('/guest/(screens)/profile')} style={styles.profile}>
-            <Image source={{ uri: guest.guestPhotos?.[0] }} />
-            <Image style={styles.image} source={profileDefault} />
-            <View style={{paddingLeft: 20}}>
+            <Image style={styles.image} source={guest.guestPhotos?.[0] ? { uri: guest.guestPhotos?.[0] } : profileDefault} />
+            <View style={{ paddingLeft: 20 }}>
               <Text style={styles.name}>{user?.name}</Text>
               <Text style={styles.description}>{t('Ver perfil')}</Text>
             </View>
