@@ -6,7 +6,7 @@ export default function ButtonWithIcon
     ({
         onPress,
         text,
-        backgroundColor = Colors.purple,
+        backgroundColor = Colors.light.tint,
         textColor = Colors.white,
         width = 'auto',
         icon,

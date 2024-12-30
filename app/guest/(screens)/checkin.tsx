@@ -151,7 +151,6 @@ const styles = StyleSheet.create({
   },
   checkinText: {
     fontFamily: 'PoppinsBold',
-    // color: Colors.purple,
     fontSize: 20,
     width: '100%',
     textAlign: 'center',

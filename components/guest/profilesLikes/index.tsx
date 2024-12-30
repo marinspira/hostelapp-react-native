@@ -64,10 +64,10 @@ function ProfilesLikes({ title }: ProfilesLikesProps) {
                             <AntDesign
                                 name="heart"
                                 size={24}
-                                color={Colors.purple}
+                                color={Colors.light.tint}
                                 onPress={() => handleClickHeart(guest.id)}
                             />
-                            <Ionicons name="chatbox-outline" size={24} color={Colors.purple} />
+                            <Ionicons name="chatbox-outline" size={24} color={Colors.light.tint} />
                         </>
                     );
                     break;
@@ -97,7 +97,7 @@ function ProfilesLikes({ title }: ProfilesLikesProps) {
                             <AntDesign
                                 name="hearto"
                                 size={24}
-                                color={Colors.purple}
+                                color={Colors.light.tint}
                                 onPress={() => handleClickHeart(guest.id)}
                             />
                             <MaterialCommunityIcons name="chat-remove-outline" size={24} color="#cdcdcd" />
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
         gap: 10,
         marginTop: 10,
         borderTopWidth: 2,
-        borderColor: Colors.purple,
+        borderColor: Colors.light.tint,
         paddingTop: 10,
         height: 50,
     }

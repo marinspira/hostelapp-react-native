@@ -21,7 +21,7 @@ const InputCheckbox: React.FC<CheckboxProps> = ({ text, onChange, initialChecked
     return (
         <Pressable style={styles.container} onPress={handlePress}>
             <View style={styles.checkbox}>
-                {isChecked && <MaterialIcons style={styles.check} name="check" size={20} color={Colors.purple} />}
+                {isChecked && <MaterialIcons style={styles.check} name="check" size={20} color={Colors.light.tint} />}
             </View>
             <Text style={styles.text}>{text}</Text>
         </Pressable>

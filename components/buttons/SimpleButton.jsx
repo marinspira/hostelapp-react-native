@@ -6,8 +6,8 @@ export default function SimpleButton
     ({
         onPress,
         text,
-        backgroundColor = Colors.purple,
-        textColor = Colors.white,
+        backgroundColor = Colors.light.tint,
+        textColor = '#fff',
         width = 'auto',
         textTransform = '',
         fontSize = 18,

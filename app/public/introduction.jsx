@@ -134,7 +134,7 @@ function IntroductionScreen() {
                     text={role === "guest" ? t("Sou host") : t("Sou hóspede")}
                     onPress={() => router.push("/public")}
                     backgroundColor="transparent"
-                    textColor={Colors.purple}
+                    textColor={Colors.light.tint}
                 />
             </View>
         </SafeAreaView>
@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
     container: {
         height: '100%',
         justifyContent: 'space-between',
-        backgroundColor: Colors.white,
+        backgroundColor: '#fff',
     },
     buttonsContainer: {
         padding: 20,

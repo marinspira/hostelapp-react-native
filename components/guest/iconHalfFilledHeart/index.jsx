@@ -10,14 +10,14 @@ export default function IconHalfHeart({ onPress, isInvertedSide }) {
   return (
     <Pressable onPress={onPress} style={styles.container}>
       {/* Ícone completo com preenchimento */}
-      <AntDesign name="heart" size={size} color={Colors.purple} />
+      <AntDesign name="heart" size={size} color={Colors.light.tint} />
 
       {/* Contorno do coração */}
       <AntDesign
         style={styles.contour}
         name="hearto"
         size={size}
-        color={Colors.purple}
+        color={Colors.light.tint}
       />
 
       {/* Máscara para metade do coração */}

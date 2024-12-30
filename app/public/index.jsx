@@ -25,21 +25,21 @@ function WelcomeScreen() {
                 <ButtonWithIcon
                     text={t("Começar como Hóspede")}
                     width="100%"
-                    icon={<AntDesign name="arrowright" size={24} color={Colors.purple} />}
-                    borderColor={Colors.white}
-                    backgroundColor={Colors.purple}
-                    textColor={Colors.white}
+                    icon={<AntDesign name="arrowright" size={24} color={Colors.light.tint} />}
+                    borderColor='#fff'
+                    backgroundColor={Colors.light.tint}
+                    textColor='#fff'
                     onPress={() => {
                         router.push('/public/introduction?role=guest');
                     }}
                 />
                 <ButtonWithIcon
-                    backgroundColor={Colors.white}
+                    backgroundColor='#fff'
                     text={t("Começar como Host")}
                     width="100%"
-                    icon={<AntDesign name="arrowright" size={24} color={Colors.white} />}
-                    borderColor={Colors.purple}
-                    textColor={Colors.purple}
+                    icon={<AntDesign name="arrowright" size={24} color='#fff' />}
+                    borderColor={Colors.light.tint}
+                    textColor={Colors.light.tint}
                     onPress={() => {
                         router.push('/public/introduction?role=host');
                     }}
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 20,
-        backgroundColor: Colors.white,
+        backgroundColor: 'white',
     },
     content: {
         flex: 1,
@@ -70,13 +70,12 @@ const styles = StyleSheet.create({
         fontSize: 30,
         fontWeight: '600',
         fontFamily: 'PoppinsBold',
-        color: Colors.black,
+        color: 'black',
         marginTop: 5,
         width: '100%'
-        // textAlign: 'center'
     },
     greetings: {
-        color: Colors.purple,
+        color: Colors.light.tint,
         fontSize: 18,
         width: '100%',
         fontFamily: 'PoppinsBold',

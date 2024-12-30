@@ -28,7 +28,7 @@ function LoginScreen() {
                 text={role === "guest" ? t("Não é hospede? Logar como host") : t("Não é host? Logar como hóspede")}
                 onPress={() => router.push("/public")}
                 backgroundColor="transparent"
-                textColor={Colors.black}
+                textColor='#000'
                 fontSize={16}
             />
         </View>
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: Colors.white
+        backgroundColor: '#fff'
     },
     title: {
         fontFamily: 'PoppinsRegular',
