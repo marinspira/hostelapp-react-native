@@ -1,16 +1,18 @@
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Button, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import '@/assets/translations/i18n'
-import { Colors } from '@/constants/Colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { AppDispatch, RootState } from '@/redux/store';
 import { Feather, AntDesign, SimpleLineIcons } from '@expo/vector-icons';
 import IconTextList from '@/components/IconTextList'
 import { logout } from '@/redux/slices/user/slice';
 import { router } from 'expo-router';
-import profileDefault from '@/assets/images/unnamed.png';
 import { StatusBar } from 'expo-status-bar';
+import { toggleTheme } from '@/redux/slices/theme/slice';
+import { useTheme } from '@/hooks/useThemeColor';
+import ThemeSwitch from '@/components/themeSwitch';
+import Container from '@/components/container';
 
 export default function Settings() {
 
@@ -20,45 +22,47 @@ export default function Settings() {
   const guest = useSelector((state: RootState) => state.guest.data);
   const dispatch = useDispatch<AppDispatch>()
 
+  const dynamicStyles = useTheme();
+
   const settings = [
     {
-      icon: <SimpleLineIcons name="plane" size={24} color="black" />,
+      icon: <SimpleLineIcons name="plane" size={24} color={dynamicStyles.icon} />,
       title: t('Suas viagens'),
       description: t('Relembre os lugares por onde você passou'),
       onPress: () => router.push('/')
     },
     {
-      icon: <Feather name="star" size={24} color="black" />,
+      icon: <Feather name="star" size={24} color={dynamicStyles.icon} />,
       title: t('Reviews'),
       description: t('Veja o que seus hosts falaram sobre você'),
       onPress: () => router.push('/')
     },
     {
-      icon: <Feather name="user-check" size={24} color="black" />,
+      icon: <Feather name="user-check" size={24} color={dynamicStyles.icon} />,
       title: t('Configurar assinatura'),
       description: t('Gerencie sua assinatura, planos e pagamentos.'),
       onPress: () => router.push('/')
     },
     {
-      icon: <AntDesign name="questioncircleo" size={24} color="black" />,
+      icon: <AntDesign name="questioncircleo" size={24} color={dynamicStyles.icon} />,
       title: t('Como isso funciona'),
       description: t('Saiba mais sobre o funcionamento do aplicativo e seus recursos.'),
       onPress: () => router.push('/')
     },
     {
-      icon: <Feather name="lock" size={24} color="black" />,
+      icon: <Feather name="lock" size={24} color={dynamicStyles.icon} />,
       title: t('Politicas e privacidade'),
       description: t('Conheça nossas políticas de privacidade e como seus dados são tratados.'),
       onPress: () => router.push('/')
     },
     {
-      icon: <Feather name="headphones" size={24} color="black" />,
+      icon: <Feather name="headphones" size={24} color={dynamicStyles.icon} />,
       title: t('Suporte'),
       description: t('Fale com nossa equipe de suporte para ajuda e dúvidas.'),
       onPress: () => router.push('/')
     },
     {
-      icon: <SimpleLineIcons name="logout" size={24} color="black" />,
+      icon: <SimpleLineIcons name="logout" size={24} color={dynamicStyles.icon} />,
       title: t('Logout'),
       onPress: { handleLogout }
     },
@@ -73,36 +77,30 @@ export default function Settings() {
   }
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <StatusBar style='dark' />
-      <ScrollView style={styles.container}>
-        <View style={{ paddingBottom: 80 }}>
-          <TouchableOpacity onPress={() => router.push('/guest/(screens)/profile')} style={styles.profile}>
-            <Image style={styles.image} source={guest.guestPhotos?.[0] ? { uri: guest.guestPhotos?.[0] } : profileDefault} />
-            <View style={{ paddingLeft: 20 }}>
-              <Text style={styles.name}>{user?.name}</Text>
-              <Text style={styles.description}>{t('Ver perfil')}</Text>
-            </View>
-          </TouchableOpacity>
-          <IconTextList content={settings} />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <Container>
+      <View style={{ paddingBottom: 80 }}>
+        <TouchableOpacity onPress={() => router.push('/guest/(screens)/profile')} style={styles.profile}>
+          <Image
+            style={styles.image}
+            source={guest.guestPhotos?.[0] ? { uri: guest.guestPhotos?.[0] } : require('../../../assets/images/unnamed.png')}
+          />
+          <View style={{ paddingLeft: 20 }}>
+            <Text style={[styles.name, dynamicStyles.text]}>{user?.name}</Text>
+            <Text style={dynamicStyles.suportText}>{t('Ver perfil')}</Text>
+          </View>
+        </TouchableOpacity>
+        <ThemeSwitch />
+        <IconTextList content={settings} />
+      </View>
+    </Container>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: Colors.white,
-  },
-  safeArea: {
-    flex: 1,
-    backgroundColor: Colors.white,
-  },
   profile: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 20,
+    paddingVertical: 20,
     marginVertical: 10,
   },
   image: {
@@ -114,7 +112,4 @@ const styles = StyleSheet.create({
     fontFamily: 'PoppinsBold',
     fontSize: 22,
   },
-  description: {
-    fontSize: 16
-  }
 });

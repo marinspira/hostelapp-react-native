@@ -1,5 +1,3 @@
-import { StyleSheet, View, ScrollView } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import EventList from '@/components/guest/eventList'
 import ProfilesSlide from '@/components/guest/profilesLikes'
 import profileDefault from '@/assets/images/unnamed.png'
@@ -8,12 +6,14 @@ import { useSelector } from 'react-redux';
 import { UserState } from '@/redux/slices/user/interfaces';
 import { useTranslation } from 'react-i18next';
 import '@/assets/translations/i18n'
-import { Colors } from '@/constants/Colors';
-import { StatusBar } from 'expo-status-bar';
+import { useTheme } from '@/hooks/useThemeColor';
+import ThemeSwitch from '@/components/themeSwitch';
+import Container from '@/components/container';
 
 export default function HomeScreen() {
 
   const { t, i18n } = useTranslation();
+  const dynamicStyles = useTheme();
 
   const user = useSelector((state: { user: UserState }) => state.user.data)
 
@@ -57,26 +57,11 @@ export default function HomeScreen() {
   ]
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <StatusBar style='dark' />
-      <View>
-        <ScrollView style={styles.container}>
-          <Greetings username={user?.name} />
-          <ProfilesSlide title={t('Converse com quem está hospedado com você')} />
-          <EventList title={t('Eventos perto de você')} data={events} btnText='Join' />
-        </ScrollView>
-      </View>
-    </SafeAreaView>
+    <Container>
+      <ThemeSwitch />
+      <Greetings username={user?.name} />
+      <ProfilesSlide title={t('Converse com quem está hospedado com você')} />
+      <EventList title={t('Eventos perto de você')} data={events} btnText='Join' />
+    </Container>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    padding: 20,
-    backgroundColor: Colors.gray
-  },
-  safeArea: {
-    flex: 1,
-    backgroundColor: Colors.gray,
-  },
-});

@@ -2,8 +2,12 @@ import React from 'react'
 import { Text, View } from 'react-native'
 import profileDefault from '@/assets/images/unnamed.png'
 import EventList from '@/components/guest/eventList'
+import { useTheme } from '@/hooks/useThemeColor';
+import Container from '@/components/container'
 
 export default function Staff() {
+
+  const dynamicStyles = useTheme();
 
   const positions = [
     {
@@ -20,9 +24,9 @@ export default function Staff() {
   ]
 
   return (
-    <View>
+    <Container>
       <Text>Staff Area</Text>
       <EventList data={positions} btnText='Take a look' />
-    </View>
+    </Container>
   )
 }

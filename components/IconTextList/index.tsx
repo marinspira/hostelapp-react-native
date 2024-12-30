@@ -1,6 +1,6 @@
 import { Colors } from '@/constants/Colors'
-import { router } from 'expo-router'
-import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native'
+import { useTheme } from '@/hooks/useThemeColor';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 
 interface IconTextItem {
     icon: React.ReactNode;
@@ -14,20 +14,25 @@ interface IconTextListProps {
 }
 
 export default function IconTextList({ content }: IconTextListProps) {
+
+    const dynamicStyles = useTheme();
+
     return (
         <View>
             {content.map((item, index) => (
                 <TouchableOpacity
                     key={index}
                     onPress={item.onPress}
-                    style={styles.container}
+                    style={[styles.container, dynamicStyles.border]}
                     accessibilityLabel={item.title}
                     accessibilityRole="button"
                 >
                     {item.icon}
                     <View style={styles.info}>
-                        <Text style={styles.title}>{item.title}</Text>
-                        {item.description && <Text style={styles.description}>{item.description}</Text>}
+                        <Text style={[styles.title, dynamicStyles.text]}>{item.title}</Text>
+                        {item.description &&
+                            <Text style={[styles.description, dynamicStyles.text]}>{item.description}</Text>
+                        }
                     </View>
                 </TouchableOpacity>
             ))}
@@ -39,8 +44,8 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         alignItems: 'center',
-        padding: 20,
-        borderColor: Colors.gray,
+        paddingVertical: 20,
+        borderColor: '#ccc',
         borderTopWidth: 1,
         gap: 20
     },
