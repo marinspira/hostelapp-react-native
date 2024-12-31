@@ -1,26 +1,33 @@
-import { Animated, FlatList, SafeAreaView, StyleSheet, View } from "react-native";
+import { Animated, FlatList, StyleSheet, useWindowDimensions, View } from "react-native";
 import React, { useRef, useState } from "react";
-import IntroductionItems from "@/components/introductionItems";
-import Paginator from "@/components/paginator";
+import { Colors } from "@/constants/Colors";
 
-export default function Slide({ data, component, renderButtons }) {
+interface SlideProps {
+    data: any,
+    component?: any,
+    renderButtons?: any
+}
+
+export default function Slide({ data, component, renderButtons }: SlideProps) {
     const scrollX = useRef(new Animated.Value(0)).current;
     const [currentIndex, setCurrentIndex] = useState(0);
 
-    const onViewableItemsChanged = useRef(({ viewableItems }) => {
+    const onViewableItemsChanged = useRef(({ viewableItems }: any) => {
         if (viewableItems.length > 0) {
             setCurrentIndex(viewableItems[0].index);
         }
     }).current;
 
+    const { width } = useWindowDimensions()
+
     const viewabilityConfig = useRef({ viewAreaCoveragePercentThreshold: 50 }).current;
 
-    const slideRef = useRef(null);
+    const slideRef = useRef<FlatList | null>(null);
 
     const isLastSlide = currentIndex === data.length - 1;
 
     const handleNextSlide = () => {
-        if (currentIndex < data.length - 1) {
+        if (slideRef.current && currentIndex < data.length - 1) {
             slideRef.current.scrollToIndex({ index: currentIndex + 1 });
         }
     };
@@ -44,7 +51,19 @@ export default function Slide({ data, component, renderButtons }) {
                 onViewableItemsChanged={onViewableItemsChanged}
                 viewabilityConfig={viewabilityConfig}
             />
-            <Paginator data={data} scrollX={scrollX} />
+            <View style={styles.paginator}>
+                {data.map((_: any, i: any) => {
+                    const inputRange = [(i - 1) * width, i * width, (i + 1) * width];
+
+                    const dotWidth = scrollX.interpolate({
+                        inputRange,
+                        outputRange: [10, 25, 10],
+                        extrapolate: 'clamp'
+                    })
+
+                    return <Animated.View style={[styles.dot, { width: dotWidth }]} key={i.toString()} />
+                })}
+            </View>
             {renderButtons && (
                 <>{renderButtons(isLastSlide, handleNextSlide)} </>
             )}
@@ -54,16 +73,25 @@ export default function Slide({ data, component, renderButtons }) {
 
 const styles = StyleSheet.create({
     container: {
-        height: '100%',
-        justifyContent: 'space-between',
+        flex: 1,
         backgroundColor: '#fff',
     },
-    buttonsContainer: {
-        padding: 20,
-        gap: 10,
-    },
     contentContainer: {
-        height: '100%',
-        justifyContent: 'flex-end'
-    }
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center', 
+    },
+    paginator: {
+        flexDirection: 'row',
+        position: 'absolute', 
+        bottom: 20,
+        alignSelf: 'center',
+    },
+    dot: {
+        height: 10,
+        width: 10,
+        borderRadius: 5,
+        backgroundColor: Colors.light.tint,
+        marginHorizontal: 8,
+    },
 });

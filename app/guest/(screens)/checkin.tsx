@@ -102,7 +102,7 @@ export default function Checkin() {
             maximumDate={new Date('2008-01-01')}
             suportText={t('Você só pode alterar esse campo uma vez. Necessário ser +16.')}
           />
-          <FormUser inputs={{ from: true, passaportImg: true }} />
+          <FormUser checkin={true} />
         </ScrollView>
         <View style={styles.buttonContainer}>
           <InputCheckbox

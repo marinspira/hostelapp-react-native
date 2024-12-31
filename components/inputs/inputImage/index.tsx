@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Image, View, StyleSheet, Text, Pressable } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import { Colors } from '@/constants/Colors';
 import { useUploadImages } from '@/hooks/useUploadImage';
 import { showToast } from '@/components/toast';
 import { useTranslation } from 'react-i18next';
@@ -155,7 +154,7 @@ const styles = StyleSheet.create({
         borderRadius: 100,
         position: 'absolute',
         zIndex: 9,
-        backgroundColor: Colors.white,
+        backgroundColor: '#ffff',
         right: -8,
         top: -3
     }

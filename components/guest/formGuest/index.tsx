@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateGuestField } from '@/redux/slices/guest/slice';
 import { useTranslation } from 'react-i18next';
@@ -12,27 +12,19 @@ import '@/assets/translations/i18n'
 import { Guest } from '@/redux/slices/guest/interfaces';
 import InputPhone from '@/components/inputs/inputPhone';
 import countries from '@/utils/coutries'
+import { useTheme } from '@/hooks/useThemeColor';
 
 interface FormProps {
-    inputs?: {
-        from?: boolean,
-        passaportImg?: boolean,
-        description?: boolean,
-        interests?: boolean,
-        languages?: boolean,
-        nomad?: boolean,
-        smoke?: boolean,
-        pets?: boolean,
-        sociais?: boolean
-    }
+    checkin?: boolean
 }
 
-export default function FormGuest({ inputs }: FormProps) {
+export default function FormGuest({ checkin }: FormProps) {
     const { t, i18n } = useTranslation();
 
     const guest = useSelector((state: { guest: Guest }) => state.guest)
 
     const dispatch = useDispatch()
+    const dynamicStyles = useTheme()
 
     function handleChange(key: any, value: any) {
         dispatch(updateGuestField({ key, value }))
@@ -45,30 +37,64 @@ export default function FormGuest({ inputs }: FormProps) {
     return (
         <View style={styles.container}>
             <View style={styles.form}>
-                {inputs?.from && <InputSelect
+                <InputSelect
                     label={t('De onde você é?')}
                     selectInputItems={countries}
                     value={guest.country}
                     onChange={(value) => handleChange('country', value)}
-                />}
+                />
                 <InputPhone
                     label={t('Seu número de celular')}
                     onChange={(value) => handleChange('phoneNumber', value)}
                 />
-                {inputs?.passaportImg && <InputImage
-                    maxSelections={1}
+                <InputImage
                     label={t('Foto do seu Passaporte/Identidade')}
                     suportText={t('Apenas a administração do hotel pode ver essa informação')}
-                    id=''
+                    id='passaport'
                     endpoit=''
-                />}
-                {inputs?.description && <Input
+                />
+                <View style={styles.profile}>
+                    <Text style={dynamicStyles.label}>{t('Adicione fotos para que outros hóspedes possam te conhecer')}</Text>
+                    <View style={styles.photos}>
+                        <InputImage
+                            id='0'
+                            endpoit='/api/guest/saveGuestProfileImages'
+                            imgWidth={100}
+                        />
+                        <InputImage
+                            id='1'
+                            endpoit='/api/guest/saveGuestProfileImages'
+                            imgWidth={100}
+                        />
+                        <InputImage
+                            id='2'
+                            endpoit='/api/guest/saveGuestProfileImages'
+                            imgWidth={100}
+                        />
+                        <InputImage
+                            id='3'
+                            endpoit='/api/guest/saveGuestProfileImages'
+                            imgWidth={100}
+                        />
+                        <InputImage
+                            id='4'
+                            endpoit='/api/guest/saveGuestProfileImages'
+                            imgWidth={100}
+                        />
+                        <InputImage
+                            id='5'
+                            endpoit='/api/guest/saveGuestProfileImages'
+                            imgWidth={100}
+                        />
+                    </View>
+                </View>
+                {!checkin && <Input
                     label={t('Descrição')}
                     placeholder={t('Deixe seus colegas de quarto conhecerem você!')}
                     value={guest.description}
                     onChange={(value) => handleChange('description', value)}
                 />}
-                {inputs?.interests && <SelectItens
+                {!checkin && <SelectItens
                     label={t('Interesses')}
                     suportText={t('select_options', { number: 5 })}
                     maxSelections={5}
@@ -88,13 +114,13 @@ export default function FormGuest({ inputs }: FormProps) {
                     onChange={(value) => handleChange('interests', value)}
                     value={guest.interests}
                 />}
-                {inputs?.languages && <SelectItens
+                {/* {!checkin && <SelectItens
                     label={t('Quais idiomas você fala?')}
                     selectInputItems={['Portuguese', 'English', '']}
                     onChange={(value) => handleChange('languages', value)}
                     value={guest.languages}
                     maxSelections={5}
-                />}
+                />} */}
                 <SelectItens
                     label={t('Você é nômade digital?')}
                     suportText={t('Você trabalha online enquanto viaja?')}
@@ -114,7 +140,7 @@ export default function FormGuest({ inputs }: FormProps) {
                     value={guest.pets}
                     boolean={true}
                 />
-                {inputs?.sociais && (
+                {!checkin && (
                     <>
                         <Input
                             label="Instagram"
@@ -170,4 +196,12 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         letterSpacing: 2,
     },
+    photos: {
+        flexDirection: "row",
+        flexWrap: "wrap",
+        justifyContent: "space-between",
+    },
+    profile: {
+        marginVertical: 15
+    }
 });

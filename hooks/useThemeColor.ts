@@ -23,6 +23,14 @@ export const useTheme = () => {
       fontSize: 16,
       color: color.text,
     },
+    label: {
+      fontSize: 12,
+      fontWeight: 'bold',
+      marginBottom: 8,
+      color: '#333',
+      textTransform: 'uppercase',
+      letterSpacing: 2,
+    },
     safeArea: {
       flex: 1,
       backgroundColor: color.background,
