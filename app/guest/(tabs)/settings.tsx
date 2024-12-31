@@ -13,6 +13,7 @@ import { toggleTheme } from '@/redux/slices/theme/slice';
 import { useTheme } from '@/hooks/useThemeColor';
 import ThemeSwitch from '@/components/themeSwitch';
 import Container from '@/components/container';
+import InputImage from '@/components/inputs/inputImage';
 
 export default function Settings() {
 
@@ -89,6 +90,12 @@ export default function Settings() {
             <Text style={dynamicStyles.suportText}>{t('Ver perfil')}</Text>
           </View>
         </TouchableOpacity>
+        <InputImage
+          id='2'
+          imgWidth={100}
+          defaultImg={guest?.guestPhotos?.[2]}
+          endpoit='/api/guest/saveGuestProfileImages'
+        />
         <ThemeSwitch />
         <IconTextList content={settings} />
       </View>

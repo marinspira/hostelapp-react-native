@@ -13,6 +13,7 @@ import { Guest } from '@/redux/slices/guest/interfaces';
 import InputPhone from '@/components/inputs/inputPhone';
 import countries from '@/utils/coutries'
 import { useTheme } from '@/hooks/useThemeColor';
+import { RootState } from '@/redux/store';
 
 interface FormProps {
     checkin?: boolean
@@ -21,7 +22,7 @@ interface FormProps {
 export default function FormGuest({ checkin }: FormProps) {
     const { t, i18n } = useTranslation();
 
-    const guest = useSelector((state: { guest: Guest }) => state.guest)
+    const guest = useSelector((state: RootState) => state.guest.data)
 
     const dispatch = useDispatch()
     const dynamicStyles = useTheme()
@@ -29,10 +30,6 @@ export default function FormGuest({ checkin }: FormProps) {
     function handleChange(key: any, value: any) {
         dispatch(updateGuestField({ key, value }))
     }
-
-    useEffect(() => {
-        console.log(guest)
-    }, [guest])
 
     return (
         <View style={styles.container}>
@@ -58,33 +55,39 @@ export default function FormGuest({ checkin }: FormProps) {
                     <View style={styles.photos}>
                         <InputImage
                             id='0'
-                            endpoit='/api/guest/saveGuestProfileImages'
                             imgWidth={100}
+                            defaultImg={guest?.guestPhotos?.[0]}
+                            endpoit='/api/guest/saveGuestProfileImages'
                         />
                         <InputImage
                             id='1'
-                            endpoit='/api/guest/saveGuestProfileImages'
                             imgWidth={100}
+                            defaultImg={guest?.guestPhotos?.[1]}
+                            endpoit='/api/guest/saveGuestProfileImages'
                         />
                         <InputImage
                             id='2'
-                            endpoit='/api/guest/saveGuestProfileImages'
                             imgWidth={100}
+                            defaultImg={guest?.guestPhotos?.[2]}
+                            endpoit='/api/guest/saveGuestProfileImages'
                         />
                         <InputImage
                             id='3'
-                            endpoit='/api/guest/saveGuestProfileImages'
                             imgWidth={100}
+                            defaultImg={guest?.guestPhotos?.[3]}
+                            endpoit='/api/guest/saveGuestProfileImages'
                         />
                         <InputImage
                             id='4'
-                            endpoit='/api/guest/saveGuestProfileImages'
                             imgWidth={100}
+                            defaultImg={guest?.guestPhotos?.[4]}
+                            endpoit='/api/guest/saveGuestProfileImages'
                         />
                         <InputImage
                             id='5'
-                            endpoit='/api/guest/saveGuestProfileImages'
                             imgWidth={100}
+                            defaultImg={guest?.guestPhotos?.[5]}
+                            endpoit='/api/guest/saveGuestProfileImages'
                         />
                     </View>
                 </View>

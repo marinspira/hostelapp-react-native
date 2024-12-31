@@ -33,9 +33,11 @@ export default function Profile() {
         console.error('Error fetching guest data')
       }
     }
-    console.log('fotos', guest.guestPhotos)
-    fetchUserData()
-  }, [])
+
+    if (!guest) {
+      fetchUserData()
+    }
+  }, [guest, dispatch])
 
   const formattedGuestPhotos = guest?.guestPhotos?.map((photo, index) => ({
     id: index.toString(),
@@ -57,13 +59,5 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     gap: 8,
     backgroundColor: 'white'
-  },
-  imageProfile: {
-    height: '100%',
-    width: '100%',
-    objectFit: 'cover',
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
   },
 });

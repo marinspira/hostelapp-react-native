@@ -86,7 +86,7 @@ const InputImage: React.FC<InputImageProps> = ({ id, label, suportText, borderRa
             {suportText && <Text style={styles.suportText}>{suportText}</Text>}
             <View style={styles.row}>
                 {!isUploading && !error && image ? (
-                    <Pressable onPress={pickImage}>
+                    <Pressable onPress={pickImage} style={{zIndex: 10}}>
                         {!borderRadius &&
                             <Pressable onPress={handleRemoveImg} style={styles.removePhoto}>
                                 <Text>X</Text>
@@ -95,7 +95,7 @@ const InputImage: React.FC<InputImageProps> = ({ id, label, suportText, borderRa
                         <Image source={{ uri: image }} style={[styles.image, { borderRadius, width: imgWidth, height: imgWidth }]} />
                     </Pressable>
                 ) : (
-                    <Pressable onPress={pickImage} style={[styles.imgPickerBtn, { borderRadius, width: imgWidth, height: imgWidth }]}>
+                    <Pressable onPress={pickImage} style={[styles.imgPickerBtn, { borderRadius, width: imgWidth, height: imgWidth, zIndex: 10 }]}>
                         <Text style={styles.imgPickerBtnText}>{isUploading ? `${progress}%` : '+'}</Text>
                     </Pressable>
                 )}
