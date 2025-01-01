@@ -1,5 +1,6 @@
 import { Colors, Theme } from '@/constants/Colors';
 import { RootState } from '@/redux/store';
+import { TextStyle } from 'react-native';
 import { useSelector } from 'react-redux';
 
 export const useTheme = () => {
@@ -30,7 +31,7 @@ export const useTheme = () => {
       color: '#333',
       textTransform: 'uppercase',
       letterSpacing: 2,
-    },
+    } as TextStyle,
     safeArea: {
       flex: 1,
       backgroundColor: color.background,

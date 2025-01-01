@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, PanResponder } from 'react-native';
+import FormGuest from '../formGuest';
 
 interface TabsProps {
   tabs: { label: string; content: any; }[];
@@ -39,9 +40,9 @@ const Tabs: React.FC<TabsProps> = ({ tabs }) => {
 
       {/* Conteúdo das Abas */}
       <View style={styles.content}>
-        <Text style={styles.contentText}>
+        <View>
           {tabs[activeTabIndex].content}
-        </Text>
+        </View>
       </View>
     </View>
   );
@@ -90,10 +91,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  contentText: {
-    fontFamily: 'PoppinsRegular',
-    fontSize: 20,
   },
 });
 

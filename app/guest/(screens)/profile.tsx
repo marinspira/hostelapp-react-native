@@ -10,6 +10,8 @@ import { AppDispatch, RootState } from '@/redux/store';
 import { useEffect } from 'react';
 import { getGuest } from '@/redux/slices/guest/slice'
 import Slide from '@/components/slide';
+import Input from '@/components/inputs/input';
+import FormGuest from '@/components/guest/formGuest';
 
 export default function Profile() {
 

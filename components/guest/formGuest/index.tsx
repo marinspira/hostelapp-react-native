@@ -31,6 +31,10 @@ export default function FormGuest({ checkin }: FormProps) {
         dispatch(updateGuestField({ key, value }))
     }
 
+    useEffect(() => {
+        console.log('formGuest', guest)
+    }, [guest])
+
     return (
         <View style={styles.container}>
             <View style={styles.form}>
