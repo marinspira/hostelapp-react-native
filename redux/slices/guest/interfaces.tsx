@@ -29,6 +29,6 @@ export interface GuestState {
 
 export interface BackendResponse {
     success: boolean;
-    data: Guest;
+    data: any;
     message: string;
 }

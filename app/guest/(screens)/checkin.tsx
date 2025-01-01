@@ -88,7 +88,10 @@ export default function Checkin() {
               borderRadius='100%'
               imgWidth={75}
               defaultImg={guest?.guestPhotos?.[0]}
-              endpoit='/api/guest/saveGuestProfileImages'
+              endpoints={{
+                upload: '/api/guest/saveGuestProfileImages',
+                delete: ''
+              }}
             />
             <View>
               <Text style={styles.userName}>{user?.name}</Text>

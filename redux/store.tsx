@@ -1,4 +1,5 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
+import { PersistPartial } from 'redux-persist/es/persistReducer';
 import guestReducer from './slices/guest/slice';
 import staffReducer from './slices/staff/slice';
 import userReducer from './slices/user/slice';
@@ -35,5 +36,5 @@ export const store = configureStore({
 
 export const persistor = persistStore(store);
 
-export type RootState = ReturnType<typeof store.getState>;
+export type RootState = ReturnType<typeof rootReducer> & PersistPartial;
 export type AppDispatch = typeof store.dispatch;

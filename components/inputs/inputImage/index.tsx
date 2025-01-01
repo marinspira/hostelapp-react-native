@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import { Image, View, StyleSheet, Text, Pressable } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import { useUploadImages } from '@/hooks/useUploadImage';
 import { showToast } from '@/components/toast';
 import { useTranslation } from 'react-i18next';
 import '@/assets/translations/i18n';
 import * as ImageManipulator from "expo-image-manipulator";
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '@/redux/store';
+import { deleteGuestImage, uploadGuestImage } from '@/redux/slices/guest/slice';
+import useGenerateRandomFilename from '@/hooks/useRandomName';
 
 interface InputImageProps {
     id: string,
@@ -15,25 +18,18 @@ interface InputImageProps {
     borderRadius?: string,
     imgWidth?: number,
     defaultImg?: string
-    endpoit: string
+    endpoints: {
+        upload: string,
+        delete: string
+    }
 }
 
-const InputImage: React.FC<InputImageProps> = ({ id, label, suportText, borderRadius, imgWidth = 85, defaultImg, endpoit }) => {
+const InputImage: React.FC<InputImageProps> = ({ id, label, suportText, borderRadius, imgWidth = 85, defaultImg, endpoints }) => {
 
     const [image, setImage] = useState<string | null>(defaultImg || null);
-    const { uploadFile, isUploading, progress, error } = useUploadImages();
-    const { t } = useTranslation();
 
-    const handleUpload = async (file: any) => {
-        if (file) {
-            try {
-                const response = await uploadFile(file, endpoit);
-                console.log(`Success upload: ${id}:`, response);
-            } catch (err) {
-                console.error(`Error upload: ${id}:`, err);
-            }
-        }
-    }
+    const { t } = useTranslation();
+    const dispatch = useDispatch<AppDispatch>()
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -60,23 +56,60 @@ const InputImage: React.FC<InputImageProps> = ({ id, label, suportText, borderRa
                 const match = /\.(\w+)$/.exec(originalFilename as string);
                 const fileExtension = match ? match[1] : 'jpg';
                 const type = `image/${fileExtension}`;
-                const filename = `${id}.${fileExtension}`;
+                const filename = useGenerateRandomFilename(id, fileExtension);
 
                 const img = new FormData();
-                img.append('id', id);
+                img.append('imageId', id);
                 img.append('photo', { uri: imageUri, name: filename, type } as any);
 
                 handleUpload(img)
             } catch (error) {
                 console.error('Error resizing image:', error)
+                showToast({
+                    type: 'error',
+                    title: t('Algum erro aconteceu!'),
+                    message: t('Por favor, notifique seu bug nas configurações.')
+                })
                 return
             }
         }
     };
 
-    const handleRemoveImg = () => {
-        setImage(null)
-        handleUpload(null)
+    const handleUpload = async (file: any) => {
+        if (file) {
+            try {
+                const response = await dispatch(uploadGuestImage({ file, endpoint: endpoints.upload }))
+                showToast({
+                    type: 'success',
+                    title: t('Enviado!'),
+                    message: t('Upload feito com sucesso.')
+                })
+            } catch (err) {
+                console.error(`Error upload: ${id}:`, err);
+                showToast({
+                    type: 'error',
+                    title: t('Algum erro aconteceu!'),
+                    message: t('Por favor, notifique seu bug nas configurações.')
+                })
+            }
+        }
+    }
+
+    const handleRemoveImg = async () => {
+        try {
+            setImage(null)
+            console.log(id)
+            const response = await dispatch(deleteGuestImage({ id, endpoint: endpoints.delete }))
+            console.log(response)
+        } catch (error) {
+            setImage(image)
+            console.error('Error removing image: ', error)
+            showToast({
+                type: 'error',
+                title: t('Algum erro aconteceu!'),
+                message: t('Por favor, notifique seu bug nas configurações.')
+            })
+        }
     }
 
     return (
@@ -84,7 +117,7 @@ const InputImage: React.FC<InputImageProps> = ({ id, label, suportText, borderRa
             <Text style={styles.formTitle}>{label}</Text>
             {suportText && <Text style={styles.suportText}>{suportText}</Text>}
             <View style={styles.row}>
-                {!isUploading && !error && image ? (
+                {image ? (
                     <Pressable onPress={pickImage} style={{ zIndex: 10 }}>
                         {!borderRadius &&
                             <Pressable onPress={handleRemoveImg} style={styles.removePhoto}>
@@ -95,7 +128,7 @@ const InputImage: React.FC<InputImageProps> = ({ id, label, suportText, borderRa
                     </Pressable>
                 ) : (
                     <Pressable onPress={pickImage} style={[styles.imgPickerBtn, { borderRadius, width: imgWidth, height: imgWidth, zIndex: 10 }]}>
-                        <Text style={styles.imgPickerBtnText}>{isUploading ? `${progress}%` : '+'}</Text>
+                        <Text style={styles.imgPickerBtnText}>{'+'}</Text>
                     </Pressable>
                 )}
             </View>

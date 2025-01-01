@@ -31,10 +31,6 @@ export default function FormGuest({ checkin }: FormProps) {
         dispatch(updateGuestField({ key, value }))
     }
 
-    useEffect(() => {
-        console.log('formGuest', guest)
-    }, [])
-
     return (
         <View style={styles.container}>
             <View style={styles.form}>
@@ -52,7 +48,10 @@ export default function FormGuest({ checkin }: FormProps) {
                     label={t('Foto do seu Passaporte/Identidade')}
                     suportText={t('Apenas a administração do hotel pode ver essa informação')}
                     id='passaport'
-                    endpoit=''
+                    endpoints={{
+                        upload: '',
+                        delete: ''
+                    }}
                 />
                 <View style={styles.profile}>
                     <Text style={dynamicStyles.label}>{t('Adicione fotos para que outros hóspedes possam te conhecer')}</Text>
@@ -61,37 +60,55 @@ export default function FormGuest({ checkin }: FormProps) {
                             id='0'
                             imgWidth={100}
                             defaultImg={guest?.guestPhotos?.[0]}
-                            endpoit='/api/guest/saveGuestProfileImages'
+                            endpoints={{
+                                upload: '/api/guest/saveGuestProfileImages',
+                                delete: '/api/guest/deleteGuestProfileImage'
+                            }}
                         />
                         <InputImage
                             id='1'
                             imgWidth={100}
                             defaultImg={guest?.guestPhotos?.[1]}
-                            endpoit='/api/guest/saveGuestProfileImages'
+                            endpoints={{
+                                upload: '/api/guest/saveGuestProfileImages',
+                                delete: '/api/guest/deleteGuestProfileImage'
+                            }}
                         />
                         <InputImage
                             id='2'
                             imgWidth={100}
                             defaultImg={guest?.guestPhotos?.[2]}
-                            endpoit='/api/guest/saveGuestProfileImages'
+                            endpoints={{
+                                upload: '/api/guest/saveGuestProfileImages',
+                                delete: '/api/guest/deleteGuestProfileImage'
+                            }}
                         />
                         <InputImage
                             id='3'
                             imgWidth={100}
                             defaultImg={guest?.guestPhotos?.[3]}
-                            endpoit='/api/guest/saveGuestProfileImages'
+                            endpoints={{
+                                upload: '/api/guest/saveGuestProfileImages',
+                                delete: '/api/guest/deleteGuestProfileImage'
+                            }}
                         />
                         <InputImage
                             id='4'
                             imgWidth={100}
                             defaultImg={guest?.guestPhotos?.[4]}
-                            endpoit='/api/guest/saveGuestProfileImages'
+                            endpoints={{
+                                upload: '/api/guest/saveGuestProfileImages',
+                                delete: '/api/guest/deleteGuestProfileImage'
+                            }}
                         />
                         <InputImage
                             id='5'
                             imgWidth={100}
                             defaultImg={guest?.guestPhotos?.[5]}
-                            endpoit='/api/guest/saveGuestProfileImages'
+                            endpoints={{
+                                upload: '/api/guest/saveGuestProfileImages',
+                                delete: '/api/guest/deleteGuestProfileImage'
+                            }}
                         />
                     </View>
                 </View>

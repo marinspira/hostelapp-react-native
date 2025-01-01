@@ -96,6 +96,58 @@ export const getGuest = createAsyncThunk<BackendResponse, void, { state: RootSta
     }
 )
 
+export const uploadGuestImage = createAsyncThunk<BackendResponse, { file: any, endpoint: string }, { state: RootState; rejectValue: string }>(
+    'guest/uploadImages',
+    async ({ file, endpoint }, { rejectWithValue }) => {
+        try {
+            const response = await fetch(`${process.env.EXPO_PUBLIC_SERVER_ADDRESS}${endpoint}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                },
+                body: file,
+            });
+
+            if (!response.ok) {
+                throw new Error('Erro no upload');
+            }
+
+            const data = await response.json();
+            return data as BackendResponse
+
+        } catch (error: any) {
+            console.error(error.message)
+            return rejectWithValue(error.message)
+        }
+    }
+)
+
+export const deleteGuestImage = createAsyncThunk<BackendResponse, { id: string, endpoint: string }, { state: RootState, rejectWithValue: string }>(
+    'guest/deleteImage',
+    async ({ id, endpoint }, { rejectWithValue }) => {
+        try {
+            const response = await fetch(`${process.env.EXPO_PUBLIC_SERVER_ADDRESS}${endpoint}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ imageId: id }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to delete image');
+            }
+
+            const result = await response.json()
+            return result as BackendResponse
+
+        } catch (error: any) {
+            console.error(error.message)
+            return rejectWithValue(error.message)
+        }
+    }
+)
+
 const guestSlice = createSlice({
     name: 'guest',
     initialState,
@@ -144,6 +196,50 @@ const guestSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload || 'An error occurred while getting the guest data'
             })
+            // upload image
+            .addCase(uploadGuestImage.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(uploadGuestImage.fulfilled, (state, action: PayloadAction<BackendResponse>) => {
+                state.loading = false;
+                if (action.payload.success) {
+                    const uploadedPhoto = action.payload.data.imagePath;
+                    if (state.data.guestPhotos) {
+                        state.data.guestPhotos = [...state.data.guestPhotos, uploadedPhoto];
+                    } else {
+                        state.data.guestPhotos = [uploadedPhoto];
+                    }
+                } else {
+                    state.error = action.payload.message || 'Failed to upload image.';
+                }
+            })
+            .addCase(uploadGuestImage.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload || 'An error occurred while uploading the image.';
+            })
+            // delete image
+            .addCase(deleteGuestImage.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(deleteGuestImage.fulfilled, (state, action: PayloadAction<BackendResponse>) => {
+                state.loading = false;
+                if (action.payload.success) {
+                    const deletedImageId = action.payload.data.imageId;
+                    if (state.data.guestPhotos) {
+                        state.data.guestPhotos = state.data.guestPhotos.filter(
+                            (photo, index) => index !== deletedImageId
+                        );
+                    }
+                } else {
+                    state.error = action.payload.message || 'Failed to delete image.';
+                }
+            })
+            .addCase(deleteGuestImage.rejected, (state, action) => {
+                state.loading = false;
+                state.error = 'An error occurred while deleting the image.';
+            });
     },
 })
 

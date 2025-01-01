@@ -94,7 +94,7 @@ export default function Settings() {
           id='2'
           imgWidth={100}
           defaultImg={guest?.guestPhotos?.[2]}
-          endpoit='/api/guest/saveGuestProfileImages'
+          endpoint='/api/guest/saveGuestProfileImages'
         />
         <ThemeSwitch />
         <IconTextList content={settings} />
