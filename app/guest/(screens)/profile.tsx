@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import Tabs from '@/components/guest/tabs';
 import FormUser from '@/components/guest/formGuest';
@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import '@/assets/translations/i18n'
 import { AppDispatch, RootState } from '@/redux/store';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getGuest } from '@/redux/slices/guest/slice'
 import Slide from '@/components/slide';
 import Input from '@/components/inputs/input';
@@ -26,20 +26,18 @@ export default function Profile() {
     { label: t('Área do funcionário'), content: <FormStaff /> },
   ];
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      const result = await dispatch(getGuest())
-      if (result) {
-        console.log('guest', guest)
-      } else {
-        console.error('Error fetching guest data')
-      }
+  const fetchUserData = async () => {
+    const result = await dispatch(getGuest())
+    if (result) {
+      console.log('guest', guest)
+    } else {
+      console.error('Error fetching guest data')
     }
+  }
 
-    if (!guest) {
-      fetchUserData()
-    }
-  }, [guest, dispatch])
+  useEffect(() => {
+    fetchUserData()
+  }, [])
 
   const formattedGuestPhotos = guest?.guestPhotos?.map((photo, index) => ({
     id: index.toString(),

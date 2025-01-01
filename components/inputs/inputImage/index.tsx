@@ -5,6 +5,7 @@ import { useUploadImages } from '@/hooks/useUploadImage';
 import { showToast } from '@/components/toast';
 import { useTranslation } from 'react-i18next';
 import '@/assets/translations/i18n';
+import * as ImageManipulator from "expo-image-manipulator";
 
 interface InputImageProps {
     id: string,
@@ -22,7 +23,6 @@ const InputImage: React.FC<InputImageProps> = ({ id, label, suportText, borderRa
     const [image, setImage] = useState<string | null>(defaultImg || null);
     const { uploadFile, isUploading, progress, error } = useUploadImages();
     const { t } = useTranslation();
-
 
     const handleUpload = async (file: any) => {
         if (file) {
@@ -44,34 +44,33 @@ const InputImage: React.FC<InputImageProps> = ({ id, label, suportText, borderRa
         });
 
         if (!result.canceled) {
-
             const asset = result.assets[0];
 
-            const maxFileSize = 3 * 1024 * 1024;
-            if (asset.fileSize && asset.fileSize > maxFileSize) {
-                console.error(`File size exceeds the limit of 3MB.`);
-                showToast({
-                    type: 'error',
-                    title: t('Arquivo muito grande'),
-                    message: t('Por favor, selecione uma imagem com tamanho menor que 3MB.')
-                })
-                return;
+            try {
+                const resizedImage = await ImageManipulator.manipulateAsync(
+                    asset.uri,
+                    [{ resize: { width: 800 } }],
+                    { compress: 0.7, format: ImageManipulator.SaveFormat.JPEG }
+                );
+
+                setImage(resizedImage.uri);
+
+                const imageUri = resizedImage.uri;
+                const originalFilename = asset.fileName;
+                const match = /\.(\w+)$/.exec(originalFilename as string);
+                const fileExtension = match ? match[1] : 'jpg';
+                const type = `image/${fileExtension}`;
+                const filename = `${id}.${fileExtension}`;
+
+                const img = new FormData();
+                img.append('id', id);
+                img.append('photo', { uri: imageUri, name: filename, type } as any);
+
+                handleUpload(img)
+            } catch (error) {
+                console.error('Error resizing image:', error)
+                return
             }
-
-            setImage(asset.uri);
-
-            const imageUri = asset.uri;
-            const originalFilename = asset.fileName;
-            const match = /\.(\w+)$/.exec(originalFilename as string);
-            const fileExtension = match ? match[1] : 'jpg';
-            const type = `image/${fileExtension}`;
-            const filename = `${id}.${fileExtension}`;
-
-            const img = new FormData();
-            img.append('id', id);
-            img.append('photo', { uri: imageUri, name: filename, type } as any);
-
-            handleUpload(img)
         }
     };
 
@@ -86,7 +85,7 @@ const InputImage: React.FC<InputImageProps> = ({ id, label, suportText, borderRa
             {suportText && <Text style={styles.suportText}>{suportText}</Text>}
             <View style={styles.row}>
                 {!isUploading && !error && image ? (
-                    <Pressable onPress={pickImage} style={{zIndex: 10}}>
+                    <Pressable onPress={pickImage} style={{ zIndex: 10 }}>
                         {!borderRadius &&
                             <Pressable onPress={handleRemoveImg} style={styles.removePhoto}>
                                 <Text>X</Text>

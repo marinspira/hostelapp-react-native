@@ -33,7 +33,7 @@ export default function FormGuest({ checkin }: FormProps) {
 
     useEffect(() => {
         console.log('formGuest', guest)
-    }, [guest])
+    }, [])
 
     return (
         <View style={styles.container}>
