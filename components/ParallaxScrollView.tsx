@@ -2,6 +2,7 @@ import type { PropsWithChildren, ReactElement } from 'react';
 import { Image, StyleSheet, useWindowDimensions, View } from 'react-native';
 import Animated, { interpolate, useAnimatedRef, useAnimatedStyle, useScrollViewOffset, } from 'react-native-reanimated';
 import Slide from '@/components/slide';
+import { useTheme } from '@/hooks/useThemeColor';
 
 const HEADER_HEIGHT = 550;
 
@@ -17,6 +18,7 @@ export default function ParallaxScrollView({
   const scrollOffset = useScrollViewOffset(scrollRef);
   const bottom = 0;
 
+  const dynamicStyles = useTheme()
   const { width } = useWindowDimensions()
 
   const headerAnimatedStyle = useAnimatedStyle(() => {
@@ -33,7 +35,7 @@ export default function ParallaxScrollView({
   });
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, dynamicStyles.container]}>
       <Animated.ScrollView
         ref={scrollRef}
         scrollEventThrottle={16}
@@ -46,7 +48,7 @@ export default function ParallaxScrollView({
             component={(item: any) => <Image source={{ uri: item.url }} style={[styles.image, { width }]} />}
           />
         </Animated.View>
-        <View style={[styles.content]}>
+        <View style={[styles.content, dynamicStyles.container]}>
           {children}
         </View>
       </Animated.ScrollView>
@@ -69,7 +71,6 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     paddingTop: 20,
     marginTop: 0,
-    backgroundColor: 'white'
   },
   photoSelector: {
     zIndex: 9,

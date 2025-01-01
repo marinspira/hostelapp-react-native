@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
 import { deleteGuestImage, uploadGuestImage } from '@/redux/slices/guest/slice';
 import useGenerateRandomFilename from '@/hooks/useRandomName';
+import { useTheme } from '@/hooks/useThemeColor';
 
 interface InputImageProps {
     id: string,
@@ -29,6 +30,7 @@ const InputImage: React.FC<InputImageProps> = ({ id, label, suportText, borderRa
     const [image, setImage] = useState<string | null>(defaultImg || null);
 
     const { t } = useTranslation();
+    const dynamicStyles = useTheme()
     const dispatch = useDispatch<AppDispatch>()
 
     const pickImage = async () => {
@@ -114,7 +116,7 @@ const InputImage: React.FC<InputImageProps> = ({ id, label, suportText, borderRa
 
     return (
         <View style={styles.container}>
-            <Text style={styles.formTitle}>{label}</Text>
+            <Text style={dynamicStyles.label}>{label}</Text>
             {suportText && <Text style={styles.suportText}>{suportText}</Text>}
             <View style={styles.row}>
                 {image ? (
@@ -149,14 +151,6 @@ const styles = StyleSheet.create({
     image: {
         width: 85,
         height: 85,
-    },
-    formTitle: {
-        fontSize: 12,
-        fontWeight: 'bold',
-        marginBottom: 8,
-        color: '#333',
-        textTransform: 'uppercase',
-        letterSpacing: 2,
     },
     imgPickerBtn: {
         width: 70,

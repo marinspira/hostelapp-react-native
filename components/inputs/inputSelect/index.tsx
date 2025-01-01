@@ -4,6 +4,7 @@ import { Picker } from '@react-native-picker/picker';
 import { Colors } from '@/constants/Colors';
 import '@/assets/translations/i18n';
 import { useTranslation } from 'react-i18next';
+import { useTheme } from '@/hooks/useThemeColor';
 
 interface InputSelectProps {
     selectInputItems: string[];
@@ -18,6 +19,7 @@ export default function InputSelect({ selectInputItems, label, value, onChange, 
     const [showModal, setShowModal] = useState<boolean>(false);
 
     const { t } = useTranslation();
+    const dynamicStyles = useTheme()
 
     const handleValueChange = (itemValue: string) => {
         setSelectItem(itemValue);
@@ -26,7 +28,7 @@ export default function InputSelect({ selectInputItems, label, value, onChange, 
 
     return (
         <View style={styles.fieldContainer}>
-            <Text style={styles.formTitle}>{label}</Text>
+            <Text style={dynamicStyles.label}>{label}</Text>
             {suportText && <Text style={styles.suportText}>{suportText}</Text>}
 
             {/* Modal para iOS */}
@@ -101,14 +103,6 @@ export default function InputSelect({ selectInputItems, label, value, onChange, 
 const styles = StyleSheet.create({
     fieldContainer: {
         marginBottom: 30,
-    },
-    formTitle: {
-        fontSize: 12,
-        fontWeight: 'bold',
-        marginBottom: 8,
-        color: '#333',
-        textTransform: 'uppercase',
-        letterSpacing: 2,
     },
     selectInput: {
         backgroundColor: '#f7f7f7',

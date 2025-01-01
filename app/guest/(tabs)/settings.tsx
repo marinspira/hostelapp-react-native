@@ -51,15 +51,21 @@ export default function Settings() {
       onPress: () => router.push('/')
     },
     {
-      icon: <Feather name="lock" size={24} color={dynamicStyles.icon} />,
-      title: t('Politicas e privacidade'),
-      description: t('Conheça nossas políticas de privacidade e como seus dados são tratados.'),
-      onPress: () => router.push('/')
-    },
-    {
       icon: <Feather name="headphones" size={24} color={dynamicStyles.icon} />,
       title: t('Suporte'),
       description: t('Fale com nossa equipe de suporte para ajuda e dúvidas.'),
+      onPress: () => router.push('/')
+    },
+    {
+      icon: <AntDesign name="tool" size={24} color={dynamicStyles.icon} />,
+      title: t('Reportar problema ou sugerir melhoria'),
+      description: t('Encontrou algo que não está funcionando ou tem uma ideia para melhorar? Envie seu feedback aqui.'),
+      onPress: () => router.push('/')
+    },
+    {
+      icon: <Feather name="lock" size={24} color={dynamicStyles.icon} />,
+      title: t('Politicas e privacidade'),
+      description: t('Conheça nossas políticas de privacidade e como seus dados são tratados.'),
       onPress: () => router.push('/')
     },
     {
@@ -90,12 +96,6 @@ export default function Settings() {
             <Text style={dynamicStyles.suportText}>{t('Ver perfil')}</Text>
           </View>
         </TouchableOpacity>
-        <InputImage
-          id='2'
-          imgWidth={100}
-          defaultImg={guest?.guestPhotos?.[2]}
-          endpoint='/api/guest/saveGuestProfileImages'
-        />
         <ThemeSwitch />
         <IconTextList content={settings} />
       </View>

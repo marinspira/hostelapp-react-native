@@ -12,17 +12,21 @@ import { getGuest } from '@/redux/slices/guest/slice'
 import Slide from '@/components/slide';
 import Input from '@/components/inputs/input';
 import FormGuest from '@/components/guest/formGuest';
+import { useTheme } from '@/hooks/useThemeColor';
+import FormPersonal from '@/components/guest/formPersonal';
 
 export default function Profile() {
 
   const { t, i18n } = useTranslation();
   const user = useSelector((state: RootState) => state.user.data)
   const guest = useSelector((state: RootState) => state.guest.data)
+  const dynamicStyles = useTheme()
 
   const dispatch = useDispatch<AppDispatch>()
 
   const tabData = [
-    { label: 'CHECK IN', content: <FormUser /> },
+    { label: 'Check in', content: <FormUser /> },
+    { label: 'Personal', content: <FormPersonal /> },
     { label: t('Área do funcionário'), content: <FormStaff /> },
   ];
 
@@ -46,7 +50,7 @@ export default function Profile() {
 
   return (
     <ParallaxScrollView imagesArray={formattedGuestPhotos} >
-      <View style={styles.userDataContainer}>
+      <View style={[styles.userDataContainer, dynamicStyles.container]}>
         <Text>{user?.name}</Text>
         <Tabs tabs={tabData} />
       </View>
@@ -58,6 +62,5 @@ const styles = StyleSheet.create({
   userDataContainer: {
     flexDirection: 'column',
     gap: 8,
-    backgroundColor: 'white'
   },
 });

@@ -3,6 +3,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import '@/assets/translations/i18n'
 import { useTranslation } from 'react-i18next';
+import { useTheme } from '@/hooks/useThemeColor';
 
 interface SelectItensProps {
     label: string;
@@ -27,6 +28,7 @@ const SelectItens: React.FC<SelectItensProps> = ({
 }) => {
 
     const { t, i18n } = useTranslation();
+    const dynamicStyles = useTheme()
 
     const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
     const [options, setOptions] = useState<string[]>(initialOptions);
@@ -75,7 +77,7 @@ const SelectItens: React.FC<SelectItensProps> = ({
     return (
         <View style={styles.fieldContainer}>
             {/* label and support text */}
-            <Text style={styles.formTitle}>{label}</Text>
+            <Text style={dynamicStyles.label}>{label}</Text>
             {suportText && <Text style={styles.suportText}>{suportText}</Text>}
 
             {/* select input */}
@@ -192,14 +194,6 @@ const styles = StyleSheet.create({
     },
     fieldContainer: {
         marginBottom: 30,
-    },
-    formTitle: {
-        fontSize: 12,
-        fontWeight: 'bold',
-        marginBottom: 8,
-        color: '#333',
-        textTransform: 'uppercase',
-        letterSpacing: 2,
     },
     optionsContainer: {
         display: 'flex',

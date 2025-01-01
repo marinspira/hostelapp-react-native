@@ -3,6 +3,7 @@ import DateTimePicker, { DateTimePickerAndroid } from '@react-native-community/d
 import { StyleSheet, Text, View } from 'react-native';
 import Input from '../input';
 import { Platform } from 'react-native';
+import { useTheme } from '@/hooks/useThemeColor';
 
 interface InputDateProps {
     label?: any;
@@ -28,6 +29,8 @@ const InputDate: React.FC<InputDateProps> = ({
     const [show, setShow] = useState(false);
     const [date, setDate] = useState<Date | undefined>(value || undefined);
     const [error, setError] = useState<string | null>(null);
+
+    const dynamicStyles = useTheme()
 
     const validateDate = (selectedDate?: Date) => {
         if (selectedDate) {
@@ -63,7 +66,7 @@ const InputDate: React.FC<InputDateProps> = ({
     if (Platform.OS === 'ios') {
         return (
             <View style={styles.inputDateIos}>
-                <Text style={styles.label}>{label}</Text>
+                <Text style={dynamicStyles.label}>{label}</Text>
                 {suportText && <Text style={styles.suportText}>{suportText}</Text>}
                 <DateTimePicker
                     testID="dateTimePicker"

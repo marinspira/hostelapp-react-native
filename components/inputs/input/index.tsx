@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import '@/assets/translations/i18n';
+import { useTheme } from '@/hooks/useThemeColor';
 
 interface InputProps {
     label: string;
@@ -23,13 +24,14 @@ const Input: React.FC<InputProps> = ({
     errorMessage
 }) => {
     const { t } = useTranslation();
+    const dynamicStyles = useTheme()
     const [isTouched, setIsTouched] = useState(false);
 
     const showError = required && isTouched && !value;
 
     return (
         <View style={styles.fieldContainer}>
-            <Text style={styles.formTitle}>{t(label)}</Text>
+            <Text style={dynamicStyles.label}>{t(label)}</Text>
             <TextInput
                 style={[styles.input, showError && styles.inputError]}
                 placeholder={t(placeholder)}
@@ -53,14 +55,6 @@ const styles = StyleSheet.create({
     fieldContainer: {
         marginBottom: 30,
     },
-    formTitle: {
-        fontSize: 12,
-        fontWeight: 'bold',
-        marginBottom: 8,
-        color: '#333',
-        textTransform: 'uppercase',
-        letterSpacing: 2,
-    },
     input: {
         backgroundColor: '#f7f7f7',
         width: '100%',
@@ -68,14 +62,15 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         borderColor: '#ccc',
         borderWidth: 1,
-        fontSize: 14,
+        fontSize: 16,
+        // lineHeight: 28
     },
     inputError: {
         borderColor: '#ff4d4f', // Cor do erro
     },
     errorText: {
         color: '#ff4d4f',
-        fontSize: 12,
+        fontSize: 14,
         marginTop: 5,
     },
 });

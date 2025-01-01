@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, PanResponder } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, PanResponder, Dimensions } from 'react-native';
 import FormGuest from '../formGuest';
+import { Colors } from '@/constants/Colors';
 
 interface TabsProps {
   tabs: { label: string; content: any; }[];
@@ -8,6 +9,9 @@ interface TabsProps {
 
 const Tabs: React.FC<TabsProps> = ({ tabs }) => {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
+
+  const { width: screenWidth } = Dimensions.get('window');
+  const tabWidth = (screenWidth - (tabs.length - 1) * 10 - 20) / tabs.length;
 
   const panResponder = PanResponder.create({
     onMoveShouldSetPanResponder: (evt, gestureState) => Math.abs(gestureState.dx) > 20,
@@ -28,7 +32,11 @@ const Tabs: React.FC<TabsProps> = ({ tabs }) => {
         {tabs.map((tab, index) => (
           <TouchableOpacity
             key={tab.label}
-            style={[styles.tab, activeTabIndex === index && styles.activeTab]}
+            style={[
+              styles.tab,
+              { width: tabWidth },
+              activeTabIndex === index && styles.activeTab,
+            ]}
             onPress={() => setActiveTabIndex(index)}
           >
             <Text style={activeTabIndex === index ? styles.activeText : styles.inactiveText}>
@@ -50,7 +58,7 @@ const Tabs: React.FC<TabsProps> = ({ tabs }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
   },
   tabContainer: {
     flexDirection: 'row',
@@ -58,20 +66,18 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     textAlign: 'center',
     marginVertical: 20,
-    gap: 10,
   },
   tab: {
     padding: 15,
-    width: '47%',
     borderRadius: 10,
-    shadowOpacity: 0.25,
+    // shadowOpacity: 0.25,
     backgroundColor: '#f1f1f1',
     shadowRadius: 4,
     margin: 2,
     elevation: 2,
   },
   activeTab: {
-    backgroundColor: '#9f39ff',
+    backgroundColor: Colors.light.tint,
     borderRadius: 10
   },
   activeText: {

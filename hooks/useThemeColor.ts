@@ -28,7 +28,7 @@ export const useTheme = () => {
       fontSize: 12,
       fontWeight: 'bold',
       marginBottom: 8,
-      color: '#333',
+      color: color.text,
       textTransform: 'uppercase',
       letterSpacing: 2,
     } as TextStyle,

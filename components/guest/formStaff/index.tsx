@@ -2,13 +2,14 @@ import { useEffect } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 import BlockedScreen from '@/components/guest/blockedScreen';
 import Input from '@/components/inputs/input';
-import SelectItens from '../selectItens';
+import SelectItens from '../../inputs/selectItens';
 import { useDispatch, useSelector } from 'react-redux';
 import InputSelect from '../../inputs/inputSelect';
 import { useTranslation } from 'react-i18next';
 import '@/assets/translations/i18n'
 import { StaffState } from '@/redux/slices/staff/interfaces';
 import { updateStaffFields } from '@/redux/slices/staff/slice';
+import { useTheme } from '@/hooks/useThemeColor';
 
 export default function FormStaff() {
 
@@ -16,6 +17,7 @@ export default function FormStaff() {
 
     const staff = useSelector((state: { staff: StaffState }) => state.staff)
     const dispatch = useDispatch()
+    const dynamicStyles = useTheme()
 
     const formFields: { key: keyof StaffState; label: string; placeholder: string }[] = [
         { key: 'education', label: t('Educação'), placeholder: t('Exemplo: Graduado em Desenvolvimento de Software') },
@@ -33,44 +35,42 @@ export default function FormStaff() {
     }, [staff])
 
     return (
-        <View style={styles.container}>
-            <ScrollView style={styles.form} contentContainerStyle={styles.formContent}>
-                <SelectItens
-                    options={[
-                        t('Recepção'),
-                        t('Limpeza'),
-                        t('Assistente de cozinha'),
-                        t('Jardinagem'),
-                        t('Babá'),
-                        t('Ensino de esportes'),
-                        t('Cuidados de animais'),
-                        t('Ensino de idiomas'),
-                        t('Construção'),
-                        'Bartender',
-                    ]}
-                    label={t('Habilidades')}
-                    suportText='Select up to 5 options'
-                    maxSelections={5}
-                    value={staff.skills}
-                    onChange={(value) => handleChange('skills', value)}
+        <View style={[styles.container, dynamicStyles.container]}>
+            <SelectItens
+                options={[
+                    t('Recepção'),
+                    t('Limpeza'),
+                    t('Assistente de cozinha'),
+                    t('Jardinagem'),
+                    t('Babá'),
+                    t('Ensino de esportes'),
+                    t('Cuidados de animais'),
+                    t('Ensino de idiomas'),
+                    t('Construção'),
+                    'Bartender',
+                ]}
+                label={t('Habilidades')}
+                suportText='Select up to 5 options'
+                maxSelections={5}
+                value={staff.skills}
+                onChange={(value) => handleChange('skills', value)}
+            />
+            <InputSelect
+                label={t('Para onde você gostaria que fosse a sua próxima viagem?')}
+                selectInputItems={['Brazil', 'USA', 'France', 'Italy']}
+                suportText={t('Nós vamos sugerir você para os anfitriões desse lugar :)')}
+                value={staff.nextDesiredTrip}
+                onChange={(value) => handleChange('nextDesiredTrip', value)}
+            />
+            {formFields.map((field) => (
+                <Input
+                    key={field.key}
+                    label={field.label}
+                    placeholder={field.placeholder}
+                    value={staff[field.key]}
+                    onChange={(value) => handleChange(field.key, value)}
                 />
-                <InputSelect
-                    label={t('Para onde você gostaria que fosse a sua próxima viagem?')}
-                    selectInputItems={['Brazil', 'USA', 'France', 'Italy']}
-                    suportText={t('Nós vamos sugerir você para os anfitriões desse lugar :)')}
-                    value={staff.nextDesiredTrip}
-                    onChange={(value) => handleChange('nextDesiredTrip', value)}
-                />
-                {formFields.map((field) => (
-                    <Input
-                        key={field.key}
-                        label={field.label}
-                        placeholder={field.placeholder}
-                        value={staff[field.key]}
-                        onChange={(value) => handleChange(field.key, value)}
-                    />
-                ))}
-            </ScrollView>
+            ))}
             {!staff && (
                 <BlockedScreen
                     btn={{

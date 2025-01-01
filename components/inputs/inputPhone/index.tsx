@@ -1,3 +1,4 @@
+import { useTheme } from '@/hooks/useThemeColor';
 import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import PhoneInput, { ICountry } from 'react-native-international-phone-number';
@@ -11,6 +12,7 @@ export default function InputPhone({ label, onChange }: Props) {
   const [selectedCountry, setSelectedCountry] =
     useState<null | ICountry>(null);
   const [inputValue, setInputValue] = useState<string>('');
+  const dynamicStyles = useTheme()
 
   function handleInputValue(phoneNumber: string) {
     setInputValue(phoneNumber);
@@ -29,7 +31,7 @@ export default function InputPhone({ label, onChange }: Props) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>{label}</Text>
+      <Text style={dynamicStyles.label}>{label}</Text>
       <PhoneInput
         value={inputValue}
         onChangePhoneNumber={handleInputValue}
