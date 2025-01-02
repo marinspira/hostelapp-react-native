@@ -33,7 +33,7 @@ export default function FormPersonal() {
                     onChange={(value) => handleChange('description', value)}
                 />
                 <View style={styles.profile}>
-                    <Text style={dynamicStyles.label}>{t('Adicione fotos para que outros hóspedes possam te conhecer')}</Text>
+                    <Text style={dynamicStyles.label}>{t('Mostre um pouco de você e suas aventuras')}</Text>
                     <View style={styles.photos}>
                         <InputImage
                             id='0'

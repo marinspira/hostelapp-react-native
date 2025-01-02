@@ -36,41 +36,43 @@ export default function FormStaff() {
 
     return (
         <View style={[styles.container, dynamicStyles.container]}>
-            <SelectItens
-                options={[
-                    t('Recepção'),
-                    t('Limpeza'),
-                    t('Assistente de cozinha'),
-                    t('Jardinagem'),
-                    t('Babá'),
-                    t('Ensino de esportes'),
-                    t('Cuidados de animais'),
-                    t('Ensino de idiomas'),
-                    t('Construção'),
-                    'Bartender',
-                ]}
-                label={t('Habilidades')}
-                suportText='Select up to 5 options'
-                maxSelections={5}
-                value={staff.skills}
-                onChange={(value) => handleChange('skills', value)}
-            />
-            <InputSelect
-                label={t('Para onde você gostaria que fosse a sua próxima viagem?')}
-                selectInputItems={['Brazil', 'USA', 'France', 'Italy']}
-                suportText={t('Nós vamos sugerir você para os anfitriões desse lugar :)')}
-                value={staff.nextDesiredTrip}
-                onChange={(value) => handleChange('nextDesiredTrip', value)}
-            />
-            {formFields.map((field) => (
-                <Input
-                    key={field.key}
-                    label={field.label}
-                    placeholder={field.placeholder}
-                    value={staff[field.key]}
-                    onChange={(value) => handleChange(field.key, value)}
+            <View style={styles.form}>
+                <SelectItens
+                    options={[
+                        t('Recepção'),
+                        t('Limpeza'),
+                        t('Assistente de cozinha'),
+                        t('Jardinagem'),
+                        t('Babá'),
+                        t('Ensino de esportes'),
+                        t('Cuidados de animais'),
+                        t('Ensino de idiomas'),
+                        t('Construção'),
+                        'Bartender',
+                    ]}
+                    label={t('Habilidades')}
+                    suportText='Select up to 5 options'
+                    maxSelections={5}
+                    value={staff.skills}
+                    onChange={(value) => handleChange('skills', value)}
                 />
-            ))}
+                <InputSelect
+                    label={t('Para onde você gostaria que fosse a sua próxima viagem?')}
+                    selectInputItems={['Brazil', 'USA', 'France', 'Italy']}
+                    suportText={t('Nós vamos sugerir você para os anfitriões desse lugar :)')}
+                    value={staff.nextDesiredTrip}
+                    onChange={(value) => handleChange('nextDesiredTrip', value)}
+                />
+                {formFields.map((field) => (
+                    <Input
+                        key={field.key}
+                        label={field.label}
+                        placeholder={field.placeholder}
+                        value={staff[field.key]}
+                        onChange={(value) => handleChange(field.key, value)}
+                    />
+                ))}
+            </View>
             {!staff && (
                 <BlockedScreen
                     btn={{
@@ -93,10 +95,6 @@ const styles = StyleSheet.create({
     form: {
         width: '100%',
         marginVertical: 20,
-        backgroundColor: '#ffffff',
         borderRadius: 10,
-    },
-    formContent: {
-
     }
 });
