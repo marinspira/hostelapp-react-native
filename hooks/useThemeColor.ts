@@ -37,7 +37,7 @@ export const useTheme = () => {
       backgroundColor: color.background,
     },
     border: {
-      borderColor: color.border
+      borderColor: color.border,
     },
     tint: {
       backgroundColor: color.tint

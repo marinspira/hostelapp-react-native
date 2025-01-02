@@ -93,5 +93,6 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         backgroundColor: Colors.light.tint,
         marginHorizontal: 8,
+        zIndex: 4
     },
 });

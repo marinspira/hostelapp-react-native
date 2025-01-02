@@ -1,18 +1,28 @@
-import type { PropsWithChildren, ReactElement } from 'react';
-import { Image, StyleSheet, useWindowDimensions, View } from 'react-native';
+import type { PropsWithChildren } from 'react';
+import { Image, Pressable, RefreshControl, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import Animated, { interpolate, useAnimatedRef, useAnimatedStyle, useScrollViewOffset, } from 'react-native-reanimated';
 import Slide from '@/components/slide';
 import { useTheme } from '@/hooks/useThemeColor';
+import Linear from '@/assets/images/gradient.svg'
 
 const HEADER_HEIGHT = 550;
 
 type Props = PropsWithChildren<{
-  imagesArray: any
+  imagesArray: any,
+  textOverImage?: string,
+  refreshControl?: any,
+  button?: {
+    icon: any,
+    url: any
+  }
 }>;
 
 export default function ParallaxScrollView({
   children,
   imagesArray,
+  textOverImage,
+  refreshControl,
+  button
 }: Props) {
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
   const scrollOffset = useScrollViewOffset(scrollRef);
@@ -40,13 +50,26 @@ export default function ParallaxScrollView({
         ref={scrollRef}
         scrollEventThrottle={16}
         scrollIndicatorInsets={{ bottom }}
-        contentContainerStyle={{ paddingBottom: bottom }}>
+        contentContainerStyle={{ paddingBottom: bottom }}
+      // refreshControl={<RefreshControl />}
+      >
         <Animated.View
           style={[styles.header, headerAnimatedStyle]}>
+          {button &&
+            <Pressable style={styles.button} onPress={button.url}>
+              {button.icon}
+            </Pressable>
+          }
+          {textOverImage &&
+            <View style={styles.overlay} pointerEvents='none'>
+              <Linear />
+            </View>
+          }
           <Slide
             data={imagesArray}
             component={(item: any) => <Image source={{ uri: item.url }} style={[styles.image, { width }]} />}
           />
+          <Text style={styles.text}>{textOverImage}</Text>
         </Animated.View>
         <View style={[styles.content, dynamicStyles.container]}>
           {children}
@@ -63,6 +86,16 @@ const styles = StyleSheet.create({
   header: {
     height: HEADER_HEIGHT,
     overflow: 'hidden',
+    position: 'relative'
+  },
+  overlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 1,
+    maxHeight: 550
   },
   content: {
     flex: 1,
@@ -81,5 +114,22 @@ const styles = StyleSheet.create({
   image: {
     height: 550,
     resizeMode: 'cover'
+  },
+  text: {
+    position: 'absolute',
+    zIndex: 2,
+    fontSize: 30,
+    left: 20,
+    bottom: 50,
+    color: '#fff',
+    fontFamily: 'PoppinsBold',
+    maxWidth: '100%',
+    paddingRight: 40
+  },
+  button: {
+    position: 'absolute',
+    zIndex: 4,
+    left: 20,
+    top: 80
   }
 });

@@ -162,9 +162,9 @@ export default SelectItens;
 const styles = StyleSheet.create({
     button: {
         paddingVertical: 8,
-        paddingHorizontal: 20,
+        paddingHorizontal: 25,
         borderWidth: 1,
-        borderRadius: 60,
+        borderRadius: 8,
         alignSelf: 'flex-start',
         marginVertical: 5,
         marginRight: 10,
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
         borderColor: '#9f39ff',
     },
     buttonText: {
-        fontSize: 12,
+        fontSize: 14,
         textTransform: 'uppercase',
         fontWeight: '800',
         letterSpacing: 1,
