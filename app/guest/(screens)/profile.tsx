@@ -13,6 +13,7 @@ import FormPersonal from '@/components/guest/formPersonal';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import converteDateToAge from '@/utils/converteDateToAge';
+import { StatusBar } from 'expo-status-bar';
 
 export default function Profile() {
 
@@ -51,6 +52,7 @@ export default function Profile() {
       button={{ icon: <FontAwesome5 name="arrow-left" size={24} color="white" />, url: () => router.back() }}
       textOverImage={`${user?.name}, ${converteDateToAge(guest?.birthday as string)}`} imagesArray={formattedGuestPhotos}
     >
+      <StatusBar style='light' />
       <Tabs tabs={tabData} />
     </ParallaxScrollView>
   );

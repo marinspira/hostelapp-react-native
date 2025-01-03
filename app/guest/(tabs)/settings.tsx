@@ -41,31 +41,31 @@ export default function Settings() {
     {
       icon: <Feather name="user-check" size={24} color={dynamicStyles.icon} />,
       title: t('Configurar assinatura'),
-      description: t('Gerencie sua assinatura, planos e pagamentos.'),
+      description: t('Gerencie sua assinatura, planos e pagamentos'),
       onPress: () => router.push('/')
     },
     {
       icon: <AntDesign name="questioncircleo" size={24} color={dynamicStyles.icon} />,
       title: t('Como isso funciona'),
-      description: t('Saiba mais sobre o funcionamento do aplicativo e seus recursos.'),
+      description: t('Saiba mais sobre o funcionamento do aplicativo e seus recursos'),
       onPress: () => router.push('/')
     },
     {
       icon: <Feather name="headphones" size={24} color={dynamicStyles.icon} />,
       title: t('Suporte'),
-      description: t('Fale com nossa equipe de suporte para ajuda e dúvidas.'),
+      description: t('Fale com nossa equipe de suporte para ajuda e dúvidas'),
       onPress: () => router.push('/')
     },
     {
       icon: <AntDesign name="tool" size={24} color={dynamicStyles.icon} />,
       title: t('Reportar problema ou sugerir melhoria'),
-      description: t('Encontrou algo que não está funcionando ou tem uma ideia para melhorar? Envie seu feedback aqui.'),
+      description: t('Encontrou algo que não está funcionando ou tem uma ideia para melhorar? Envie seu feedback aqui'),
       onPress: () => router.push('/')
     },
     {
       icon: <Feather name="lock" size={24} color={dynamicStyles.icon} />,
       title: t('Politicas e privacidade'),
-      description: t('Conheça nossas políticas de privacidade e como seus dados são tratados.'),
+      description: t('Conheça nossas políticas de privacidade e como seus dados são tratados'),
       onPress: () => router.push('/')
     },
     {
