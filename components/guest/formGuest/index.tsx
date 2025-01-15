@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateGuestField } from '@/redux/slices/guest/slice';
+import { updateGuest, updateGuestField } from '@/redux/slices/guest/slice';
 import { useTranslation } from 'react-i18next';
 import InputSelect from '@/components/inputs/inputSelect';
 import InputImage from '@/components/inputs/inputImage';
@@ -9,17 +9,33 @@ import SelectItens from '@/components/inputs/selectItens'
 import '@/assets/translations/i18n'
 import InputPhone from '@/components/inputs/inputPhone';
 import countries from '@/utils/coutries'
-import { RootState } from '@/redux/store';
+import { AppDispatch, RootState } from '@/redux/store';
 
 export default function FormGuest() {
     const { t, i18n } = useTranslation();
 
     const guest = useSelector((state: RootState) => state.guest.data)
-    const dispatch = useDispatch()
+    const dispatch = useDispatch<AppDispatch>()
+
 
     function handleChange(key: any, value: any) {
-        dispatch(updateGuestField({ key, value }))
+        dispatch(updateGuestField({ key, value }));
+
+        let timeoutId: NodeJS.Timeout | null = null;
+
+        if (timeoutId) {
+            clearTimeout(timeoutId);
+        }
+
+        timeoutId = setTimeout(() => {
+            dispatch(updateGuest());
+            timeoutId = null;
+        }, 20000);
     }
+
+    useEffect(() => {
+        console.log('guest', guest)
+    }, [guest])
 
     return (
         <View style={styles.container}>

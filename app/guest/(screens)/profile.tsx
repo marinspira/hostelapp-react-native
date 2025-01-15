@@ -31,11 +31,6 @@ export default function Profile() {
 
   const fetchUserData = async () => {
     const result = await dispatch(getGuest())
-    if (result) {
-      console.log('guest', guest)
-    } else {
-      console.error('Error fetching guest data')
-    }
   }
 
   useEffect(() => {

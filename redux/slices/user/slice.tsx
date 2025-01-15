@@ -21,7 +21,7 @@ export const isAuthenticated = createAsyncThunk<BackendResponse, void, { rejectV
 
       if (!response.ok) {
         const errorDetails = await response.json();
-        console.error("Failed to authenticate", errorDetails);
+        console.error("Failed to authenticate", errorDetails.error);
         throw new Error('Failed to send user data');
       }
 
@@ -169,7 +169,7 @@ const userSlice = createSlice({
         state.loading = false;
       })
       .addCase(isAuthenticated.rejected, (state, action) => {
-        state.error = action.payload || 'Unknown error';
+        state.data = null;
         state.loading = false;
       })
       // googleAuth

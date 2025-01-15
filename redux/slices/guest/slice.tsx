@@ -73,7 +73,7 @@ export const getGuest = createAsyncThunk<BackendResponse, void, { state: RootSta
 
             if (!response.ok) {
                 const errorDetails = await response.json();
-                console.error("Error:", errorDetails);
+                console.error("Error:", errorDetails.error);
                 throw new Error('Failed to get guest data');
             }
 
@@ -90,8 +90,42 @@ export const getGuest = createAsyncThunk<BackendResponse, void, { state: RootSta
             } as BackendResponse;
 
         } catch (error: any) {
-            console.error(error)
+            console.error(error.message)
             return rejectWithValue(error)
+        }
+    }
+)
+
+export const updateGuest = createAsyncThunk<BackendResponse, void, { state: RootState; rejectValue: string }>(
+    'guest/update',
+    async (_, { getState, rejectWithValue }) => {
+        try {
+            const state = getState() as RootState;
+            const guestData = state.guest.data;
+
+            const updatedGuestWithoutImages = Object.fromEntries(
+                Object.entries(guestData).filter(([key]) => key !== 'guestPhotos')
+            );
+
+            const response = await fetch(`${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/api/guest/updateGuest`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify({ updatedGuestWithoutImages }),
+            });
+
+            if (!response.ok) {
+                const errorDetails = await response.json();
+                console.error("Failed to login:", errorDetails);
+                throw new Error('Failed to send user data');
+            }
+
+            const result = await response.json()
+            return result as BackendResponse
+
+        } catch (error: any) {
+            console.log(error)
+            return rejectWithValue(error);
         }
     }
 )
