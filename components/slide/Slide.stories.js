@@ -1,13 +1,17 @@
 import React from "react";
 import { storiesOf } from "@storybook/react-native";
 import { View, Text, Button, StyleSheet } from "react-native";
-import Slide from "./Slide";
+import Slide from "./index";
+import { router } from "expo-router";
+import SimpleButton from '@/components/buttons/SimpleButton'
 
 const sampleData = [
   { id: "1", text: "Slide 1" },
   { id: "2", text: "Slide 2" },
   { id: "3", text: "Slide 3" }
 ];
+
+const role = 'guest'
 
 const SampleComponent = (item) => (
   <View style={styles.slide}>
@@ -17,20 +21,29 @@ const SampleComponent = (item) => (
 
 const RenderButtons = (isLastSlide, handleNextSlide) => (
   <View style={styles.buttonContainer}>
-    {!isLastSlide && (
-      <Button title="Next" onPress={handleNextSlide} />
+    {isLastSlide ? (
+      <SimpleButton
+        text="Começar"
+        onPress={role === "guest" ?
+          () => { router.push('/public/login?role=guest'); }
+          :
+          () => { router.push('/public/login?role=host'); }
+        }
+      />
+    ) : (
+      <SimpleButton text="Próximo" onPress={handleNextSlide} />
     )}
   </View>
 );
 
-storiesOf("Slide", module)
+storiesOf("components/slide", module)
   .add("Default", () => (
     <Slide data={sampleData} component={SampleComponent} renderButtons={RenderButtons} />
   ));
 
 const styles = StyleSheet.create({
   slide: {
-    width: 300,
+    width: 370,
     height: 400,
     justifyContent: "center",
     alignItems: "center",

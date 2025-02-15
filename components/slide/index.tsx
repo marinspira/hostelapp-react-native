@@ -65,7 +65,9 @@ export default function Slide({ data, component, renderButtons }: SlideProps) {
                 })}
             </View>
             {renderButtons && (
-                <>{renderButtons(isLastSlide, handleNextSlide)} </>
+                <View style={styles.buttonsContainer}>
+                    {typeof renderButtons === "function" ? renderButtons(isLastSlide, handleNextSlide) : null}
+                </View>
             )}
         </View>
     )
@@ -79,12 +81,12 @@ const styles = StyleSheet.create({
     contentContainer: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center', 
+        alignItems: 'center',
     },
     paginator: {
         flexDirection: 'row',
-        position: 'absolute', 
-        bottom: 20,
+        position: 'absolute',
+        bottom: 120,
         alignSelf: 'center',
     },
     dot: {
@@ -95,4 +97,10 @@ const styles = StyleSheet.create({
         marginHorizontal: 8,
         zIndex: 4
     },
+    buttonsContainer: {
+        paddingHorizontal: 20,
+        gap: 10,
+        width: '100%',
+        bottom: 0
+    }
 });

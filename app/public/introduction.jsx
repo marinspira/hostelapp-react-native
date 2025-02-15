@@ -75,7 +75,7 @@ function IntroductionScreen() {
             <StatusBar style="dark" />
             <Slide data={data} component={(item) => <IntroductionItems item={item} />}
                 renderButtons={(isLastSlide, handleNextSlide) => (
-                    <View style={styles.buttonsContainer}>
+                    <>
                         {isLastSlide ? (
                             <SimpleButton
                                 text={t("Começar")}
@@ -94,7 +94,7 @@ function IntroductionScreen() {
                             backgroundColor="transparent"
                             textColor={Colors.light.tint}
                         />
-                    </View>
+                    </>
                 )} />
         </SafeAreaView >
     );

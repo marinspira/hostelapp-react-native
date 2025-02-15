@@ -22,7 +22,6 @@ export const isAuthenticated = createAsyncThunk<BackendResponse, void, { rejectV
       // Verifica se a resposta está OK antes de tentar processar
       if (!response.ok) {
         if (response.status === 401) {
-          console.error("Login to continue");
           showToast({
             type: 'error',
             title: 'Authentication Required',
