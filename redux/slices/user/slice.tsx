@@ -16,31 +16,49 @@ export const isAuthenticated = createAsyncThunk<BackendResponse, void, { rejectV
       const response = await fetch(`${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/api/auth/isAuthenticated`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        credentials: 'include'
-      })
+        credentials: 'include',
+      });
 
+      // Verifica se a resposta está OK antes de tentar processar
       if (!response.ok) {
-        const errorDetails = await response.json();
-        console.error("Failed to authenticate", errorDetails.error);
-        throw new Error('Failed to send user data');
+        if (response.status === 401) {
+          console.error("Login to continue");
+          showToast({
+            type: 'error',
+            title: 'Authentication Required',
+            message: 'Please log in to continue using this feature.',
+          });
+          return rejectWithValue('Login to continue');
+        }
+        console.error("Failed to authenticate", response.status, response.statusText);
+        return rejectWithValue('Failed to authenticate');
+      }
+
+      // Verifica se a resposta contém JSON antes de tentar fazer o parsing
+      const contentType = response.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        console.error("Unexpected response format", contentType);
+        return rejectWithValue("Unexpected response format");
       }
 
       const user = await response.json();
+      console.log(user);
 
-      // showToast({
-      //   type: user.success === true ? 'success' : 'error',
-      //   title: 'Login',
-      //   message: user.message,
-      // });
+      showToast({
+        type: user.success === true ? 'success' : 'error',
+        title: 'Login',
+        message: user.message,
+      });
 
-      return user as BackendResponse
+      return user as BackendResponse;
 
     } catch (error) {
       console.error("Unexpected error occurred during authentication", error);
-      return rejectWithValue((error as Error).message)
+      return rejectWithValue("Unexpected error occurred");
     }
   }
-)
+);
+
 
 export const appleAuth = createAsyncThunk<BackendResponse, { identityToken: string; fullName: string; role: string }, { rejectValue: string }>(
   'user/appleAuth',
@@ -56,8 +74,8 @@ export const appleAuth = createAsyncThunk<BackendResponse, { identityToken: stri
 
       if (!response.ok) {
         const errorDetails = await response.json();
-        console.error("Failed to login:", errorDetails);
-        throw new Error('Failed to send user data');
+        console.error("Failed to login", response.status, errorDetails);
+        return rejectWithValue("Failed to login");
       }
 
       const user = await response.json();

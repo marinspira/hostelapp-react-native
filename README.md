@@ -15,6 +15,14 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`]
 When you're ready, run:
    npm run reset-project
 
+## Problemas para rodar a porta 8081
+
+   netstat -ano | findstr :8081
+
+   tasklist /FI "PID eq 4072"
+
+   taskkill /PID 4072 /F
+
 
 # Checkin configurações
 -- O guest é criado no banco antes do checkin ser enviado com a data de nascimento nas situações:
