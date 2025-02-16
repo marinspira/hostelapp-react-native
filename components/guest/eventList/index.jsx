@@ -13,7 +13,7 @@ function EventList({ data, btnText, title }) {
             <Title text={title} />
             {data.map((item, index) => (
                 <View style={styles.container} key={index}>
-                    <SlideImage images={item.imgs ? item.imgs : [defaultImg]} />
+                    <SlideImage images={item.imgs ? item.imgs : [defaultImg, defaultImg]} />
 
                     <View style={styles.content}>
                         <Text>{item.date ? item.date : item.local}</Text>

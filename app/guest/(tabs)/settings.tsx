@@ -107,7 +107,6 @@ const styles = StyleSheet.create({
   profile: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 20,
     marginVertical: 10,
   },
   image: {

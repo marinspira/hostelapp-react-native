@@ -25,7 +25,7 @@ export const useTheme = () => {
       color: color.text,
     },
     label: {
-      fontSize: 12,
+      fontSize: 14,
       fontWeight: 'bold',
       marginBottom: 8,
       color: color.text,

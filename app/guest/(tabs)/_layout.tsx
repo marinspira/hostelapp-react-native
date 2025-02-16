@@ -27,7 +27,8 @@ export default function GuestTabLayout() {
             borderRadius: 25,
             height: 60,
             paddingVertical: 20,
-            bottom: 10
+            bottom: 10,
+            borderColor: '#000'
           },
           default: {
             backgroundColor: '#000',

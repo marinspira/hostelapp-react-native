@@ -111,14 +111,14 @@ const styles = StyleSheet.create({
         color: '#000',
     },
     selectInputText: {
-        fontSize: 14,
-        color: '#555',
+        fontSize: 17,
+        color: '#000',
     },
     selectInputContainer: {
         borderColor: '#ccc',
         borderWidth: 1,
         borderRadius: 8,
-        padding: 18,
+        padding: 15,
         backgroundColor: '#f7f7f7',
     },
     selectInputAndroid: {

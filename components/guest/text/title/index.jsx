@@ -31,6 +31,5 @@ const styles = StyleSheet.create({
     text: {
         fontFamily: 'PoppinsRegular',
         fontWeight: '600',
-        width: '100%',
     }
 })

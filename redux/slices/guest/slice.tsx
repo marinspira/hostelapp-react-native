@@ -101,17 +101,17 @@ export const updateGuest = createAsyncThunk<BackendResponse, void, { state: Root
     async (_, { getState, rejectWithValue }) => {
         try {
             const state = getState() as RootState;
-            const guestData = state.guest.data;
+            const guestDataDefault = state.guest.data;
 
-            const updatedGuestWithoutImages = Object.fromEntries(
-                Object.entries(guestData).filter(([key]) => key !== 'guestPhotos')
+            const guestData = Object.fromEntries(
+                Object.entries(guestDataDefault).filter(([key]) => key !== 'guestPhotos')
             );
 
             const response = await fetch(`${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/api/guest/updateGuest`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
-                body: JSON.stringify({ updatedGuestWithoutImages }),
+                body: JSON.stringify({ guestData }),
             });
 
             if (!response.ok) {

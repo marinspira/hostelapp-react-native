@@ -1,6 +1,6 @@
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import Tabs from '@/components/guest/tabs';
-import FormUser from '@/components/guest/formGuest';
+import FormGuest from '@/components/guest/formGuest';
 import FormStaff from '@/components/guest/formStaff';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -24,7 +24,7 @@ export default function Profile() {
   const dispatch = useDispatch<AppDispatch>()
 
   const tabData = [
-    { label: 'Check in', content: <FormUser /> },
+    { label: 'Check in', content: <FormGuest /> },
     { label: t('Personal'), content: <FormPersonal /> },
     { label: t('Área do funcionário'), content: <FormStaff /> },
   ];

@@ -9,6 +9,7 @@ import '@/assets/translations/i18n'
 import { useTheme } from '@/hooks/useThemeColor';
 import ThemeSwitch from '@/components/themeSwitch';
 import Container from '@/components/container';
+import defaultImg from '@/assets/images/unnamed.png';
 
 export default function HomeScreen() {
 
@@ -39,8 +40,8 @@ export default function HomeScreen() {
         { avatar: profileDefault },
         { avatar: profileDefault },
       ],
-      imgs: ['', ''],
-      date: 'HOJE'
+      imgs: [defaultImg, defaultImg],
+      date: 'HOJE',
     },
     {
       img: '',
@@ -51,7 +52,7 @@ export default function HomeScreen() {
         { avatar: profileDefault },
         { avatar: profileDefault },
       ],
-      imgs: ['', ''],
+      imgs: [defaultImg, defaultImg],
       date: 'HOJE'
     },
   ]

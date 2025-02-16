@@ -49,6 +49,7 @@ export default function FormGuest() {
                 <InputPhone
                     label={t('Seu número de celular')}
                     onChange={(value) => handleChange('phoneNumber', value)}
+                    value={guest.phoneNumber}
                 />
                 <InputImage
                     label={t('Foto do seu Passaporte/Identidade')}

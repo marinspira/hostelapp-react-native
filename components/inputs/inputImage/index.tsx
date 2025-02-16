@@ -142,7 +142,8 @@ export default InputImage
 
 const styles = StyleSheet.create({
     container: {
-        marginBottom: 20,
+        marginBottom: 40,
+        marginTop: 20
     },
     row: {
         display: 'flex',

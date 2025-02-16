@@ -6,12 +6,13 @@ import PhoneInput, { ICountry } from 'react-native-international-phone-number';
 interface Props {
   label?: string,
   onChange: (value: string) => void;
+  value: any
 }
 
-export default function InputPhone({ label, onChange }: Props) {
+export default function InputPhone({ label, onChange, value }: Props) {
   const [selectedCountry, setSelectedCountry] =
     useState<null | ICountry>(null);
-  const [inputValue, setInputValue] = useState<string>('');
+  const [inputValue, setInputValue] = useState<string>(value);
   const dynamicStyles = useTheme()
 
   function handleInputValue(phoneNumber: string) {
@@ -33,6 +34,7 @@ export default function InputPhone({ label, onChange }: Props) {
     <View style={styles.container}>
       <Text style={dynamicStyles.label}>{label}</Text>
       <PhoneInput
+        defaultValue={value}
         value={inputValue}
         onChangePhoneNumber={handleInputValue}
         selectedCountry={selectedCountry}

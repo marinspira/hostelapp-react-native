@@ -4,6 +4,7 @@ import { Picker } from '@react-native-picker/picker';
 import '@/assets/translations/i18n'
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@/hooks/useThemeColor';
+import { Colors } from '@/constants/Colors';
 
 interface SelectItensProps {
     label: string;
@@ -32,7 +33,7 @@ const SelectItens: React.FC<SelectItensProps> = ({
 
     const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
     const [options, setOptions] = useState<string[]>(initialOptions);
-    const [selectedItem, setSelectedItem] = useState<any>();
+    const [selectedItem, setSelectedItem] = useState<any>(value);
 
     const toggleOption = (option: any) => {
 
@@ -172,8 +173,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
     },
     selectedButton: {
-        backgroundColor: '#9f39ff',
-        borderColor: '#9f39ff',
+        backgroundColor: Colors.light.tint,
+        borderColor: ''
     },
     buttonText: {
         fontSize: 14,

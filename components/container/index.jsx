@@ -18,6 +18,6 @@ export default function Container({ children }) {
 const style = StyleSheet.create({
     container: {
         paddingHorizontal: 20,
-        paddingTop: 40,
+        paddingTop: 20,
     }
 })
