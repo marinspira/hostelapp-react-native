@@ -22,6 +22,12 @@ export default function GuestTabLayout() {
         tabBarStyle: Platform.select({
           ios: {
             position: 'absolute',
+            backgroundColor: '#000',
+            margin: 10,
+            borderRadius: 25,
+            height: 60,
+            paddingVertical: 20,
+            bottom: 10
           },
           default: {
             backgroundColor: '#000',
@@ -61,9 +67,9 @@ function TabIcon({ name, color, focused }: { name: any; color: string; focused: 
 
 const styles = StyleSheet.create({
   iconContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingTop: 10
+    bottom: 0,
+    zIndex: 9,
+    top: 8
   },
   activeContainer: {
     backgroundColor: '#9370DB',

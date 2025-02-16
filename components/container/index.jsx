@@ -17,6 +17,7 @@ export default function Container({ children }) {
 
 const style = StyleSheet.create({
     container: {
-        paddingHorizontal: 20
+        paddingHorizontal: 20,
+        paddingTop: 40,
     }
 })

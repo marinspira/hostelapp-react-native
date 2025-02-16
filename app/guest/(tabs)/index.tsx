@@ -58,7 +58,6 @@ export default function HomeScreen() {
 
   return (
     <Container>
-      <ThemeSwitch />
       <Greetings username={user?.name} />
       <ProfilesSlide title={t('Converse com quem está hospedado com você')} />
       <EventList title={t('Eventos perto de você')} data={events} btnText='Join' />
