@@ -1,17 +1,18 @@
 import { Colors } from "@/constants/Colors";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { router } from "expo-router";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
 export default function ChatList({ data }) {
     return (
         <>
             {data.map((chat, index) => (
-                <View key={index} style={styles.chat}>
+                <Pressable key={index} style={styles.chat} onPress={() => router.push('/guest/(screens)/conversation')}>
                     <Image style={styles.img} source={chat.img} alt={chat.title} />
                     <View>
                         <Text>{chat.title}</Text>
                         <Text>{chat.description}</Text>
                     </View>
-                </View>
+                </Pressable>
             ))}
         </>
     )
@@ -31,11 +32,9 @@ const styles = StyleSheet.create({
         padding: 20,
         alignItems: 'center',
         gap: 20,
-        borderBottomWidth: 1,
-        borderColor: Colors.gray,
         backgroundColor: "#fff",
         borderRadius: 10,
-        // marginVertical: 5
+        marginBottom: 10
     },
     img: {
         width: 50,

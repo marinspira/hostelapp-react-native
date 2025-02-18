@@ -24,7 +24,6 @@ export default function Chat() {
 
   return (
     <Container>
-      <Text>Chat</Text>
       <ChatList data={chats} />
     </Container>
   )

@@ -58,7 +58,6 @@ export const isAuthenticated = createAsyncThunk<BackendResponse, void, { rejectV
   }
 );
 
-
 export const appleAuth = createAsyncThunk<BackendResponse, { identityToken: string; fullName: string; role: string }, { rejectValue: string }>(
   'user/appleAuth',
   async ({ identityToken, fullName, role }, { rejectWithValue }) => {
@@ -145,6 +144,12 @@ export const logout = createAsyncThunk<BackendResponse, void, { rejectValue: str
       const result = await response.json()
 
       router.push('/public')
+
+      showToast({
+        type: 'error',
+        title: 'Logout succefully',
+        message: '',
+      });
 
       return result as BackendResponse;
 
