@@ -8,10 +8,11 @@ export default function ChatList({ data }) {
             {data.map((chat, index) => (
                 <Pressable key={index} style={styles.chat} onPress={() => router.push('/guest/(screens)/conversation')}>
                     <Image style={styles.img} source={chat.img} alt={chat.title} />
-                    <View>
+                    <View style={{flex: 1}}>
                         <Text>{chat.title}</Text>
                         <Text>{chat.description}</Text>
                     </View>
+                    <Text style={styles.unread}>1</Text>
                 </Pressable>
             ))}
         </>
@@ -40,5 +41,16 @@ const styles = StyleSheet.create({
         width: 50,
         height: 50,
         borderRadius: 100
+    },
+    unread: {
+        backgroundColor: Colors.light.tint,
+        borderRadius: 100,
+        paddingVertical: 4,
+        paddingHorizontal: 8,
+        color: "#fff",
+        textAlign: 'center'
+    },
+    contentContainer: {
+        flex: 1
     }
 })
