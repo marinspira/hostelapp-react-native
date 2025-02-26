@@ -4,6 +4,7 @@ import Animated, { interpolate, useAnimatedRef, useAnimatedStyle, useScrollViewO
 import Slide from '@/components/slide';
 import { useTheme } from '@/hooks/useThemeColor';
 import Linear from '@/assets/images/gradient.svg'
+import GoBackButton from './goBackButton';
 
 const HEADER_HEIGHT = 550;
 
@@ -11,10 +12,7 @@ type Props = PropsWithChildren<{
   imagesArray: any,
   textOverImage?: string,
   refreshControl?: any,
-  button?: {
-    icon: any,
-    url: any
-  }
+  button?: boolean
 }>;
 
 export default function ParallaxScrollView({
@@ -56,9 +54,7 @@ export default function ParallaxScrollView({
         <Animated.View
           style={[styles.header, headerAnimatedStyle]}>
           {button &&
-            <Pressable style={styles.button} onPress={button.url}>
-              {button.icon}
-            </Pressable>
+            <GoBackButton absolutePostion={true} color='white'/>
           }
           {textOverImage &&
             <View style={styles.overlay} pointerEvents='none'>

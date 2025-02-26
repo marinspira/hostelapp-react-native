@@ -44,7 +44,7 @@ export default function Profile() {
 
   return (
     <ParallaxScrollView
-      button={{ icon: <FontAwesome5 name="arrow-left" size={24} color="white" />, url: () => router.back() }}
+      button={true}
       textOverImage={`${user?.name}, ${converteDateToAge(guest?.birthday as string)}`} imagesArray={formattedGuestPhotos}
     >
       <StatusBar style='light' />

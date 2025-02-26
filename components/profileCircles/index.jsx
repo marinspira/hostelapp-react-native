@@ -20,8 +20,8 @@ export default function ProfileCircles() {
                 contentContainerStyle={styles.scrollView}
             >
                 {chats.map((chat, index) => (
-                    <View style={styles.container}>
-                        <Image key={index} style={styles.img} source={chat.img} />
+                    <View key={index} style={styles.container}>
+                        <Image style={styles.img} source={chat.img} />
                         <Text>{chat.name}</Text>
                     </View>
                 ))}
