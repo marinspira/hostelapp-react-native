@@ -32,12 +32,12 @@ export default function RootLayout() {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-          <Slot />
-          <Toast
-            position='top'
-            topOffset={60}
-            visibilityTime={4000}
-          />
+        <Slot />
+        <Toast
+          position='top'
+          topOffset={60}
+          visibilityTime={4000}
+        />
       </PersistGate>
     </Provider>
   );

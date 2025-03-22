@@ -2,6 +2,7 @@ import React from "react";
 import { storiesOf } from "@storybook/react-native";
 import { StyleSheet } from "react-native";
 import EventList from '@/components/guest/eventList'
+import profileDefault from '@/assets/images/unnamed.png';
 
 const events = [
     {

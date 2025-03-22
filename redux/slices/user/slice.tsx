@@ -22,12 +22,15 @@ export const isAuthenticated = createAsyncThunk<BackendResponse, void, { rejectV
       // Verifica se a resposta está OK antes de tentar processar
       if (!response.ok) {
         if (response.status === 401) {
+          return rejectWithValue('Login to continue');
+        }
+        if (response.status === 404) {
           showToast({
             type: 'error',
-            title: 'Authentication Required',
-            message: 'Please log in to continue using this feature.',
+            title: 'Server desconnected',
+            message: 'Please contact the suport.',
           });
-          return rejectWithValue('Login to continue');
+          return rejectWithValue('Server desconnected');
         }
         console.error("Failed to authenticate", response.status, response.statusText);
         return rejectWithValue('Failed to authenticate');
