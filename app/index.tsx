@@ -11,11 +11,13 @@ export default function Index() {
   const [useStorybook] = useState(false);
 
   const user = useSelector((state: RootState) => state.user.data);
+  const guest = useSelector((state: RootState) => state.guest.data);
 
   const dispatch = useDispatch<AppDispatch>()
 
   useEffect(() => {
     console.log('Index. User State:', user);
+    console.log('Index. Guest State:', guest);
     const fetchUser = async () => {
       const result = await dispatch(isAuthenticated())
     }

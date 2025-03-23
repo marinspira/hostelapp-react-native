@@ -4,6 +4,7 @@ import { RootState } from "@/redux/store";
 import { router } from "expo-router";
 import { BackendResponse } from "../guest/interfaces";
 import useAddMainDomain from "@/hooks/useAddMainDomain";
+import { resetAppState } from "@/redux/globalActions";
 
 const initialState = {
     data: {
@@ -196,6 +197,8 @@ const guestSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
+            // resetAppState
+            .addCase(resetAppState, () => initialState)
             // saveGuest
             .addCase(saveGuest.pending, (state) => {
                 state.loading = true;

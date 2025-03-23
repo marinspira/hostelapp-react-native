@@ -9,6 +9,7 @@ import { Colors } from '@/constants/Colors'
 import IOSAuthentication from '@/components/authentication/apple';
 import { StatusBar } from 'expo-status-bar';
 import GoogleAuthentication from '@/components/authentication/google';
+import LocalhostLogin from '../../components/authentication/localhost';
 
 function LoginScreen() {
 
@@ -23,6 +24,7 @@ function LoginScreen() {
 
             {Platform.OS === 'ios' && <IOSAuthentication role={role} />}
             <GoogleAuthentication role={role} />
+            <LocalhostLogin role={role} />
 
             <SimpleButton
                 text={role === "guest" ? t("Não é hospede? Logar como host") : t("Não é host? Logar como hóspede")}

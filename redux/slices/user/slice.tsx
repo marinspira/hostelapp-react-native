@@ -2,6 +2,11 @@ import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { BackendResponse, User, UserState } from './interfaces';
 import { router } from 'expo-router';
 import { showToast } from '@/components/toast';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { persistStore } from 'redux-persist';
+import { AppDispatch, persistor, store } from '@/redux/store';
+import { resetAppState } from '@/redux/globalActions';
+import { useDispatch } from 'react-redux';
 
 const initialState: UserState = {
   data: null,
@@ -60,6 +65,48 @@ export const isAuthenticated = createAsyncThunk<BackendResponse, void, { rejectV
     }
   }
 );
+
+export const localhostAuth = createAsyncThunk<BackendResponse, { credentials: any, role: string }, { rejectValue: string }>(
+  'user/localhostAuth',
+  async ({ credentials, role }, { rejectWithValue }) => {
+    try {
+      const response = await fetch(`${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/api/auth/localhostLogin`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ credentials, role })
+      })
+
+
+      if (!response.ok) {
+        const errorDetails = await response.json();
+        console.error("Failed to login", response.status, errorDetails);
+        return rejectWithValue("Failed to login");
+      }
+
+      const user = await response.json();
+      console.log('user', user)
+
+      if (!user || !user.data) {
+        console.error("Usuário inválido recebido:", user);
+        return rejectWithValue("Usuário inválido");
+      }
+
+      if (user.data.isNewUser) {
+        router.push(user.data.role === 'guest' ? '/guest/(screens)/checkin' : '/host/register');
+      } else {
+        router.push(user.data.role === 'guest' ? '/guest/(tabs)' : '/host/(tabs)');
+      }
+
+      return user as BackendResponse;
+
+    } catch (error) {
+      console.error('Erro em localhostAuth:', error);
+      return rejectWithValue((error as Error).message);
+    }
+  }
+)
 
 export const appleAuth = createAsyncThunk<BackendResponse, { identityToken: string; fullName: string; role: string }, { rejectValue: string }>(
   'user/appleAuth',
@@ -132,7 +179,8 @@ export const googleAuth = createAsyncThunk<BackendResponse, { token: string, rol
 
 export const logout = createAsyncThunk<BackendResponse, void, { rejectValue: string }>(
   'user/logout',
-  async (_, { rejectWithValue }) => {
+  async (_, { dispatch, rejectWithValue }) => {
+
     try {
       const response = await fetch(`${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/api/auth/logout`, {
         method: 'POST',
@@ -145,11 +193,16 @@ export const logout = createAsyncThunk<BackendResponse, void, { rejectValue: str
       }
 
       const result = await response.json()
+      await AsyncStorage.clear();
+      // persistStore(store).purge();
+      await persistor.purge();
 
-      router.push('/public')
+
+      // router.push('/public')
+      dispatch(resetAppState());
 
       showToast({
-        type: 'error',
+        type: 'success',
         title: 'Logout succefully',
         message: '',
       });
@@ -185,6 +238,8 @@ const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      // resetAppState
+      .addCase(resetAppState, () => initialState)
       // isAuthenticated
       .addCase(isAuthenticated.pending, (state) => {
         state.loading = true;
@@ -194,6 +249,18 @@ const userSlice = createSlice({
         state.loading = false;
       })
       .addCase(isAuthenticated.rejected, (state, action) => {
+        state.data = null;
+        state.loading = false;
+      })
+      // localhostAuth
+      .addCase(localhostAuth.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(localhostAuth.fulfilled, (state, action: PayloadAction<BackendResponse>) => {
+        state.data = action.payload.data;
+        state.loading = false;
+      })
+      .addCase(localhostAuth.rejected, (state, action) => {
         state.data = null;
         state.loading = false;
       })
@@ -228,7 +295,7 @@ const userSlice = createSlice({
         state.error = null;
       })
       .addCase(logout.fulfilled, (state) => {
-        state.data = null;
+        // state.data = null;
         state.loading = false;
       })
       .addCase(logout.rejected, (state, action) => {
