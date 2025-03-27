@@ -17,6 +17,8 @@ interface InputImageProps {
     maxSelections?: number,
     suportText?: string,
     borderRadius?: string,
+    borderWidth?: number,
+    borderColor?: string,
     imgWidth?: number,
     defaultImg?: string
     endpoints: {
@@ -25,7 +27,7 @@ interface InputImageProps {
     }
 }
 
-const InputImage: React.FC<InputImageProps> = ({ id, label, suportText, borderRadius, imgWidth = 85, defaultImg, endpoints }) => {
+const InputImage: React.FC<InputImageProps> = ({ id, label, suportText, borderRadius, imgWidth = 85, defaultImg, endpoints, borderColor = '#ccc', borderWidth = 2 }) => {
 
     const [image, setImage] = useState<string | null>(defaultImg || null);
 
@@ -129,7 +131,7 @@ const InputImage: React.FC<InputImageProps> = ({ id, label, suportText, borderRa
                         <Image source={{ uri: image }} style={[styles.image, { borderRadius, width: imgWidth, height: imgWidth }]} />
                     </Pressable>
                 ) : (
-                    <Pressable onPress={pickImage} style={[styles.imgPickerBtn, { borderRadius, width: imgWidth, height: imgWidth, zIndex: 10 }]}>
+                    <Pressable onPress={pickImage} style={[styles.imgPickerBtn, { borderRadius, width: imgWidth, height: imgWidth, zIndex: 10, borderColor, borderWidth }]}>
                         <Text style={styles.imgPickerBtnText}>{'+'}</Text>
                     </Pressable>
                 )}
@@ -160,8 +162,6 @@ const styles = StyleSheet.create({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        borderWidth: 1,
-        borderColor: '#ccc'
     },
     imgPickerBtnText: {
         fontSize: 30
