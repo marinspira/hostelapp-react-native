@@ -28,6 +28,7 @@ const Input: React.FC<InputProps> = ({
     const { t } = useTranslation();
     const dynamicStyles = useTheme()
     const [isTouched, setIsTouched] = useState(false);
+    const [inputFocus, setInputFocus] = useState(false);
 
     const showError = required && isTouched && !value;
 
@@ -69,11 +70,12 @@ const Input: React.FC<InputProps> = ({
                     }}
                     onBlur={() => setIsTouched(true)}
                     onPress={onPress}
+                    onFocus={() => setInputFocus(true)}
                     keyboardType="default"
                     multiline={true}
                     placeholderTextColor="#bbb"
                 />
-                {inputTexting && (
+                {inputTexting && !inputFocus && (
                     <Animated.View style={[styles.inputCursor, { opacity: cursorOpacity }]} />
                 )}
             </View>
@@ -99,7 +101,8 @@ const styles = StyleSheet.create({
         height: 60,
         width: 4,
         backgroundColor: 'black',
-        marginLeft: 5
+        marginLeft: 5,
+        marginBottom: 5,
     },
     inputTexting: {
         fontSize: 60,
@@ -109,8 +112,8 @@ const styles = StyleSheet.create({
     inputTextingContainer: {
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
+        justifyContent: 'center',
+        alignItems: 'flex-end',
         minWidth: '100%'
     },
     inputError: {

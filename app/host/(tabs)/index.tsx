@@ -1,10 +1,13 @@
-import { StyleSheet, View, ScrollView } from 'react-native';
+import { StyleSheet, View, ScrollView, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Greetings from '@/components/greetings'
 import { useSelector } from 'react-redux';
 import { User } from '@/redux/slices/user/interfaces';
 import { useTranslation } from 'react-i18next';
 import '@/assets/translations/i18n'
+import defaultImg from '@/assets/images/unnamed.png';
+import EventList from '@/components/guest/eventList';
+import profileDefault from '@/assets/images/unnamed.png'
 
 export default function HostHomeScreen() {
 
@@ -12,11 +15,56 @@ export default function HostHomeScreen() {
 
   const user = useSelector((state: { user: User }) => state.user)
 
+  type Person = {
+    avatar: string;
+  };
+
+  type Event = {
+    img: string;
+    name: string;
+    people: Person[];
+    imgs: string[];
+    date: string;
+  };
+
+  const events: Event[] = [
+    {
+      img: '',
+      name: 'Aula de surf',
+      people: [
+        { avatar: profileDefault },
+        { avatar: profileDefault },
+        { avatar: profileDefault },
+        { avatar: profileDefault },
+      ],
+      imgs: [defaultImg, defaultImg],
+      date: 'HOJE',
+    },
+    {
+      img: '',
+      name: 'Aula de surf',
+      people: [
+        { avatar: profileDefault },
+        { avatar: profileDefault },
+        { avatar: profileDefault },
+        { avatar: profileDefault },
+      ],
+      imgs: [defaultImg, defaultImg],
+      date: 'HOJE'
+    },
+  ]
+
   return (
     <SafeAreaView>
       <View>
         <ScrollView style={styles.container}>
-          <Greetings username={user?.data?.name} />
+          <Text>Lista de guest</Text>
+          <Text>Add a new guest by tag (username), email ou telefone</Text>
+          <Text>Posições para voluntariados</Text>
+          <Text>Eventos do seu hostel</Text>
+          <EventList title={t('Eventos do seu hostel')} data={events} btnText='Join' />
+
+          <Text>Gerenciar voluntários</Text>
         </ScrollView>
       </View>
     </SafeAreaView>

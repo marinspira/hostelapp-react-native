@@ -1,15 +1,42 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { Colors } from '@/constants/Colors';
+import { router } from "expo-router";
 import { KeyboardAvoidingView, ScrollView, Platform } from 'react-native';
 import AntDesign from '@expo/vector-icons/AntDesign';
 
 const MultiStepForm = ({ steps }) => {
     const [currentStep, setCurrentStep] = useState(0);
-    const [formData, setFormData] = useState({});
+    const [hostel, setHostel] = useState({
+        name: '',
+        description: '',
+        address: {
+          street: "",
+          city: "",
+          state: "",
+          country: "",
+          zip: ""
+        },
+        phone: '',
+        email: '',
+        website: '',
+        experience_with_volunteers: null,
+        rooms: [{
+          number: '',
+          beds: [{
+            bed_number: '',
+            assigned_by: null
+          }]
+        }]
+      })
+
+    useEffect(() => {
+        console.log(hostel)
+    }, [])
 
     const handleChange = (name, value) => {
-        setFormData((prev) => ({
+        console.log(name, value)
+        setHostel((prev) => ({
             ...prev,
             [name]: value,
         }));
@@ -27,48 +54,53 @@ const MultiStepForm = ({ steps }) => {
         }
     };
 
+    const handleForm = () => {
+        console.log(hostel)
+        router.push('/host/(tabs)')
+    }
+
     return (
         <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             style={{ flex: 1 }}
         >
-            {/* <ScrollView
-                contentContainerStyle={{ flexGrow: 1 }}
-                keyboardShouldPersistTaps="handled"
-            > */}
-                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                    <View style={styles.container}>
-                        <Text style={styles.title}>{steps[currentStep].title}</Text>
-                        {steps[currentStep].fields.map((field, index) => {
-                            const Component = field.component;
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <View style={styles.container}>
+                    <Text style={styles.title}>{steps[currentStep].title}</Text>
+                    {steps[currentStep].fields.map((field, index) => {
+                        const Component = field.component;
 
-                            return (
-                                <View key={index} style={{ alignItems: 'center' }}>
-                                    <Component
-                                        value={formData[field.name] || ''}
-                                        onChange={(value) => handleChange(field.name, value)}
-                                        {...field}
-                                    />
-                                </View>
-                            );
-                        })}
+                        return (
+                            <View key={index} style={{ alignItems: 'center' }}>
+                                <Component
+                                    value={hostel[field.name] || ''}
+                                    onChange={(value) => handleChange(field.name, value)}
+                                    {...field}
+                                />
+                            </View>
+                        );
+                    })}
 
-                        <View style={styles.buttonContainer}>
-                            {currentStep > 0 && (
-                                <TouchableOpacity style={styles.btnPrevious} onPress={prevStep}>
-                                    <AntDesign name="arrowleft" size={25} color={Colors.light.tint} />
-                                </TouchableOpacity>
-                            )}
-                            {currentStep < steps.length - 1 && (
-                                <TouchableOpacity style={styles.btnNext} onPress={nextStep}>
-                                    <Text style={{ color: 'white', fontSize: 20, fontWeight: '700' }}>Next</Text>
-                                    {/* <AntDesign name="arrowright" size={20} color="white" /> */}
-                                </TouchableOpacity>
-                            )}
-                        </View>
+                    <View style={styles.buttonContainer}>
+                        {currentStep > 0 && (
+                            <TouchableOpacity style={styles.btnPrevious} onPress={prevStep}>
+                                <AntDesign name="arrowleft" size={25} color={Colors.light.tint} />
+                            </TouchableOpacity>
+                        )}
+                        {currentStep === steps.length - 1 && (
+                            <TouchableOpacity style={styles.btnNext} onPress={handleForm}>
+                                <Text style={{ color: 'white', fontSize: 20, fontWeight: '700' }}>Enviar</Text>
+                            </TouchableOpacity>
+                        )}
+                        {currentStep < steps.length - 1 && (
+                            <TouchableOpacity style={styles.btnNext} onPress={nextStep}>
+                                <Text style={{ color: 'white', fontSize: 20, fontWeight: '700' }}>Next</Text>
+                            </TouchableOpacity>
+                        )}
+
                     </View>
-                </TouchableWithoutFeedback>
-            {/* </ScrollView> */}
+                </View>
+            </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
     );
 };
@@ -80,7 +112,7 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 45,
         fontWeight: 'bold',
-        marginBottom: 60,
+        marginBottom: 40,
         marginTop: 60,
         color: 'black',
         paddingRight: 10

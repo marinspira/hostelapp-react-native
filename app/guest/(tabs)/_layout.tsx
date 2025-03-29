@@ -1,8 +1,5 @@
-import { Tabs } from 'expo-router';
 import React from 'react';
-import { Platform, View, StyleSheet, Settings } from 'react-native';
-import { Colors } from '@/constants/Colors';
-import { AntDesign } from '@expo/vector-icons';
+import Menu from '@/components/menu';
 
 const tabIcons = {
   settings: 'user',
@@ -13,75 +10,5 @@ const tabIcons = {
 };
 
 export default function GuestTabLayout() {
-
-  return (
-    <Tabs
-      screenOptions={{
-        tabBarShowLabel: false,
-        headerShown: false,
-        tabBarStyle: Platform.select({
-          ios: {
-            position: 'absolute',
-            backgroundColor: '#000',
-            margin: 10,
-            borderRadius: 25,
-            height: 60,
-            paddingVertical: 20,
-            bottom: 10,
-            borderColor: '#000'
-          },
-          default: {
-            backgroundColor: '#000',
-            position: 'absolute',
-            bottom: 10,
-            marginHorizontal: 10,
-            borderRadius: 30,
-            height: 60,
-            paddingVertical: 10,
-            paddingHorizontal: 4,
-          },
-        }),
-      }}>        
-      {Object.entries(tabIcons).map(([route, icon]) => (
-        <Tabs.Screen
-          key={route}
-          name={route}
-          options={{
-            tabBarIcon: ({ color, focused }) => (
-              <TabIcon color={color} focused={focused} name={icon} />
-            ),
-          }}
-        />
-      ))}
-    </Tabs>
-  );
+  return <Menu tabIcons={tabIcons} />
 }
-
-// Componente para os ícones com o círculo ativo
-function TabIcon({ name, color, focused }: { name: any; color: string; focused: boolean }) {
-  return (
-    <View style={[focused ? styles.activeContainer : styles.iconContainer]}>
-      <AntDesign size={25} name={name} color={focused ? '#fff' : color} />
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  iconContainer: {
-    bottom: 0,
-    zIndex: 9,
-    top: 8
-  },
-  activeContainer: {
-    backgroundColor: '#9370DB',
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    position: 'absolute',
-    bottom: -10,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 4,
-    borderColor: '#000',
-  },
-});

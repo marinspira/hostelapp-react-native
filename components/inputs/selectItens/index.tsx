@@ -195,6 +195,7 @@ const styles = StyleSheet.create({
     },
     fieldContainer: {
         marginBottom: 30,
+        width: '100%'
     },
     optionsContainer: {
         display: 'flex',

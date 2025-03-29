@@ -21,7 +21,7 @@ export const Colors: Record<Theme, {
 }> = {
   light: {
     text: '#11181C',
-    background: '#fff',
+    background: gray,
     icon: '#687076',
     tabIconDefault: '#687076',
     tabIconSelected: '#6c63ff',
