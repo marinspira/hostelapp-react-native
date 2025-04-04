@@ -60,7 +60,7 @@ export default function HostHomeScreen() {
     <SafeAreaView>
       <View>
         <ScrollView style={styles.container}>
-          <Text>Lista de guest</Text>
+          {/* <Text>Lista de guest</Text>
           <GuestList/>
           <GuestList2/>
           <Text>Add a new guest by tag (username), email ou telefone</Text>
@@ -68,7 +68,7 @@ export default function HostHomeScreen() {
           <Text>Eventos do seu hostel</Text>
           <EventList title={t('Eventos do seu hostel')} data={events} btnText='Join' />
 
-          <Text>Gerenciar voluntários</Text>
+          <Text>Gerenciar voluntários</Text> */}
         </ScrollView>
       </View>
     </SafeAreaView>
