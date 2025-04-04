@@ -5,41 +5,37 @@ import { router } from "expo-router";
 import { KeyboardAvoidingView, ScrollView, Platform } from 'react-native';
 import AntDesign from '@expo/vector-icons/AntDesign';
 
-const MultiStepForm = ({ steps }) => {
+const MultiStepForm = ({ steps, sendForm, value, setValue }) => {
     const [currentStep, setCurrentStep] = useState(0);
-    const [hostel, setHostel] = useState({
-        name: '',
-        description: '',
-        address: {
-          street: "",
-          city: "",
-          state: "",
-          country: "",
-          zip: ""
-        },
-        phone: '',
-        email: '',
-        website: '',
-        experience_with_volunteers: null,
-        rooms: [{
-          number: '',
-          beds: [{
-            bed_number: '',
-            assigned_by: null
-          }]
-        }]
-      })
+    const [isStepValid, setIsStepValid] = useState(false);
 
     useEffect(() => {
-        console.log(hostel)
-    }, [])
+        validateStep();
+    }, [value, currentStep]);
 
     const handleChange = (name, value) => {
-        console.log(name, value)
-        setHostel((prev) => ({
+        setValue((prev) => ({
             ...prev,
             [name]: value,
         }));
+    };
+
+    const validateStep = () => {
+        const fields = steps[currentStep].fields;
+
+        // Verifica se todos os campos obrigatórios têm valores preenchidos
+        const allValid = fields.every((field) => {
+            const valueField = value[field.name];
+
+            if (field.required) {
+                // Pode ajustar isso com validação personalizada se quiser
+                return valueField !== undefined && valueField !== null && valueField !== '';
+            }
+
+            return true;
+        });
+
+        setIsStepValid(allValid);
     };
 
     const nextStep = () => {
@@ -53,11 +49,6 @@ const MultiStepForm = ({ steps }) => {
             setCurrentStep((prev) => prev - 1);
         }
     };
-
-    const handleForm = () => {
-        console.log(hostel)
-        router.push('/host/(tabs)')
-    }
 
     return (
         <KeyboardAvoidingView
@@ -73,7 +64,7 @@ const MultiStepForm = ({ steps }) => {
                         return (
                             <View key={index} style={{ alignItems: 'center' }}>
                                 <Component
-                                    value={hostel[field.name] || ''}
+                                    value={value[field.name] || ''}
                                     onChange={(value) => handleChange(field.name, value)}
                                     {...field}
                                 />
@@ -88,12 +79,16 @@ const MultiStepForm = ({ steps }) => {
                             </TouchableOpacity>
                         )}
                         {currentStep === steps.length - 1 && (
-                            <TouchableOpacity style={styles.btnNext} onPress={handleForm}>
+                            <TouchableOpacity style={styles.btnNext} onPress={sendForm}>
                                 <Text style={{ color: 'white', fontSize: 20, fontWeight: '700' }}>Enviar</Text>
                             </TouchableOpacity>
                         )}
                         {currentStep < steps.length - 1 && (
-                            <TouchableOpacity style={styles.btnNext} onPress={nextStep}>
+                            <TouchableOpacity
+                                style={[styles.btnNext, !isStepValid && { opacity: 0.5 }]}
+                                onPress={nextStep}
+                                disabled={!isStepValid}
+                            >
                                 <Text style={{ color: 'white', fontSize: 20, fontWeight: '700' }}>Next</Text>
                             </TouchableOpacity>
                         )}

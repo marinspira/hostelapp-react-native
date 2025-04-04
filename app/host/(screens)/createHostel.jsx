@@ -2,16 +2,40 @@ import MultiStepForm from '@/components/multiStepForm';
 import Input from '@/components/inputs/input';
 import InputImage from '@/components/inputs/inputImage';
 import InputPhone from '@/components/inputs/inputPhone';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import useFindAdress from '@/utils/useFindAdress';
 import Container from '@/components/container'
 import InputCheckbox from '@/components/inputs/inputCheckbox';
 import SelectItens from '@/components/inputs/selectItens'
+import createHostel from '@/services/host/createHostel'
 
-export default function HostelRegister() {
+export default function CreateHostel() {
   const [zip, setZip] = useState('');
   const { address, loading } = useFindAdress(zip);
+
+  const [hostelData, setHostelData] = useState({
+    name: '',
+    description: '',
+    address: {
+      street: "",
+      city: "",
+      state: "",
+      country: "",
+      zip: ""
+    },
+    phone: '',
+    email: '',
+    website: '',
+    experience_with_volunteers: null,
+    rooms: [{
+      number: '',
+      beds: [{
+        bed_number: '',
+        assigned_by: null
+      }]
+    }]
+  })
 
   const { t, i18n } = useTranslation();
 
@@ -26,13 +50,6 @@ export default function HostelRegister() {
         state: address?.state,
         country: address?.country
       }
-    }));
-  }
-
-  function handleChange(name, value) {
-    setHostel((prev) => ({
-      ...prev,
-      [name]: value
     }));
   }
 
@@ -142,9 +159,24 @@ export default function HostelRegister() {
     },
   ];
 
+  const sendForm = async () => {
+    try {
+      const response = await createHostel(hostel);
+      console.log('Hostel criado:', response);
+      router.push('/host/(tabs)');
+    } catch (error) {
+      console.error('Erro ao criar hostel:', error);
+    }
+  }
+
   return (
     <Container scrollable={false}>
-      <MultiStepForm steps={steps} />
+      <MultiStepForm
+        steps={steps}
+        sendForm={sendForm}
+        value={hostelData}
+        setValue={setHostelData}
+      />
     </Container>
   )
 }
