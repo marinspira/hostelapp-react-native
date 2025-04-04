@@ -8,6 +8,8 @@ import '@/assets/translations/i18n'
 import defaultImg from '@/assets/images/unnamed.png';
 import EventList from '@/components/guest/eventList';
 import profileDefault from '@/assets/images/unnamed.png'
+import GuestList from '@/components/host/guestList'
+import GuestList2 from '@/components/host/guestList/2'
 
 export default function HostHomeScreen() {
 
@@ -59,6 +61,8 @@ export default function HostHomeScreen() {
       <View>
         <ScrollView style={styles.container}>
           <Text>Lista de guest</Text>
+          <GuestList/>
+          <GuestList2/>
           <Text>Add a new guest by tag (username), email ou telefone</Text>
           <Text>Posições para voluntariados</Text>
           <Text>Eventos do seu hostel</Text>

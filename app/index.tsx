@@ -41,9 +41,9 @@ export default function Index() {
       }
 
       if (user.role === 'host') {
-        if (user.isNewUser) {
-          return <Redirect href="/host/(screens)/register" />;
-        }
+        // if (user.isNewUser) {
+        //   return <Redirect href="/host/(screens)/register" />;
+        // }
         return <Redirect href="/host/(tabs)" />;
       }
     }
