@@ -12,7 +12,8 @@ interface InputProps {
     onPress?: () => void;
     required?: boolean;
     errorMessage?: string;
-    inputTexting?: boolean
+    inputTexting?: boolean;
+    onBlur: () => void;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -23,7 +24,8 @@ const Input: React.FC<InputProps> = ({
     onPress,
     required = false,
     errorMessage,
-    inputTexting
+    inputTexting,
+    onBlur
 }) => {
     const { t } = useTranslation();
     const dynamicStyles = useTheme()
@@ -68,7 +70,10 @@ const Input: React.FC<InputProps> = ({
                         if (onChange) onChange(text);
                         if (!isTouched) setIsTouched(true);
                     }}
-                    onBlur={() => setIsTouched(true)}
+                    onBlur={() => {
+                        setIsTouched(true)
+                        if (onBlur) onBlur();
+                    }}
                     onPress={onPress}
                     onFocus={() => setInputFocus(true)}
                     keyboardType="default"
@@ -98,11 +103,11 @@ const styles = StyleSheet.create({
         fontSize: 16,
     },
     inputCursor: {
-        height: 60,
+        height: 80,
         width: 4,
         backgroundColor: 'black',
         marginLeft: 5,
-        marginBottom: 5,
+        marginBottom: 25,
     },
     inputTexting: {
         fontSize: 60,

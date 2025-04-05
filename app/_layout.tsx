@@ -9,8 +9,11 @@ import { Provider } from 'react-redux';
 import { store, persistor } from '@/redux/store'
 import Toast from 'react-native-toast-message';
 import { PersistGate } from 'redux-persist/integration/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 SplashScreen.preventAutoHideAsync();
+
+export const queryClient = new QueryClient();
 
 export default function RootLayout() {
 
@@ -31,14 +34,16 @@ export default function RootLayout() {
 
   return (
     <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <Slot />
-        <Toast
-          position='top'
-          topOffset={60}
-          visibilityTime={4000}
-        />
-      </PersistGate>
+      <QueryClientProvider client={queryClient}>
+        <PersistGate loading={null} persistor={persistor}>
+          <Slot />
+          <Toast
+            position='top'
+            topOffset={60}
+            visibilityTime={4000}
+          />
+        </PersistGate>
+      </QueryClientProvider>
     </Provider>
   );
 }

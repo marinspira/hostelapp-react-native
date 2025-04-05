@@ -94,7 +94,7 @@ export const localhostAuth = createAsyncThunk<BackendResponse, { credentials: an
       }
 
       if (user.data.isNewUser) {
-        router.push(user.data.role === 'guest' ? '/guest/(screens)/checkin' : '/host/register');
+        router.push(user.data.role === 'guest' ? '/guest/(screens)/checkin' : '/host/createHostel');
       } else {
         router.push(user.data.role === 'guest' ? '/guest/(tabs)' : '/host/(tabs)');
       }
@@ -129,7 +129,7 @@ export const appleAuth = createAsyncThunk<BackendResponse, { identityToken: stri
       const user = await response.json();
 
       if (user.data.isNewUser) {
-        router.push(user.data.role === 'guest' ? '/guest/(screens)/checkin' : '/host/register');
+        router.push(user.data.role === 'guest' ? '/guest/(screens)/checkin' : '/host/createHostel');
       } else {
         router.push(user.data.role === 'guest' ? '/guest/(tabs)' : '/host/(tabs)');
       }
@@ -163,7 +163,7 @@ export const googleAuth = createAsyncThunk<BackendResponse, { token: string, rol
       const user = await response.json();
 
       if (user.data.isNewUser) {
-        router.push(user.data.role === 'guest' ? '/guest/checkin' : '/host/register');
+        router.push(user.data.role === 'guest' ? '/guest/checkin' : '/host/createHostel');
       } else {
         router.push(user.data.role === 'guest' ? '/guest/(tabs)' : '/host/(tabs)');
       }
@@ -197,8 +197,6 @@ export const logout = createAsyncThunk<BackendResponse, void, { rejectValue: str
       // persistStore(store).purge();
       await persistor.purge();
 
-
-      // router.push('/public')
       dispatch(resetAppState());
 
       showToast({
@@ -206,6 +204,8 @@ export const logout = createAsyncThunk<BackendResponse, void, { rejectValue: str
         title: 'Logout succefully',
         message: '',
       });
+
+      router.push('/public')
 
       return result as BackendResponse;
 

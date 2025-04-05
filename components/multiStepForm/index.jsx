@@ -4,6 +4,7 @@ import { Colors } from '@/constants/Colors';
 import { router } from "expo-router";
 import { KeyboardAvoidingView, ScrollView, Platform } from 'react-native';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import { showToast } from '../toast';
 
 const MultiStepForm = ({ steps, sendForm, value, setValue }) => {
     const [currentStep, setCurrentStep] = useState(0);
@@ -20,16 +21,27 @@ const MultiStepForm = ({ steps, sendForm, value, setValue }) => {
         }));
     };
 
+    const isValidEmail = (email) => {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return regex.test(email.trim());
+    };
+
     const validateStep = () => {
         const fields = steps[currentStep].fields;
 
-        // Verifica se todos os campos obrigatórios têm valores preenchidos
         const allValid = fields.every((field) => {
-            const valueField = value[field.name];
+            const fieldValue = value[field.name];
 
             if (field.required) {
-                // Pode ajustar isso com validação personalizada se quiser
-                return valueField !== undefined && valueField !== null && valueField !== '';
+                if (!fieldValue || fieldValue === '') return false;
+                if (field.name === 'email' && !isValidEmail(fieldValue)) {
+                    showToast({
+                        type: 'error',
+                        title: 'Invalid Email',
+                        message: 'Insira um e-mail válido'
+                    })
+                    return false;
+                }
             }
 
             return true;
