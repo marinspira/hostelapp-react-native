@@ -10,7 +10,7 @@ import { logout } from '@/redux/slices/user/slice';
 import { router } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { toggleTheme } from '@/redux/slices/theme/slice';
-import { useTheme } from '@/hooks/useThemeColor';
+import { useTheme } from '@/hooks/useTheme';
 import ThemeSwitch from '@/components/themeSwitch';
 import Container from '@/components/container';
 import InputImage from '@/components/inputs/inputImage';

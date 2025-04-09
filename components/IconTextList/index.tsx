@@ -1,5 +1,5 @@
 import { Colors } from '@/constants/Colors'
-import { useTheme } from '@/hooks/useThemeColor';
+import { useTheme } from '@/hooks/useTheme';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 
 interface IconTextItem {

@@ -2,7 +2,7 @@ import React from 'react'
 import { Text, View } from 'react-native'
 import profileDefault from '@/assets/images/unnamed.png'
 import EventList from '@/components/guest/eventList'
-import { useTheme } from '@/hooks/useThemeColor';
+import { useTheme } from '@/hooks/useTheme';
 import Container from '@/components/container'
 
 export default function Staff() {

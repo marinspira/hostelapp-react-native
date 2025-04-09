@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import '@/assets/translations/i18n'
 import { StaffState } from '@/redux/slices/staff/interfaces';
 import { updateStaffFields } from '@/redux/slices/staff/slice';
-import { useTheme } from '@/hooks/useThemeColor';
+import { useTheme } from '@/hooks/useTheme';
 
 export default function FormStaff() {
 

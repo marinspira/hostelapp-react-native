@@ -8,7 +8,7 @@ import InputImage from '@/components/inputs/inputImage';
 import SelectItens from '@/components/inputs/selectItens'
 import '@/assets/translations/i18n'
 import countries from '@/utils/coutries'
-import { useTheme } from '@/hooks/useThemeColor';
+import { useTheme } from '@/hooks/useTheme';
 import { RootState } from '@/redux/store';
 
 export default function FormPersonal() {

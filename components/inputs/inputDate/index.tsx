@@ -3,7 +3,7 @@ import DateTimePicker, { DateTimePickerAndroid } from '@react-native-community/d
 import { StyleSheet, Text, View } from 'react-native';
 import Input from '../input';
 import { Platform } from 'react-native';
-import { useTheme } from '@/hooks/useThemeColor';
+import { useTheme } from '@/hooks/useTheme';
 
 interface InputDateProps {
     label?: any;

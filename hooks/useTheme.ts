@@ -14,6 +14,8 @@ export const useTheme = () => {
     },
     text: {
       color: color.text,
+      fontSize: 16,
+      fontFamily: 'PoppinsRegular'
     },
     title: {
       color: color.text,

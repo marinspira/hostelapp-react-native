@@ -1,4 +1,4 @@
-import { useTheme } from '@/hooks/useThemeColor';
+import { useTheme } from '@/hooks/useTheme';
 import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import PhoneInput, { ICountry } from 'react-native-international-phone-number';

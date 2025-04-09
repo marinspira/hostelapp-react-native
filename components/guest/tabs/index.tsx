@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, PanResponder, Dimensions } from 'react-native';
 import FormGuest from '../formGuest';
 import { Colors } from '@/constants/Colors';
-import { useTheme } from '@/hooks/useThemeColor';
+import { useTheme } from '@/hooks/useTheme';
 
 interface TabsProps {
   tabs: { label: string; content: any; }[];

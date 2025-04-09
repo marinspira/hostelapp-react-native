@@ -2,7 +2,7 @@ import type { PropsWithChildren } from 'react';
 import { Image, Pressable, RefreshControl, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import Animated, { interpolate, useAnimatedRef, useAnimatedStyle, useScrollViewOffset, } from 'react-native-reanimated';
 import Slide from '@/components/slide';
-import { useTheme } from '@/hooks/useThemeColor';
+import { useTheme } from '@/hooks/useTheme';
 import Linear from '@/assets/images/gradient.svg'
 import GoBackButton from './goBackButton';
 

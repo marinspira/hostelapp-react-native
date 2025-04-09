@@ -4,7 +4,7 @@ import { Picker } from '@react-native-picker/picker';
 import { Colors } from '@/constants/Colors';
 import '@/assets/translations/i18n';
 import { useTranslation } from 'react-i18next';
-import { useTheme } from '@/hooks/useThemeColor';
+import { useTheme } from '@/hooks/useTheme';
 
 interface InputSelectProps {
     selectInputItems: string[];

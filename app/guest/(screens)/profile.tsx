@@ -8,7 +8,7 @@ import '@/assets/translations/i18n'
 import { AppDispatch, RootState } from '@/redux/store';
 import { useEffect } from 'react';
 import { getGuest } from '@/redux/slices/guest/slice'
-import { useTheme } from '@/hooks/useThemeColor';
+import { useTheme } from '@/hooks/useTheme';
 import FormPersonal from '@/components/guest/formPersonal';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { router } from 'expo-router';

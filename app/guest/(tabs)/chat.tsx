@@ -1,7 +1,7 @@
 import React from 'react'
 import ChatList from '@/components/guest/chatList'
 import profileDefault from '@/assets/images/unnamed.png'
-import { useTheme } from '@/hooks/useThemeColor';
+import { useTheme } from '@/hooks/useTheme';
 import Container from '@/components/container';
 import ProfileCircles from '@/components/profileCircles'
 import { StyleSheet, Text } from 'react-native';

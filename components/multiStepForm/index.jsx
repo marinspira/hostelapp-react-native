@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { Colors } from '@/constants/Colors';
-import { router } from "expo-router";
-import { KeyboardAvoidingView, ScrollView, Platform } from 'react-native';
+import { KeyboardAvoidingView, Platform } from 'react-native';
 import AntDesign from '@expo/vector-icons/AntDesign';
-import { showToast } from '../toast';
 
 const MultiStepForm = ({ steps, sendForm, value, setValue }) => {
     const [currentStep, setCurrentStep] = useState(0);
@@ -32,14 +30,18 @@ const MultiStepForm = ({ steps, sendForm, value, setValue }) => {
         const allValid = fields.every((field) => {
             const fieldValue = value[field.name];
 
+            if (field.name === 'policies' && fieldValue !== true) {
+                return false;
+            }
+
+            if (field.name === 'experience_with_volunteers' && fieldValue === null) {
+                return false;
+            }
+
             if (field.required) {
                 if (!fieldValue || fieldValue === '') return false;
 
                 if (field.name === 'email' && !isValidEmail(fieldValue)) {
-                    return false;
-                }
-
-                if (field.name === 'policies' && fieldValue === false) {
                     return false;
                 }
             }

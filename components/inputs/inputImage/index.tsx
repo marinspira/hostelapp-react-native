@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
 import { deleteGuestImage, uploadGuestImage } from '@/redux/slices/guest/slice';
 import useGenerateRandomFilename from '@/hooks/useRandomName';
-import { useTheme } from '@/hooks/useThemeColor';
+import { useTheme } from '@/hooks/useTheme';
 
 interface InputImageProps {
     id: string,

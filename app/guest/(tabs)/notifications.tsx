@@ -1,5 +1,5 @@
 import Container from '@/components/container';
-import { useTheme } from '@/hooks/useThemeColor';
+import { useTheme } from '@/hooks/useTheme';
 import { StatusBar } from 'expo-status-bar';
 import React from 'react'
 import { Text, View } from 'react-native'

@@ -3,25 +3,14 @@ interface Bed {
     assigned_by: string | null;
 }
 
-interface Room {
-    number: string;
-    beds: Bed[];
-}
-
-export interface Address {
-    street: string;
-    city: string;
-    state: string;
-    country: string;
-    zip?: string;
-}
-
 export interface Hostel {
     name: string;
-    address: Address;
+    street: string;
+    city: string;
+    country: string;
+    zip?: string;
     phone: string;
     email: string;
     website: string;
-    experience_with_volunteers: boolean;
-    rooms: Room[];
+    experience_with_volunteers: boolean | null;
 }

@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { UserState } from '@/redux/slices/user/interfaces';
 import { useTranslation } from 'react-i18next';
 import '@/assets/translations/i18n'
-import { useTheme } from '@/hooks/useThemeColor';
+import { useTheme } from '@/hooks/useTheme';
 import ThemeSwitch from '@/components/themeSwitch';
 import Container from '@/components/container';
 import defaultImg from '@/assets/images/unnamed.png';

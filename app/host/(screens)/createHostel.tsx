@@ -12,6 +12,7 @@ import { useCreateHostel } from '@/services/hostel/create';
 import { ActivityIndicator, Text } from 'react-native';
 import { Hostel } from '@/services/hostel/interface';
 import InputSelect from '@/components/inputs/inputSelect';
+import { router } from 'expo-router';
 
 export default function CreateHostel() {
 
@@ -19,28 +20,14 @@ export default function CreateHostel() {
 
   const [hostelData, setHostelData] = useState<Hostel>({
     name: '',
-    address: {
-      street: '',
-      city: '',
-      state: '',
-      country: '',
-      zip: '',
-    },
     phone: '',
     email: '',
     website: '',
-    experience_with_volunteers: false,
-    rooms: [
-      {
-        number: '',
-        beds: [
-          {
-            bed_number: '',
-            assigned_by: null,
-          },
-        ],
-      },
-    ],
+    experience_with_volunteers: null,
+    street: '',
+    city: '',
+    country: '',
+    zip: '',
   });
 
   const steps = [
@@ -109,29 +96,9 @@ export default function CreateHostel() {
         {
           component: Input,
           name: 'email',
-          label: 'Your e-mail',
+          label: 'Your hostel e-mail',
           placeholder: 'admin@hostelApp.com',
           required: true,
-        },
-      ],
-    },
-    {
-      title: t('Quais serviços você precisa de voluntário?'),
-      fields: [
-        {
-          component: SelectItens,
-          options: [
-            t('Recepção'),
-            t('Limpeza'),
-            t('Assistente de cozinha'),
-            t('Jardinagem'),
-            t('Babá'),
-            t('Ensino de esportes'),
-            t('Cuidados de animais'),
-            t('Construção'),
-            t('Ensino de idiomas'),
-            'Bartender',
-          ],
         },
       ],
     },
@@ -168,7 +135,7 @@ export default function CreateHostel() {
     try {
       const response = await createHostelMutation(hostelData);
       console.log('Hostel criado:', response);
-      // router.push('/host/(tabs)');
+      router.push('/host/(screens)/waitingApproval');
     } catch (err) {
       console.error('Erro ao criar hostel:', err);
     }
