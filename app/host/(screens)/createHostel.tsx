@@ -2,19 +2,19 @@ import MultiStepForm from '@/components/multiStepForm';
 import Input from '@/components/inputs/input';
 import InputImage from '@/components/inputs/inputImage';
 import InputPhone from '@/components/inputs/inputPhone';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import useFindAdress from '@/hooks/useFindAdress';
+import countries from '@/utils/coutries'
 import Container from '@/components/container';
 import InputCheckbox from '@/components/inputs/inputCheckbox';
 import SelectItens from '@/components/inputs/selectItens';
 import { useCreateHostel } from '@/services/hostel/create';
 import { ActivityIndicator, Text } from 'react-native';
 import { Hostel } from '@/services/hostel/interface';
+import InputSelect from '@/components/inputs/inputSelect';
 
 export default function CreateHostel() {
-  const [zip, setZip] = useState('');
-  const { address, loading } = useFindAdress(zip);
+
   const { t } = useTranslation();
 
   const [hostelData, setHostelData] = useState<Hostel>({
@@ -43,34 +43,6 @@ export default function CreateHostel() {
     ],
   });
 
-  useEffect(() => {
-    if (zip && address) {
-      setHostelData((prev) => ({
-        ...prev,
-        address: {
-          ...prev.address,
-          // zip,
-          street: address.street,
-          city: address.city,
-          state: address.state,
-          country: address.country,
-        },
-      }));
-      console.log(hostelData)
-    }
-  }, [address]);
-
-  const handleZipcodeChange = (value: string) => {
-    setZip(value);
-    // setHostelData((prev) => ({
-    //   ...prev,
-    //   address: {
-    //     ...prev.address,
-    //     zip: value,
-    //   },
-    // }));
-  };
-
   const steps = [
     {
       fields: [
@@ -97,40 +69,34 @@ export default function CreateHostel() {
       title: t('Qual endereço do seu hostel?'),
       fields: [
         {
-          value: zip,
           component: Input,
           name: 'zip',
           label: 'CEP',
           placeholder: '2000-000',
           required: true,
-          onChange: handleZipcodeChange,
         },
-        ...(address && !loading
-          ? [
-              {
-                component: Input,
-                name: 'street',
-                label: 'Endereço',
-                placeholder: 'Av. Paulista',
-                required: true,
-              },
-              {
-                component: Input,
-                name: 'city',
-                label: 'Cidade',
-                placeholder: 'São Paulo',
-                required: true,
-              },
-              {
-                component: Input,
-                name: 'country',
-                label: 'País',
-                placeholder: 'Brazil',
-                required: true,
-              },
-            ]
-          : []),
-      ],
+        {
+          component: Input,
+          name: 'street',
+          label: 'Endereço',
+          placeholder: 'Av. Paulista',
+          required: true,
+        },
+        {
+          component: Input,
+          name: 'city',
+          label: 'Cidade',
+          placeholder: 'São Paulo',
+          required: true,
+        },
+        {
+          component: InputSelect,
+          name: 'country',
+          label: 'País',
+          required: true,
+          selectInputItems: countries
+        },
+      ]
     },
     {
       title: t('Como podemos entrar em contato com você?'),
@@ -181,14 +147,6 @@ export default function CreateHostel() {
           errorMessage: '',
         },
         {
-          component: Input,
-          name: 'rooms',
-          label: t('Quantos quartos tem no seu hostel?'),
-          placeholder: '5',
-          required: true,
-          errorMessage: '',
-        },
-        {
           component: SelectItens,
           boolean: true,
           name: 'experience_with_volunteers',
@@ -197,6 +155,7 @@ export default function CreateHostel() {
         {
           component: InputCheckbox,
           boolean: true,
+          name: 'policies',
           text: t('Ao continuar você concorda com as políticas de privacidade e cookies.'),
         },
       ],

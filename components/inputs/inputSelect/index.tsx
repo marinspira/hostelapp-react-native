@@ -109,6 +109,7 @@ const styles = StyleSheet.create({
         width: '100%',
         borderRadius: 8,
         color: '#000',
+        minWidth: '100%'
     },
     selectInputText: {
         fontSize: 17,

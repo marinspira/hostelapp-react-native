@@ -21,6 +21,7 @@ export default function Index() {
 
     // const fetchUser = async () => {
     //   const result = await dispatch(isAuthenticated())
+    //   console.log(result.payload)
     // }
     // fetchUser()
   }, [user]);

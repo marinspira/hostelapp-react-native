@@ -1,12 +1,14 @@
 import { useMutation } from '@tanstack/react-query';
 
 const createHostel = async (hostelData: any) => {
+
+  console.log(hostelData)
   try {
     const response = await fetch(`${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/api/hostel/create`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
-      body: JSON.stringify({ hostelData }),
+      body: JSON.stringify({ hostel: hostelData }),
     });
 
     const hostel = await response.json();

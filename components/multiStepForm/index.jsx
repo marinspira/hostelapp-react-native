@@ -34,12 +34,12 @@ const MultiStepForm = ({ steps, sendForm, value, setValue }) => {
 
             if (field.required) {
                 if (!fieldValue || fieldValue === '') return false;
+
                 if (field.name === 'email' && !isValidEmail(fieldValue)) {
-                    showToast({
-                        type: 'error',
-                        title: 'Invalid Email',
-                        message: 'Insira um e-mail válido'
-                    })
+                    return false;
+                }
+
+                if (field.name === 'policies' && fieldValue === false) {
                     return false;
                 }
             }
@@ -91,7 +91,11 @@ const MultiStepForm = ({ steps, sendForm, value, setValue }) => {
                             </TouchableOpacity>
                         )}
                         {currentStep === steps.length - 1 && (
-                            <TouchableOpacity style={styles.btnNext} onPress={sendForm}>
+                            <TouchableOpacity
+                                style={[styles.btnNext, !isStepValid && { opacity: 0.5 }]}
+                                onPress={sendForm}
+                                disabled={!isStepValid}
+                            >
                                 <Text style={{ color: 'white', fontSize: 20, fontWeight: '700' }}>Enviar</Text>
                             </TouchableOpacity>
                         )}
