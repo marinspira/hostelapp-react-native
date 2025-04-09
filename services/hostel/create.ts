@@ -1,8 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 
 const createHostel = async (hostelData: any) => {
-
-  console.log(hostelData)
   try {
     const response = await fetch(`${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/api/hostel/create`, {
       method: 'POST',
@@ -17,7 +15,6 @@ const createHostel = async (hostelData: any) => {
       throw new Error(hostel.message || 'Erro ao criar hostel');
     }
 
-    console.log(hostel)
     return hostel;
 
   } catch (error) {
