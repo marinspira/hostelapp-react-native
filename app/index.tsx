@@ -19,11 +19,11 @@ export default function Index() {
     console.log('Index. User State:', user);
     // console.log('Index. Guest State:', guest);
 
-    // const fetchUser = async () => {
-    //   const result = await dispatch(isAuthenticated())
-    //   console.log(result.payload)
-    // }
-    // fetchUser()
+    const fetchUser = async () => {
+      const result = await dispatch(isAuthenticated())
+      console.log(result.payload)
+    }
+    fetchUser()
   }, [user]);
 
   if (useStorybook) {
