@@ -13,7 +13,8 @@ interface InputDateProps {
     maximumDate?: Date;
     minimumDate?: Date;
     errorMessage?: any;
-    suportText?: string
+    suportText?: string;
+    width?: any;
 }
 
 const InputDate: React.FC<InputDateProps> = ({
@@ -24,7 +25,8 @@ const InputDate: React.FC<InputDateProps> = ({
     maximumDate,
     minimumDate,
     errorMessage,
-    suportText
+    suportText,
+    width = '100%'
 }) => {
     const [show, setShow] = useState(false);
     const [date, setDate] = useState<Date | undefined>(value || undefined);
@@ -65,7 +67,7 @@ const InputDate: React.FC<InputDateProps> = ({
 
     if (Platform.OS === 'ios') {
         return (
-            <View style={styles.inputDateIos}>
+            <View style={[styles.inputDateIos, { width }]}>
                 <Text style={dynamicStyles.label}>{label}</Text>
                 {suportText && <Text style={styles.suportText}>{suportText}</Text>}
                 <DateTimePicker
@@ -84,7 +86,7 @@ const InputDate: React.FC<InputDateProps> = ({
         );
     } else {
         return (
-            <View style={styles.container}>
+            <View style={[styles.container, { width }]}>
                 <Input
                     onPress={showCalendar}
                     label={label}

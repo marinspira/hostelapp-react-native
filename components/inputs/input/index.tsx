@@ -13,7 +13,7 @@ interface InputProps {
     required?: boolean;
     errorMessage?: string;
     inputTexting?: boolean;
-    onBlur: () => void;
+    onBlur?: () => void;
 }
 
 const Input: React.FC<InputProps> = ({

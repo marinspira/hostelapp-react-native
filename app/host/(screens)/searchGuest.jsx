@@ -1,4 +1,4 @@
-import { ActivityIndicator, Image, Modal, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useState } from 'react';
 import { useGetNewGuest } from '@/services/hostel/getNewGuest';
 import { useTheme } from '@/hooks/useTheme';
@@ -6,11 +6,13 @@ import InputSearch from '@/components/inputs/inputSearch'
 import Container from '@/components/container'
 import GoBackButton from '@/components/goBackButton'
 import Img from '@/assets/images/illustrations/undraw/travellers.svg'
-import ModalAddGuest from '../../../components/modalAddGuest';
+import PopUp from '@/components/modal';
+import AddGuest from '@/components/modaisContent/addGuest';
 
 export default function SearchGuest() {
     const [guests, setGuests] = useState([])
     const [modalVisible, setModalVisible] = useState(false)
+    const [guest, setGuest] = useState(null)
 
     const { mutateAsync: getNewGuestMutation, isPending, error } = useGetNewGuest();
 
@@ -20,11 +22,15 @@ export default function SearchGuest() {
         try {
             const response = await getNewGuestMutation(username);
             setGuests(response.data)
-            console.log(response.data)
         } catch (err) {
-            console.error('Erro ao criar hostel:', err);
+            console.error('Error in searchGuest screen:', err);
         }
     };
+
+    const handleSelectGuest = (guest) => {
+        setGuest(guest)
+        setModalVisible(true)
+    }
 
     return (
         <Container>
@@ -35,13 +41,14 @@ export default function SearchGuest() {
                     placeholder='Search by name, @tag or e-mail'
                 />
             </View>
+
             <View style={styles.content}>
                 {isPending ? (
                     <ActivityIndicator size="large" color="#6c63ff" />
                 ) : guests && guests.length > 0 ? (
                     <ScrollView style={styles.searchContainer}>
                         {guests.map((guest, index) => (
-                            <TouchableOpacity onPress={() => setModalVisible(true)} key={index} style={styles.searchItem}>
+                            <TouchableOpacity onPress={() => handleSelectGuest(guest)} key={index} style={styles.searchItem}>
                                 <Image
                                     style={styles.image}
                                     source={
@@ -65,7 +72,12 @@ export default function SearchGuest() {
                     </View>
                 )}
             </View>
-            {modalVisible && <ModalAddGuest modalVisible={modalVisible} setModalVisible={setModalVisible} />}
+
+            {modalVisible &&
+                <PopUp modalVisible={modalVisible} setModalVisible={setModalVisible}>
+                    <AddGuest guest={guest} />
+                </PopUp>
+            }
         </Container>
     )
 }
