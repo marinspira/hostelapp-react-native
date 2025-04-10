@@ -22,6 +22,17 @@ export const useTheme = () => {
       fontSize: 25,
       fontFamily: 'PoppinsBold'
     },
+    titleUppercase: {
+      color: color.text,
+      fontSize: 35,
+      fontFamily: 'PoppinsBold',
+      textTransform: 'uppercase'
+    },
+    subtitle: {
+      color: color.text,
+      fontSize: 20,
+      fontFamily: 'PoppinsBold'
+    },
     suportText: {
       fontSize: 16,
       color: color.text,
