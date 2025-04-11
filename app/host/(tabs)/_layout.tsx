@@ -3,7 +3,7 @@ import Menu from '@/components/menu';
 
 const tabIcons = {
   settings: 'user',
-  // staff: 'team',
+  volunteers: 'team',
   index: 'home',
   notifications: 'bells',
   chat: 'message1',

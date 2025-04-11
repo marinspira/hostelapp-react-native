@@ -17,6 +17,12 @@ export const useTheme = () => {
       fontSize: 16,
       fontFamily: 'PoppinsRegular'
     },
+    textUppercase: {
+      color: color.text,
+      fontSize: 20,
+      textTransform: 'uppercase',
+      fontFamily: 'PoppinsBold'
+    },
     title: {
       color: color.text,
       fontSize: 25,
@@ -26,7 +32,6 @@ export const useTheme = () => {
       color: color.text,
       fontSize: 35,
       fontFamily: 'PoppinsBold',
-      textTransform: 'uppercase'
     },
     subtitle: {
       color: color.text,

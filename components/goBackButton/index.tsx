@@ -2,7 +2,12 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { Pressable, StyleSheet } from "react-native";
 
-export default function GoBackButton({ absolutePostion, color }) {
+interface GoBackButtonProps {
+    absolutePostion?: string;
+    color?: string;
+}
+
+export default function GoBackButton({ absolutePostion, color }: GoBackButtonProps) {
     return (
         <Pressable style={absolutePostion ? styles.position : ''} onPress={() => router.back()}>
             <FontAwesome5 name="arrow-left" size={22} color={color} />

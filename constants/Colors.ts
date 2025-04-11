@@ -1,5 +1,5 @@
 const lilac = '#9370DB';
-const purple = '#6c63ff';
+const purple = '#7f5de7';
 const orange = '#ff6363';
 const green = '#d6f84c';
 const gray = '#f1f1f1';
@@ -24,7 +24,7 @@ export const Colors: Record<Theme, {
     background: gray,
     icon: '#687076',
     tabIconDefault: '#687076',
-    tabIconSelected: '#6c63ff',
+    tabIconSelected: '#7f5de7',
     tint: purple,
     statusBar: 'dark',
     border: '#eaeaea',

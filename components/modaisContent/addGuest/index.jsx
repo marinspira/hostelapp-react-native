@@ -5,6 +5,8 @@ import SimpleButton from '@/components/buttons/SimpleButton';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@/hooks/useTheme'
 import { useEffect, useState } from "react";
+import { Colors } from '@/constants/Colors'
+import { router } from 'expo-router'
 
 export default function AddGuest({ guest }) {
 
@@ -74,15 +76,20 @@ export default function AddGuest({ guest }) {
                     }
                 </>
             ) : (
-                <Pressable style={{marginBottom: 20}}>
-                    <Text style={dynamicStyles.text}>Você não tem quartos disponíveis, clique aqui para criar um.</Text>
+                <Pressable onPress={() => router.push('/host/(screens)/rooms')} style={{ marginBottom: 20 }}>
+                    <Text style={dynamicStyles.text}>Você não tem quartos disponíveis, {' '}
+                        <Text style={{ color: Colors.light.tint, fontFamily: 'PoppinsBold', fontSize: 16 }}>
+                            clique aqui para criar um.
+                        </Text>
+                    </Text>
                 </Pressable>
-            )}
+            )
+            }
             <SimpleButton
                 text='Adicionar guest'
                 disabled={!roomsAvailable}
             />
-        </View>
+        </View >
     )
 }
 

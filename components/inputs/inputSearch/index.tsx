@@ -1,5 +1,6 @@
 import { StyleSheet, TextInput, View } from "react-native"
 import Feather from '@expo/vector-icons/Feather';
+import { forwardRef } from "react";
 
 interface InputSearchProps {
     onChange?: (value: string) => void;
@@ -7,28 +8,36 @@ interface InputSearchProps {
     placeholder: string
 }
 
-export default function InputSearch({ onChange, onPress, placeholder }: InputSearchProps) {
-    return (
-        <View style={[styles.container]}>
-            <Feather name="search" size={24} color="black" />
-            <TextInput
-                style={[styles.input]}
-                placeholder={placeholder}
-                keyboardType="default"
-                placeholderTextColor="#bbb"
-                onChangeText={onChange}
-                onPress={onPress}
-            />
-        </View>
-    )
-}
+const InputSearch = forwardRef<TextInput, InputSearchProps>(
+    ({ onChange, onPress, placeholder, ...rest }, ref) => {
+        return (
+            <View style={styles.container}>
+                <Feather name="search" size={24} color="black" />
+                <TextInput
+                    ref={ref}
+                    style={[styles.input]}
+                    placeholder={placeholder}
+                    keyboardType="default"
+                    placeholderTextColor="#bbb"
+                    onChangeText={onChange}
+                    onPressIn={onPress}
+                    pointerEvents={onPress ? 'none' : 'auto'}
+                    showSoftInputOnFocus={!onPress}
+                    {...rest}
+                />
+            </View>
+        );
+    }
+);
+
+export default InputSearch;
 
 const styles = StyleSheet.create({
     container: {
         backgroundColor: '#f7f7f7',
         paddingLeft: 20,
         height: 60,
-        borderRadius: 100,
+        borderRadius: 10,
         borderColor: '#ccc',
         borderWidth: 1,
         flexDirection: 'row',

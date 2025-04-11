@@ -1,5 +1,5 @@
 import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useGetNewGuest } from '@/services/hostel/getNewGuest';
 import { useTheme } from '@/hooks/useTheme';
 import InputSearch from '@/components/inputs/inputSearch'
@@ -18,7 +18,18 @@ export default function SearchGuest() {
 
     const dynamicStyles = useTheme()
 
+    const inputRef = useRef(null);
+
+    useEffect(() => {
+        inputRef.current?.focus();
+    }, []);
+
     const searchUser = async (username) => {
+        if (!username.trim()) {
+            setGuests([]);
+            return;
+        }
+
         try {
             const response = await getNewGuestMutation(username);
             setGuests(response.data)
@@ -37,6 +48,7 @@ export default function SearchGuest() {
             <View style={styles.header}>
                 <GoBackButton />
                 <InputSearch
+                    ref={inputRef}
                     onChange={(username) => searchUser(username)}
                     placeholder='Search by name, @tag or e-mail'
                 />
