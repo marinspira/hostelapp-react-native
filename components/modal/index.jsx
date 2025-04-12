@@ -1,7 +1,7 @@
-import { Dimensions, Modal, Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Dimensions, Modal, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import { useTheme } from '@/hooks/useTheme';
 
-const { width } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 export default function PopUp({ modalVisible, setModalVisible, children }) {
     const dynamicStyles = useTheme();
@@ -13,14 +13,20 @@ export default function PopUp({ modalVisible, setModalVisible, children }) {
             onRequestClose={() => setModalVisible(false)}
             transparent
         >
-            <Pressable style={styles.modalBackground} onPress={() => setModalVisible(false)}>
-                <View style={[styles.modalContainer, { width: width * 0.95 }]}>
-                    <TouchableOpacity style={styles.closeButton} onPress={() => setModalVisible(false)}>
-                        <Text style={styles.buttonText}>X</Text>
-                    </TouchableOpacity>
-                    {children}
+            <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
+                <View style={styles.modalBackground}>
+                    <TouchableWithoutFeedback>
+                        <View style={[styles.modalContainer, { width: width * 0.95, maxHeight: height * 0.80 }]}>
+                            <Pressable style={styles.closeButton} onPress={() => setModalVisible(false)}>
+                                <Text style={dynamicStyles.text}>X</Text>
+                            </Pressable>
+                            <ScrollView>
+                                {children}
+                            </ScrollView>
+                        </View>
+                    </TouchableWithoutFeedback>
                 </View>
-            </Pressable>
+            </TouchableWithoutFeedback>
         </Modal>
     );
 }
@@ -36,7 +42,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         padding: 20,
         borderRadius: 10,
-        minHeight: 150
+        minHeight: 150,
+        maxWidth: 500
     },
     modalText: {
         fontSize: 18,
@@ -45,6 +52,6 @@ const styles = StyleSheet.create({
     closeButton: {
         position: 'absolute',
         top: 20,
-        right: 20
+        right: 20,
     }
 })

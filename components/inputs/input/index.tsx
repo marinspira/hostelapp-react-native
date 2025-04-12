@@ -14,6 +14,7 @@ interface InputProps {
     errorMessage?: string;
     inputTexting?: boolean;
     onBlur?: () => void;
+    onlyNumbers?: boolean
 }
 
 const Input: React.FC<InputProps> = ({
@@ -25,7 +26,8 @@ const Input: React.FC<InputProps> = ({
     required = false,
     errorMessage,
     inputTexting,
-    onBlur
+    onBlur,
+    onlyNumbers
 }) => {
     const { t } = useTranslation();
     const dynamicStyles = useTheme()
@@ -67,7 +69,8 @@ const Input: React.FC<InputProps> = ({
                     placeholder={t(placeholder)}
                     value={value}
                     onChangeText={(text) => {
-                        if (onChange) onChange(text);
+                        const cleanText = onlyNumbers ? text.replace(/[^0-9]/g, '') : text;
+                        if (onChange) onChange(cleanText);
                         if (!isTouched) setIsTouched(true);
                     }}
                     onBlur={() => {
@@ -76,7 +79,7 @@ const Input: React.FC<InputProps> = ({
                     }}
                     onPress={onPress}
                     onFocus={() => setInputFocus(true)}
-                    keyboardType="default"
+                    keyboardType={onlyNumbers ? 'numeric' : 'default'}
                     multiline={true}
                     placeholderTextColor="#bbb"
                 />

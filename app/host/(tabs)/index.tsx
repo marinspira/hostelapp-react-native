@@ -9,11 +9,8 @@ import profileDefault from '@/assets/images/unnamed.png'
 import InputSearch from '@/components/inputs/inputSearch';
 import { router } from 'expo-router';
 import ButtonCreate from '@/components/buttons/ButtonCreate';
-import Widgets from '@/components/widgets';
-import { AntDesign } from '@expo/vector-icons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import SearchGuest from '@/app/host/(screens)/searchGuest'
 import { Colors } from '@/constants/Colors';
 
 export default function HostHomeScreen() {
@@ -65,27 +62,16 @@ export default function HostHomeScreen() {
     <SafeAreaView>
       <View style={{ minHeight: '100%' }}>
         <ScrollView >
-          <View style={styles.banner}/>
+          <View style={styles.banner} />
           <View style={styles.searchBar}>
-            <InputSearch 
-            placeholder='Search guest by @tag or e-mail'
-            onPress={() => router.push('/host/(screens)/searchGuest')}
+            <InputSearch
+              placeholder='Search guest by @tag or e-mail'
+              onPress={() => router.push('/host/(screens)/searchGuest')}
             />
-          </View>
-          <View style={styles.container}>
-
-            <Widgets title='Guests'>
-              <Text>Teste</Text>
-            </Widgets>
-            <Widgets title='Guests'>
-              <Text>Teste</Text>
-            </Widgets>
-            <Widgets title='Guests'>
-              <Text>Teste</Text>
-            </Widgets>
           </View>
         </ScrollView>
         <ButtonCreate
+          bottom={170}
           subButtons={[
             {
               text: 'Add guest',

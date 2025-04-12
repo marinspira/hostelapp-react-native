@@ -1,8 +1,7 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 
-const ProfilesGroup = ({ people }) => {
-  const maxVisible = 3; // Número máximo de ícones visíveis
+const ProfilesGroup = ({ people, maxVisible = 3 }) => {
   const extraCount = people.length - maxVisible;
 
   return (

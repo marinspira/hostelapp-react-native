@@ -4,13 +4,13 @@ import { useTheme } from "@/hooks/useTheme";
 import { Colors } from "@/constants/Colors";
 import { useEffect, useState } from "react";
 
-export default function ButtonCreate({ subButtons }) {
+export default function ButtonCreate({ subButtons, onPress, bottom = 120 }) {
     const dynamicStyles = useTheme()
 
     const [open, setOpen] = useState(false)
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, { bottom }]}>
             {open && subButtons?.map((subBtn, index) => (
                 <View key={index} style={styles.subButtons}>
                     <Text style={dynamicStyles.text}>{subBtn.text}</Text>
@@ -19,7 +19,10 @@ export default function ButtonCreate({ subButtons }) {
                     </TouchableOpacity>
                 </View>
             ))}
-            <Pressable onPress={() => setOpen(!open)} style={styles.btn}>
+            <Pressable
+                onPress={subButtons ? () => setOpen(!open) : onPress}
+                style={styles.btn}
+            >
                 {open ? <AntDesign name="close" size={30} color="white" /> : <AntDesign name="plus" size={30} color="white" />}
             </Pressable>
         </View>
@@ -29,8 +32,7 @@ export default function ButtonCreate({ subButtons }) {
 const styles = StyleSheet.create({
     container: {
         position: 'absolute',
-        right: 30,
-        bottom: 120,
+        right: 20,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-end',
