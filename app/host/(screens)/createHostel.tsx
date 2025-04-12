@@ -8,7 +8,7 @@ import countries from '@/utils/coutries'
 import Container from '@/components/container';
 import InputCheckbox from '@/components/inputs/inputCheckbox';
 import SelectItens from '@/components/inputs/selectItens';
-import { useCreateHostel } from '@/services/hostel/create';
+import { useCreateHostel } from '@/services/hostel/createHostel';
 import { ActivityIndicator, Text } from 'react-native';
 import { Hostel } from '@/services/hostel/interface';
 import InputSelect from '@/components/inputs/inputSelect';

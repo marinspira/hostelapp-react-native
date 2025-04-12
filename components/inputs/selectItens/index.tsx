@@ -13,7 +13,7 @@ interface SelectItensProps {
     suportText?: string;
     maxSelections?: number;
     selectInputItems?: string[];
-    value: string[] | boolean | null,
+    value: string | string[] | boolean | null,
     boolean?: boolean
 }
 
@@ -36,31 +36,26 @@ const SelectItens: React.FC<SelectItensProps> = ({
     const [selectedItem, setSelectedItem] = useState<any>(value);
 
     const toggleOption = (option: any) => {
-
         if (maxSelections === 1) {
-            setSelectedItem(option)
-            onChange && onChange(option);
+            const newValue = selectedItem === option ? null : option;
+            setSelectedItem(newValue);
+            setSelectedOptions([newValue]);
+            onChange && onChange(newValue);
         } else {
             const isSelected = selectedOptions.includes(option);
             let newSelection: string[];
-
+    
             if (isSelected) {
                 newSelection = selectedOptions.filter((item) => item !== option);
-                if (selectInputItems) {
-                    setOptions(newSelection);
-                }
             } else {
-                if (selectedOptions.length < maxSelections) {
-                    newSelection = [...selectedOptions, option];
-                } else {
-                    newSelection = selectedOptions;
-                }
+                newSelection = selectedOptions.length < maxSelections
+                    ? [...selectedOptions, option]
+                    : selectedOptions;
             }
-
+    
             setSelectedOptions(newSelection);
             onChange && onChange(newSelection);
         }
-
     };
 
     const handleSelectInput = (item: string) => {
@@ -174,7 +169,7 @@ const styles = StyleSheet.create({
     },
     selectedButton: {
         backgroundColor: Colors.light.tint,
-        borderColor: ''
+        borderColor: Colors.light.tint
     },
     buttonText: {
         fontSize: 14,

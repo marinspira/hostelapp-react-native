@@ -9,9 +9,7 @@ import ProfilesGroup from "@/components/guest/profilesGroup";
 import { Colors } from "@/constants/Colors";
 import EmptyScreenImage from "@/assets/images/illustrations/undraw/undraw_dog_jfxm.svg"
 import PopUp from "@/components/modal";
-import Input from "@/components/inputs/input";
-import SimpleButton from "@/components/buttons/SimpleButton";
-import SelectItens from "@/components/inputs/selectItens";
+import CreateRoomModal from "@/components/modaisContent/createRoom"
 import { useTranslation } from "react-i18next";
 import ButtonOptions from "@/components/buttons/ButtonOptions"
 
@@ -24,6 +22,7 @@ export default function RoomsScreen() {
 
     const [rooms, setRooms] = useState([
         {
+            type: "shared",
             number: "103",
             beds: [{
                 bed_number: 'a',
@@ -31,6 +30,7 @@ export default function RoomsScreen() {
             }]
         },
         {
+            type: "shared",
             number: "105",
             beds: [{
                 bed_number: 'a',
@@ -38,6 +38,7 @@ export default function RoomsScreen() {
             }]
         },
         {
+            type: "shared",
             number: "108",
             beds: [{
                 bed_number: 'a',
@@ -100,45 +101,7 @@ export default function RoomsScreen() {
                 <ButtonCreate onPress={() => setIsModalVisible(true)} />
                 {isModalVisible &&
                     <PopUp setModalVisible={setIsModalVisible} modalVisible={isModalVisible}>
-                        <Text style={dynamicStyles.textUppercase}>Criar novo quarto</Text>
-                        <View style={styles.form}>
-                            <Input
-                                label="Nome do quarto"
-                                placeholder="Room 105"
-                                value=""
-                            />
-                            <Input
-                                label="Quantas camas?"
-                                placeholder="5 beds"
-                                onlyNumbers={true}
-                                value=""
-                            />
-                            <SelectItens
-                                label={t('Tipo de habitaçao')}
-                                maxSelections={1}
-                                options={[
-                                    t('Shared'),
-                                    t('Private'),
-                                    t('Volunteers'),
-                                ]}
-                            // onChange={(value) => handleChange('interests', value)}
-                            // value={guest.interests}
-                            />
-                            <SelectItens
-                                label={t('Como voce organiza suas camas?')}
-                                suportText={t("Ex: Cama 1, 2, 3 ou Cama A, B, C")}
-                                maxSelections={1}
-                                options={[
-                                    t('Por numero'),
-                                    t('Por letras')
-                                ]}
-                            // onChange={(value) => handleChange('interests', value)}
-                            // value={guest.interests}
-                            />
-                        </View>
-                        <SimpleButton
-                            text="Criar quarto"
-                        />
+                        <CreateRoomModal/>
                     </PopUp>
                 }
             </View>
@@ -186,7 +149,4 @@ const styles = StyleSheet.create({
         alignItems: "center",
         gap: 10
     },
-    form: {
-        marginTop: 40
-    }
 })
