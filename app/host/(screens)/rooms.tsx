@@ -99,9 +99,9 @@ export default function RoomsScreen() {
                     </View>
                 )}
                 <ButtonCreate onPress={() => setIsModalVisible(true)} />
-                {isModalVisible &&
+                {isModalVisible === true &&
                     <PopUp setModalVisible={setIsModalVisible} modalVisible={isModalVisible}>
-                        <CreateRoomModal/>
+                        <CreateRoomModal setModalVisible={setIsModalVisible}/>
                     </PopUp>
                 }
             </View>

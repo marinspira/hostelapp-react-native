@@ -1,17 +1,33 @@
-import { StyleSheet, Text, View } from "react-native"
+import { ActivityIndicator, StyleSheet, Text, View } from "react-native"
 import Input from "@/components/inputs/input";
 import SimpleButton from "@/components/buttons/SimpleButton";
 import SelectItens from "@/components/inputs/selectItens";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "@/hooks/useTheme";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useCreateRoom } from "@/services/hostel/createRoom";
+import { showToast } from "@/components/toast";
 
-export default function CreateRoomModal() {
+interface CreateRoomModalProps {
+    setModalVisible: (isVisible: boolean) => void;
+}
+
+export default function CreateRoomModal({ setModalVisible }: CreateRoomModalProps) {
 
     const dynamicStyles = useTheme()
     const { t } = useTranslation()
     const { mutateAsync: createRoomMutation, isPending, error } = useCreateRoom();
+
+    useEffect(() => {
+        if(error) {
+            const errorMessage = error?.response?.data?.message || error?.message || "Erro desconhecido";
+            showToast({
+                type: 'error',
+                title: "Error",
+                message: errorMessage,
+            });
+        }
+    }, [error])
 
     const [room, setRoom] = useState({
         type: "",
@@ -35,9 +51,14 @@ export default function CreateRoomModal() {
         try {
             const response = await createRoomMutation(room);
             console.log('Room criado:', response);
+            setModalVisible(false)
         } catch (err) {
             console.error('Error creating Room:', err);
         }
+    }
+
+    function isFormValid() {
+        return room.name && room.capacity && room.type && room.organization_by;
     }
 
     return (
@@ -62,7 +83,7 @@ export default function CreateRoomModal() {
                     options={[
                         t('Shared'),
                         t('Private'),
-                        t('Volunteers'),
+                        t('Staff'),
                     ]}
                     onChange={(value) => handleChange('type', value)}
                     value={room.type}
@@ -78,10 +99,15 @@ export default function CreateRoomModal() {
                     value={room.organization_by}
                 />
             </View>
-            <SimpleButton
-                text="Criar quarto"
-                onPress={handleSubmit}
-            />
+            {isPending ?
+                <ActivityIndicator size="large" color="#6c63ff" />
+                :
+                <SimpleButton
+                    text="Criar quarto"
+                    onPress={handleSubmit}
+                    disabled={!isFormValid()}
+                />
+            }
         </View>
     )
 }

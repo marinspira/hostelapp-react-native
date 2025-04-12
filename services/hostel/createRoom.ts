@@ -9,13 +9,14 @@ const createRoom = async (roomData: any) => {
       body: JSON.stringify({ room: roomData }),
     });
 
-    const hostel = await response.json();
+    const room = await response.json();
+    console.log(room)
 
     if (!response.ok) {
-      throw new Error(hostel.message || 'Erro ao criar room');
+      throw new Error(room.message || 'Erro ao criar room');
     }
 
-    return hostel;
+    return room;
 
   } catch (error) {
     console.error('Error in createRoom service', error);
