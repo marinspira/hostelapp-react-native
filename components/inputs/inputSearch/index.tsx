@@ -21,7 +21,6 @@ const InputSearch = forwardRef<TextInput, InputSearchProps>(
                     placeholderTextColor="#bbb"
                     onChangeText={onChange}
                     onPressIn={onPress}
-                    pointerEvents={onPress ? 'none' : 'auto'}
                     showSoftInputOnFocus={!onPress}
                     {...rest}
                 />

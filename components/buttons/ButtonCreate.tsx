@@ -4,7 +4,17 @@ import { useTheme } from "@/hooks/useTheme";
 import { Colors } from "@/constants/Colors";
 import { useEffect, useState } from "react";
 
-export default function ButtonCreate({ subButtons, onPress, bottom = 120 }) {
+interface ButtonCreateProps {
+    subButtons?: {
+        text: string;
+        icon: any;
+        onPress: any;
+    }[],
+    onPress?: () => void,
+    bottom: number
+}
+
+export default function ButtonCreate({ subButtons, onPress, bottom = 120 }: ButtonCreateProps) {
     const dynamicStyles = useTheme()
 
     const [open, setOpen] = useState(false)
