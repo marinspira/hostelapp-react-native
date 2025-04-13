@@ -36,7 +36,8 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-end',
-        gap: 20
+        gap: 20,
+        zIndex: 4
     },
     btn: {
         backgroundColor: Colors.light.tint,
