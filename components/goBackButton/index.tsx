@@ -3,7 +3,7 @@ import { router } from "expo-router";
 import { Pressable, StyleSheet } from "react-native";
 
 interface GoBackButtonProps {
-    absolutePostion?: string;
+    absolutePostion?: boolean;
     color?: string;
 }
 

@@ -1,28 +1,58 @@
 import { Colors } from "@/constants/Colors";
 import { FontAwesome } from "@expo/vector-icons";
-import { useState } from "react";
-import { 
-    Image, 
-    Pressable, 
-    StyleSheet, 
-    Text, 
-    TextInput, 
-    View, 
-    TouchableOpacity, 
-    KeyboardAvoidingView, 
-    Platform, 
-    TouchableWithoutFeedback, 
-    Keyboard 
+import { useEffect, useState } from "react";
+import {
+    Image,
+    Pressable,
+    StyleSheet,
+    Text,
+    TextInput,
+    View,
+    KeyboardAvoidingView,
+    Platform,
+    TouchableWithoutFeedback,
+    Keyboard
 } from "react-native";
-import profileDefault from '@/assets/images/unnamed.png';
 import GoBackButton from '@/components/goBackButton';
 import { router } from "expo-router";
+import { useTheme } from "@/hooks/useTheme";
+import socket from "@/utils/socket";
 
 export default function Conversation() {
     const [message, setMessage] = useState<string>('');
+    const [messages, setMessages] = useState<{ text: string; sender: 'me' | 'other' }[]>([]);
+
+    const room = "1"
+
+    useEffect(() => {
+        const joinRoom = () => {
+            socket.emit("join_room", room);
+        };
+        joinRoom()
+    }, [])
+
+    const sendMessage = () => {
+        if (!message.trim()) return;
+        socket.emit("send_message", { message, room });
+
+        setMessages(prev => [...prev, { text: message, sender: 'me' }]);
+        setMessage('');
+    };
+
+    useEffect(() => {
+        socket.on("receive_message", (data) => {
+            setMessages(prev => [...prev, { text: data.message, sender: 'other' }]);
+        });
+
+        return () => {
+            socket.off("receive_message");
+        };
+    }, []);
+
+    const dynamicStyles = useTheme()
 
     return (
-        <KeyboardAvoidingView 
+        <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={styles.wrapper}
         >
@@ -32,21 +62,30 @@ export default function Conversation() {
                     <View style={styles.header}>
                         <GoBackButton color='black' absolutePostion={false} />
                         <Pressable style={styles.profileSection} onPress={() => router.push('/guest/(screens)/profile')}>
-                            <Image source={profileDefault}  style={styles.profileImage}/>
-                            <Text>Maria</Text>
+                            <Image source={require('@/assets/images/unnamed.png')} style={styles.profileImage} />
+                            <Text style={dynamicStyles.text}>Maria</Text>
                         </Pressable>
                     </View>
 
                     {/* Corpo do chat */}
                     <View style={styles.chatContainer}>
-                        <Text style={[styles.message, styles.received]}>Olá! Como você está?</Text>
-                        <Text style={[styles.message, styles.sent]}>Oi! Estou bem, e você?</Text>
+                        {messages.map((msg, index) => (
+                            <Text
+                                key={index}
+                                style={[
+                                    styles.message,
+                                    msg.sender === 'me' ? styles.sent : styles.received,
+                                ]}
+                            >
+                                {msg.text}
+                            </Text>
+                        ))}
                     </View>
 
                     {/* Campo de entrada fixo */}
                     <View style={styles.inputContainer}>
                         <TextInput
-                            style={styles.inputField}
+                            style={[styles.inputField, dynamicStyles.text]}
                             placeholder="Digite uma mensagem..."
                             placeholderTextColor='#000'
                             keyboardType="default"
@@ -54,9 +93,9 @@ export default function Conversation() {
                             value={message}
                             onChangeText={(value) => setMessage(value)}
                         />
-                        <TouchableOpacity style={styles.sendButton}>
-                        <FontAwesome name="send" size={20} color='white' />
-                        </TouchableOpacity>
+                        <Pressable onPress={sendMessage} style={styles.sendButton}>
+                            <FontAwesome name="send" size={20} color='white' />
+                        </Pressable>
                     </View>
                 </View>
             </TouchableWithoutFeedback>
@@ -99,6 +138,7 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         maxWidth: "80%",
         marginVertical: 8,
+        fontSize: 17
     },
     received: {
         backgroundColor: "#fff",
