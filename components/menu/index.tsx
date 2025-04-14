@@ -20,9 +20,9 @@ export default function Menu({ tabIcons }: MenuProps) {
             margin: 10,
             borderRadius: 25,
             height: 60,
-            paddingVertical: 20,
-            bottom: 10,
-            borderColor: '#000'
+            bottom: 15,
+            borderColor: '#000',
+            paddingTop: 8
           },
           default: {
             backgroundColor: '#000',
@@ -64,8 +64,8 @@ const styles = StyleSheet.create({
   iconContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: 10
-  },
+    flex: 1
+  }, 
   activeContainer: {
     backgroundColor: '#9370DB',
     width: 60,

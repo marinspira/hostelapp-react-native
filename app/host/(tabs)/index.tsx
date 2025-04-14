@@ -12,6 +12,8 @@ import ButtonCreate from '@/components/buttons/ButtonCreate';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Colors } from '@/constants/Colors';
+import { StatusBar } from 'expo-status-bar';
+import { useTheme } from '@/hooks/useTheme';
 
 export default function HostHomeScreen() {
 
@@ -58,9 +60,12 @@ export default function HostHomeScreen() {
     },
   ]
 
+  const dynamicStyles = useTheme()
+
   return (
-    <SafeAreaView>
-      <View style={{ minHeight: '100%' }}>
+    <SafeAreaView style={{ backgroundColor: Colors.light.tint, flex: 1 }}>
+      <StatusBar style="light" />
+      <View style={{ minHeight: '100%', backgroundColor: "white" }}>
         <ScrollView >
           <View style={styles.banner} />
           <View style={styles.searchBar}>
