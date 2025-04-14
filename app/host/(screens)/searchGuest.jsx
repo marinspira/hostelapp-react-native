@@ -87,7 +87,7 @@ export default function SearchGuest() {
 
             {modalVisible &&
                 <PopUp modalVisible={modalVisible} setModalVisible={setModalVisible}>
-                    <AddGuest guest={guest} />
+                    <AddGuest guest={guest} setModalVisible={setModalVisible} />
                 </PopUp>
             }
         </Container>

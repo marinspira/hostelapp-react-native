@@ -9,6 +9,7 @@ import { Colors } from '@/constants/Colors'
 import { router } from 'expo-router'
 import { useGetAllRooms } from "@/services/hostel/getRooms";
 import { useCreateReservation } from "@/services/hostel/createReservation";
+import { showToast } from '@/components/toast';
 
 export default function AddGuest({ guest, setModalVisible }) {
 
@@ -66,15 +67,26 @@ export default function AddGuest({ guest, setModalVisible }) {
     }, [error])
 
     useEffect(() => {
-        console.log(reservation)
-    }, [reservation])
+        console.log("beds", bedsAvailable)
+        // console.log(reservation)
+    }, [reservation, bedsAvailable])
 
     async function handleSubmit() {
         try {
             const response = await createReservationMutation(reservation);
             console.log('Reservation created:', response);
+
+            showToast({
+                type: "success",
+                title: t("Reserva criada com sucesso!"),
+                message: t("Guest pronto para conversar e gerenciar")
+            })
+
             setModalVisible(false)
-            router.push("")
+            
+            // TODO: fazer redirect para chat do guest
+            router.push("/host/(tabs)/chat")
+
         } catch (err) {
             console.error('Error creating Reservation:', err);
         }
@@ -95,6 +107,12 @@ export default function AddGuest({ guest, setModalVisible }) {
             reservation.room_number &&
             reservation.bed_number
     }
+
+    function addOneDay(date) {
+        const newDate = new Date(date);
+        newDate.setDate(newDate.getDate() + 1);
+        return newDate;
+      }      
 
     return (
         <View>
@@ -118,7 +136,6 @@ export default function AddGuest({ guest, setModalVisible }) {
                 <InputDate
                     width='48%'
                     label='Check in'
-                    minimumDate={new Date()}
                     onChange={(value) => {
                         setReservation(prev => {
                             const shouldResetCheckout = prev.checkout_date && value > prev.checkout_date;
@@ -134,13 +151,14 @@ export default function AddGuest({ guest, setModalVisible }) {
                 <InputDate
                     width='48%'
                     label='Check out'
-                    minimumDate={reservation.checkin_date}
+                    minimumDate={reservation.checkin_date ? addOneDay(reservation.checkin_date) : undefined}
                     onChange={(value) => {
                         setReservation(prev => ({
                             ...prev,
                             checkout_date: value
                         }))
                     }}
+                    errorMessage={t("Data de checkout precisa ser pelo menos 1 dia após o check-in")}
                 />
             </View>
             {bedsAvailable ? (
