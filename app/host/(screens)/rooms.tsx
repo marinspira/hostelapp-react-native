@@ -25,7 +25,7 @@ export default function RoomsScreen() {
             capacity: null,
             beds: [{
                 bed_number: '',
-                assigned_by: null
+                reservation_id: null
             }]
         }
     ])
@@ -85,12 +85,12 @@ export default function RoomsScreen() {
                                     setOptionsVisible={setOptionsVisible}
                                 />
                                 <View style={styles.occupation}>
-                                    {room.beds.filter((bed) => bed.assigned_by !== null).length < 1 ? (
+                                    {room.beds.filter((bed) => bed.reservation_id !== null).length < 1 ? (
                                         <Text style={dynamicStyles.text}>Quarto vazio</Text>
                                     ) : (
                                         <ProfilesGroup
                                             people={room.beds
-                                                .filter((bed) => bed.assigned_by !== null)
+                                                .filter((bed) => bed.reservation_id !== null)
                                                 .map((bed) => ({
                                                     avatar: bed.guestPhoto ? { uri: bed.guestPhoto } : defaultImg,
                                                 }))
@@ -99,7 +99,7 @@ export default function RoomsScreen() {
                                         />
                                     )}
                                     <Text style={dynamicStyles.text}>
-                                        {room.beds.filter((bed) => bed.assigned_by !== null).length}/{room.capacity}
+                                        {room.beds.filter((bed) => bed.reservation_id !== null).length}/{room.capacity}
                                     </Text>
                                 </View>
                             </View>

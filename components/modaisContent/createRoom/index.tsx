@@ -36,7 +36,7 @@ export default function CreateRoomModal({ setModalVisible }: CreateRoomModalProp
         organization_by: null,
         beds: [{
             bed_number: '',
-            assigned_by: null
+            reservation_id: null
         }]
     })
 

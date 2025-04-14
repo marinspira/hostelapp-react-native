@@ -1,6 +1,6 @@
 interface Bed {
     bed_number: string;
-    assigned_by: string | null;
+    reservation_id: string | null;
 }
 
 export interface Hostel {

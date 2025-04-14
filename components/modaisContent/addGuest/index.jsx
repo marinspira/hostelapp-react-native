@@ -23,7 +23,7 @@ export default function AddGuest({ guest, setModalVisible }) {
     const [allRooms, setAllRooms] = useState(null)
 
     const [reservation, setReservation] = useState({
-        guest_id: guest._id,
+        user_id_guest: guest.user_id_guest,
         checkin_date: null,
         checkout_date: null,
         room_number: null,
@@ -37,7 +37,7 @@ export default function AddGuest({ guest, setModalVisible }) {
                 const allRooms = response.data;
                 const availableBeds = allRooms.flatMap(room =>
                     room.beds
-                        .filter(bed => bed.assigned_by === null)
+                        .filter(bed => bed.reservation_id === null)
                         .map(bed => ({
                             bed_number: bed.bed_number,
                             roomName: room.name,
@@ -66,10 +66,11 @@ export default function AddGuest({ guest, setModalVisible }) {
         }
     }, [error])
 
-    useEffect(() => {
-        console.log("beds", bedsAvailable)
-        // console.log(reservation)
-    }, [reservation, bedsAvailable])
+    // useEffect(() => {
+    //     console.log("rooms: ", JSON.stringify(allRooms, null, 2));
+    //     console.log("beds: ", JSON.stringify(bedsAvailable, null, 2));
+    //     // console.log(reservation)
+    // }, [reservation, bedsAvailable])
 
     async function handleSubmit() {
         try {
@@ -83,7 +84,7 @@ export default function AddGuest({ guest, setModalVisible }) {
             })
 
             setModalVisible(false)
-            
+
             // TODO: fazer redirect para chat do guest
             router.push("/host/(tabs)/chat")
 
@@ -101,7 +102,7 @@ export default function AddGuest({ guest, setModalVisible }) {
         .map(bed => bed.bed_number);
 
     function isFormValid() {
-        return reservation.guest_id &&
+        return reservation.user_id_guest &&
             reservation.checkin_date &&
             reservation.checkout_date &&
             reservation.room_number &&
@@ -112,7 +113,7 @@ export default function AddGuest({ guest, setModalVisible }) {
         const newDate = new Date(date);
         newDate.setDate(newDate.getDate() + 1);
         return newDate;
-      }      
+    }
 
     return (
         <View>

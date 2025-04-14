@@ -39,30 +39,30 @@ const ROOMS = [
         name: 'outono',
         beds: [{
             bed: 'A',
-            assigned_by: null
+            reservation_id: null
         },
         {
             bed: 'B',
-            assigned_by: null
+            reservation_id: null
         },
         {
             bed: 'C',
-            assigned_by: 'Mayara'
+            reservation_id: 'Mayara'
         }]
     },
     {
         name: 'verão',
         beds: [{
             bed: 'A',
-            assigned_by: 'Leticia'
+            reservation_id: 'Leticia'
         },
         {
             bed: 'B',
-            assigned_by: null
+            reservation_id: null
         },
         {
             bed: 'C',
-            assigned_by: null
+            reservation_id: null
         }]
     }
 ]

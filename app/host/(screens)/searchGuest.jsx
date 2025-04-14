@@ -32,6 +32,7 @@ export default function SearchGuest() {
 
         try {
             const response = await getNewGuestMutation(username);
+            console.log("guests: ", response)
             setGuests(response.data)
         } catch (err) {
             console.error('Error in searchGuest screen:', err);
