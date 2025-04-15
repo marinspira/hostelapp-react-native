@@ -2,13 +2,31 @@ import { Colors } from "@/constants/Colors";
 import { router } from "expo-router";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
-export default function ChatList({ data }) {
+interface ChatListProps {
+    conversations: {
+        title: string,
+        description: string,
+        unread: number,
+        img: string,
+        userId: string
+    }[]
+}
+
+export default function ChatList({ conversations }: ChatListProps) {
     return (
         <>
-            {data.map((chat, index) => (
+            {conversations.map((chat, index) => (
                 <Pressable key={index} style={styles.chat} onPress={() => router.push('/guest/(screens)/conversation')}>
-                    <Image style={styles.img} source={chat.img} alt={chat.title} />
-                    <View style={{flex: 1}}>
+                    <Image
+                        source={
+                            // chat.img
+                            //     ? { uri: `${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/${chat.img}` }
+                            //     : 
+                            require('@/assets/images/unnamed.png')
+                        }
+                        style={styles.img}
+                    />
+                    <View style={{ flex: 1 }}>
                         <Text>{chat.title}</Text>
                         <Text>{chat.description}</Text>
                     </View>

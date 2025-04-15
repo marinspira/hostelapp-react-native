@@ -1,16 +1,19 @@
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import profileDefault from '@/assets/images/unnamed.png'
 import { Colors } from '@/constants/Colors'
+import { useTheme } from '@/hooks/useTheme'
 
-export default function ProfileCircles() {
+interface ProfilesCirclesProps {
+    people: {
+        img: string,
+        name: string,
+        userId: string
+    }[]
+}
 
-    const chats = [
-        { img: profileDefault, name: 'Maria' },
-        { img: profileDefault, name: 'João' },
-        { img: profileDefault, name: 'Fernanda' },
-        { img: profileDefault, name: 'Patricia' },
-        { img: profileDefault, name: 'José' },
-    ]
+export default function ProfileCircles({ people }: ProfilesCirclesProps) {
+
+    const dynamicStyles = useTheme();
 
     return (
         <View>
@@ -19,10 +22,17 @@ export default function ProfileCircles() {
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={styles.scrollView}
             >
-                {chats.map((chat, index) => (
+                {people.length > 0 && people.map((person, index) => (
                     <View key={index} style={styles.container}>
-                        <Image style={styles.img} source={chat.img} />
-                        <Text>{chat.name}</Text>
+                        <Image
+                            source={
+                                person.img
+                                    ? { uri: `${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/${person.img}` }
+                                    : require('@/assets/images/unnamed.png')
+                            }
+                            style={styles.img}
+                        />
+                        <Text style={dynamicStyles.text}>{person.name}</Text>
                     </View>
                 ))}
             </ScrollView>
