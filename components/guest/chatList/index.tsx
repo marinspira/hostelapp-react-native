@@ -4,8 +4,8 @@ import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
 interface ChatListProps {
     conversations: {
-        title: string,
-        description: string,
+        name: string,
+        lastMessage: string,
         unread: number,
         img: string,
         userId: string
@@ -27,8 +27,8 @@ export default function ChatList({ conversations }: ChatListProps) {
                         style={styles.img}
                     />
                     <View style={{ flex: 1 }}>
-                        <Text>{chat.title}</Text>
-                        <Text>{chat.description}</Text>
+                        <Text>{chat.name}</Text>
+                        <Text>{chat.lastMessage}</Text>
                     </View>
                     <Text style={styles.unread}>1</Text>
                 </Pressable>

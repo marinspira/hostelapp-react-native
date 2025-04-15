@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import ChatList from '@/components/guest/chatList'
 import profileDefault from '@/assets/images/unnamed.png'
-import { useTheme } from '@/hooks/useTheme';
 import Container from '@/components/container';
 import ProfileCircles from '@/components/profileCircles'
 import { StyleSheet, Text } from 'react-native';
-import { useGetAllGuests } from '@/services/hostel/getAllGuests';
 import { showToast } from '@/components/toast';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '@/redux/store';
+import { getAllGuests, HostelGuests } from '@/redux/slices/hostelGuests/slice';
 
 interface Guest {
   userId: string;
@@ -19,72 +20,58 @@ export default function Chat() {
   const chats = [
     {
       img: profileDefault,
-      title: 'Maria',
-      description: 'Are you sure?',
+      name: 'Maria',
+      lastMessage: 'Are you sure?',
       unread: 1,
       userId: ""
     },
     {
       img: profileDefault,
-      title: 'Maria',
-      description: 'Are you sure?',
+      name: 'Maria',
+      lastMessage: 'Are you sure?',
       unread: 1,
       userId: ""
     },
     {
       img: profileDefault,
-      title: 'Maria',
-      description: 'Are you sure?',
+      name: 'Maria',
+      lastMessage: 'Are you sure?',
       unread: 1,
       userId: ""
     },
   ]
 
-  const { mutateAsync: getAllGuestsMutation, isPending, error } = useGetAllGuests();
-  const [guests, setGuests] = useState<Guest[]>()
+  const dispatch = useDispatch<AppDispatch>();
+
+  const { data: guests, error, loading } = useSelector((state: RootState) => state.hostelGuests);
+
+  // TODO: fazer get de chats existents, pegar foto e nome e ultima mensagem apenas das pessoas que ja tem uma conversa criada
+
+  useEffect(() => {
+    dispatch(getAllGuests());
+  }, []);
+
+  useEffect(() => {
+    console.log(guests)
+  }, [])
 
   useEffect(() => {
     if (error) {
-      let errorMessage = 'Erro desconhecido';
-
-      if (
-        typeof error === 'object' &&
-        error !== null &&
-        'response' in error &&
-        typeof (error as any).response?.data?.message === 'string'
-      ) {
-        errorMessage = (error as any).response.data.message;
-      } else if (error instanceof Error) {
-        errorMessage = error.message;
-      }
-
       showToast({
         type: 'error',
-        title: 'Error',
-        message: errorMessage,
+        title: 'Erro',
+        message: error,
       });
     }
   }, [error]);
-
-  useEffect(() => {
-    const getAllGuests = async () => {
-      try {
-        const response = await getAllGuestsMutation();
-        setGuests(response)
-      } catch (err) {
-        console.error('Error in chat screen:', err);
-      }
-    };
-    getAllGuests()
-  }, [])
 
   return (
     <Container>
       <Text style={styles.title}>Conversas</Text>
       <ProfileCircles
         people={
-          guests?.map((guest) => ({
-            img: guest.firstPhoto || profileDefault,
+          guests?.map((guest: HostelGuests) => ({
+            img: guest.firstPhoto === null ? null : guest.firstPhoto,
             name: guest.name.split(" ")[0] || "",
             userId: guest.userId,
           })) || []

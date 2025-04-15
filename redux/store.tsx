@@ -4,6 +4,7 @@ import guestReducer from './slices/guest/slice';
 import staffReducer from './slices/staff/slice';
 import userReducer from './slices/user/slice';
 import themeReducer from './slices/theme/slice';
+import hostelGuestsReducer from './slices/hostelGuests/slice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { persistStore, persistReducer } from 'redux-persist';
 
@@ -21,7 +22,8 @@ const rootReducer = combineReducers({
     user: userReducer,
     guest: guestReducer,
     staff: staffReducer,
-    theme: themeReducer
+    theme: themeReducer,
+    hostelGuests: hostelGuestsReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

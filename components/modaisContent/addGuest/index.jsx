@@ -9,6 +9,8 @@ import { Colors } from '@/constants/Colors'
 import { router } from 'expo-router'
 import { useGetAllRooms } from "@/services/hostel/getRooms";
 import { useCreateReservation } from "@/services/hostel/createReservation";
+import { useDispatch } from 'react-redux';
+import { getAllGuests } from '@/redux/slices/hostelGuests/slice';
 import { showToast } from '@/components/toast';
 
 export default function AddGuest({ guest, setModalVisible }) {
@@ -21,6 +23,8 @@ export default function AddGuest({ guest, setModalVisible }) {
 
     const [bedsAvailable, setBedsAvailable] = useState(null)
     const [allRooms, setAllRooms] = useState(null)
+
+    const dispatch = useDispatch()
 
     const [reservation, setReservation] = useState({
         user_id_guest: guest.user_id_guest,
@@ -76,6 +80,8 @@ export default function AddGuest({ guest, setModalVisible }) {
         try {
             const response = await createReservationMutation(reservation);
             console.log('Reservation created:', response);
+
+            dispatch(getAllGuests());
 
             showToast({
                 type: "success",

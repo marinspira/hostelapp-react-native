@@ -1,11 +1,13 @@
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import profileDefault from '@/assets/images/unnamed.png'
 import { Colors } from '@/constants/Colors'
 import { useTheme } from '@/hooks/useTheme'
+import { useCreateConversation } from '@/services/hostel/createConversation'
+import { router } from 'expo-router'
 
 interface ProfilesCirclesProps {
     people: {
-        img: string,
+        img: string | null,
         name: string,
         userId: string
     }[]
@@ -23,7 +25,7 @@ export default function ProfileCircles({ people }: ProfilesCirclesProps) {
                 contentContainerStyle={styles.scrollView}
             >
                 {people.length > 0 && people.map((person, index) => (
-                    <View key={index} style={styles.container}>
+                    <TouchableOpacity onPress={() => router.push(`/host/(screens)/${person.userId}`)} key={index} style={styles.container}>
                         <Image
                             source={
                                 person.img
@@ -33,7 +35,7 @@ export default function ProfileCircles({ people }: ProfilesCirclesProps) {
                             style={styles.img}
                         />
                         <Text style={dynamicStyles.text}>{person.name}</Text>
-                    </View>
+                    </TouchableOpacity>
                 ))}
             </ScrollView>
         </View>
