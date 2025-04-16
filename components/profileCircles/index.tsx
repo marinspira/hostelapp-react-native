@@ -2,7 +2,6 @@ import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'rea
 import profileDefault from '@/assets/images/unnamed.png'
 import { Colors } from '@/constants/Colors'
 import { useTheme } from '@/hooks/useTheme'
-import { useCreateConversation } from '@/services/hostel/createConversation'
 import { router } from 'expo-router'
 
 interface ProfilesCirclesProps {

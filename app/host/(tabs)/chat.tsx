@@ -8,6 +8,7 @@ import { showToast } from '@/components/toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import { getAllGuests, HostelGuests } from '@/redux/slices/hostelGuests/slice';
+import { useGetAllConversations } from '@/services/hostel/getAllConversations';
 
 interface Guest {
   userId: string;
@@ -43,9 +44,22 @@ export default function Chat() {
 
   const dispatch = useDispatch<AppDispatch>();
 
+  const { mutateAsync: getAllConversationsMutation, isPending } = useGetAllConversations();
+
   const { data: guests, error, loading } = useSelector((state: RootState) => state.hostelGuests);
 
   // TODO: fazer get de chats existents, pegar foto e nome e ultima mensagem apenas das pessoas que ja tem uma conversa criada
+  useEffect(() => {
+    const getConversations = async () => {
+      try {
+        const response = await getAllConversationsMutation();
+        console.log("all conversations: ", response)
+      } catch (err) {
+        console.error('Error in getConversations screen:', err);
+      }
+    };
+    getConversations()
+  }, [])
 
   useEffect(() => {
     dispatch(getAllGuests());

@@ -20,17 +20,21 @@ import { useTheme } from "@/hooks/useTheme";
 import socket from "@/utils/socket";
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
+import { useCreateNewMessage } from '@/services/hostel/createNewMessage';
 
 export default function ChatScreen() {
 
-    // Recebe a userId ou a conversationId se for um grupo
     const { chat } = useLocalSearchParams();
+    const isGroup = typeof chat === 'string' && chat.startsWith("group-");
+
+    console.log("is group: ", isGroup)
 
     // fazer uma query que verifica se ja há uma conversa existente com aqueles participantes
     // se existir, fazer fetch das mensagens
-    
+
     // se nao existir conversa existente, criar uma conversa ao mandar primeira mensagem
-    
+    const { mutateAsync: createNewMessageMutation, isPending, error } = useCreateNewMessage();
+
     const [message, setMessage] = useState<string>('');
     const [messages, setMessages] = useState<{ text: string; sender: 'me' | 'other' }[]>([]);
 
@@ -47,11 +51,26 @@ export default function ChatScreen() {
         joinRoom()
     }, [])
 
-    const sendMessage = () => {
+    const sendMessage = async () => {
         if (!message.trim()) return;
         socket.emit("send_message", { message, room });
 
         setMessages(prev => [...prev, { text: message, sender: 'me' }]);
+
+        try {
+
+            const messageData = {
+                conversationId: isGroup ? chat : null,
+                recipientId: chat,
+                text: message,
+            }
+
+            const response = await createNewMessageMutation(messageData);
+            console.log(response)
+        } catch (err) {
+            console.error('Error sending message:', err);
+        }
+
         setMessage('');
     };
 
