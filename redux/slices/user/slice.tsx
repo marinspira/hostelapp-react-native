@@ -49,7 +49,6 @@ export const isAuthenticated = createAsyncThunk<BackendResponse, void, { rejectV
       }
 
       const user = await response.json();
-      console.log(user);
 
       showToast({
         type: user.success === true ? 'success' : 'error',

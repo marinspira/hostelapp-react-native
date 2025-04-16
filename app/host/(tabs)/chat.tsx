@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import ChatList from '@/components/guest/chatList'
 import profileDefault from '@/assets/images/unnamed.png'
 import Container from '@/components/container';
@@ -18,33 +18,34 @@ interface Guest {
 
 export default function Chat() {
 
-  const chats = [
-    {
-      img: profileDefault,
-      name: 'Maria',
-      lastMessage: 'Are you sure?',
-      unread: 1,
-      userId: ""
-    },
-    {
-      img: profileDefault,
-      name: 'Maria',
-      lastMessage: 'Are you sure?',
-      unread: 1,
-      userId: ""
-    },
-    {
-      img: profileDefault,
-      name: 'Maria',
-      lastMessage: 'Are you sure?',
-      unread: 1,
-      userId: ""
-    },
-  ]
+  // const chats = [
+  //   {
+  //     img: profileDefault,
+  //     name: 'Maria',
+  //     lastMessage: 'Are you sure?',
+  //     unread: 1,
+  //     userId: ""
+  //   },
+  //   {
+  //     img: profileDefault,
+  //     name: 'Maria',
+  //     lastMessage: 'Are you sure?',
+  //     unread: 1,
+  //     userId: ""
+  //   },
+  //   {
+  //     img: profileDefault,
+  //     name: 'Maria',
+  //     lastMessage: 'Are you sure?',
+  //     unread: 1,
+  //     userId: ""
+  //   },
+  // ]
 
   const dispatch = useDispatch<AppDispatch>();
 
   const { mutateAsync: getAllConversationsMutation, isPending } = useGetAllConversations();
+  const [chats, setChats] = useState([])
 
   const { data: guests, error, loading } = useSelector((state: RootState) => state.hostelGuests);
 
