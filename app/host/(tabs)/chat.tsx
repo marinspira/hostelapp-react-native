@@ -3,7 +3,7 @@ import ChatList from '@/components/guest/chatList'
 import profileDefault from '@/assets/images/unnamed.png'
 import Container from '@/components/container';
 import ProfileCircles from '@/components/profileCircles'
-import { StyleSheet, Text } from 'react-native';
+import { Pressable, StyleSheet, Text } from 'react-native';
 import { showToast } from '@/components/toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
@@ -17,58 +17,41 @@ interface Guest {
 }
 
 export default function Chat() {
-
-  // const chats = [
-  //   {
-  //     img: profileDefault,
-  //     name: 'Maria',
-  //     lastMessage: 'Are you sure?',
-  //     unread: 1,
-  //     userId: ""
-  //   },
-  //   {
-  //     img: profileDefault,
-  //     name: 'Maria',
-  //     lastMessage: 'Are you sure?',
-  //     unread: 1,
-  //     userId: ""
-  //   },
-  //   {
-  //     img: profileDefault,
-  //     name: 'Maria',
-  //     lastMessage: 'Are you sure?',
-  //     unread: 1,
-  //     userId: ""
-  //   },
-  // ]
-
   const dispatch = useDispatch<AppDispatch>();
 
   const { mutateAsync: getAllConversationsMutation, isPending } = useGetAllConversations();
-  const [chats, setChats] = useState([])
+  const [chats, setChats] = useState([{
+    conversationId: null,
+    unreadMessages: 0,
+    participant: {
+      userId: "",
+      name: "",
+      photo: ""
+    },
+    lastMessage: {
+      text: "",
+      createdAt: null,
+    }
+  }])
 
   const { data: guests, error, loading } = useSelector((state: RootState) => state.hostelGuests);
 
-  // TODO: fazer get de chats existents, pegar foto e nome e ultima mensagem apenas das pessoas que ja tem uma conversa criada
+  const getConversations = async () => {
+    try {
+      const response = await getAllConversationsMutation();
+      setChats(response)
+    } catch (err) {
+      console.error('Error in getConversations screen:', err);
+    }
+  };
+
   useEffect(() => {
-    const getConversations = async () => {
-      try {
-        const response = await getAllConversationsMutation();
-        console.log("all conversations: ", response)
-      } catch (err) {
-        console.error('Error in getConversations screen:', err);
-      }
-    };
     getConversations()
   }, [])
 
   useEffect(() => {
     dispatch(getAllGuests());
   }, []);
-
-  useEffect(() => {
-    console.log(guests)
-  }, [])
 
   useEffect(() => {
     if (error) {

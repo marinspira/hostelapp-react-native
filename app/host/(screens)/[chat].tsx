@@ -27,8 +27,6 @@ export default function ChatScreen() {
     const { chat } = useLocalSearchParams();
     const isGroup = typeof chat === 'string' && chat.startsWith("group-");
 
-    console.log("is group: ", isGroup)
-
     // fazer uma query que verifica se ja há uma conversa existente com aqueles participantes
     // se existir, fazer fetch das mensagens
 

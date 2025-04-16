@@ -35,7 +35,7 @@ export const useTheme = () => {
     },
     subtitle: {
       color: color.text,
-      fontSize: 20,
+      fontSize: 18,
       fontFamily: 'PoppinsBold'
     },
     suportText: {

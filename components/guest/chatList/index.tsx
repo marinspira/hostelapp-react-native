@@ -1,36 +1,47 @@
 import { Colors } from "@/constants/Colors";
+import { useTheme } from "@/hooks/useTheme";
 import { router } from "expo-router";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
 interface ChatListProps {
     conversations: {
-        name: string,
-        lastMessage: string,
-        unread: number,
-        img: string,
-        userId: string
-    }[]
+        conversationId: string | null;
+        unreadMessages: number;
+        participant: {
+            userId: string;
+            name: string;
+            photo: string
+        };
+        lastMessage: {
+            text: string;
+            createdAt: Date | null;
+        };
+    }[];
 }
 
 export default function ChatList({ conversations }: ChatListProps) {
+
+    const dynamicStyles = useTheme()
+
     return (
         <>
             {conversations.map((chat, index) => (
                 <Pressable key={index} style={styles.chat} onPress={() => router.push('/guest/(screens)/conversation')}>
                     <Image
                         source={
-                            // chat.img
-                            //     ? { uri: `${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/${chat.img}` }
-                            //     : 
-                            require('@/assets/images/unnamed.png')
+                            chat.participant.photo
+                                ? { uri: `${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/${chat.participant.photo}` }
+                                :
+                                require('@/assets/images/unnamed.png')
                         }
                         style={styles.img}
                     />
                     <View style={{ flex: 1 }}>
-                        <Text>{chat.name}</Text>
-                        <Text>{chat.lastMessage}</Text>
+                        <Text style={dynamicStyles.subtitle}>{chat.participant.name}</Text>
+                        <Text>{chat.lastMessage.text}</Text>
                     </View>
-                    <Text style={styles.unread}>1</Text>
+                    {chat.unreadMessages && <Text style={styles.unread}>{chat.unreadMessages}</Text>}
+                    {/* {chat.lastMessage.createdAt && <Text style={styles.date}>{chat.lastMessage.createdAt}</Text>} */}
                 </Pressable>
             ))}
         </>
@@ -38,13 +49,6 @@ export default function ChatList({ conversations }: ChatListProps) {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        backgroundColor: Colors.gray
-    },
-    container2: {
-        gap: 20,
-        paddingVertical: 30
-    },
     chat: {
         display: 'flex',
         flexDirection: "row",
@@ -56,8 +60,8 @@ const styles = StyleSheet.create({
         marginBottom: 10
     },
     img: {
-        width: 50,
-        height: 50,
+        width: 60,
+        height: 60,
         borderRadius: 100
     },
     unread: {

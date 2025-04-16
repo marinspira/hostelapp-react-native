@@ -29,7 +29,7 @@ export default function IconTextList({ content }: IconTextListProps) {
                 >
                     {item.icon}
                     <View style={styles.info}>
-                        <Text style={[styles.title, dynamicStyles.text]}>{item.title}</Text>
+                        <Text style={[dynamicStyles.subtitle]}>{item.title}</Text>
                         {item.description &&
                             <Text style={[styles.description, dynamicStyles.text]}>{item.description}</Text>
                         }
