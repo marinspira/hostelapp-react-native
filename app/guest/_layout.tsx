@@ -25,7 +25,7 @@ export default function GuestLayout() {
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen name="(screens)/checkin" options={{ headerShown: false }} />
       <Stack.Screen name="(screens)/profile" options={{ headerShown: false }} />
-      <Stack.Screen name="(screens)/conversation" options={{ headerShown: false }} />
+      <Stack.Screen name="(screens)/[chat]" options={{ headerShown: false }} />
     </Stack>
   );
 }

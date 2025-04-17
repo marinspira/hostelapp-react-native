@@ -36,6 +36,9 @@ export default function Chat() {
 
   const { data: guests, error, loading } = useSelector((state: RootState) => state.hostelGuests);
 
+  // TODO: pegar informacoes de quando reserva foi criada, para ordernar, e se ja esta em uma conversa apenas com o usuario logado
+  console.log(guests)
+
   const getConversations = async () => {
     try {
       const response = await getAllConversationsMutation();

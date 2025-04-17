@@ -28,7 +28,5 @@ export default function ChatScreen() {
     const { chat } = useLocalSearchParams();
     const isGroup = typeof chat === 'string' && chat.startsWith("group-");
 
-    console.log("screens chat ", chat)
-
     return <Chat conversationOrUserId={chat} isGroup={isGroup} />
 }

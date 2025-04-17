@@ -1,7 +1,10 @@
 import { Colors } from "@/constants/Colors";
 import { useTheme } from "@/hooks/useTheme";
+import { RootState } from "@/redux/store";
+import goToChat from "@/utils/goToChat";
 import { router } from "expo-router";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { useSelector } from "react-redux";
 
 interface ChatListProps {
     conversations: {
@@ -22,11 +25,18 @@ interface ChatListProps {
 export default function ChatList({ conversations }: ChatListProps) {
 
     const dynamicStyles = useTheme()
+    const user = useSelector((state: RootState) => state.user.data);
+
+    console.log("aquii ", conversations)
 
     return (
         <>
             {conversations.map((chat, index) => (
-                <Pressable key={index} style={styles.chat} onPress={() => router.push('/guest/(screens)/conversation')}>
+                <Pressable
+                    key={index}
+                    style={styles.chat}
+                    onPress={() => goToChat((user?.role ?? "guest") as "guest" | "host", chat.participant.userId)}
+                >
                     <Image
                         source={
                             chat.participant.photo

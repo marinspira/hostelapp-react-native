@@ -1,8 +1,10 @@
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import profileDefault from '@/assets/images/unnamed.png'
 import { Colors } from '@/constants/Colors'
 import { useTheme } from '@/hooks/useTheme'
 import { router } from 'expo-router'
+import { useSelector } from 'react-redux'
+import { RootState } from '@/redux/store'
+import goToChat from '@/utils/goToChat'
 
 interface ProfilesCirclesProps {
     people: {
@@ -15,6 +17,7 @@ interface ProfilesCirclesProps {
 export default function ProfileCircles({ people }: ProfilesCirclesProps) {
 
     const dynamicStyles = useTheme();
+    const user = useSelector((state: RootState) => state.user.data);
 
     return (
         <View>
@@ -24,7 +27,11 @@ export default function ProfileCircles({ people }: ProfilesCirclesProps) {
                 contentContainerStyle={styles.scrollView}
             >
                 {people.length > 0 && people.map((person, index) => (
-                    <TouchableOpacity onPress={() => router.push(`/host/(screens)/${person.userId}`)} key={index} style={styles.container}>
+                    <TouchableOpacity
+                        onPress={() => goToChat((user?.role ?? "guest") as "guest" | "host", person.userId)                        }
+                        key={index}
+                        style={styles.container}
+                    >
                         <Image
                             source={
                                 person.img
