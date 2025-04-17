@@ -1,5 +1,5 @@
 import React from 'react'
-import ChatList from '@/components/guest/chatList'
+import ChatList from '@/components/chatList'
 import profileDefault from '@/assets/images/unnamed.png'
 import { useTheme } from '@/hooks/useTheme';
 import Container from '@/components/container';

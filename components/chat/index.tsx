@@ -1,4 +1,3 @@
-import { useLocalSearchParams } from 'expo-router';
 import { Colors } from "@/constants/Colors";
 import { FontAwesome } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
@@ -15,58 +14,63 @@ import {
     Keyboard
 } from "react-native";
 import GoBackButton from '@/components/goBackButton';
-import { router } from "expo-router";
 import { useTheme } from "@/hooks/useTheme";
 import socket from "@/utils/socket";
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
 import { useCreateNewMessage } from '@/services/hostel/createNewMessage';
+import { useGetMessages } from '@/services/chat/getMessages';
 
 interface ChatProps {
-    conversationOrUserId: any,
-    isGroup: boolean
+    conversationId: string,
+    participant: {
+        userId: string;
+        name: string;
+        photo: string;
+    };
 }
 
-export default function Chat({ conversationOrUserId, isGroup }: ChatProps) {
-
-    // TODO: fazer uma query que verifica se ja há uma conversa existente com aqueles participantes
-    // se existir, fazer fetch das mensagens
+export default function Chat({ participant, conversationId }: ChatProps) {
 
     const { mutateAsync: createNewMessageMutation, isPending, error } = useCreateNewMessage();
 
     const [message, setMessage] = useState<string>('');
-    const [messages, setMessages] = useState<{ text: string; sender: 'me' | 'other' }[]>([]);
+    const [messages, setMessages] = useState<{ text: string; sender: 'me' | 'other', time: Date }[]>([]);
 
-    // TODO: Fazer room referenciar conversationId
-    const room = "1"
+    const { mutateAsync: getMessagesMutation } = useGetMessages();
 
     useEffect(() => {
-        console.log("chat ", conversationOrUserId)
+        const getMessages = async () => {
+            try {
+                const response = await getMessagesMutation(conversationId);
+                setMessages(response)
+            } catch (err) {
+                console.error('Error getting messages:', err);
+            }
+        }
+
+        getMessages()
     }, [])
 
     useEffect(() => {
         const joinRoom = () => {
-            socket.emit("join_room", room);
+            socket.emit("join_room", conversationId);
         };
         joinRoom()
     }, [])
 
     const sendMessage = async () => {
         if (!message.trim()) return;
-        socket.emit("send_message", { message, room });
+        socket.emit("send_message", { message, conversationId });
 
-        setMessages(prev => [...prev, { text: message, sender: 'me' }]);
+        setMessages(prev => [...prev, { text: message, sender: 'me', time: new Date() }]);
 
         try {
-
             const messageData = {
-                conversationId: isGroup ? conversationOrUserId : null,
-                recipientId: conversationOrUserId,
+                conversationId: conversationId ? participant.userId : null,
+                recipientId: participant.userId,
                 text: message,
             }
 
             const response = await createNewMessageMutation(messageData);
-            console.log(response)
         } catch (err) {
             console.error('Error sending message:', err);
         }
@@ -76,7 +80,7 @@ export default function Chat({ conversationOrUserId, isGroup }: ChatProps) {
 
     useEffect(() => {
         socket.on("receive_message", (data) => {
-            setMessages(prev => [...prev, { text: data.message, sender: 'other' }]);
+            setMessages(prev => [...prev, { text: data.message, sender: 'other', time: new Date() }]);
         });
 
         return () => {
@@ -96,9 +100,17 @@ export default function Chat({ conversationOrUserId, isGroup }: ChatProps) {
                     {/* Header com perfil e botão de voltar */}
                     <View style={styles.header}>
                         <GoBackButton color='black' absolutePostion={false} />
-                        <Pressable style={styles.profileSection} onPress={() => router.push('/guest/(screens)/profile')}>
-                            <Image source={require('@/assets/images/unnamed.png')} style={styles.profileImage} />
-                            <Text style={dynamicStyles.text}>Maria</Text>
+                        <Pressable style={styles.profileSection}>
+                            <Image
+                                source={
+                                    participant.photo
+                                        ? { uri: `${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/${participant.photo}` }
+                                        :
+                                        require('@/assets/images/unnamed.png')
+                                }
+                                style={styles.profileImage}
+                            />
+                            <Text style={dynamicStyles.subtitle}>{participant.name}</Text>
                         </Pressable>
                     </View>
 
@@ -144,7 +156,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#f9f9f9",
     },
     header: {
-        paddingTop: 50,
+        paddingTop: 75,
         backgroundColor: "#fff",
         paddingBottom: 10,
         paddingHorizontal: 20,
@@ -160,8 +172,8 @@ const styles = StyleSheet.create({
         gap: 10,
     },
     profileImage: {
-        width: 40,
-        height: 40,
+        width: 45,
+        height: 45,
         borderRadius: 100,
     },
     chatContainer: {

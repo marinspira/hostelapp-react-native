@@ -27,15 +27,23 @@ export default function ChatList({ conversations }: ChatListProps) {
     const dynamicStyles = useTheme()
     const user = useSelector((state: RootState) => state.user.data);
 
-    console.log("aquii ", conversations)
-
     return (
         <>
             {conversations.map((chat, index) => (
                 <Pressable
                     key={index}
                     style={styles.chat}
-                    onPress={() => goToChat((user?.role ?? "guest") as "guest" | "host", chat.participant.userId)}
+                    onPress={() =>
+                        router.push({
+                            pathname: `/${user?.role ?? "guest"}/(screens)/chat`,
+                            params: {
+                                userId: chat.participant.userId,
+                                name: chat.participant.name,
+                                photo: chat.participant.photo,
+                                conversationId: chat.conversationId
+                            },
+                        } as any)
+                    }
                 >
                     <Image
                         source={

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import ChatList from '@/components/guest/chatList'
-import profileDefault from '@/assets/images/unnamed.png'
+import ChatList from '@/components/chatList'
 import Container from '@/components/container';
 import ProfileCircles from '@/components/profileCircles'
 import { Pressable, StyleSheet, Text } from 'react-native';
@@ -47,12 +46,9 @@ export default function Chat() {
       console.error('Error in getConversations screen:', err);
     }
   };
-
+  
   useEffect(() => {
     getConversations()
-  }, [])
-
-  useEffect(() => {
     dispatch(getAllGuests());
   }, []);
 
