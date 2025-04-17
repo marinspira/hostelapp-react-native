@@ -1,6 +1,6 @@
 import { Colors } from "@/constants/Colors";
 import { FontAwesome } from "@expo/vector-icons";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
     Image,
     Pressable,
@@ -11,12 +11,14 @@ import {
     KeyboardAvoidingView,
     Platform,
     TouchableWithoutFeedback,
-    Keyboard
+    Keyboard,
+    ActivityIndicator,
+    ScrollView
 } from "react-native";
 import GoBackButton from '@/components/goBackButton';
 import { useTheme } from "@/hooks/useTheme";
 import socket from "@/utils/socket";
-import { useCreateNewMessage } from '@/services/hostel/createNewMessage';
+import { useCreateNewMessage } from '@/services/chat/createNewMessage';
 import { useGetMessages } from '@/services/chat/getMessages';
 
 interface ChatProps {
@@ -30,42 +32,26 @@ interface ChatProps {
 
 export default function Chat({ participant, conversationId }: ChatProps) {
 
-    const { mutateAsync: createNewMessageMutation, isPending, error } = useCreateNewMessage();
+    const { mutateAsync: createNewMessageMutation } = useCreateNewMessage();
+    const dynamicStyles = useTheme()
+
+    const scrollViewRef = useRef<ScrollView>(null);
+    const room = conversationId
 
     const [message, setMessage] = useState<string>('');
     const [messages, setMessages] = useState<{ text: string; sender: 'me' | 'other', time: Date }[]>([]);
 
-    const { mutateAsync: getMessagesMutation } = useGetMessages();
-
-    useEffect(() => {
-        const getMessages = async () => {
-            try {
-                const response = await getMessagesMutation(conversationId);
-                setMessages(response)
-            } catch (err) {
-                console.error('Error getting messages:', err);
-            }
-        }
-
-        getMessages()
-    }, [])
-
-    useEffect(() => {
-        const joinRoom = () => {
-            socket.emit("join_room", conversationId);
-        };
-        joinRoom()
-    }, [])
+    const { mutateAsync: getMessagesMutation, isPending, error } = useGetMessages();
 
     const sendMessage = async () => {
         if (!message.trim()) return;
-        socket.emit("send_message", { message, conversationId });
+        socket.emit("send_message", { message, room });
 
         setMessages(prev => [...prev, { text: message, sender: 'me', time: new Date() }]);
 
         try {
             const messageData = {
-                conversationId: conversationId ? participant.userId : null,
+                conversationId: conversationId ? conversationId : participant.userId,
                 recipientId: participant.userId,
                 text: message,
             }
@@ -79,6 +65,21 @@ export default function Chat({ participant, conversationId }: ChatProps) {
     };
 
     useEffect(() => {
+        const joinRoom = () => {
+            socket.emit("join_room", room);
+        };
+        joinRoom()
+
+        const getMessages = async () => {
+            try {
+                const response = await getMessagesMutation(conversationId);
+                setMessages(response)
+            } catch (err) {
+                console.error('Error getting messages:', err);
+            }
+        };
+        getMessages()
+
         socket.on("receive_message", (data) => {
             setMessages(prev => [...prev, { text: data.message, sender: 'other', time: new Date() }]);
         });
@@ -88,7 +89,9 @@ export default function Chat({ participant, conversationId }: ChatProps) {
         };
     }, []);
 
-    const dynamicStyles = useTheme()
+    useEffect(() => {
+        scrollViewRef.current?.scrollToEnd({ animated: true });
+    }, [messages]);
 
     return (
         <KeyboardAvoidingView
@@ -115,19 +118,31 @@ export default function Chat({ participant, conversationId }: ChatProps) {
                     </View>
 
                     {/* Corpo do chat */}
-                    <View style={styles.chatContainer}>
-                        {messages.map((msg, index) => (
-                            <Text
-                                key={index}
-                                style={[
-                                    styles.message,
-                                    msg.sender === 'me' ? styles.sent : styles.received,
-                                ]}
-                            >
-                                {msg.text}
-                            </Text>
-                        ))}
-                    </View>
+                    {isPending ? (
+                        <View style={{ flex: 1 }}>
+                            <ActivityIndicator size="large" color="#6c63ff" />
+                        </View>
+                    ) : (
+                        <ScrollView
+                            ref={scrollViewRef}
+                            style={styles.chatContainer}
+                            onContentSizeChange={() => scrollViewRef.current?.scrollToEnd({ animated: true })}
+                        >
+                            {messages
+                                .sort((a, b) => new Date(a.time).getTime() - new Date(b.time).getTime())
+                                .map((msg, index) => (
+                                    <Text
+                                        key={index}
+                                        style={[
+                                            styles.message,
+                                            msg.sender === 'me' ? styles.sent : styles.received,
+                                        ]}
+                                    >
+                                        {msg.text}
+                                    </Text>
+                                ))}
+                        </ScrollView>
+                    )}
 
                     {/* Campo de entrada fixo */}
                     <View style={styles.inputContainer}>

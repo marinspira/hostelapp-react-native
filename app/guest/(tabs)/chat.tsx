@@ -1,63 +1,53 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import ChatList from '@/components/chatList'
-import profileDefault from '@/assets/images/unnamed.png'
-import { useTheme } from '@/hooks/useTheme';
 import Container from '@/components/container';
-import ProfileCircles from '@/components/profileCircles'
-import { StyleSheet, Text } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '@/redux/store';
+import { useGetAllConversations } from '@/services/chat/getAllConversations';
+import EmptyState from '@/components/emptyState';
+import EmptyScreenImage from "@/assets/images/illustrations/undraw/undraw_dog_jfxm.svg"
 
 export default function Chat() {
+  const { mutateAsync: getAllConversationsMutation, isPending } = useGetAllConversations();
+  const [chats, setChats] = useState([])
 
-  const dynamicStyles = useTheme();
-
-  const chats = [
-    {
-      img: profileDefault,
-      title: 'Maria',
-      description: 'Are you sure?'
-    },
-    {
-      img: profileDefault,
-      title: 'Maria',
-      description: 'Are you sure?'
-    },
-    {
-      img: profileDefault,
-      title: 'Maria',
-      description: 'Are you sure?'
-    },
-    {
-      img: profileDefault,
-      title: 'Maria',
-      description: 'Are you sure?'
-    },
-    {
-      img: profileDefault,
-      title: 'Maria',
-      description: 'Are you sure?'
-    },
-    {
-      img: profileDefault,
-      title: 'Maria',
-      description: 'Are you sure?'
-    },
-    {
-      img: profileDefault,
-      title: 'Maria',
-      description: 'Are you sure?'
-    },
-    {
-      img: profileDefault,
-      title: 'Maria',
-      description: 'Are you sure?'
+  const getConversations = async () => {
+    try {
+      const response = await getAllConversationsMutation();
+      setChats(response)
+    } catch (err) {
+      console.error('Error in getConversations screen:', err);
     }
-  ]
+  };
+
+  useEffect(() => {
+    getConversations()
+  }, []);
 
   return (
     <Container>
       <Text style={styles.title}>Conversas</Text>
-      <ProfileCircles />
-      <ChatList data={chats} />
+      {/* TODO: Feature paga, pague e veja todos que estao no mesmo hostel que voce
+        <ProfileCircles
+          people={null}
+        /> 
+      */}
+      {isPending ? (
+        <View style={{ flex: 1 }}>
+          <ActivityIndicator size="large" color="#6c63ff" />
+        </View>
+      ) : (
+        chats.length > 0 ? (
+          <ChatList conversations={chats} />
+        ) : (
+          <EmptyState
+            img={<EmptyScreenImage width={300} />}
+            title="Nenhuma conversa encotrada"
+            text="Conecte a um hostel para conversar"
+          />
+        )
+      )}
     </Container>
   )
 }

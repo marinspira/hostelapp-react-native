@@ -19,33 +19,35 @@ export default function ProfileCircles({ people }: ProfilesCirclesProps) {
     const dynamicStyles = useTheme();
     const user = useSelector((state: RootState) => state.user.data);
 
-    return (
-        <View>
-            <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={styles.scrollView}
-            >
-                {people.length > 0 && people.map((person, index) => (
-                    <TouchableOpacity
-                        onPress={() => goToChat((user?.role ?? "guest") as "guest" | "host", person.userId)                        }
-                        key={index}
-                        style={styles.container}
-                    >
-                        <Image
-                            source={
-                                person.img
-                                    ? { uri: `${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/${person.img}` }
-                                    : require('@/assets/images/unnamed.png')
-                            }
-                            style={styles.img}
-                        />
-                        <Text style={dynamicStyles.text}>{person.name}</Text>
-                    </TouchableOpacity>
-                ))}
-            </ScrollView>
-        </View>
-    )
+    if (people) {
+        return (
+            <View>
+                <ScrollView
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    contentContainerStyle={styles.scrollView}
+                >
+                    {people.length > 0 && people.map((person, index) => (
+                        <TouchableOpacity
+                            onPress={() => goToChat((user?.role ?? "guest") as "guest" | "host", person.userId)                        }
+                            key={index}
+                            style={styles.container}
+                        >
+                            <Image
+                                source={
+                                    person.img
+                                        ? { uri: `${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/${person.img}` }
+                                        : require('@/assets/images/unnamed.png')
+                                }
+                                style={styles.img}
+                            />
+                            <Text style={dynamicStyles.text}>{person.name}</Text>
+                        </TouchableOpacity>
+                    ))}
+                </ScrollView>
+            </View>
+        )
+    }
 }
 
 const styles = StyleSheet.create({

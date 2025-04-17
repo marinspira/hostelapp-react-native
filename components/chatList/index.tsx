@@ -1,7 +1,6 @@
 import { Colors } from "@/constants/Colors";
 import { useTheme } from "@/hooks/useTheme";
 import { RootState } from "@/redux/store";
-import goToChat from "@/utils/goToChat";
 import { router } from "expo-router";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { useSelector } from "react-redux";
@@ -58,7 +57,7 @@ export default function ChatList({ conversations }: ChatListProps) {
                         <Text style={dynamicStyles.subtitle}>{chat.participant.name}</Text>
                         <Text>{chat.lastMessage.text}</Text>
                     </View>
-                    {chat.unreadMessages && <Text style={styles.unread}>{chat.unreadMessages}</Text>}
+                    {/* {chat.unreadMessages && <Text style={styles.unread}>{chat.unreadMessages}</Text>} */}
                     {/* {chat.lastMessage.createdAt && <Text style={styles.date}>{chat.lastMessage.createdAt}</Text>} */}
                 </Pressable>
             ))}

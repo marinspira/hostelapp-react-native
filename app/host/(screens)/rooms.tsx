@@ -14,6 +14,7 @@ import { useTranslation } from "react-i18next";
 import ButtonOptions from "@/components/buttons/ButtonOptions"
 import { useGetAllRooms } from "@/services/hostel/getRooms";
 import { showToast } from "@/components/toast";
+import EmptyState from "@/components/emptyState"
 
 export default function RoomsScreen() {
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -62,7 +63,7 @@ export default function RoomsScreen() {
 
     return (
         <Container scrollable={false}>
-            <View style={{ height: height}}>
+            <View style={{ height: height }}>
                 <View style={styles.header}>
                     <GoBackButton />
                     <Text style={dynamicStyles.textUppercase}>Rooms</Text>
@@ -106,11 +107,11 @@ export default function RoomsScreen() {
                         ))}
                     </ScrollView>
                 ) : (
-                    <View style={styles.emptyScreen}>
-                        <EmptyScreenImage width={300} />
-                        <Text style={dynamicStyles.title}>Nem quarto encontrado</Text>
-                        <Text style={dynamicStyles.text}>Clique no botão flutuante para criar</Text>
-                    </View>
+                    <EmptyState
+                        img={<EmptyScreenImage width={300} />}
+                        title="Nenhum quarto encontrado"
+                        text="Clique no botão flutuante para criar"
+                    />
                 )}
                 <ButtonCreate onPress={() => setIsModalVisible(true)} />
                 {isModalVisible === true &&

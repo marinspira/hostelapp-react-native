@@ -9,12 +9,12 @@ const getAllGuests = async () => {
         });
 
         const data = await response.json();
-        const guests = data.data
 
         if (!response.ok) {
-            throw new Error(guests.message || 'Error getting guest');
+            throw new Error(data.message || 'Error getting guest');
         }
 
+        const guests = data.data
         return guests;
 
     } catch (error) {

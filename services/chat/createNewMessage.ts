@@ -16,7 +16,6 @@ const createNewMessage = async (messageData: createNewMessageProps) => {
     });
 
     const message = await response.json();
-    console.log(message)
 
     if (!response.ok) {
       throw new Error(message.message || 'Erro ao criar message');

@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react'
 import ChatList from '@/components/chatList'
 import Container from '@/components/container';
 import ProfileCircles from '@/components/profileCircles'
-import { Pressable, StyleSheet, Text } from 'react-native';
+import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native';
 import { showToast } from '@/components/toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import { getAllGuests, HostelGuests } from '@/redux/slices/hostelGuests/slice';
-import { useGetAllConversations } from '@/services/hostel/getAllConversations';
+import { useGetAllConversations } from '@/services/chat/getAllConversations';
 
 interface Guest {
   userId: string;
@@ -35,9 +35,6 @@ export default function Chat() {
 
   const { data: guests, error, loading } = useSelector((state: RootState) => state.hostelGuests);
 
-  // TODO: pegar informacoes de quando reserva foi criada, para ordernar, e se ja esta em uma conversa apenas com o usuario logado
-  console.log(guests)
-
   const getConversations = async () => {
     try {
       const response = await getAllConversationsMutation();
@@ -46,7 +43,7 @@ export default function Chat() {
       console.error('Error in getConversations screen:', err);
     }
   };
-  
+
   useEffect(() => {
     getConversations()
     dispatch(getAllGuests());
@@ -67,14 +64,24 @@ export default function Chat() {
       <Text style={styles.title}>Conversas</Text>
       <ProfileCircles
         people={
-          guests?.map((guest: HostelGuests) => ({
-            img: guest.firstPhoto === null ? null : guest.firstPhoto,
-            name: guest.name.split(" ")[0] || "",
-            userId: guest.userId,
-          })) || []
+          guests
+            ?.filter((guest: HostelGuests) =>
+              !chats.some(chat => chat.participant.userId === guest.userId)
+            )
+            .map((guest: HostelGuests) => ({
+              img: guest.firstPhoto ?? null,
+              name: guest.name.split(" ")[0] || "",
+              userId: guest.userId,
+            })) || []
         }
       />
-      <ChatList conversations={chats} />
+      {isPending ? (
+        <View style={{ flex: 1 }}>
+          <ActivityIndicator size="large" color="#6c63ff" />
+        </View>
+      ) : (
+        <ChatList conversations={chats} />
+      )}
     </Container>
   )
 }

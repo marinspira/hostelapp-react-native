@@ -20,7 +20,7 @@ import { useTheme } from "@/hooks/useTheme";
 import socket from "@/utils/socket";
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import { useCreateNewMessage } from '@/services/hostel/createNewMessage';
+import { useCreateNewMessage } from '@/services/chat/createNewMessage';
 import Chat from '@/components/chat';
 
 export default function ChatScreen() {
