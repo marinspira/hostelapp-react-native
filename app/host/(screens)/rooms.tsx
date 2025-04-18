@@ -2,7 +2,7 @@ import Container from "@/components/container";
 import GoBackButton from "@/components/goBackButton";
 import { useTheme } from "@/hooks/useTheme";
 import { useEffect, useState } from "react";
-import { ActivityIndicator, Dimensions, ScrollView, StyleSheet, Text, useWindowDimensions, View } from "react-native";
+import { ActivityIndicator, ScrollView, StyleSheet, Text, useWindowDimensions, View } from "react-native";
 import ButtonCreate from '@/components/buttons/ButtonCreate'
 import defaultImg from '@/assets/images/unnamed.png';
 import ProfilesGroup from "@/components/guest/profilesGroup";
@@ -76,7 +76,7 @@ export default function RoomsScreen() {
                 {isPending ? (
                     <ActivityIndicator size="large" color="#6c63ff" />
                 ) : rooms && rooms.length > 0 ? (
-                    <ScrollView showsVerticalScrollIndicator={false} style={styles.rooms}>
+                    <ScrollView showsVerticalScrollIndicator={false}>
                         {rooms.map((room, index) => (
                             <View key={index} style={styles.roomContainer}>
                                 <Text style={styles.tag}>{room.type}</Text>

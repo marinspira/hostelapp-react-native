@@ -17,7 +17,7 @@ function EventList({ data, btnText, title }) {
 
                     <View style={styles.content}>
                         <Text>{item.date ? item.date : item.local}</Text>
-                        <Text>{item.name}</Text>
+                        <Text>{item.title}</Text>
                         <View style={styles.content2}>
                             <ProfilesGroup people={item.people} />
                             <TouchableOpacity style={styles.btn}>

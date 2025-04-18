@@ -8,7 +8,7 @@ export default function EmptyState({ img, title, text }) {
     return (
         <View style={styles.emptyScreen}>  
             {img}
-            <Text style={dynamicStyles.title}>{title}</Text>
+            <Text style={[dynamicStyles.title, styles.title]}>{title}</Text>
             <Text style={dynamicStyles.text}>{text}</Text>
         </View>
     )
@@ -20,4 +20,7 @@ const styles = StyleSheet.create({
         gap: 10,
         flex: 1
     },
+    title: {
+        textAlign: "center"
+    }
 })
