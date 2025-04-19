@@ -11,7 +11,11 @@ export default function SimpleButton
         width = 'auto',
         textTransform = '',
         fontSize = 18,
-        disabled = false
+        disabled = false,
+        borderRadius = 5,
+        paddingHorizontal = 20,
+        paddingVertical = 12,
+        marginTop
     }) {
     return (
         <Pressable
@@ -20,7 +24,11 @@ export default function SimpleButton
                 {
                     backgroundColor: disabled ? '#6c63ff6b' : backgroundColor,
                     width: width,
-                    textTransform: 'uppercase'
+                    textTransform: 'uppercase',
+                    borderRadius,
+                    paddingVertical,
+                    paddingHorizontal,
+                    marginTop
                 }
             ]}
             onPress={!disabled ? onPress : null}
@@ -34,9 +42,6 @@ export default function SimpleButton
 
 const styles = StyleSheet.create({
     button: {
-        paddingVertical: 12,
-        paddingHorizontal: 20,
-        borderRadius: 5,
         // elevation: 4,
         // shadowOpacity: 0.25,
         shadowRadius: 4,

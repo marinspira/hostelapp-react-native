@@ -93,6 +93,11 @@ export default function HostHomeScreen() {
               icon: <FontAwesome name="desktop" size={18} color="white" />,
               onPress: () => router.push('/host/(screens)/searchGuest')
             },
+            {
+              text: 'New event',
+              icon: <MaterialIcons name="event" size={24} color="white" />,
+              onPress: () => router.push('/host/(screens)/createEvent')
+            },
           ]}
         />
       </View>

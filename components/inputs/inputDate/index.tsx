@@ -13,6 +13,7 @@ interface InputDateProps {
     errorMessage?: any;
     suportText?: string;
     width?: any;
+    time?: boolean;
 }
 
 const formatToDDMMYYYY = (text: string) => {
@@ -27,20 +28,22 @@ const formatToDDMMYYYY = (text: string) => {
     return formatted;
 };
 
-const parseDate = (text: string): Date | null => {
-    const [day, month, year] = text.split('/').map(Number);
+const parseDateTime = (dateText: string, timeText?: string): Date | null => {
+    const [day, month, year] = dateText.split('/').map(Number);
+    const [hour, minute] = timeText?.split(':').map(Number) ?? [12, 0];
 
     if (
         isNaN(day) || isNaN(month) || isNaN(year) ||
         day < 1 || day > 31 ||
         month < 1 || month > 12 ||
-        year < 1000 || year > 2050
+        year < 1000 || year > 2050 ||
+        isNaN(hour) || isNaN(minute) ||
+        hour > 23 || minute > 59
     ) {
         return null;
     }
 
-    const date = new Date(year, month - 1, day, 12);
-
+    const date = new Date(year, month - 1, day, hour, minute);
     if (
         date.getFullYear() !== year ||
         date.getMonth() !== month - 1 ||
@@ -61,19 +64,22 @@ const InputDate: React.FC<InputDateProps> = ({
     minimumDate,
     errorMessage,
     suportText,
-    width = '100%'
+    width = '100%',
+    time = false
 }) => {
-    const [text, setText] = useState('');
+    const [dateText, setDateText] = useState('');
+    const [timeText, setTimeText] = useState('');
     const [error, setError] = useState<string | null>(null);
     const dynamicStyles = useTheme();
-    const { t } = useTranslation()
+    const { t } = useTranslation();
 
     useEffect(() => {
         if (value) {
             const userLocale = Intl.DateTimeFormat().resolvedOptions().locale;
-            const formatted = value.toLocaleDateString(userLocale);
-            setText(formatted);
-            console.log(formatted)
+            const dateFormatted = value.toLocaleDateString(userLocale);
+            const timeFormatted = value.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            setDateText(dateFormatted);
+            setTimeText(timeFormatted);
         }
     }, [value]);
 
@@ -94,34 +100,59 @@ const InputDate: React.FC<InputDateProps> = ({
         return true;
     };
 
-    const handleTextChange = (input: string) => {
-        const formatted = formatToDDMMYYYY(input);
-        setText(formatted);
-
-        if (formatted.length === 10) {
-            const date = parseDate(formatted);
-            if (validateDate(date)) {
-                onChange?.(date!);
-            }
+    const handleChange = () => {
+        const date = parseDateTime(dateText, time ? timeText : undefined);
+        if (validateDate(date)) {
+            onChange?.(date!);
         }
+    };
+
+    const handleDateChange = (input: string) => {
+        const formatted = formatToDDMMYYYY(input);
+        setDateText(formatted);
+        if (formatted.length === 10) handleChange();
+    };
+
+    const handleTimeChange = (input: string) => {
+        const cleaned = input.replace(/\D/g, '').slice(0, 4);
+        let hour = cleaned.slice(0, 2);
+        let minute = cleaned.slice(2, 4);
+
+        if (hour && parseInt(hour) > 23) hour = '23';
+        if (minute && parseInt(minute) > 59) minute = '59';
+
+        const formatted = `${hour}${minute ? ':' + minute : ''}`;
+        setTimeText(formatted);
+
+        if (formatted.length === 5) handleChange();
     };
 
     return (
         <View style={[styles.container, { width }]}>
             {label && <Text style={dynamicStyles.label}>{label}</Text>}
             {suportText && <Text style={styles.suportText}>{suportText}</Text>}
-            <TextInput
-                style={[
-                    styles.input,
-                    error ? { borderColor: 'red' } : {}
-                ]}
-                placeholder={placeholder}
-                value={text}
-                keyboardType="numeric"
-                maxLength={10}
-                onChangeText={handleTextChange}
-                placeholderTextColor="#aaa"
-            />
+            <View style={time ? styles.row : {}}>
+                <TextInput
+                    style={[styles.input, error ? { borderColor: 'red' } : {}, time && { marginRight: 8, flex: 1 }]}
+                    placeholder={placeholder}
+                    value={dateText}
+                    keyboardType="numeric"
+                    maxLength={10}
+                    onChangeText={handleDateChange}
+                    placeholderTextColor="#aaa"
+                />
+                {time && (
+                    <TextInput
+                        style={[styles.input, error ? { borderColor: 'red' } : {}, { flex: 1 }]}
+                        placeholder="HH:MM"
+                        value={timeText}
+                        keyboardType="numeric"
+                        maxLength={5}
+                        onChangeText={handleTimeChange}
+                        placeholderTextColor="#aaa"
+                    />
+                )}
+            </View>
             {error && <Text style={styles.errorText}>{error}</Text>}
         </View>
     );
@@ -131,8 +162,11 @@ export default InputDate;
 
 const styles = StyleSheet.create({
     container: {
-        width: '100%',
-        marginBottom: 8,
+        marginBottom: 30,
+    },
+    row: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
     },
     input: {
         borderWidth: 1,

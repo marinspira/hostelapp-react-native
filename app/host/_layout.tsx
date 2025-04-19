@@ -21,6 +21,7 @@ export default function HostLayout() {
       <Stack.Screen name="(screens)/rooms" options={{ headerShown: false }} />
       <Stack.Screen name="(screens)/[chat]" options={{ headerShown: false }} />
       <Stack.Screen name="(screens)/createPosition" options={{ headerShown: false }} />
+      <Stack.Screen name="(screens)/createEvent" options={{ headerShown: false }} />
     </Stack>
   );
 }

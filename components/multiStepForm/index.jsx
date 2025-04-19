@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, Keyboard, ScrollView } from 'react-native';
 import { Colors } from '@/constants/Colors';
 import { KeyboardAvoidingView, Platform } from 'react-native';
 import AntDesign from '@expo/vector-icons/AntDesign';
 
-const MultiStepForm = ({ steps, sendForm, value, setValue }) => {
+const MultiStepForm = ({ steps, sendForm, value, setValue, sendBtnText }) => {
     const [currentStep, setCurrentStep] = useState(0);
     const [isStepValid, setIsStepValid] = useState(false);
 
@@ -39,7 +39,7 @@ const MultiStepForm = ({ steps, sendForm, value, setValue }) => {
             }
 
             if (field.required) {
-                if (!fieldValue || fieldValue === '') return false;
+                if (fieldValue === null || fieldValue === '') return false;
 
                 if (field.name === 'email' && !isValidEmail(fieldValue)) {
                     return false;
@@ -71,21 +71,22 @@ const MultiStepForm = ({ steps, sendForm, value, setValue }) => {
         >
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View style={styles.container}>
-                    <Text style={styles.title}>{steps[currentStep].title}</Text>
-                    {steps[currentStep].fields.map((field, index) => {
-                        const Component = field.component;
+                    <ScrollView vertical showsVerticalScrollIndicator={false} style={{paddingBottom: 100}}>
+                        <Text style={styles.title}>{steps[currentStep].title}</Text>
+                        {steps[currentStep].fields.map((field, index) => {
+                            const Component = field.component;
 
-                        return (
-                            <View key={index} style={{ alignItems: 'center' }}>
-                                <Component
-                                    value={value[field.name] || ''}
-                                    onChange={(value) => handleChange(field.name, value)}
-                                    {...field}
-                                />
-                            </View>
-                        );
-                    })}
-
+                            return (
+                                <View key={index} style={{ alignItems: 'center' }}>
+                                    <Component
+                                        value={value[field.name] || ''}
+                                        onChange={(value) => handleChange(field.name, value)}
+                                        {...field}
+                                    />
+                                </View>
+                            );
+                        })}
+                    </ScrollView>
                     <View style={styles.buttonContainer}>
                         {currentStep > 0 && (
                             <TouchableOpacity style={styles.btnPrevious} onPress={prevStep}>
@@ -98,7 +99,7 @@ const MultiStepForm = ({ steps, sendForm, value, setValue }) => {
                                 onPress={sendForm}
                                 disabled={!isStepValid}
                             >
-                                <Text style={{ color: 'white', fontSize: 20, fontWeight: '700' }}>Enviar</Text>
+                                <Text style={{ color: 'white', fontSize: 18, fontWeight: '700' }}>{sendBtnText}</Text>
                             </TouchableOpacity>
                         )}
                         {currentStep < steps.length - 1 && (
@@ -121,12 +122,13 @@ const MultiStepForm = ({ steps, sendForm, value, setValue }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        paddingBottom: 100
     },
     title: {
-        fontSize: 40,
+        fontSize: 35,
         fontWeight: 'bold',
         marginBottom: 40,
-        marginTop: 60,
+        marginTop: 40,
         color: 'black',
         paddingRight: 10
     },
@@ -136,16 +138,16 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 10,
         alignItems: 'center',
-        gap: 40,
+        gap: 20,
         width: '100%'
     },
     btnPrevious: {
-        paddingHorizontal: 20
+        paddingHorizontal: 10
     },
     btnNext: {
         backgroundColor: Colors.light.tint,
         paddingVertical: 15,
-        paddingHorizontal: 80,
+        paddingHorizontal: 10,
         borderRadius: 8,
         flexDirection: 'row',
         alignItems: 'center',

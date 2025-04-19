@@ -24,10 +24,11 @@ interface InputImageProps {
     endpoints: {
         upload: string,
         delete: string
-    }
+    },
+    imgHeight: number
 }
 
-const InputImage: React.FC<InputImageProps> = ({ id, label, suportText, borderRadius, imgWidth = 85, defaultImg, endpoints, borderColor = '#ccc', borderWidth = 2 }) => {
+const InputImage: React.FC<InputImageProps> = ({ id, label, suportText, borderRadius, imgWidth = 85, imgHeight = imgWidth, defaultImg, endpoints, borderColor = '#ccc', borderWidth = 2 }) => {
 
     const [image, setImage] = useState<string | null>(defaultImg || null);
 
@@ -128,10 +129,10 @@ const InputImage: React.FC<InputImageProps> = ({ id, label, suportText, borderRa
                                 <Text>X</Text>
                             </Pressable>
                         }
-                        <Image source={{ uri: image }} style={[styles.image, { borderRadius, width: imgWidth, height: imgWidth }]} />
+                        <Image source={{ uri: image }} style={[styles.image, { borderRadius, width: imgWidth, height: imgHeight }]} />
                     </Pressable>
                 ) : (
-                    <Pressable onPress={pickImage} style={[styles.imgPickerBtn, { borderRadius, width: imgWidth, height: imgWidth, zIndex: 10, borderColor, borderWidth }]}>
+                    <Pressable onPress={pickImage} style={[styles.imgPickerBtn, { borderRadius, width: imgWidth, height: imgHeight, zIndex: 10, borderColor, borderWidth }]}>
                         <Text style={styles.imgPickerBtnText}>{'+'}</Text>
                     </Pressable>
                 )}
