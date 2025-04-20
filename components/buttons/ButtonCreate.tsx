@@ -11,16 +11,17 @@ interface ButtonCreateProps {
         onPress: any;
     }[],
     onPress?: () => void,
-    bottom: number
+    bottom?: number,
+    right?: number
 }
 
-export default function ButtonCreate({ subButtons, onPress, bottom = 120 }: ButtonCreateProps) {
+export default function ButtonCreate({ subButtons, onPress, bottom = 120, right = 20 }: ButtonCreateProps) {
     const dynamicStyles = useTheme()
 
     const [open, setOpen] = useState(false)
 
     return (
-        <View style={[styles.container, { bottom }]}>
+        <View style={[styles.container, { bottom, right }]}>
             {open && subButtons?.map((subBtn, index) => (
                 <View key={index} style={styles.subButtons}>
                     <Text style={dynamicStyles.text}>{subBtn.text}</Text>
@@ -42,7 +43,6 @@ export default function ButtonCreate({ subButtons, onPress, bottom = 120 }: Butt
 const styles = StyleSheet.create({
     container: {
         position: 'absolute',
-        right: 20,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-end',

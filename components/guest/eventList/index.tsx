@@ -1,25 +1,48 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
-import defaultImg from '@/assets/images/unnamed.png';
+import Title from '../text/title';
+import defaultImg from '@/assets/images/activities.png';
 import ProfilesGroup from '@/components/guest/profilesGroup';
 import SlideImage from '@/components/guest/slideImages';
-import Title from '../text/title';
+import { useTheme } from '@/hooks/useTheme';
+import { useTranslation } from 'react-i18next';
+import { formatDate } from '@/utils/formatDate';
 
-function EventList({ data, btnText, title }) {
+interface EventListProps {
+    data: [{
+        img: string,
+        price: number,
+        name: string,
+        date: string,
+        attendees: any[]
+    }],
+    btnText: string,
+    title?: string
+}
+
+function EventList({ data, btnText, title }: EventListProps) {
+
+    const dynamicStyles = useTheme()
+    const { t } = useTranslation()
 
     return (
         <View>
-            <Title text={title} />
+            {title && <Title text={title} />}
             {data.map((item, index) => (
                 <View style={styles.container} key={index}>
-                    <SlideImage images={item.imgs ? item.imgs : [defaultImg, defaultImg]} />
+                    <SlideImage images={item.img ? item.img : [defaultImg]} />
 
                     <View style={styles.content}>
-                        <Text>{item.date ? item.date : item.local}</Text>
-                        <Text>{item.title}</Text>
+                        <View style={styles.textContent}>
+                            <Text style={[dynamicStyles.title, { maxWidth: "70%" }]}>{item.name}</Text>
+                            <Text style={dynamicStyles.title}>€ {item.price === 0 ? t("Grátis") : item.price},00</Text>
+                        </View>
+                        <Text style={[dynamicStyles.text, { fontSize: 14, marginBottom: 5 }]}>
+                            {formatDate(item.date)}
+                        </Text>
                         <View style={styles.content2}>
-                            <ProfilesGroup people={item.people} />
+                            <ProfilesGroup people={item.attendees} emptyText={t("Nenhuma inscrição")} />
                             <TouchableOpacity style={styles.btn}>
                                 <Text style={styles.btnText}>{btnText}</Text>
                                 <AntDesign name="arrowright" size={24} color="white" />
@@ -50,7 +73,11 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         marginBottom: 20
     },
-
+    textContent: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        width: "100%"
+    },
     btn: {
         flexDirection: "row",
         alignItems: 'center',
@@ -62,7 +89,8 @@ const styles = StyleSheet.create({
     btnText: {
         color: "#fff",
         fontSize: 16,
-        marginRight: 5,
+        marginRight: 8,
+        fontFamily: "Poppins"
     },
     content: {
         flexDirection: "column",

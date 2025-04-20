@@ -2,7 +2,7 @@ import * as Linking from 'expo-linking';
 
 export const createStripeAccount = async () => {
     try {
-        const response = await fetch(`${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/api/stripe/createHostelStripeAccount`, {
+        const response = await fetch(`${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/api/stripe/create-hostel-stripe-account`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include',

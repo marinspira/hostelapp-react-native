@@ -9,28 +9,45 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import EventStripeSettings from "@/components/eventStripeSettings"
 import { createStripeAccount } from "@/services/hostel/createStripeAccount";
+import { createEvent } from "@/services/hostel/createEvent";
 
-interface Event {
+export interface Event {
     name: string,
     description: string,
     price: number | null,
     street?: string,
     city?: string,
     zip?: string,
-    hostel_location: boolean,
+    hostel_location: boolean | null,
     date: Date | null,
-    eventImg: string,
-    photos_last_event: [string],
-    spots_available: number,
-    limited_spots: boolean,
-    paid_event: boolean,
-    payment_to_hostel: boolean,
-    receive_online: boolean
+    img: string,
+    photos_last_event: string[] | null,
+    spots_available: number | null,
+    limited_spots: boolean | null,
+    paid_event: boolean | null,
+    payment_to_hostel: boolean | null,
+    receive_online: boolean | null
 }
 
-export default function CreateEvent() {
+export default function CreateEventScreen() {
 
-    const [event, setEvent] = useState<Event>()
+    const [event, setEvent] = useState({
+        name: "",
+        description: "",
+        price: null,
+        street: "",
+        city: "",
+        zip: "",
+        hostel_location: null,
+        date: null,
+        eventImg: "",
+        photos_last_event: null,
+        spots_available: null,
+        limited_spots: null,
+        paid_event: null,
+        payment_to_hostel: null,
+        receive_online: null
+    })
 
     // TODO: Validar se é o hostel que tá criando o evento ou o hospede, pra mostrar apenas determinados campos
     const hostel = true
@@ -200,17 +217,26 @@ export default function CreateEvent() {
         ] : [])
     ];
 
-    const createEventAndConnectAccount = async () => {
+    const handleCreateEventAndConnectAccount = async () => {
         try {
             const response = createStripeAccount()
         } catch (error) {
-            console.error("Error createEventAndConnectAccount", error)
+            console.error("Error handleCreateEventAndConnectAccount", error)
         }
         return null
     }
 
-    const createEvent = async () => {
-        console.log(event)
+    const handleCreateEvent = async () => {
+        try {
+            const eventData = Object.fromEntries(
+                Object.entries(event).filter(([_, v]) => v !== null && v !== "" && v !== undefined)
+            );
+            const response = createEvent(eventData)
+            console.log(event)
+        } catch (error) {
+            console.error(error)
+        }
+
     }
 
     return (
@@ -219,7 +245,7 @@ export default function CreateEvent() {
                 steps={steps}
                 value={event}
                 setValue={setEvent}
-                sendForm={event?.receive_online && hostel && !stripeAccountId ? createEventAndConnectAccount : createEvent}
+                sendForm={event?.receive_online && hostel && !stripeAccountId ? handleCreateEventAndConnectAccount : handleCreateEvent}
                 sendBtnText={event?.receive_online && hostel && !stripeAccountId ? t("Criar evento e configurar Stripe") : t("Criar evento")}
             />
         </Container>

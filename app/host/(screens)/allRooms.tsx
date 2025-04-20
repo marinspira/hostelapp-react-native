@@ -30,9 +30,7 @@ export default function RoomsScreen() {
             }]
         }
     ])
-
     const { height } = useWindowDimensions()
-
     const dynamicStyles = useTheme()
     const { t } = useTranslation()
     const { mutateAsync: getRoomsMutation, isPending, error } = useGetAllRooms();
@@ -64,7 +62,7 @@ export default function RoomsScreen() {
     return (
         <Container scrollable={false}>
             <View style={{ height: height }}>
-                <View style={styles.header}>
+                <View style={dynamicStyles.header}>
                     <GoBackButton />
                     <Text style={dynamicStyles.textUppercase}>Rooms</Text>
                 </View>
@@ -93,7 +91,7 @@ export default function RoomsScreen() {
                                             people={room.beds
                                                 .filter((bed) => bed.reservation_id !== null)
                                                 .map((bed) => ({
-                                                    avatar: bed.guestPhoto ? { uri: bed.guestPhoto } : defaultImg,
+                                                    avatar: bed?.guestPhoto ? { uri: bed?.guestPhoto } : defaultImg,
                                                 }))
                                             }
                                             maxVisible={10}
@@ -113,7 +111,7 @@ export default function RoomsScreen() {
                         text="Clique no botão flutuante para criar"
                     />
                 )}
-                <ButtonCreate onPress={() => setIsModalVisible(true)} />
+                <ButtonCreate right={0} onPress={() => setIsModalVisible(true)} />
                 {isModalVisible === true &&
                     <PopUp setModalVisible={setIsModalVisible} modalVisible={isModalVisible}>
                         <CreateRoomModal setModalVisible={setIsModalVisible} />
@@ -128,12 +126,6 @@ const styles = StyleSheet.create({
     container: {
         minHeight: "100%",
         height: "100%"
-    },
-    header: {
-        flexDirection: "row",
-        gap: 20,
-        paddingBottom: 20,
-        alignItems: "center"
     },
     roomContainer: {
         padding: 20,

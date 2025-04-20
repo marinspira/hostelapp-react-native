@@ -86,7 +86,7 @@ export default function HostHomeScreen() {
             {
               text: 'New room',
               icon: <MaterialIcons name="bed" size={24} color="white" />,
-              onPress: () => router.push('/host/(screens)/rooms')
+              onPress: () => router.push('/host/(screens)/allRooms')
             },
             {
               text: 'New position',
@@ -96,7 +96,7 @@ export default function HostHomeScreen() {
             {
               text: 'New event',
               icon: <MaterialIcons name="event" size={24} color="white" />,
-              onPress: () => router.push('/host/(screens)/createEvent')
+              onPress: () => router.push('/host/(screens)/allEvents')
             },
           ]}
         />

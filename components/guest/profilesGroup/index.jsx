@@ -1,23 +1,30 @@
+import { useTheme } from '@/hooks/useTheme';
 import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 
-const ProfilesGroup = ({ people, maxVisible = 3 }) => {
+const ProfilesGroup = ({ people, maxVisible = 3, emptyText }) => {
   const extraCount = people.length - maxVisible;
 
-  return (
-    <View style={styles.container}>
-      {people.slice(0, maxVisible).map((person, index) => (
-        <View key={index} style={styles.avatarContainer}>
-          <Image source={person.avatar} style={styles.avatar} />
-        </View>
-      ))}
-      {extraCount > 0 && (
-        <View style={[styles.avatarContainer, styles.extraContainer]}>
-          <Text style={styles.extraText}>+{extraCount}</Text>
-        </View>
-      )}
-    </View>
-  );
+  const dynamicStyles = useTheme()
+
+  if (!Array.isArray(people) || people.length === 0) {
+    return <Text style={{color: "#aaa"}}>{emptyText}</Text>;
+  } else {
+    return (
+      <View style={styles.container}>
+        {people.slice(0, maxVisible).map((person, index) => (
+          <View key={index} style={styles.avatarContainer}>
+            <Image source={person.avatar} style={styles.avatar} />
+          </View>
+        ))}
+        {extraCount > 0 && (
+          <View style={[styles.avatarContainer, styles.extraContainer]}>
+            <Text style={styles.extraText}>+{extraCount}</Text>
+          </View>
+        )}
+      </View>
+    );
+  }
 };
 
 const styles = StyleSheet.create({

@@ -6,6 +6,8 @@
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "hostelapp",
+    "deepLinking": true,
+    "platforms": ["android", "ios"],
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
