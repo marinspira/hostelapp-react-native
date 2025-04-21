@@ -103,6 +103,7 @@ export default function InputSelect({ selectInputItems, label, value, onChange, 
 const styles = StyleSheet.create({
     fieldContainer: {
         marginBottom: 30,
+        width: "100%"
     },
     selectInput: {
         backgroundColor: '#f7f7f7',

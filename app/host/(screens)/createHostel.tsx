@@ -30,6 +30,8 @@ export default function CreateHostel() {
     zip: '',
   });
 
+  const [image, setImage] = useState()
+
   const steps = [
     {
       fields: [
@@ -40,12 +42,13 @@ export default function CreateHostel() {
           borderColor: '#6c63ff',
           borderWidth: 5,
           imgWidth: 200,
-          endpoints: { upload: '', delete: '' },
+          onUpload: (img: any) => setImage(img)
         },
         {
           component: Input,
           name: 'name',
           placeholder: 'HostelApp',
+          label: t("Nome e logo do seu hostel"),
           required: true,
           errorMessage: '',
           inputTexting: true,
@@ -133,9 +136,9 @@ export default function CreateHostel() {
 
   const sendForm = async (): Promise<void> => {
     try {
-      const response = await createHostelMutation(hostelData);
-      console.log('Hostel criado:', response);
-      router.push('/host/(screens)/waitingApproval');
+      const response = await createHostelMutation({hostelData, image});
+      // console.log('Hostel criado:', response);
+      // router.push('/host/(screens)/waitingApproval');
     } catch (err) {
       console.error('Erro ao criar hostel:', err);
     }
@@ -143,7 +146,12 @@ export default function CreateHostel() {
 
   return (
     <Container scrollable={false}>
-      <MultiStepForm steps={steps} sendForm={sendForm} value={hostelData} setValue={setHostelData} />
+      <MultiStepForm 
+      steps={steps} 
+      sendForm={sendForm} 
+      value={hostelData} setValue={setHostelData} 
+      sendBtnText={t("Criar hostel")}
+      />
       {isPending && <ActivityIndicator size="large" color="#6c63ff" />}
       {error instanceof Error && <Text style={{ color: 'red' }}>{error.message}</Text>}
     </Container>
