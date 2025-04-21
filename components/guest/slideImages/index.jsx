@@ -31,14 +31,20 @@ const SlideImage = ({ images }) => {
         ref={scrollViewRef}
         showsHorizontalScrollIndicator={false}
       >
-        {images.map((img, imgIndex) => (
+        {images.map((img, index) => {
+        const source = typeof img === 'string'
+          ? { uri: img }
+          : img;
+
+        return (
           <Image
-            key={imgIndex}
-            source={img}
+            key={index}
+            source={source}
             style={styles.img}
             resizeMode="cover"
           />
-        ))}
+        );
+      })}
       </ScrollView>
 
       {images.length > 1 && (

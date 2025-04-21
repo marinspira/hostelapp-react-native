@@ -96,7 +96,7 @@ export default function HostHomeScreen() {
             {
               text: t('Event'),
               icon: <MaterialIcons name="event" size={16} color="white" />,
-              onPress: () => router.push('/host/(screens)/allEvents')
+              onPress: () => router.push('/host/(screens)/event/all')
             },
           ]}
         />

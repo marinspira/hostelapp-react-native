@@ -21,20 +21,28 @@ interface InputImageProps {
     borderColor?: string,
     imgWidth?: number,
     defaultImg?: string
-    endpoints: {
-        upload: string,
-        delete: string
-    },
-    imgHeight?: number
+    imgHeight?: number,
+    onUpload: any,
+    onDelete?: any
 }
 
-const InputImage: React.FC<InputImageProps> = ({ id, label, suportText, borderRadius, imgWidth = 85, imgHeight = imgWidth, defaultImg, endpoints, borderColor = '#ccc', borderWidth = 2 }) => {
+const InputImage: React.FC<InputImageProps> = ({
+    id,
+    label,
+    suportText,
+    borderRadius,
+    imgWidth = 85,
+    imgHeight = imgWidth,
+    defaultImg,
+    onUpload,
+    borderColor = '#ccc',
+    borderWidth = 2,
+    onDelete
+}) => {
 
     const [image, setImage] = useState<string | null>(defaultImg || null);
-
     const { t } = useTranslation();
     const dynamicStyles = useTheme()
-    const dispatch = useDispatch<AppDispatch>()
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -67,7 +75,8 @@ const InputImage: React.FC<InputImageProps> = ({ id, label, suportText, borderRa
                 img.append('imageId', id);
                 img.append('photo', { uri: imageUri, name: filename, type } as any);
 
-                handleUpload(img)
+                onUpload && onUpload(img)
+
             } catch (error) {
                 console.error('Error resizing image:', error)
                 showToast({
@@ -80,32 +89,13 @@ const InputImage: React.FC<InputImageProps> = ({ id, label, suportText, borderRa
         }
     };
 
-    const handleUpload = async (file: any) => {
-        if (file) {
-            try {
-                const response = await dispatch(uploadGuestImage({ file, endpoint: endpoints.upload }))
-                showToast({
-                    type: 'success',
-                    title: t('Enviado!'),
-                    message: t('Upload feito com sucesso.')
-                })
-            } catch (err) {
-                console.error(`Error upload: ${id}:`, err);
-                showToast({
-                    type: 'error',
-                    title: t('Algum erro aconteceu!'),
-                    message: t('Por favor, notifique seu bug nas configurações.')
-                })
-            }
-        }
-    }
-
     const handleRemoveImg = async () => {
         try {
             setImage(null)
             console.log(id)
-            const response = await dispatch(deleteGuestImage({ id, endpoint: endpoints.delete }))
-            console.log(response)
+
+            onDelete && onDelete(id)
+
         } catch (error) {
             setImage(image)
             console.error('Error removing image: ', error)

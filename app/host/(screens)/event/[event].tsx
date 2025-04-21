@@ -73,6 +73,7 @@ export default function EventScreen() {
                 <Text style={[dynamicStyles.subtitle, styles.price]}>£ {loadedEvent.price},00</Text>
                 <SimpleButton
                     text="Editar"
+                    onPress=""
                 />
             </View>
 

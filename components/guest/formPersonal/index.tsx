@@ -7,12 +7,14 @@ import Input from '@/components/inputs/input';
 import InputImage from '@/components/inputs/inputImage';
 import SelectItens from '@/components/inputs/selectItens'
 import '@/assets/translations/i18n'
-import countries from '@/utils/coutries'
 import { useTheme } from '@/hooks/useTheme';
 import { RootState } from '@/redux/store';
+import { useUploadGuestImages } from '@/services/guest/uploadProfileImages';
+import { handleDeleteGuestImage } from '@/services/guest/deleteProfileImage';
 
 export default function FormPersonal() {
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
+    const handleUploadGuestImages = useUploadGuestImages();
 
     const guest = useSelector((state: RootState) => state.guest.data)
 
@@ -39,55 +41,43 @@ export default function FormPersonal() {
                             id='0'
                             imgWidth={100}
                             defaultImg={guest?.guestPhotos?.[0]}
-                            endpoints={{
-                                upload: '/api/guest/saveGuestProfileImages',
-                                delete: '/api/guest/deleteGuestProfileImage'
-                            }}
+                            onUpload={handleUploadGuestImages}
+                            onDelete={handleDeleteGuestImage}
                         />
                         <InputImage
                             id='1'
                             imgWidth={100}
                             defaultImg={guest?.guestPhotos?.[1]}
-                            endpoints={{
-                                upload: '/api/guest/saveGuestProfileImages',
-                                delete: '/api/guest/deleteGuestProfileImage'
-                            }}
+                            onUpload={handleUploadGuestImages}
+                            onDelete={handleDeleteGuestImage}
                         />
                         <InputImage
                             id='2'
                             imgWidth={100}
                             defaultImg={guest?.guestPhotos?.[2]}
-                            endpoints={{
-                                upload: '/api/guest/saveGuestProfileImages',
-                                delete: '/api/guest/deleteGuestProfileImage'
-                            }}
+                            onUpload={handleUploadGuestImages}
+                            onDelete={handleDeleteGuestImage}
                         />
                         <InputImage
                             id='3'
                             imgWidth={100}
                             defaultImg={guest?.guestPhotos?.[3]}
-                            endpoints={{
-                                upload: '/api/guest/saveGuestProfileImages',
-                                delete: '/api/guest/deleteGuestProfileImage'
-                            }}
+                            onUpload={handleUploadGuestImages}
+                            onDelete={handleDeleteGuestImage}
                         />
                         <InputImage
                             id='4'
                             imgWidth={100}
                             defaultImg={guest?.guestPhotos?.[4]}
-                            endpoints={{
-                                upload: '/api/guest/saveGuestProfileImages',
-                                delete: '/api/guest/deleteGuestProfileImage'
-                            }}
+                            onUpload={handleUploadGuestImages}
+                            onDelete={handleDeleteGuestImage}
                         />
                         <InputImage
                             id='5'
                             imgWidth={100}
                             defaultImg={guest?.guestPhotos?.[5]}
-                            endpoints={{
-                                upload: '/api/guest/saveGuestProfileImages',
-                                delete: '/api/guest/deleteGuestProfileImage'
-                            }}
+                            onUpload={handleUploadGuestImages}
+                            onDelete={handleDeleteGuestImage}
                         />
                     </View>
                 </View>

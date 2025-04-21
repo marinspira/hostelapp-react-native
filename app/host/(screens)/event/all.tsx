@@ -62,7 +62,7 @@ export default function AllEventsScreen() {
                         text={t("Clique no botão flutuante para criar")}
                     />
                 )}
-                <ButtonCreate right={0} onPress={() => router.push("/host/createEvent")} />
+                <ButtonCreate right={0} onPress={() => router.push("/host/event/create")} />
             </View>
         </Container>
     )

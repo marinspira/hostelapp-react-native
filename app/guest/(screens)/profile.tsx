@@ -26,7 +26,7 @@ export default function Profile() {
   const tabData = [
     { label: 'Check in', content: <FormGuest /> },
     { label: t('Personal'), content: <FormPersonal /> },
-    { label: t('Área do funcionário'), content: <FormStaff /> },
+    // { label: t('Área do funcionário'), content: <FormStaff /> },
   ];
 
   const fetchUserData = async () => {
@@ -45,7 +45,7 @@ export default function Profile() {
   return (
     <ParallaxScrollView
       button={true}
-      textOverImage={`${user?.name}, ${converteDateToAge(guest?.birthday as string)}`} imagesArray={formattedGuestPhotos}
+      textOverImage={`${user?.name}`} imagesArray={formattedGuestPhotos}
     >
       <StatusBar style='light' />
       <Tabs tabs={tabData} />

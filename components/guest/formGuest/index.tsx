@@ -51,14 +51,12 @@ export default function FormGuest() {
                     onChange={(value) => handleChange('phoneNumber', value)}
                     value={guest.phoneNumber}
                 />
+                // TODO: Add passaport upload function
                 <InputImage
                     label={t('Foto do seu Passaporte/Identidade')}
                     suportText={t('Apenas a administração do hotel pode ver essa informação')}
                     id='passaport'
-                    endpoints={{
-                        upload: '',
-                        delete: ''
-                    }}
+                    onUpload=""
                 />
                 <SelectItens
                     label={t('Você é nômade digital?')}

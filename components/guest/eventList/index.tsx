@@ -9,6 +9,7 @@ import { useTheme } from '@/hooks/useTheme';
 import { useTranslation } from 'react-i18next';
 import { formatDate } from '@/utils/formatDate';
 import { router } from 'expo-router';
+import useAddMainDomain from "@/hooks/useAddMainDomain";
 
 interface EventListProps {
     data: [{
@@ -17,7 +18,8 @@ interface EventListProps {
         price: number,
         name: string,
         date: string,
-        attendees: any[]
+        attendees: any[],
+        photos_last_event: any[]
     }],
     btnText: string,
     title?: string,
@@ -34,9 +36,19 @@ function EventList({ data, btnText, title }: EventListProps) {
             {data.map((item, index) => {
                 const { fullString } = formatDate(item.date);
 
+                const images = [];
+
+                if (item.img) {
+                    images.push(item.img);
+                }
+                if (item.photos_last_event && Array.isArray(item.photos_last_event)) {
+                    images.push(...item.photos_last_event);
+                }
+                const imagesWithFullUrl = useAddMainDomain(images);
+
                 return (
                     <View style={styles.container} key={index}>
-                        <SlideImage images={item.img ? item.img : [defaultImg]} />
+                        <SlideImage images={item.img ? imagesWithFullUrl : [defaultImg]} />
 
                         <View style={styles.content}>
                             <View style={styles.textContent}>

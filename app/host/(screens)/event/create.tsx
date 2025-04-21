@@ -4,12 +4,12 @@ import InputDate from "@/components/inputs/inputDate";
 import InputImage from "@/components/inputs/inputImage";
 import SelectItens from "@/components/inputs/selectItens";
 import MultiStepForm from "@/components/multiStepForm";
-import { useTheme } from "@/hooks/useTheme";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import EventStripeSettings from "@/components/eventStripeSettings"
 import { createStripeAccount } from "@/services/hostel/createStripeAccount";
 import { createEvent } from "@/services/hostel/createEvent";
+import { router } from "expo-router";
 
 export interface Event {
     name: string,
@@ -34,13 +34,12 @@ export default function CreateEventScreen() {
     const [event, setEvent] = useState({
         name: "",
         description: "",
-        price: null,
+        price: 0,
         street: "",
         city: "",
         zip: "",
         hostel_location: null,
         date: null,
-        eventImg: "",
         photos_last_event: null,
         spots_available: null,
         limited_spots: null,
@@ -49,9 +48,13 @@ export default function CreateEventScreen() {
         receive_online: null
     })
 
-    // TODO: Validar se é o hostel que tá criando o evento ou o hospede, pra mostrar apenas determinados campos
+    const [img, setImage] = useState()
+
+    // TODO V2: Validar se é o hostel que tá criando o evento ou o hospede, pra mostrar apenas determinados campos
     const hostel = true
-    const stripeAccountId = null
+
+    //TODO: Fazer GET do hostel e ver se ja possui stripeAccountId no banco
+    let stripeAccountId = null
 
     const { t } = useTranslation()
 
@@ -67,7 +70,7 @@ export default function CreateEventScreen() {
                     borderWidth: 5,
                     imgWidth: 365,
                     imgHeight: 200,
-                    endpoints: { upload: '', delete: '' },
+                    onUpload: (img: any) => setImage(img)
                 },
                 // TODO: linkar post do blog sobre tipos de eventos que podem render dinheiro para hostel e voluntarios
                 {
@@ -231,12 +234,16 @@ export default function CreateEventScreen() {
             const eventData = Object.fromEntries(
                 Object.entries(event).filter(([_, v]) => v !== null && v !== "" && v !== undefined)
             );
-            const response = createEvent(eventData)
-            console.log(event)
+
+            const response = await createEvent(img, eventData)
+
+            if (response?.success) {
+                router.push("/host/event/all")
+            }
+
         } catch (error) {
             console.error(error)
         }
-
     }
 
     return (

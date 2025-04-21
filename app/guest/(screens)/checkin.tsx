@@ -6,7 +6,7 @@ import SimpleButton from '@/components/buttons/SimpleButton';
 import InputDate from '@/components/inputs/inputDate';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUserField } from '@/redux/slices/user/slice';
-import { saveGuest, updateGuestField } from '@/redux/slices/guest/slice';
+import { saveGuest, updateGuestField, uploadGuestImage } from '@/redux/slices/guest/slice';
 import { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
@@ -16,6 +16,7 @@ import { useFormatDate } from '@/hooks/useFormateDate';
 import { logout } from '@/redux/slices/user/slice';
 import { AppDispatch, RootState } from '@/redux/store';
 import { showToast } from '@/components/toast';
+import { handleUploadGuestImages } from '@/services/guest/uploadProfileImages';
 
 export default function Checkin() {
   const { t } = useTranslation();
@@ -73,7 +74,6 @@ export default function Checkin() {
       dispatch(updateUserField({ key: 'isNewUser', value: false }));
       console.log(user)
     }
-
   }
 
   return (
@@ -88,10 +88,7 @@ export default function Checkin() {
               borderRadius='100%'
               imgWidth={75}
               defaultImg={guest?.guestPhotos?.[0]}
-              endpoints={{
-                upload: '/api/guest/saveGuestProfileImages',
-                delete: ''
-              }}
+              onUpload={handleUploadGuestImages}
             />
             <View>
               <Text style={styles.userName}>{user?.name}</Text>
