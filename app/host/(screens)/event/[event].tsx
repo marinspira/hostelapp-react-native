@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         backgroundColor: "white",
         position: "absolute",
-        bottom: 60,
+        bottom: -40,
         right: 0,
         paddingHorizontal: 20,
         paddingBottom: 40,

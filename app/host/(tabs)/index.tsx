@@ -79,23 +79,23 @@ export default function HostHomeScreen() {
           bottom={170}
           subButtons={[
             {
-              text: 'Add guest',
-              icon: <FontAwesome name="user-o" size={24} color="white" />,
+              text: t('Guest'),
+              icon: <FontAwesome name="user-o" size={16} color="white" />,
               onPress: () => router.push('/host/(screens)/searchGuest')
             },
             {
-              text: 'New room',
-              icon: <MaterialIcons name="bed" size={24} color="white" />,
+              text: t('Room'),
+              icon: <MaterialIcons name="bed" size={16} color="white" />,
               onPress: () => router.push('/host/(screens)/allRooms')
             },
             {
-              text: 'New position',
-              icon: <FontAwesome name="desktop" size={18} color="white" />,
+              text: t('Rol'),
+              icon: <FontAwesome name="desktop" size={14} color="white" />,
               onPress: () => router.push('/host/(screens)/searchGuest')
             },
             {
-              text: 'New event',
-              icon: <MaterialIcons name="event" size={24} color="white" />,
+              text: t('Event'),
+              icon: <MaterialIcons name="event" size={16} color="white" />,
               onPress: () => router.push('/host/(screens)/allEvents')
             },
           ]}

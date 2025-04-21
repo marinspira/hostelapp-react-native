@@ -24,9 +24,9 @@ export default function ButtonCreate({ subButtons, onPress, bottom = 120, right 
         <View style={[styles.container, { bottom, right }]}>
             {open && subButtons?.map((subBtn, index) => (
                 <View key={index} style={styles.subButtons}>
-                    <Text style={dynamicStyles.text}>{subBtn.text}</Text>
                     <TouchableOpacity style={styles.subBtn} onPress={subBtn.onPress}>
                         {subBtn.icon}
+                        <Text style={[dynamicStyles.text, styles.subBtnText]}>{subBtn.text}</Text>
                     </TouchableOpacity>
                 </View>
             ))}
@@ -61,14 +61,19 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         gap: 20,
-        marginRight: 12
     },
     subBtn: {
         backgroundColor: Colors.light.tint,
         borderRadius: 100,
         alignItems: 'center',
         justifyContent: 'center',
-        width: 45,
-        height: 45
+        width: 80,
+        height: 40,
+        flexDirection: "row",
+        gap: 6
+    },
+    subBtnText: {
+        color: "white",
+        fontSize: 14
     }
 })

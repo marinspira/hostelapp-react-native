@@ -50,11 +50,11 @@ export const isAuthenticated = createAsyncThunk<BackendResponse, void, { rejectV
 
       const user = await response.json();
 
-      showToast({
-        type: user.success === true ? 'success' : 'error',
-        title: 'Login',
-        message: user.message,
-      });
+      // showToast({
+      //   type: user.success === true ? 'success' : 'error',
+      //   title: 'Login',
+      //   message: user.message,
+      // });
 
       return user as BackendResponse;
 

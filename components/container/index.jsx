@@ -11,11 +11,11 @@ export default function Container({ children, scrollable = true }) {
         <SafeAreaView style={dynamicStyles.safeArea}>
             <StatusBar style={dynamicStyles.statusBar} />
             {scrollable ? (
-                <ScrollView style={[style.container, dynamicStyles.container, { minHeight: height }]}>
+                <ScrollView style={[style.container, dynamicStyles.container]}>
                     {children}
                 </ScrollView>
             ) : (
-                <View style={[style.container, dynamicStyles.container, { minHeight: height }]}>
+                <View style={[style.container, dynamicStyles.container]}>
                     {children}
                 </View>
             )}

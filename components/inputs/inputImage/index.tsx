@@ -25,7 +25,7 @@ interface InputImageProps {
         upload: string,
         delete: string
     },
-    imgHeight: number
+    imgHeight?: number
 }
 
 const InputImage: React.FC<InputImageProps> = ({ id, label, suportText, borderRadius, imgWidth = 85, imgHeight = imgWidth, defaultImg, endpoints, borderColor = '#ccc', borderWidth = 2 }) => {
