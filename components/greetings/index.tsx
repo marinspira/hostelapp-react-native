@@ -1,19 +1,20 @@
 import { StyleSheet, Text, View } from 'react-native'
-import { Colors } from '@/constants/Colors'
 import Car from '@/assets/images/illustrations/undraw/car.svg'
-import Title from '@/components/guest/text/title'
 import { useTranslation } from 'react-i18next';
 import '@/assets/translations/i18n'
 import { useTheme } from '@/hooks/useTheme';
 
-export default function Grettings({ username }: any) {
+export default function Grettings({ username, supportText }: any) {
 
     const { t, i18n } = useTranslation();
     const dynamicStyles = useTheme();
 
     return (
         <View style={[styles.box, dynamicStyles.tint]}>
-            <Text style={styles.title}>{t('Olá', { name: username?.split(' ')[0] })}</Text>
+            <View style={styles.textContainer}>
+                <Text style={styles.title}>{t('Olá', { name: username?.split(' ')[0] })}</Text>
+                {supportText && <Text style={styles.text}>{supportText}</Text>}
+            </View>
             <View style={styles.imgContainer}>
                 <Car width={200} height={200} />
             </View>
@@ -25,9 +26,10 @@ const styles = StyleSheet.create({
     box: {
         padding: 20,
         borderRadius: 10,
-        marginBottom: 20,
+        marginBottom: 60,
         minHeight: 150,
         position: 'relative',
+        justifyContent: "center"
     },
     greetings: {
         fontSize: 26,
@@ -41,7 +43,15 @@ const styles = StyleSheet.create({
     },
     title: {
         color: 'white',
-        fontSize: 25,
+        fontSize: 22,
         fontFamily: 'PoppinsBold'
+    },
+    textContainer: {
+        width: "55%",
+        gap: 5
+    },
+    text: {
+        color: "white",
+        fontSize: 14,
     }
 })

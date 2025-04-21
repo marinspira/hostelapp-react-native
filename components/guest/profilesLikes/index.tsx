@@ -7,9 +7,15 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import Title from '@/components/guest/text/title';
 import IconHalfHeart from '@/components/guest/iconHalfFilledHeart';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { useTheme } from '@/hooks/useTheme';
 
 interface ProfilesLikesProps {
-    title: string;
+    people?: [{
+        img: string,
+        name: string,
+        id: string,
+        likes: string[]
+    }]
 }
 
 interface Guest {
@@ -21,8 +27,10 @@ interface Guest {
 
 type HeartIcons = { [key: number]: JSX.Element };
 
-function ProfilesLikes({ title }: ProfilesLikesProps) {
+function ProfilesLikes({ people}: ProfilesLikesProps) {
     const userId = 1;
+
+    const dynamicStyles = useTheme()
 
     const initialGuests: Guest[] = [
         { id: 1, profileImg: '', name: 'Maria Fernanda', likes: [3, 2, 4] },
@@ -127,7 +135,6 @@ function ProfilesLikes({ title }: ProfilesLikesProps) {
 
     return (
         <View>
-            <Title text={title} marginTop={40} />
             <ScrollView
                 style={styles.container}
                 horizontal
@@ -143,7 +150,7 @@ function ProfilesLikes({ title }: ProfilesLikesProps) {
                                 source={user.profileImg ? { uri: user.profileImg } : (profileDefault as any)}
                                 accessibilityLabel={user.name}
                             />
-                            <Text>{user.name.split(' ')[0]}</Text>
+                            <Text style={dynamicStyles.text}>{user.name.split(' ')[0]}</Text>
                             <View style={styles.likeGuest}>
                                 {heartIcons[user.id]}
                             </View>

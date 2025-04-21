@@ -59,8 +59,8 @@ export default function Index() {
 
   useEffect(() => {
     console.log('Index. User State:', user);
-    logAllAsyncStorage()
-    logReactQueryCache()
+    // logAllAsyncStorage()
+    // logReactQueryCache()
 
     const fetchUser = async () => {
       const result = await dispatch(isAuthenticated())

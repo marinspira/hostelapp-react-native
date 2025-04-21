@@ -32,7 +32,7 @@ function EventList({ data, btnText, title }: EventListProps) {
 
     return (
         <View>
-            {title && <Title text={title} />}
+            {title && <Title title={title} />}
             {data.map((item, index) => {
                 const { fullString } = formatDate(item.date);
 

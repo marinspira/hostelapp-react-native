@@ -1,11 +1,13 @@
 import { Colors } from '@/constants/Colors'
 import React from 'react'
-import { StyleSheet, Text } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import { useTranslation } from 'react-i18next';
 import '@/assets/translations/i18n'
+import { useTheme } from '@/hooks/useTheme';
 
 export default function Title({
     text,
+    title,
     marginTop = 50,
     marginBottom = 0,
     fontSize = 20,
@@ -14,16 +16,17 @@ export default function Title({
 
     const { t, i18n } = useTranslation();
 
+    const dynamicStyles = useTheme()
+
     return (
-        <Text
-            style={[styles.text, {
-                marginTop: marginTop,
-                marginBottom: marginBottom,
-                fontSize: fontSize,
-                color: color
-            }]}>
-            {text}
-        </Text>
+        <View style={styles.container}>
+            <Text
+                style={dynamicStyles.h2}>
+                {title}
+            </Text>
+            <View style={styles.line}/>
+           
+        </View>
     )
 }
 
@@ -31,5 +34,14 @@ const styles = StyleSheet.create({
     text: {
         fontFamily: 'PoppinsRegular',
         fontWeight: '600',
+    },
+    text: {
+        marginVertical: 10
+    },
+    line: {
+        width: 100,
+        backgroundColor: Colors.light.tint,
+        height: 3,
+        marginVertical: 10
     }
 })
