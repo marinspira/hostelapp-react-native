@@ -8,7 +8,11 @@ const ProfilesGroup = ({ people, maxVisible = 3, emptyText }) => {
   const dynamicStyles = useTheme()
 
   if (!Array.isArray(people) || people.length === 0) {
-    return <Text style={{color: "#aaa"}}>{emptyText}</Text>;
+    return (
+      <View style={styles.container}>
+        <Text style={{ color: "#aaa" }}>{emptyText}</Text>
+      </View>
+    )
   } else {
     return (
       <View style={styles.container}>
@@ -31,6 +35,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginVertical: 20
   },
   avatarContainer: {
     marginHorizontal: -6,

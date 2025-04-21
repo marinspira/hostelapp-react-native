@@ -1,20 +1,21 @@
 import { useTheme } from '@/hooks/useTheme';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
-import { ScrollView, StyleSheet, View } from 'react-native'
+import { ScrollView, StyleSheet, useWindowDimensions, View } from 'react-native'
 
 export default function Container({ children, scrollable = true }) {
     const dynamicStyles = useTheme();
+    const { height } = useWindowDimensions()
 
     return (
         <SafeAreaView style={dynamicStyles.safeArea}>
             <StatusBar style={dynamicStyles.statusBar} />
             {scrollable ? (
-                <ScrollView style={[style.container, dynamicStyles.container]}>
+                <ScrollView style={[style.container, dynamicStyles.container, { minHeight: height }]}>
                     {children}
                 </ScrollView>
             ) : (
-                <View style={[style.container, dynamicStyles.container]}>
+                <View style={[style.container, dynamicStyles.container, { minHeight: height }]}>
                     {children}
                 </View>
             )}
@@ -26,6 +27,6 @@ const style = StyleSheet.create({
     container: {
         paddingHorizontal: 20,
         paddingTop: 20,
-        flex: 1
+        flex: 1,
     }
 })

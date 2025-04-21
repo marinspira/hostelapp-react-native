@@ -24,7 +24,9 @@ export default function HostLayout() {
 
       <Stack.Screen name="(screens)/waitingApproval" options={{ headerShown: false }} />
       <Stack.Screen name="(screens)/searchGuest" options={{ headerShown: false }} />
+
       <Stack.Screen name="(screens)/[chat]" options={{ headerShown: false }} />
+      <Stack.Screen name="(screens)/event/[event]" options={{ headerShown: false }} />
     </Stack>
   );
 }

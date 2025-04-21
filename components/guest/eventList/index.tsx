@@ -8,9 +8,11 @@ import SlideImage from '@/components/guest/slideImages';
 import { useTheme } from '@/hooks/useTheme';
 import { useTranslation } from 'react-i18next';
 import { formatDate } from '@/utils/formatDate';
+import { router } from 'expo-router';
 
 interface EventListProps {
     data: [{
+        _id: string,
         img: string,
         price: number,
         name: string,
@@ -18,7 +20,7 @@ interface EventListProps {
         attendees: any[]
     }],
     btnText: string,
-    title?: string
+    title?: string,
 }
 
 function EventList({ data, btnText, title }: EventListProps) {
@@ -29,29 +31,43 @@ function EventList({ data, btnText, title }: EventListProps) {
     return (
         <View>
             {title && <Title text={title} />}
-            {data.map((item, index) => (
-                <View style={styles.container} key={index}>
-                    <SlideImage images={item.img ? item.img : [defaultImg]} />
+            {data.map((item, index) => {
+                const { fullString } = formatDate(item.date);
 
-                    <View style={styles.content}>
-                        <View style={styles.textContent}>
-                            <Text style={[dynamicStyles.title, { maxWidth: "70%" }]}>{item.name}</Text>
-                            <Text style={dynamicStyles.title}>€ {item.price === 0 ? t("Grátis") : item.price},00</Text>
-                        </View>
-                        <Text style={[dynamicStyles.text, { fontSize: 14, marginBottom: 5 }]}>
-                            {formatDate(item.date)}
-                        </Text>
-                        <View style={styles.content2}>
-                            <ProfilesGroup people={item.attendees} emptyText={t("Nenhuma inscrição")} />
-                            <TouchableOpacity style={styles.btn}>
-                                <Text style={styles.btnText}>{btnText}</Text>
-                                <AntDesign name="arrowright" size={24} color="white" />
-                            </TouchableOpacity>
+                return (
+                    <View style={styles.container} key={index}>
+                        <SlideImage images={item.img ? item.img : [defaultImg]} />
+
+                        <View style={styles.content}>
+                            <View style={styles.textContent}>
+                                <Text style={[dynamicStyles.title, { maxWidth: "70%" }]}>{item.name}</Text>
+                                <Text style={dynamicStyles.title}>€ {item.price === 0 ? t("Grátis") : item.price},00</Text>
+                            </View>
+                            <Text style={[dynamicStyles.text, { fontSize: 14, marginBottom: 5 }]}>{fullString}</Text>
+                            <View style={styles.content2}>
+                                <ProfilesGroup people={item.attendees} emptyText={t("Nenhuma inscrição")} />
+                                <TouchableOpacity
+                                    onPress={() =>
+                                        router.push({
+                                            pathname: `/host/(screens)/event/[event]`,
+                                            params: {
+                                                event: JSON.stringify(item),
+                                            },
+                                        } as any)
+                                    }
+                                    style={styles.btn}
+                                >
+                                    <Text style={styles.btnText}>{btnText}</Text>
+                                    <AntDesign name="arrowright" size={24} color="white" />
+                                </TouchableOpacity>
+                            </View>
                         </View>
                     </View>
-                </View>
-            ))}
-        </View>
+
+                )
+            })
+            }
+        </View >
     );
 }
 

@@ -50,7 +50,10 @@ export default function AllEventsScreen() {
                 </View>
                 {events ? (
                     <ScrollView showsVerticalScrollIndicator={false}>
-                        <EventList data={events || []} btnText={t("")} />
+                        <EventList
+                            data={events || []}
+                            btnText={t("Ver")}
+                        />
                     </ScrollView>
                 ) : (
                     <EmptyState
@@ -59,7 +62,7 @@ export default function AllEventsScreen() {
                         text={t("Clique no botão flutuante para criar")}
                     />
                 )}
-                <ButtonCreate right={0} onPress={() => router.push("/host/(screens)/createEvent")} />
+                <ButtonCreate right={0} onPress={() => router.push("/host/createEvent")} />
             </View>
         </Container>
     )

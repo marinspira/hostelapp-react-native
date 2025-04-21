@@ -1,4 +1,4 @@
-export const formatDate = (dateString: string): string => {
+export const formatDate = (dateString: string) => {
   const date = new Date(dateString);
   const today = new Date();
 
@@ -13,19 +13,28 @@ export const formatDate = (dateString: string): string => {
   const time = `${hours}:${minutes}`;
 
   const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-  if (comparedDate.getTime() === currentDate.getTime()) {
-    return `Today at ${time}`;
-  }
-
-  if (comparedDate.getTime() === tomorrow.getTime()) {
-    return `Tomorrow at ${time}`;
-  }
-
-  const day = date.getDate().toString().padStart(2, '0');
-  const month = (date.getMonth() + 1).toString().padStart(2, '0');
-  const year = date.getFullYear();
   const weekday = weekdays[date.getDay()];
+  const day = date.getDate().toString().padStart(2, '0');
+  const month = months[date.getMonth()];
+  const year = date.getFullYear();
 
-  return `${weekday}, ${day}/${month} - ${time}h`;
+  const isToday = comparedDate.getTime() === currentDate.getTime();
+  const isTomorrow = comparedDate.getTime() === tomorrow.getTime();
+
+  return {
+    time,
+    weekday,
+    day,
+    month,
+    year,
+    isToday,
+    isTomorrow,
+    fullString: isToday
+      ? `Today at ${time}`
+      : isTomorrow
+      ? `Tomorrow at ${time}`
+      : `${weekday}, ${day} ${month} - ${time}h`,
+  };
 };

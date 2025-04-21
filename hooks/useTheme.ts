@@ -24,10 +24,10 @@ export const useTheme = () => {
       textTransform: 'uppercase',
       fontFamily: 'PoppinsBold'
     } as TextStyle,
-
+  
     title: {
       color: color.text,
-      fontSize: 25,
+      fontSize: 28,
       fontFamily: 'PoppinsBold'
     } as TextStyle,
 
