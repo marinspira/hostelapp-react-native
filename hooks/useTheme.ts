@@ -37,7 +37,13 @@ export const useTheme = () => {
       fontFamily: 'PoppinsBold',
     } as TextStyle,
 
-    subtitle: {
+    h2: {
+      color: color.text,
+      fontSize: 20,
+      fontFamily: 'PoppinsBold'
+    } as TextStyle,
+
+    h3: {
       color: color.text,
       fontSize: 18,
       fontFamily: 'PoppinsBold'

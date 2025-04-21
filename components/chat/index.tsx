@@ -113,7 +113,7 @@ export default function Chat({ participant, conversationId }: ChatProps) {
                                 }
                                 style={styles.profileImage}
                             />
-                            <Text style={dynamicStyles.subtitle}>{participant.name}</Text>
+                            <Text style={dynamicStyles.h3}>{participant.name}</Text>
                         </Pressable>
                     </View>
 

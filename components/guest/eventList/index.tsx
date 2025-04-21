@@ -52,8 +52,8 @@ function EventList({ data, btnText, title }: EventListProps) {
 
                         <View style={styles.content}>
                             <View style={styles.textContent}>
-                                <Text style={[dynamicStyles.title, { maxWidth: "70%" }]}>{item.name}</Text>
-                                <Text style={dynamicStyles.title}>€ {item.price === 0 ? t("Grátis") : item.price},00</Text>
+                                <Text style={[dynamicStyles.h2, { maxWidth: "70%" }]}>{item.name}</Text>
+                                <Text style={dynamicStyles.h2}>€ {item.price === 0 ? t("Grátis") : item.price},00</Text>
                             </View>
                             <Text style={[dynamicStyles.text, { fontSize: 14, marginBottom: 5 }]}>{fullString}</Text>
                             <View style={styles.content2}>

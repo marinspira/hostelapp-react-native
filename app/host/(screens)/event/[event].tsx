@@ -6,7 +6,7 @@ import { useTheme } from "@/hooks/useTheme";
 import { formatDate } from "@/utils/formatDate";
 import { useLocalSearchParams } from "expo-router";
 import { useTranslation } from "react-i18next";
-import { Image, StyleSheet, Text, useWindowDimensions, View } from "react-native";
+import { Image, ScrollView, StyleSheet, Text, useWindowDimensions, View } from "react-native";
 import Entypo from '@expo/vector-icons/Entypo';
 
 export default function EventScreen() {
@@ -24,7 +24,7 @@ export default function EventScreen() {
     }
     if (!loadedEvent) return <Text>Evento não encontrado</Text>;
 
-    const { time, day, weekday, year, month } = formatDate(loadedEvent.date);
+    const { time, day, year, month } = formatDate(loadedEvent.date);
 
     return (
         <Container scrollable={false}>
@@ -32,45 +32,47 @@ export default function EventScreen() {
                 <GoBackButton />
             </View>
 
-            <Image
-                source={
-                    loadedEvent?.img
-                        ? { uri: `${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/${loadedEvent.img}` }
-                        :
-                        require('@/assets/images/unnamed.png')
-                }
-                style={styles.img}
-            />
-            <Text style={[dynamicStyles.title, styles.title]}>{loadedEvent.name}</Text>
-            <Text style={[dynamicStyles.text]}>{loadedEvent.description}</Text>
+            <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
 
-            <ProfilesGroup people={loadedEvent.attendees} emptyText={t("Nenhuma inscrição")} />
+                <Image
+                    source={
+                        loadedEvent?.img
+                            ? { uri: `${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/${loadedEvent.img}` }
+                            :
+                            require('@/assets/images/unnamed.png')
+                    }
+                    style={styles.img}
+                />
+                <Text style={[dynamicStyles.title, styles.title]}>{loadedEvent.name}</Text>
+                <ProfilesGroup people={loadedEvent.attendees} emptyText={t("Nenhuma inscrição")} />
+                <Text style={[dynamicStyles.text]}>{loadedEvent.description}</Text>
 
-            <View style={styles.dateContainer}>
-                <View style={styles.icon}>
-                    <Entypo name="calendar" size={20} color="#000" />
+                <View style={styles.dateContainer}>
+                    <View style={styles.icon}>
+                        <Entypo name="calendar" size={20} color="#000" />
+                    </View>
+                    <View style={styles.dates}>
+                        <Text style={[styles.text]}>{`${month} ${day}, ${year}`}</Text>
+                        <Text style={[dynamicStyles.text]}>{`${time} - ${time}`}</Text>
+                    </View>
                 </View>
-                <View style={styles.dates}>
-                    <Text style={[styles.text]}>{`${month} ${day}, ${year}`}</Text>
-                    <Text style={[dynamicStyles.text]}>{`${time} - ${time}`}</Text>
+                <View style={styles.dateContainer}>
+                    <View style={styles.icon}>
+                        <Entypo name="location-pin" size={20} color="#000" />
+                    </View>
+                    {loadedEvent.zip && <View style={styles.dates}>
+                        <Text style={[styles.text]}>`${loadedEvent.street}`</Text>
+                        <Text style={[dynamicStyles.text]}>Abrir no mapa</Text>
+                    </View>}
                 </View>
-            </View>
-            <View style={styles.dateContainer}>
-                <View style={styles.icon}>
-                    <Entypo name="location-pin" size={20} color="#000" />
-                </View>
-                <View style={styles.dates}>
-                    <Text style={[styles.text]}>Rua Biguatinga, 37</Text>
-                    <Text style={[dynamicStyles.text]}>Abrir no mapa</Text>
-                </View>
-            </View>
 
-            <View style={styles.lastEventPhotos}>
-                <Text style={[dynamicStyles.subtitle]}>{t("Imagens do último evento")}</Text>
-            </View>
+                <View style={styles.lastEventPhotos}>
+                    <Text style={[dynamicStyles.h3]}>{t("Imagens do último evento")}</Text>
+                </View>
+            </ScrollView>
 
             <View style={[styles.bottomContainer, { width }]}>
-                <Text style={[dynamicStyles.subtitle, styles.price]}>£ {loadedEvent.price},00</Text>
+                <Text style={[dynamicStyles.h3, styles.price]}>£ {loadedEvent.price},00</Text>
                 <SimpleButton
                     text="Editar"
                     onPress=""
@@ -131,5 +133,8 @@ const styles = StyleSheet.create({
     },
     lastEventPhotos: {
         marginTop: 20
+    },
+    scroll:{
+        marginBottom: 70,
     }
 })

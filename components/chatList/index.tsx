@@ -54,7 +54,7 @@ export default function ChatList({ conversations }: ChatListProps) {
                         style={styles.img}
                     />
                     <View style={{ flex: 1 }}>
-                        <Text style={dynamicStyles.subtitle}>{chat.participant.name}</Text>
+                        <Text style={dynamicStyles.h3}>{chat.participant.name}</Text>
                         <Text>{chat.lastMessage.text}</Text>
                     </View>
                     {/* {chat.unreadMessages && <Text style={styles.unread}>{chat.unreadMessages}</Text>} */}

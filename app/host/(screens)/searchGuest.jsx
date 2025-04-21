@@ -71,7 +71,7 @@ export default function SearchGuest() {
                                     }
                                 />
                                 <View style={styles.username}>
-                                    <Text style={dynamicStyles.subtitle}>{guest.name}</Text>
+                                    <Text style={dynamicStyles.h3}>{guest.name}</Text>
                                     {guest.username && <Text style={dynamicStyles.text}>{guest.username}</Text>}
                                 </View>
                             </TouchableOpacity>

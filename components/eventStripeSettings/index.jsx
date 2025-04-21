@@ -10,7 +10,7 @@ export default function EventStripeSettings() {
     // TODO: deixar as taxas dinamicas de acordo com os paises e moedas
     return (
         <View style={{ gap: 5, marginBottom: 20 }}>
-            <Text style={dynamicStyles.subtitle}> {t("Como funciona:")}</Text>
+            <Text style={dynamicStyles.h3}> {t("Como funciona:")}</Text>
             <Text style={dynamicStyles.text}>1. O hóspede vê seu evento no app.</Text>
             <Text style={dynamicStyles.text}>2. Ele paga com Apple Pay ou cartão, direto pelo celular.</Text>
             <Text style={dynamicStyles.text}>3. O dinheiro vai direto para sua conta Stripe.</Text>

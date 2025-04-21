@@ -9,7 +9,7 @@ import { router } from "expo-router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import EmptyScreenImage from "@/assets/images/illustrations/undraw/undraw_dog_jfxm.svg"
-import { ScrollView, Text, useWindowDimensions, View } from "react-native";
+import { ActivityIndicator, ScrollView, Text, useWindowDimensions, View } from "react-native";
 import { showToast } from "@/components/toast";
 
 export default function AllEventsScreen() {
@@ -48,7 +48,9 @@ export default function AllEventsScreen() {
                     <GoBackButton />
                     <Text style={dynamicStyles.textUppercase}>Events</Text>
                 </View>
-                {events ? (
+                {isPending ? (
+                    <ActivityIndicator size="large" color="#6c63ff" />
+                ) : events ? (
                     <ScrollView showsVerticalScrollIndicator={false}>
                         <EventList
                             data={events || []}
