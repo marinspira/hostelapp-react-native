@@ -4,7 +4,12 @@
     "slug": "mobile",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/logo/hostelapp.png",
+    "splash": {
+      "backgroundColor": "#7f5de7",
+      "resizeMode": "contain",
+      "image": "./assets/images/logo/hostelapp.png"
+    },
     "scheme": "hostelapp",
     "deepLinking": true,
     "platforms": ["android", "ios"],
