@@ -3,9 +3,9 @@ import Menu from '@/src/components/menu';
 
 const tabIcons = {
   settings: 'user',
-  volunteers: 'team',
+  // volunteers: 'team',
   index: 'home',
-  notifications: 'bells',
+  // notifications: 'bells',
   chat: 'message1',
 };
 

@@ -16,13 +16,15 @@ import { useFormatDate } from '@/src/hooks/useFormateDate';
 import { logout } from '@/src/redux/slices/user';
 import { AppDispatch, RootState } from '@/src/redux/store';
 import { showToast } from '@/src/components/toast';
-import { handleUploadGuestImages } from '@/src/services/guest/uploadProfileImages';
+import { useUploadGuestImages } from '@/src/services/guest/uploadProfileImages';
 
 export default function Checkin() {
   const { t } = useTranslation();
   const user = useSelector((state: RootState) => state.user.data);
   const guest = useSelector((state: RootState) => state.guest.data);
   const dispatch = useDispatch<AppDispatch>();
+
+  const handleUploadGuestImages = useUploadGuestImages();
 
   const [isTooYoung, setIsTooYoung] = useState(false);
 

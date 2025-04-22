@@ -2,9 +2,9 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Guest, updateGuestFieldPayload } from "../../interfaces/guest";
 import { RootState } from "@/src/redux/store";
 import { router } from "expo-router";
-import { BackendResponse } from "../../interfaces/guest";
 import useAddMainDomain from "@/src/hooks/useAddMainDomain";
 import { resetAppState } from "@/src/redux/globalActions";
+import { BackendResponse } from "@/src/interfaces/backendResponse";
 
 const initialState = {
     data: {

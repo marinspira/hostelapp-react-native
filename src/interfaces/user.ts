@@ -10,9 +10,3 @@ export interface UserState {
     loading: boolean;
     error: string | null;
 }
-
-export interface BackendResponse {
-    success: boolean;
-    data: User;
-    message: string;
-}

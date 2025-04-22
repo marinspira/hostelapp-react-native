@@ -27,8 +27,3 @@ export interface GuestState {
     error: string | null;
 }
 
-export interface BackendResponse {
-    success: boolean;
-    data: any;
-    message: string;
-}

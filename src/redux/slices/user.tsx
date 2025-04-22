@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { BackendResponse, User, UserState } from '../../interfaces/user';
+import { User, UserState } from '../../interfaces/user';
 import { router } from 'expo-router';
 import { showToast } from '@/src/components/toast';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -7,6 +7,7 @@ import { persistStore } from 'redux-persist';
 import { AppDispatch, persistor, store } from '@/src/redux/store';
 import { resetAppState } from '@/src/redux/globalActions';
 import { useDispatch } from 'react-redux';
+import { BackendResponse } from '@/src/interfaces/backendResponse';
 
 const initialState: UserState = {
   data: null,

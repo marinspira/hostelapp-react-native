@@ -1,4 +1,4 @@
-import { Address } from "@/src/services/hostel/interface";
+import { Address } from "@/src/interfaces/hostel";
 
 export async function findAddressByZip(zipcode: string): Promise<Address | null> {
   if (!zipcode) return null;

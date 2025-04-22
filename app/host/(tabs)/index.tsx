@@ -1,6 +1,6 @@
-import { StyleSheet, View, ScrollView, Text } from 'react-native';
+import { StyleSheet, View, ScrollView, Text, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { User } from '@/src/interfaces/user';
 import { useTranslation } from 'react-i18next';
 import '@/assets/translations/i18n'
@@ -14,53 +14,24 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Colors } from '@/src/constants/Colors';
 import { StatusBar } from 'expo-status-bar';
 import { useTheme } from '@/src/hooks/useTheme';
+import { AppDispatch } from '@/src/redux/store';
+import { getHostel } from '@/src/redux/slices/hostel';
+import { useEffect } from 'react';
 
 export default function HostHomeScreen() {
 
-  const { t, i18n } = useTranslation();
-
-  const user = useSelector((state: { user: User }) => state.user)
-
-  type Person = {
-    avatar: string;
-  };
-
-  type Event = {
-    img: string;
-    name: string;
-    people: Person[];
-    imgs: string[];
-    date: string;
-  };
-
-  const events: Event[] = [
-    {
-      img: '',
-      name: 'Aula de surf',
-      people: [
-        { avatar: profileDefault },
-        { avatar: profileDefault },
-        { avatar: profileDefault },
-        { avatar: profileDefault },
-      ],
-      imgs: [defaultImg, defaultImg],
-      date: 'HOJE',
-    },
-    {
-      img: '',
-      name: 'Aula de surf',
-      people: [
-        { avatar: profileDefault },
-        { avatar: profileDefault },
-        { avatar: profileDefault },
-        { avatar: profileDefault },
-      ],
-      imgs: [defaultImg, defaultImg],
-      date: 'HOJE'
-    },
-  ]
-
+  const { t } = useTranslation();
   const dynamicStyles = useTheme()
+  const user = useSelector((state: { user: User }) => state.user)
+  const dispatch = useDispatch<AppDispatch>()
+
+  const fetchHostel = async () => {
+    const result = await dispatch(getHostel())
+  }
+
+  useEffect(() => {
+    fetchHostel()
+  }, [])
 
   return (
     <SafeAreaView style={{ backgroundColor: Colors.light.tint, flex: 1 }}>
@@ -74,6 +45,9 @@ export default function HostHomeScreen() {
               onPress={() => router.push('/host/(screens)/searchGuest')}
             />
           </View>
+          <Pressable onPress={fetchHostel}>
+            <Text>aqui</Text>
+          </Pressable>
         </ScrollView>
         <ButtonCreate
           bottom={170}

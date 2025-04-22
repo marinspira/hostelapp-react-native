@@ -1,4 +1,11 @@
 import { User } from "@/src/interfaces/user";
+import { Room } from "@/src/interfaces/room";
+import { Position } from "@/src/interfaces/position";
+
+interface Bed {
+    bed_number: string;
+    reservation_id: string | null;
+}
 
 export interface Address {
   street: string;

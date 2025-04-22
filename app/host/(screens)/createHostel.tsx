@@ -8,30 +8,21 @@ import countries from '@/src/utils/coutries'
 import Container from '@/src/components/container';
 import InputCheckbox from '@/src/components/inputs/inputCheckbox';
 import SelectItens from '@/src/components/inputs/selectItens';
-import { useCreateHostel } from '@/src/services/hostel/createHostel';
 import { ActivityIndicator, Text } from 'react-native';
-import { Hostel } from '@/src/services/hostel/interface';
+import { Hostel } from '@/src/interfaces/hostel';
 import InputSelect from '@/src/components/inputs/inputSelect';
 import { router } from 'expo-router';
 import { updateUserField } from '@/src/redux/slices/user';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/src/redux/store';
+import { createHostel } from '@/src/redux/slices/hostel';
 
 export default function CreateHostel() {
 
   const { t } = useTranslation();
 
-  const [hostelData, setHostelData] = useState<Hostel>({
-    name: '',
-    phone: '',
-    email: '',
-    website: '',
-    experience_with_volunteers: null,
-    street: '',
-    city: '',
-    country: '',
-    zip: '',
-  });
+  const [hostelData, setHostelData] = useState<Hostel>({} as Hostel);
+  const { loading: isPending, error } = useSelector((state: RootState) => state.hostel);
 
   const [image, setImage] = useState()
 
@@ -135,22 +126,18 @@ export default function CreateHostel() {
     },
   ];
 
-  const user = useSelector((state: RootState) => state.user.data);
   const dispatch = useDispatch<AppDispatch>();
-
-  const { mutateAsync: createHostelMutation, isPending, error } = useCreateHostel();
 
   const sendForm = async (): Promise<void> => {
     try {
-      const response = await createHostelMutation({ hostelData, image });
+      const response = await dispatch(createHostel({ hostelData, image })).unwrap();
 
       if (response.success) {
         dispatch(updateUserField({ key: 'isNewUser', value: false }));
-        console.log(user)
       }
 
-      console.log('Hostel criado:', response);
       router.push('/host/(screens)/waitingApproval');
+
     } catch (err) {
       console.error('Erro ao criar hostel:', err);
     }
@@ -165,7 +152,7 @@ export default function CreateHostel() {
         sendBtnText={t("Criar hostel")}
       />
       {isPending && <ActivityIndicator size="large" color="#6c63ff" />}
-      {error instanceof Error && <Text style={{ color: 'red' }}>{error.message}</Text>}
+      {error && <Text style={{ color: 'red' }}>{error}</Text>}
     </Container>
   );
 }

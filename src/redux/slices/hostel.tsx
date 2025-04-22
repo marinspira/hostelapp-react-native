@@ -1,36 +1,97 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { resetAppState } from '@/src/redux/globalActions';
-
-export interface Hostel {
-    firstPhoto: string;
-    name: string;
-    userId: string;
-}
+import { BackendResponse } from '@/src/interfaces/backendResponse';
+import { Hostel } from '@/src/interfaces/hostel';
+import useAddMainDomain from '@/src/hooks/useAddMainDomain';
 
 const initialState = {
-    data: [] as Hostel[],
+    data: {} as Hostel,
     loading: false,
     error: null as string | null,
 };
 
-export const createHostel = createAsyncThunk<Hostel[], void, { rejectValue: string }>(
-    'createHostel/hostel',
+export const getHostel = createAsyncThunk<BackendResponse, void, { rejectValue: string }>(
+    'getHostel/hostel',
     async (_, { rejectWithValue }) => {
         try {
-            const response = await fetch(`${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/api/hostel/create`, {
+            const result = await fetch(`${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/api/hostel/get`, {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
             });
 
-            const result = await response.json();
-            const guests = result.data;
-
-            if (!response.ok) {
-                throw new Error(result.message || 'Error getting guests');
+            if (!result.ok) {
+                const errorDetails = await result.json();
+                console.error("Error:", errorDetails.error);
+                throw new Error('Failed to get guest data');
             }
 
-            return guests as Hostel[];
+            const response = await result.json()
+
+            const logo = `${process.env.EXPO_PUBLIC_SERVER_ADDRESS}${response.data.logo}`
+
+            return {
+                success: response.success,
+                message: response.message,
+                data: {
+                    ...response.data,
+                    logo
+                },
+            } as BackendResponse
+
+        } catch (error: any) {
+            console.error('Error in getHostel Slice:', error);
+            return rejectWithValue(error.message || 'Unknown error');
+        }
+    }
+)
+
+export const createHostel = createAsyncThunk<BackendResponse, { hostelData: Hostel, image: any }, { rejectValue: string }>(
+    'createHostel/hostel',
+    async ({ hostelData, image }, { rejectWithValue }) => {
+        const formData = new FormData();
+
+        const appendToFormData = (data: Record<string, any>, prefix: string) => {
+            for (const [key, value] of Object.entries(data)) {
+                if (value === null || value === undefined) continue;
+
+                const formattedKey = `${prefix}[${key}]`;
+
+                if (typeof value === "boolean" || typeof value === "number") {
+                    formData.append(formattedKey, value.toString());
+                } else if (value instanceof Date) {
+                    formData.append(formattedKey, value.toISOString());
+                } else if (Array.isArray(value)) {
+                    value.forEach((v) => formData.append(`${formattedKey}[]`, v));
+                } else {
+                    formData.append(formattedKey, value);
+                }
+            }
+        };
+        appendToFormData(hostelData, 'hostel');
+
+        if (image instanceof FormData) {
+            for (const [key, value] of image.entries()) {
+                formData.append(key, value);
+            }
+        }
+
+        try {
+            const result = await fetch(`${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/api/hostel/create`, {
+                method: 'POST',
+                headers: {},
+                credentials: 'include',
+                body: formData
+            });
+
+            const response = await result.json();
+
+            if (!result.ok) {
+                throw new Error(response.message || 'Erro ao criar hostel');
+            }
+
+            return response as BackendResponse
+
         } catch (error: any) {
             console.error('Error in fetchHostel:', error);
             return rejectWithValue(error.message || 'Unknown error');
@@ -52,7 +113,7 @@ const hostelSlice = createSlice({
             })
             .addCase(createHostel.fulfilled, (state, action) => {
                 state.loading = false;
-                state.data = action.payload;
+                state.data = action.payload.data as Hostel;
             })
             .addCase(createHostel.rejected, (state, action) => {
                 state.loading = false;
