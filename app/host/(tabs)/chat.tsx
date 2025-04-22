@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import ChatList from '@/components/chatList'
-import Container from '@/components/container';
-import ProfileCircles from '@/components/profileCircles'
+import ChatList from '@/src/components/chatList'
+import Container from '@/src/components/container';
+import ProfileCircles from '@/src/components/profileCircles'
 import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native';
-import { showToast } from '@/components/toast';
+import { showToast } from '@/src/components/toast';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '@/redux/store';
-import { getAllGuests, HostelGuests } from '@/redux/slices/hostelGuests/slice';
-import { useGetAllConversations } from '@/services/chat/getAllConversations';
+import { AppDispatch, RootState } from '@/src/redux/store';
+import { getAllGuests, HostelGuests } from '@/src/redux/slices/hostelGuests';
+import { useGetAllConversations } from '@/src/services/chat/getAllConversations';
 
 interface Guest {
   userId: string;

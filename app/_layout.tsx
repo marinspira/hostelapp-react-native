@@ -6,7 +6,7 @@ import { Poppins_400Regular, Poppins_700Bold } from '@expo-google-fonts/poppins'
 import { useEffect } from 'react';
 import 'react-native-reanimated';
 import { Provider } from 'react-redux';
-import { store, persistor } from '@/redux/store'
+import { store, persistor } from '@/src/redux/store'
 import Toast from 'react-native-toast-message';
 import { PersistGate } from 'redux-persist/integration/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';

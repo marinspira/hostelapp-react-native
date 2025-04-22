@@ -1,23 +1,23 @@
-import ButtonCreate from "@/components/buttons/ButtonCreate";
-import Container from "@/components/container";
-import EmptyState from "@/components/emptyState";
-import GoBackButton from "@/components/goBackButton";
-import EventList from "@/components/guest/eventList";
-import { useTheme } from "@/hooks/useTheme";
-import { useGetAllEvents } from "@/services/hostel/getAllEvents";
+import ButtonCreate from "@/src/components/buttons/ButtonCreate";
+import Container from "@/src/components/container";
+import EmptyState from "@/src/components/emptyState";
+import GoBackButton from "@/src/components/goBackButton";
+import EventList, { EventData } from "@/src/components/guest/eventList";
+import { useTheme } from "@/src/hooks/useTheme";
+import { useGetAllEvents } from "@/src/services/hostel/getAllEvents";
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import EmptyScreenImage from "@/assets/images/illustrations/undraw/undraw_dog_jfxm.svg"
 import { ActivityIndicator, ScrollView, Text, useWindowDimensions, View } from "react-native";
-import { showToast } from "@/components/toast";
+import { showToast } from "@/src/components/toast";
 
 export default function AllEventsScreen() {
 
     const { mutateAsync: getAllEventsMutation, isPending, error } = useGetAllEvents();
     const { t } = useTranslation()
     const { height } = useWindowDimensions()
-    const [events, setEvents] = useState()
+    const [events, setEvents] = useState<EventData[] | null>(null)
     const dynamicStyles = useTheme()
 
     useEffect(() => {
@@ -50,7 +50,7 @@ export default function AllEventsScreen() {
                 </View>
                 {isPending ? (
                     <ActivityIndicator size="large" color="#6c63ff" />
-                ) : events ? (
+                ) : events && events.length > 0 ? (
                     <ScrollView showsVerticalScrollIndicator={false}>
                         <EventList
                             data={events || []}

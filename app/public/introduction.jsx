@@ -11,10 +11,10 @@ import HostImg3 from '@/assets/images/illustrations/undraw/todo.svg'
 import HostImg4 from '@/assets/images/illustrations/undraw/talking.svg'
 import { useTranslation } from 'react-i18next';
 import '@/assets/translations/i18n'
-import Slide from "@/components/slide";
-import IntroductionItems from "@/components/introductionItems";
-import SimpleButton from '@/components/buttons/SimpleButton'
-import { Colors } from '@/constants/Colors'
+import Slide from "@/src/components/slide";
+import IntroductionItems from "@/src/components/introductionItems";
+import SimpleButton from '@/src/components/buttons/SimpleButton'
+import { Colors } from '@/src/constants/Colors'
 
 function IntroductionScreen() {
     const { role } = useLocalSearchParams();

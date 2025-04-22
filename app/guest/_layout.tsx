@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { router, Stack } from 'expo-router';
 import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
-import { showToast } from '@/components/toast';
+import { RootState } from '@/src/redux/store';
+import { showToast } from '@/src/components/toast';
 
 export default function GuestLayout() {
   const user = useSelector((state: RootState) => state.user.data);

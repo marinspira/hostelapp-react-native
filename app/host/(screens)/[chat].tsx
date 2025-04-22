@@ -1,5 +1,5 @@
 import { useLocalSearchParams } from 'expo-router';
-import Chat from '@/components/chat';
+import Chat from '@/src/components/chat';
 
 export default function ChatScreen() {
 

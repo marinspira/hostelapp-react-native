@@ -1,13 +1,13 @@
 import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useEffect, useRef, useState } from 'react';
-import { useGetNewGuest } from '@/services/hostel/getNewGuest';
-import { useTheme } from '@/hooks/useTheme';
-import InputSearch from '@/components/inputs/inputSearch'
-import Container from '@/components/container'
-import GoBackButton from '@/components/goBackButton'
+import { useGetNewGuest } from '@/src/services/hostel/getNewGuest';
+import { useTheme } from '@/src/hooks/useTheme';
+import InputSearch from '@/src/components/inputs/inputSearch'
+import Container from '@/src/components/container'
+import GoBackButton from '@/src/components/goBackButton'
 import Img from '@/assets/images/illustrations/undraw/travellers.svg'
-import PopUp from '@/components/modal';
-import AddGuest from '@/components/modaisContent/addGuest';
+import PopUp from '@/src/components/modal';
+import AddGuest from '@/src/components/modaisContent/addGuest';
 
 export default function SearchGuest() {
     const [guests, setGuests] = useState([])

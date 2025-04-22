@@ -1,15 +1,15 @@
 import { View, Text, StyleSheet, Platform } from 'react-native'
 import React from 'react'
 import { router, useLocalSearchParams } from 'expo-router';
-import SimpleButton from '@/components/buttons/SimpleButton'
+import SimpleButton from '@/src/components/buttons/SimpleButton'
 import Logo from '@/assets/images/illustrations/undraw/cabin.svg'
 import { useTranslation } from 'react-i18next';
 import '@/assets/translations/i18n'
-import { Colors } from '@/constants/Colors'
-import IOSAuthentication from '@/components/authentication/apple';
+import { Colors } from '@/src/constants/Colors'
+import IOSAuthentication from '@/src/components/authentication/apple';
 import { StatusBar } from 'expo-status-bar';
-import GoogleAuthentication from '@/components/authentication/google';
-import LocalhostLogin from '../../components/authentication/localhost';
+import GoogleAuthentication from '@/src/components/authentication/google';
+import LocalhostLogin from '@/src/components/authentication/localhost';
 
 function LoginScreen() {
 

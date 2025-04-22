@@ -1,22 +1,22 @@
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import FormUser from '@/components/guest/formGuest';
+import FormUser from '@/src/components/guest/formGuest';
 import { useTranslation } from 'react-i18next';
 import '@/assets/translations/i18n';
-import SimpleButton from '@/components/buttons/SimpleButton';
-import InputDate from '@/components/inputs/inputDate';
+import SimpleButton from '@/src/components/buttons/SimpleButton';
+import InputDate from '@/src/components/inputs/inputDate';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateUserField } from '@/redux/slices/user/slice';
-import { saveGuest, updateGuestField, uploadGuestImage } from '@/redux/slices/guest/slice';
+import { updateUserField } from '@/src/redux/slices/user';
+import { saveGuest, updateGuestField, uploadGuestImage } from '@/src/redux/slices/guest';
 import { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
-import InputImage from '@/components/inputs/inputImage';
-import InputCheckbox from '@/components/inputs/inputCheckbox';
-import { useFormatDate } from '@/hooks/useFormateDate';
-import { logout } from '@/redux/slices/user/slice';
-import { AppDispatch, RootState } from '@/redux/store';
-import { showToast } from '@/components/toast';
-import { handleUploadGuestImages } from '@/services/guest/uploadProfileImages';
+import InputImage from '@/src/components/inputs/inputImage';
+import InputCheckbox from '@/src/components/inputs/inputCheckbox';
+import { useFormatDate } from '@/src/hooks/useFormateDate';
+import { logout } from '@/src/redux/slices/user';
+import { AppDispatch, RootState } from '@/src/redux/store';
+import { showToast } from '@/src/components/toast';
+import { handleUploadGuestImages } from '@/src/services/guest/uploadProfileImages';
 
 export default function Checkin() {
   const { t } = useTranslation();

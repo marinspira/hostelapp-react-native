@@ -1,8 +1,8 @@
 import { Redirect } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '@/redux/store';
-import { isAuthenticated } from '@/redux/slices/user/slice';
+import { AppDispatch, RootState } from '@/src/redux/store';
+import { isAuthenticated } from '@/src/redux/slices/user';
 import StorybookUI from "../storybook";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useQueryClient } from '@tanstack/react-query';

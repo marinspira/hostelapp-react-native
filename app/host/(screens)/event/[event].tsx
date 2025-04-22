@@ -1,9 +1,9 @@
-import SimpleButton from "@/components/buttons/SimpleButton";
-import Container from "@/components/container";
-import GoBackButton from "@/components/goBackButton";
-import ProfilesGroup from "@/components/guest/profilesGroup";
-import { useTheme } from "@/hooks/useTheme";
-import { formatDate } from "@/utils/formatDate";
+import SimpleButton from "@/src/components/buttons/SimpleButton";
+import Container from "@/src/components/container";
+import GoBackButton from "@/src/components/goBackButton";
+import ProfilesGroup from "@/src/components/guest/profilesGroup";
+import { useTheme } from "@/src/hooks/useTheme";
+import { formatDate } from "@/src/utils/formatDate";
 import { useLocalSearchParams } from "expo-router";
 import { useTranslation } from "react-i18next";
 import { Image, ScrollView, StyleSheet, Text, useWindowDimensions, View } from "react-native";

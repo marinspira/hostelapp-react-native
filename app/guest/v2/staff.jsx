@@ -1,9 +1,9 @@
 import React from 'react'
 import { Text, View } from 'react-native'
 import profileDefault from '@/assets/images/unnamed.png'
-import EventList from '@/components/guest/eventList'
-import { useTheme } from '@/hooks/useTheme';
-import Container from '@/components/container'
+import EventList from '@/src/components/guest/eventList'
+import { useTheme } from '@/src/hooks/useTheme';
+import Container from '@/src/components/container'
 
 export default function Staff() {
 

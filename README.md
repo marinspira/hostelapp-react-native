@@ -39,7 +39,7 @@ Estrutura
 O arquivo principal do hook, useThemeColors.ts, contém a lógica para acessar o estado global do tema e retornar os estilos baseados em Colors.
 
 Definição do Hook
-   [`@/hooks/useThemeColors.ts`]
+   [`@/src/hooks/useThemeColors.ts`]
 
 ## Como Usar o Hook
 1. Importar o Hook

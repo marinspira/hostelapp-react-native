@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import Trip from '@/assets/images/illustrations/vacations.svg';
-import ButtonWithIcon from '@/components/buttons/ButtonWithIcon';
-import { Colors } from '@/constants/Colors';
+import ButtonWithIcon from '@/src/components/buttons/ButtonWithIcon';
+import { Colors } from '@/src/constants/Colors';
 import { useTranslation } from 'react-i18next';
 import '@/assets/translations/i18n'
 import AntDesign from '@expo/vector-icons/AntDesign';

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { router, Stack } from 'expo-router';
 import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
+import { RootState } from '@/src/redux/store';
 
 export default function HostLayout() {
   const user = useSelector((state: RootState) => state.user.data);

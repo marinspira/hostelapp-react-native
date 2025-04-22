@@ -1,18 +1,21 @@
-import MultiStepForm from '@/components/multiStepForm';
-import Input from '@/components/inputs/input';
-import InputImage from '@/components/inputs/inputImage';
-import InputPhone from '@/components/inputs/inputPhone';
+import MultiStepForm from '@/src/components/multiStepForm';
+import Input from '@/src/components/inputs/input';
+import InputImage from '@/src/components/inputs/inputImage';
+import InputPhone from '@/src/components/inputs/inputPhone';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import countries from '@/utils/coutries'
-import Container from '@/components/container';
-import InputCheckbox from '@/components/inputs/inputCheckbox';
-import SelectItens from '@/components/inputs/selectItens';
-import { useCreateHostel } from '@/services/hostel/createHostel';
+import countries from '@/src/utils/coutries'
+import Container from '@/src/components/container';
+import InputCheckbox from '@/src/components/inputs/inputCheckbox';
+import SelectItens from '@/src/components/inputs/selectItens';
+import { useCreateHostel } from '@/src/services/hostel/createHostel';
 import { ActivityIndicator, Text } from 'react-native';
-import { Hostel } from '@/services/hostel/interface';
-import InputSelect from '@/components/inputs/inputSelect';
+import { Hostel } from '@/src/services/hostel/interface';
+import InputSelect from '@/src/components/inputs/inputSelect';
 import { router } from 'expo-router';
+import { updateUserField } from '@/src/redux/slices/user';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '@/src/redux/store';
 
 export default function CreateHostel() {
 
@@ -132,13 +135,22 @@ export default function CreateHostel() {
     },
   ];
 
+  const user = useSelector((state: RootState) => state.user.data);
+  const dispatch = useDispatch<AppDispatch>();
+
   const { mutateAsync: createHostelMutation, isPending, error } = useCreateHostel();
 
   const sendForm = async (): Promise<void> => {
     try {
-      const response = await createHostelMutation({hostelData, image});
-      // console.log('Hostel criado:', response);
-      // router.push('/host/(screens)/waitingApproval');
+      const response = await createHostelMutation({ hostelData, image });
+
+      if (response.success) {
+        dispatch(updateUserField({ key: 'isNewUser', value: false }));
+        console.log(user)
+      }
+
+      console.log('Hostel criado:', response);
+      router.push('/host/(screens)/waitingApproval');
     } catch (err) {
       console.error('Erro ao criar hostel:', err);
     }
@@ -146,11 +158,11 @@ export default function CreateHostel() {
 
   return (
     <Container scrollable={false}>
-      <MultiStepForm 
-      steps={steps} 
-      sendForm={sendForm} 
-      value={hostelData} setValue={setHostelData} 
-      sendBtnText={t("Criar hostel")}
+      <MultiStepForm
+        steps={steps}
+        sendForm={sendForm}
+        value={hostelData} setValue={setHostelData}
+        sendBtnText={t("Criar hostel")}
       />
       {isPending && <ActivityIndicator size="large" color="#6c63ff" />}
       {error instanceof Error && <Text style={{ color: 'red' }}>{error.message}</Text>}

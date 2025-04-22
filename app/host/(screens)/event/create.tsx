@@ -1,14 +1,14 @@
-import Container from "@/components/container";
-import Input from "@/components/inputs/input";
-import InputDate from "@/components/inputs/inputDate";
-import InputImage from "@/components/inputs/inputImage";
-import SelectItens from "@/components/inputs/selectItens";
-import MultiStepForm from "@/components/multiStepForm";
+import Container from "@/src/components/container";
+import Input from "@/src/components/inputs/input";
+import InputDate from "@/src/components/inputs/inputDate";
+import InputImage from "@/src/components/inputs/inputImage";
+import SelectItens from "@/src/components/inputs/selectItens";
+import MultiStepForm from "@/src/components/multiStepForm";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import EventStripeSettings from "@/components/eventStripeSettings"
-import { createStripeAccount } from "@/services/hostel/createStripeAccount";
-import { createEvent } from "@/services/hostel/createEvent";
+import EventStripeSettings from "@/src/components/eventStripeSettings"
+import { createStripeAccount } from "@/src/services/hostel/createStripeAccount";
+import { createEvent } from "@/src/services/hostel/createEvent";
 import { router } from "expo-router";
 
 export interface Event {

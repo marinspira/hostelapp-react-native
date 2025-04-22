@@ -1,20 +1,20 @@
-import Container from "@/components/container";
-import GoBackButton from "@/components/goBackButton";
-import { useTheme } from "@/hooks/useTheme";
+import Container from "@/src/components/container";
+import GoBackButton from "@/src/components/goBackButton";
+import { useTheme } from "@/src/hooks/useTheme";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, ScrollView, StyleSheet, Text, useWindowDimensions, View } from "react-native";
-import ButtonCreate from '@/components/buttons/ButtonCreate'
+import ButtonCreate from '@/src/components/buttons/ButtonCreate'
 import defaultImg from '@/assets/images/unnamed.png';
-import ProfilesGroup from "@/components/guest/profilesGroup";
-import { Colors } from "@/constants/Colors";
+import ProfilesGroup from "@/src/components/guest/profilesGroup";
+import { Colors } from "@/src/constants/Colors";
 import EmptyScreenImage from "@/assets/images/illustrations/undraw/undraw_dog_jfxm.svg"
-import PopUp from "@/components/modal";
-import CreateRoomModal from "@/components/modaisContent/createRoom"
+import PopUp from "@/src/components/modal";
+import CreateRoomModal from "@/src/components/modaisContent/createRoom"
 import { useTranslation } from "react-i18next";
-import ButtonOptions from "@/components/buttons/ButtonOptions"
-import { useGetAllRooms } from "@/services/hostel/getRooms";
-import { showToast } from "@/components/toast";
-import EmptyState from "@/components/emptyState"
+import ButtonOptions from "@/src/components/buttons/ButtonOptions"
+import { useGetAllRooms } from "@/src/services/hostel/getRooms";
+import { showToast } from "@/src/components/toast";
+import EmptyState from "@/src/components/emptyState"
 
 export default function RoomsScreen() {
     const [isModalVisible, setIsModalVisible] = useState(false);

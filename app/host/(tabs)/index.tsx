@@ -1,19 +1,19 @@
 import { StyleSheet, View, ScrollView, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSelector } from 'react-redux';
-import { User } from '@/redux/slices/user/interfaces';
+import { User } from '@/src/interfaces/user';
 import { useTranslation } from 'react-i18next';
 import '@/assets/translations/i18n'
 import defaultImg from '@/assets/images/unnamed.png';
 import profileDefault from '@/assets/images/unnamed.png'
-import InputSearch from '@/components/inputs/inputSearch';
+import InputSearch from '@/src/components/inputs/inputSearch';
 import { router } from 'expo-router';
-import ButtonCreate from '@/components/buttons/ButtonCreate';
+import ButtonCreate from '@/src/components/buttons/ButtonCreate';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Colors } from '@/constants/Colors';
+import { Colors } from '@/src/constants/Colors';
 import { StatusBar } from 'expo-status-bar';
-import { useTheme } from '@/hooks/useTheme';
+import { useTheme } from '@/src/hooks/useTheme';
 
 export default function HostHomeScreen() {
 

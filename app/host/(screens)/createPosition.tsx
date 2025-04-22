@@ -1,14 +1,14 @@
-import Container from "@/components/container";
-import Input from "@/components/inputs/input";
-import InputCheckbox from "@/components/inputs/inputCheckbox";
-import InputImage from "@/components/inputs/inputImage";
-import InputPhone from "@/components/inputs/inputPhone";
-import InputSelect from "@/components/inputs/inputSelect";
-import SelectItens from "@/components/inputs/selectItens";
+import Container from "@/src/components/container";
+import Input from "@/src/components/inputs/input";
+import InputCheckbox from "@/src/components/inputs/inputCheckbox";
+import InputImage from "@/src/components/inputs/inputImage";
+import InputPhone from "@/src/components/inputs/inputPhone";
+import InputSelect from "@/src/components/inputs/inputSelect";
+import SelectItens from "@/src/components/inputs/selectItens";
 import { useTranslation } from "react-i18next";
 import { ActivityIndicator, Text, View } from "react-native";
-import countries from '@/utils/coutries'
-import MultiStepForm from "@/components/multiStepForm";
+import countries from '@/src/utils/coutries'
+import MultiStepForm from "@/src/components/multiStepForm";
 import { useState } from "react";
 
 export default function CreatePosition() {

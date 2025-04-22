@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import ChatList from '@/components/chatList'
-import Container from '@/components/container';
+import ChatList from '@/src/components/chatList'
+import Container from '@/src/components/container';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { AppDispatch } from '@/redux/store';
-import { useGetAllConversations } from '@/services/chat/getAllConversations';
-import EmptyState from '@/components/emptyState';
+import { AppDispatch } from '@/src/redux/store';
+import { useGetAllConversations } from '@/src/services/chat/getAllConversations';
+import EmptyState from '@/src/components/emptyState';
 import EmptyScreenImage from "@/assets/images/illustrations/undraw/undraw_dog_jfxm.svg"
 
 export default function Chat() {

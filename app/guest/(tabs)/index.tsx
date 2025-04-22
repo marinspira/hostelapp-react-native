@@ -1,19 +1,19 @@
-import EventList from '@/components/guest/eventList'
-import ProfilesSlide from '@/components/guest/profilesLikes'
+import EventList from '@/src/components/guest/eventList'
+import ProfilesSlide from '@/src/components/guest/profilesLikes'
 import profileDefault from '@/assets/images/unnamed.png'
-import Greetings from '@/components/greetings'
+import Greetings from '@/src/components/greetings'
 import { useSelector } from 'react-redux';
-import { UserState } from '@/redux/slices/user/interfaces';
+import { UserState } from '@/src/interfaces/user';
 import { useTranslation } from 'react-i18next';
 import '@/assets/translations/i18n'
-import { useTheme } from '@/hooks/useTheme';
-import ThemeSwitch from '@/components/themeSwitch';
-import Container from '@/components/container';
+import { useTheme } from '@/src/hooks/useTheme';
+import ThemeSwitch from '@/src/components/themeSwitch';
+import Container from '@/src/components/container';
 import defaultImg from '@/assets/images/unnamed.png';
-import { useGetHome } from '@/services/guest/getHome';
+import { useGetHome } from '@/src/services/guest/getHome';
 import { useEffect, useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
-import Title from '@/components/guest/text/title';
+import Title from '@/src/components/guest/text/title';
 
 type Person = {
   avatar: string;

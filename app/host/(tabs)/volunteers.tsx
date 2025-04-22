@@ -1,10 +1,10 @@
-import Container from "@/components/container";
-import { useTheme } from "@/hooks/useTheme";
+import Container from "@/src/components/container";
+import { useTheme } from "@/src/hooks/useTheme";
 import { StyleSheet, Text, useWindowDimensions, View } from "react-native";
 import React, { useState } from 'react'
-import EmptyState from "@/components/emptyState"
+import EmptyState from "@/src/components/emptyState"
 import EmptyScreenImage from "@/assets/images/illustrations/undraw/undraw_dog_jfxm.svg"
-import ButtonCreate from "@/components/buttons/ButtonCreate";
+import ButtonCreate from "@/src/components/buttons/ButtonCreate";
 import { router } from "expo-router";
 
 export default function Volunteers() {

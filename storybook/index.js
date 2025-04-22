@@ -2,7 +2,7 @@ import { getStorybookUI, configure } from "@storybook/react-native";
 import { AppRegistry } from "react-native";
 
 // Importa automaticamente todos os arquivos `*.stories.js` dentro de `src/components`
-const req = require.context("../components", true, /\.stories\.js$/);
+const req = require.context("../src/components", true, /\.stories\.js$/);
 
 configure(() => {
   req.keys().forEach(filename => req(filename));

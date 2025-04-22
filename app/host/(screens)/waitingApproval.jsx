@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native'
-import Container from '@/components/container';
-import SimpleButton from '@/components/buttons/SimpleButton'
-import { useTheme } from '@/hooks/useTheme';
+import Container from '@/src/components/container';
+import SimpleButton from '@/src/components/buttons/SimpleButton'
+import { useTheme } from '@/src/hooks/useTheme';
 import { router } from 'expo-router';
 import Floating from '@/assets/images/illustrations/undraw/floating.svg';
 

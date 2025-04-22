@@ -1,18 +1,18 @@
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import Tabs from '@/components/guest/tabs';
-import FormGuest from '@/components/guest/formGuest';
-import FormStaff from '@/components/guest/formStaff';
+import ParallaxScrollView from '@/src/components/ParallaxScrollView';
+import Tabs from '@/src/components/guest/tabs';
+import FormGuest from '@/src/components/guest/formGuest';
+import FormStaff from '@/src/components/guest/formStaff';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import '@/assets/translations/i18n'
-import { AppDispatch, RootState } from '@/redux/store';
+import { AppDispatch, RootState } from '@/src/redux/store';
 import { useEffect } from 'react';
-import { getGuest } from '@/redux/slices/guest/slice'
-import { useTheme } from '@/hooks/useTheme';
-import FormPersonal from '@/components/guest/formPersonal';
+import { getGuest } from '@/src/redux/slices/guest'
+import { useTheme } from '@/src/hooks/useTheme';
+import FormPersonal from '@/src/components/guest/formPersonal';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import converteDateToAge from '@/utils/converteDateToAge';
+import converteDateToAge from '@/src/utils/converteDateToAge';
 import { StatusBar } from 'expo-status-bar';
 
 export default function Profile() {

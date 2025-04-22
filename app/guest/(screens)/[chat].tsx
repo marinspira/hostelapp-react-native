@@ -1,5 +1,5 @@
 import { useLocalSearchParams } from 'expo-router';
-import { Colors } from "@/constants/Colors";
+import { Colors } from "@/src/constants/Colors";
 import { FontAwesome } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 import {
@@ -14,14 +14,14 @@ import {
     TouchableWithoutFeedback,
     Keyboard
 } from "react-native";
-import GoBackButton from '@/components/goBackButton';
+import GoBackButton from '@/src/components/goBackButton';
 import { router } from "expo-router";
-import { useTheme } from "@/hooks/useTheme";
-import socket from "@/utils/socket";
+import { useTheme } from "@/src/hooks/useTheme";
+import socket from "@/src/utils/socket";
 import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
-import { useCreateNewMessage } from '@/services/chat/createNewMessage';
-import Chat from '@/components/chat';
+import { RootState } from '@/src/redux/store';
+import { useCreateNewMessage } from '@/src/services/chat/createNewMessage';
+import Chat from '@/src/components/chat';
 
 export default function ChatScreen() {
 

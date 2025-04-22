@@ -3,17 +3,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import '@/assets/translations/i18n'
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { AppDispatch, RootState } from '@/redux/store';
+import { AppDispatch, RootState } from '@/src/redux/store';
 import { Feather, AntDesign, SimpleLineIcons } from '@expo/vector-icons';
-import IconTextList from '@/components/IconTextList'
-import { logout } from '@/redux/slices/user/slice';
+import IconTextList from '@/src/components/IconTextList'
+import { logout } from '@/src/redux/slices/user';
 import { router } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { toggleTheme } from '@/redux/slices/theme/slice';
-import { useTheme } from '@/hooks/useTheme';
-import ThemeSwitch from '@/components/themeSwitch';
-import Container from '@/components/container';
-import InputImage from '@/components/inputs/inputImage';
+import { toggleTheme } from '@/src/redux/slices/theme';
+import { useTheme } from '@/src/hooks/useTheme';
+import ThemeSwitch from '@/src/components/themeSwitch';
+import Container from '@/src/components/container';
+import InputImage from '@/src/components/inputs/inputImage';
 
 export default function Settings() {
 
