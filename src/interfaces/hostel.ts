@@ -37,3 +37,7 @@ export interface Hostel {
   volunteer_opportunities?: Position[];
   created_at?: Date;
 }
+
+export interface HostelHome {
+  
+}

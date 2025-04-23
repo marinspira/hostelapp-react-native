@@ -28,7 +28,7 @@ export const getHostel = createAsyncThunk<BackendResponse, void, { rejectValue: 
 
             const response = await result.json()
 
-            const logo = `${process.env.EXPO_PUBLIC_SERVER_ADDRESS}${response.data.logo}`
+            const logo = `${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/${response.data.logo}`
 
             return {
                 success: response.success,
@@ -116,6 +116,19 @@ const hostelSlice = createSlice({
                 state.data = action.payload.data as Hostel;
             })
             .addCase(createHostel.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload || 'Failed to fetch guests.';
+            })
+            // get hostel
+            .addCase(getHostel.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(getHostel.fulfilled, (state, action) => {
+                state.loading = false;
+                state.data = action.payload.data as Hostel;
+            })
+            .addCase(getHostel.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload || 'Failed to fetch guests.';
             });

@@ -1,11 +1,9 @@
-import { StyleSheet, View, ScrollView, Text, Pressable } from 'react-native';
+import { StyleSheet, View, ScrollView, Text, Pressable, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
 import { User } from '@/src/interfaces/user';
 import { useTranslation } from 'react-i18next';
 import '@/assets/translations/i18n'
-import defaultImg from '@/assets/images/unnamed.png';
-import profileDefault from '@/assets/images/unnamed.png'
 import InputSearch from '@/src/components/inputs/inputSearch';
 import { router } from 'expo-router';
 import ButtonCreate from '@/src/components/buttons/ButtonCreate';
@@ -14,9 +12,11 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Colors } from '@/src/constants/Colors';
 import { StatusBar } from 'expo-status-bar';
 import { useTheme } from '@/src/hooks/useTheme';
-import { AppDispatch } from '@/src/redux/store';
+import { AppDispatch, RootState } from '@/src/redux/store';
 import { getHostel } from '@/src/redux/slices/hostel';
 import { useEffect } from 'react';
+import Entypo from '@expo/vector-icons/Entypo';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 export default function HostHomeScreen() {
 
@@ -25,11 +25,16 @@ export default function HostHomeScreen() {
   const user = useSelector((state: { user: User }) => state.user)
   const dispatch = useDispatch<AppDispatch>()
 
+  const hostel = useSelector((state: RootState) => state.hostel.data)
+
+
   const fetchHostel = async () => {
     const result = await dispatch(getHostel())
   }
 
   useEffect(() => {
+    console.log(hostel)
+
     fetchHostel()
   }, [])
 
@@ -38,15 +43,32 @@ export default function HostHomeScreen() {
       <StatusBar style="light" />
       <View style={{ minHeight: '100%', backgroundColor: "white" }}>
         <ScrollView >
-          <View style={styles.banner} />
+          <View style={styles.banner} >
+            <View style={{flexDirection: "row"}}>
+              <Image
+                source={
+                  hostel.logo
+                    ? { uri: hostel.logo }
+                    :
+                    require('@/assets/images/unnamed.png')
+                }
+                style={styles.profileImage}
+              />
+              <View>
+                <Text style={[dynamicStyles.text, styles.name]}>Hello,</Text>
+                <Text style={[dynamicStyles.text, styles.name]}>{hostel.name}</Text>
+              </View>
+            </View>
+            <Entypo name="notification" size={24} color="white" />
+          </View>
           <View style={styles.searchBar}>
             <InputSearch
               placeholder='Search guest by @tag or e-mail'
               onPress={() => router.push('/host/(screens)/searchGuest')}
             />
           </View>
+
           <Pressable onPress={fetchHostel}>
-            <Text>aqui</Text>
           </Pressable>
         </ScrollView>
         <ButtonCreate
@@ -85,11 +107,27 @@ const styles = StyleSheet.create({
   },
   banner: {
     backgroundColor: Colors.light.tint,
-    minHeight: 150,
+    minHeight: 160,
+    paddingBottom: 30,
+    paddingHorizontal: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between"
   },
   searchBar: {
     marginTop: -30,
     paddingHorizontal: 20,
     marginBottom: 30
-  }
+  },
+  profileImage: {
+    width: 45,
+    height: 45,
+    borderRadius: 100
+  },
+  name: {
+    fontSize: 16,
+    color: "white",
+    marginLeft: 10,
+    fontFamily: "PoppinsBold"
+  },
 });
