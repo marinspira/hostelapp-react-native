@@ -9,14 +9,16 @@ import { Colors } from '@/src/constants/Colors'
 import { router } from 'expo-router'
 import { useGetAllRooms } from "@/src/services/hostel/getRooms";
 import { useCreateReservation } from "@/src/services/hostel/createReservation";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getAllGuests } from '@/src/redux/slices/hostelGuests';
 import { showToast } from '@/src/components/toast';
 
 export default function AddGuest({ guest, setModalVisible }) {
 
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
     const dynamicStyles = useTheme()
+
+    const hostel = useSelector((state) => state.hostel.data)
 
     const { mutateAsync: getRoomsMutation } = useGetAllRooms();
     const { mutateAsync: createReservationMutation, isPending, error } = useCreateReservation();
@@ -33,6 +35,13 @@ export default function AddGuest({ guest, setModalVisible }) {
         room_number: null,
         bed_number: null,
     })
+
+    function see() {
+        console.log("1: ", reservation)
+        console.log("2: ", bedsAvailable)
+        console.log("3: ", hostel.rooms)
+        console.log("4: ", allRooms)
+    }
 
     useEffect(() => {
         const getAvailableRooms = async () => {
@@ -59,23 +68,6 @@ export default function AddGuest({ guest, setModalVisible }) {
         getAvailableRooms()
     }, [])
 
-    useEffect(() => {
-        if (error) {
-            const errorMessage = error?.response?.data?.message || error?.message || "Erro desconhecido";
-            showToast({
-                type: 'error',
-                title: "Error",
-                message: t(errorMessage),
-            });
-        }
-    }, [error])
-
-    // useEffect(() => {
-    //     console.log("rooms: ", JSON.stringify(allRooms, null, 2));
-    //     console.log("beds: ", JSON.stringify(bedsAvailable, null, 2));
-    //     // console.log(reservation)
-    // }, [reservation, bedsAvailable])
-
     async function handleSubmit() {
         try {
             const response = await createReservationMutation(reservation);
@@ -92,20 +84,13 @@ export default function AddGuest({ guest, setModalVisible }) {
             setModalVisible(false)
 
             // TODO: fazer redirect para chat do guest
-            router.push("/host/(tabs)/chat")
+            router.push("/host/chat")
+            // router.push(`/host/chat/${reservation.user_id_guest}`)
 
         } catch (err) {
             console.error('Error creating Reservation:', err);
         }
     }
-
-    const uniqueRooms = [...new Set(
-        (bedsAvailable || []).map(item => item.roomName)
-    )];
-
-    const filteredBeds = (bedsAvailable || [])
-        .filter(bed => bed.roomName === reservation.room_number)
-        .map(bed => bed.bed_number);
 
     function isFormValid() {
         return reservation.user_id_guest &&
@@ -114,10 +99,22 @@ export default function AddGuest({ guest, setModalVisible }) {
             reservation.room_number &&
             reservation.bed_number
     }
+    // TODO: Refazer a logica de camas disponiveis
+    const uniqueRooms = [...new Set(
+        (bedsAvailable || []).map(item => item.roomName)
+    )];
+
+    const filteredBeds = (bedsAvailable || [])
+        .filter(bed => bed.roomName === reservation.room_number)
+        .map(bed => bed.bed_number);
+
+
 
     function addOneDay(date) {
         const newDate = new Date(date);
+        newDate.setHours(12);
         newDate.setDate(newDate.getDate() + 1);
+        console.log("new date: ", newDate)
         return newDate;
     }
 
@@ -139,26 +136,19 @@ export default function AddGuest({ guest, setModalVisible }) {
                     </Pressable>
                 </View>
             </View>
+            <Pressable onPress={see}>
+                <Text>aQUIS</Text>
+            </Pressable>
             <View style={styles.dates}>
                 <InputDate
                     width='48%'
                     label='Check in'
-                    onChange={(value) => {
-                        setReservation(prev => {
-                            const shouldResetCheckout = prev.checkout_date && value > prev.checkout_date;
-
-                            return {
-                                ...prev,
-                                checkin_date: value,
-                                checkout_date: shouldResetCheckout ? null : prev.checkout_date
-                            }
-                        });
-                    }}
+                    onChange={(value) => { console.log(value) }}
                 />
                 <InputDate
                     width='48%'
                     label='Check out'
-                    minimumDate={reservation.checkin_date ? addOneDay(reservation.checkin_date) : undefined}
+                    minimumDate=""
                     onChange={(value) => {
                         setReservation(prev => ({
                             ...prev,
@@ -168,7 +158,7 @@ export default function AddGuest({ guest, setModalVisible }) {
                     errorMessage={t("Data de checkout precisa ser pelo menos 1 dia após o check-in")}
                 />
             </View>
-            {bedsAvailable ? (
+            {hostel.rooms.lenght > 0 && bedsAvailable ? (
                 <>
                     <InputSelect
                         label='Room'
@@ -197,15 +187,20 @@ export default function AddGuest({ guest, setModalVisible }) {
                     )}
                 </>
             ) : (
-                <Pressable onPress={() => router.push('/host/(screens)/rooms')} style={{ marginBottom: 20 }}>
+                <Pressable
+                    onPress={() => {
+                        router.push('/host/allRooms');
+                        setModalVisible(false);
+                    }}
+                    style={{ marginBottom: 20 }}
+                >
                     <Text style={dynamicStyles.text}>Você não tem quartos disponíveis, {' '}
                         <Text style={{ color: Colors.light.tint, fontFamily: 'PoppinsBold', fontSize: 16 }}>
                             clique aqui para criar um.
                         </Text>
                     </Text>
                 </Pressable>
-            )
-            }
+            )}
             {isPending ? (
                 <ActivityIndicator size="large" color="#6c63ff" />
             ) : (

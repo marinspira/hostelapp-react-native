@@ -19,21 +19,17 @@ import Entypo from '@expo/vector-icons/Entypo';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 export default function HostHomeScreen() {
-
   const { t } = useTranslation();
   const dynamicStyles = useTheme()
-  const user = useSelector((state: { user: User }) => state.user)
   const dispatch = useDispatch<AppDispatch>()
-
+  
+  const user = useSelector((state: { user: User }) => state.user)
   const hostel = useSelector((state: RootState) => state.hostel.data)
 
-
-  const fetchHostel = async () => {
-    const result = await dispatch(getHostel())
-  }
-
   useEffect(() => {
-    console.log(hostel)
+    const fetchHostel = async () => {
+      const result = await dispatch(getHostel())
+    }
 
     fetchHostel()
   }, [])
@@ -44,7 +40,7 @@ export default function HostHomeScreen() {
       <View style={{ minHeight: '100%', backgroundColor: "white" }}>
         <ScrollView >
           <View style={styles.banner} >
-            <View style={{flexDirection: "row"}}>
+            <View style={{ flexDirection: "row" }}>
               <Image
                 source={
                   hostel.logo
@@ -61,6 +57,7 @@ export default function HostHomeScreen() {
             </View>
             <Entypo name="notification" size={24} color="white" />
           </View>
+
           <View style={styles.searchBar}>
             <InputSearch
               placeholder='Search guest by @tag or e-mail'
@@ -68,9 +65,9 @@ export default function HostHomeScreen() {
             />
           </View>
 
-          <Pressable onPress={fetchHostel}>
-          </Pressable>
+          
         </ScrollView>
+
         <ButtonCreate
           bottom={170}
           subButtons={[

@@ -66,11 +66,11 @@ export default function RoomsScreen() {
                     <GoBackButton />
                     <Text style={dynamicStyles.textUppercase}>Rooms</Text>
                 </View>
-                <View style={styles.filtros}>
+                {/* <View style={styles.filtros}>
                     <Text style={[styles.filtro]}>Shared</Text>
                     <Text style={[styles.filtro]}>Staff</Text>
                     <Text style={[styles.filtro]}>Private</Text>
-                </View>
+                </View> */}
                 {isPending ? (
                     <ActivityIndicator size="large" color="#6c63ff" />
                 ) : rooms && rooms.length > 0 ? (

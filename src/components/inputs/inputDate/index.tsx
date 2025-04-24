@@ -28,9 +28,21 @@ const formatToDDMMYYYY = (text: string) => {
     return formatted;
 };
 
-const parseDateTime = (dateText: string, timeText?: string): Date | null => {
+const parseDate = (dateText: string): Date | null => {
     const [day, month, year] = dateText.split('/').map(Number);
-    const [hour, minute] = timeText?.split(':').map(Number) ?? [12, 0];
+    if (isNaN(day) || isNaN(month) || isNaN(year)) {
+        return null;
+    }
+    const date = new Date(year, month - 1, day);
+    if (date.getFullYear() !== year || date.getMonth() !== month - 1 || date.getDate() !== day) {
+        return null;
+    }
+    return date;
+};
+
+const parseDateTime = (dateText: string, timeText: string): Date | null => {
+    const [day, month, year] = dateText.split('/').map(Number);
+    const [hour, minute] = timeText.split(':').map(Number) ?? [12, 0];
 
     if (
         isNaN(day) || isNaN(month) || isNaN(year) ||
@@ -83,27 +95,42 @@ const InputDate: React.FC<InputDateProps> = ({
         }
     }, [value]);
 
-    const validateDate = (date: Date | null) => {
+    const validateDate = (date: Date | null, skipRangeCheck: boolean = false) => {
         if (!date) {
             setError(errorMessage || t('Data inválida'));
             return false;
         }
-        if (maximumDate && date > maximumDate) {
-            setError(errorMessage || t('Data muito futura'));
-            return false;
-        }
-        if (minimumDate && date < minimumDate) {
-            setError(errorMessage || t('Data muito antiga'));
-            return false;
+        if (!skipRangeCheck) {
+            if (maximumDate && date > maximumDate) {
+                setError(errorMessage || t('Data muito futura'));
+                return false;
+            }
+            if (minimumDate && date < minimumDate) {
+                setError(errorMessage || t('Data muito antiga'));
+                return false;
+            }
         }
         setError(null);
         return true;
     };
-
+    
     const handleChange = () => {
-        const date = parseDateTime(dateText, time ? timeText : undefined);
-        if (validateDate(date)) {
+        let date = parseDate(dateText);
+        const isTimeIncomplete = time && timeText.length < 5;
+    
+        if (time && timeText.length === 5) {
+            date = parseDateTime(dateText, timeText);
+        }
+    
+        const isValid = validateDate(date, isTimeIncomplete);
+    
+        if (isValid && !isTimeIncomplete) {
+            setError(null); 
             onChange?.(date!);
+        }
+    
+        if (isValid && isTimeIncomplete) {
+            setError(null);
         }
     };
 
