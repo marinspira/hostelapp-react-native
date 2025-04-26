@@ -94,7 +94,6 @@ export default function AddGuest({ guest, setModalVisible }) {
 
     function addOneDay(date) {
         const newDate = new Date(date);
-        newDate.setHours(12);
         newDate.setDate(newDate.getDate() + 1);
         return newDate;
     }

@@ -78,7 +78,7 @@ export default function RoomsScreen() {
                         {rooms.map((room, index) => (
                             <View key={index} style={styles.roomContainer}>
                                 <Text style={styles.tag}>{room.type}</Text>
-                                <Text style={dynamicStyles.subtitle}>{room.name}</Text>
+                                <Text style={dynamicStyles.h2}>{room.name}</Text>
                                 <ButtonOptions
                                     optionsVisible={optionsVisible}
                                     setOptionsVisible={setOptionsVisible}
