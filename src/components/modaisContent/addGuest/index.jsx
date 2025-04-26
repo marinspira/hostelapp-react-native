@@ -4,7 +4,7 @@ import InputDate from '@/src/components/inputs/inputDate';
 import SimpleButton from '@/src/components/buttons/SimpleButton';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@/src/hooks/useTheme'
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Colors } from '@/src/constants/Colors'
 import { router } from 'expo-router'
 import { useGetAllRooms } from "@/src/services/hostel/getRooms";
@@ -21,13 +21,10 @@ export default function AddGuest({ guest, setModalVisible }) {
     const dispatch = useDispatch()
     const hostel = useSelector((state) => state.hostel.data)
 
-    const { mutateAsync: getRoomsMutation } = useGetAllRooms();
     const { mutateAsync: createReservationMutation, isPending, error } = useCreateReservation();
     const { mutateAsync: getBedsAvailableMutation } = useGetBedsAvailable();
 
-
     const [bedsAvailable, setBedsAvailable] = useState(null)
-    const [allRooms, setAllRooms] = useState(null)
 
     const [reservation, setReservation] = useState({
         user_id_guest: guest.user_id_guest,
@@ -37,35 +34,31 @@ export default function AddGuest({ guest, setModalVisible }) {
         bed_number: null,
     })
 
-    function see() {
-        console.log("1: ", reservation)
-        console.log("2: ", bedsAvailable)
-        console.log("3: ", hostel.rooms)
-        console.log("4: ", allRooms)
-    }
-    
-    let dates = []
-
     useEffect(() => {
-        if(reservation.checkin_date && reservation.checkout_date) {
-            dates.push(reservation.checkin_date, reservation.checkout_date)
-            console.log(dates)
-            
+        if (reservation.checkin_date && reservation.checkout_date) {
+
+            const dates = {
+                checkin_date: reservation.checkin_date,
+                checkout_date: reservation.checkout_date
+            };
+
+            const getAvailableRooms = async () => {
+                try {
+                    const response = await getBedsAvailableMutation(dates);
+                    if (response.data && response.data.length > 0) {
+                        setBedsAvailable(response.data);
+                    } else {
+                        setBedsAvailable([]);
+                    }
+                } catch (err) {
+                    console.error('Error getting rooms:', err);
+                }
+            }
+
+            getAvailableRooms()
         }
 
     }, [reservation.checkin_date, reservation.checkout_date])
-
-    useEffect(() => {
-        // const getAvailableRooms = async () => {
-        //     try {
-        //         const response = await getBedsAvailableMutation(dates);
-        //     } catch (err) {
-        //         console.error('Error getting rooms:', err);
-        //     }
-        // }
-
-        // getAvailableRooms()
-    }, [])
 
     async function handleSubmit() {
         try {
@@ -103,9 +96,25 @@ export default function AddGuest({ guest, setModalVisible }) {
         const newDate = new Date(date);
         newDate.setHours(12);
         newDate.setDate(newDate.getDate() + 1);
-        console.log("minumium checkout date", newDate)
         return newDate;
     }
+
+    const uniqueRooms = useMemo(() => {
+        if (!bedsAvailable) return [];
+
+        return bedsAvailable.map(room => room.room_number);
+    }, [bedsAvailable]);
+
+    const filteredBeds = useMemo(() => {
+        if (!bedsAvailable || !reservation.room_number) return [];
+
+        const selectedRoom = bedsAvailable.find(room => room.room_number === reservation.room_number);
+        if (!selectedRoom) return [];
+
+        const rooms = selectedRoom.beds.map(bed => bed);
+        return rooms
+
+    }, [bedsAvailable, reservation.room_number]);
 
     return (
         <View>
@@ -125,52 +134,78 @@ export default function AddGuest({ guest, setModalVisible }) {
                     </Pressable>
                 </View>
             </View>
-            <Pressable onPress={see}>
-                <Text>aQUIS</Text>
-            </Pressable>
-            <View style={styles.dates}>
-                <InputDate
-                    width='48%'
-                    label='Check in'
-                    onChange={(value) => {
-                        console.log(value)
-                    }}
-                />
-                <InputDate
-                    width='48%'
-                    label='Check out'
-                    onChange={(value) => {
-                        console.log("aqui", value)
-                    }}
-                    minimumDate={reservation.checkin_date ? addOneDay(reservation.checkin_date) : null}
-                    errorMessage={t("Data de checkout precisa ser pelo menos 1 dia após o check-in")}
-                />
-            </View>
-            {hostel.rooms.lenght > 0 && bedsAvailable ? (
+
+            {hostel.rooms.length > 0 ? (
                 <>
-                    <InputSelect
-                        label='Room'
-                        selectInputItems={uniqueRooms}
-                        value={reservation.room_number}
-                        onChange={(value) => {
-                            setReservation(prev => ({
-                                ...prev,
-                                room_number: value,
-                                bed_number: null
-                            }))
-                        }}
-                    />
-                    {reservation.room_number && (
-                        <InputSelect
-                            label='Bed'
-                            selectInputItems={filteredBeds}
-                            selectedValue={reservation.bed_number}
+                    <View style={styles.dates}>
+                        <InputDate
+                            width='48%'
+                            label='Check in'
                             onChange={(value) => {
                                 setReservation(prev => ({
                                     ...prev,
-                                    bed_number: value
-                                }))
+                                    checkin_date: value,
+                                }));
                             }}
+                            value={reservation.checkin_date}
+                        />
+                        <InputDate
+                            width='48%'
+                            label='Check out'
+                            onChange={(value) => {
+                                setReservation(prev => ({
+                                    ...prev,
+                                    checkout_date: value,
+                                }));
+                            }}
+                            minimumDate={reservation.checkin_date ? addOneDay(reservation.checkin_date) : null}
+                            errorMessage={t("Data de checkout precisa ser pelo menos 1 dia após o check-in")}
+                        />
+                    </View>
+
+                    {bedsAvailable ? (
+                        bedsAvailable.length > 0 ? (
+                            <>
+                                <InputSelect
+                                    label='Room'
+                                    selectInputItems={uniqueRooms}
+                                    value={reservation.room_number}
+                                    onChange={(value) => {
+                                        setReservation(prev => ({
+                                            ...prev,
+                                            room_number: value,
+                                            bed_number: null
+                                        }))
+                                    }}
+                                />
+                                {reservation.room_number && (
+                                    <InputSelect
+                                        label='Bed'
+                                        selectInputItems={filteredBeds}
+                                        selectedValue={reservation.bed_number}
+                                        onChange={(value) => {
+                                            setReservation(prev => ({
+                                                ...prev,
+                                                bed_number: value
+                                            }))
+                                        }}
+                                    />
+                                )}
+                            </>
+                        ) : (
+                            <Text style={[dynamicStyles.text, { marginBottom: 20 }]}>
+                                Nenhum quarto disponível para essa data
+                            </Text>
+                        )
+                    ) : null}
+
+                    {isPending ? (
+                        <ActivityIndicator size="large" color="#6c63ff" />
+                    ) : (
+                        <SimpleButton
+                            text='Adicionar guest'
+                            disabled={!isFormValid()}
+                            onPress={handleSubmit}
                         />
                     )}
                 </>
@@ -182,21 +217,12 @@ export default function AddGuest({ guest, setModalVisible }) {
                     }}
                     style={{ marginBottom: 20 }}
                 >
-                    <Text style={dynamicStyles.text}>Você não tem quartos disponíveis, {' '}
+                    <Text style={dynamicStyles.text}>Você não tem nenhum quarto criado, {' '}
                         <Text style={{ color: Colors.light.tint, fontFamily: 'PoppinsBold', fontSize: 16 }}>
                             clique aqui para criar um.
                         </Text>
                     </Text>
                 </Pressable>
-            )}
-            {isPending ? (
-                <ActivityIndicator size="large" color="#6c63ff" />
-            ) : (
-                <SimpleButton
-                    text='Adicionar guest'
-                    disabled={!isFormValid()}
-                    onPress={handleSubmit}
-                />
             )}
         </View >
     )
@@ -206,7 +232,6 @@ const styles = StyleSheet.create({
     dates: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginBottom: 20
     },
     guestInfo: {
         flexDirection: 'row',

@@ -1,21 +1,25 @@
 import { useMutation } from '@tanstack/react-query';
 
-const getBedsAvailable = async (dates: {}) => {
+const getBedsAvailable = async (dates: { checkin_date: Date; checkout_date: Date }) => {
     try {
-        const response = await fetch(`${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/api/room/bedsAvailable`, {
+        const params = new URLSearchParams({
+            checkin_date: dates.checkin_date.toISOString(),
+            checkout_date: dates.checkout_date.toISOString(),
+        });
+
+        const result = await fetch(`${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/api/room/bedsAvailable?${params.toString()}`, {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include',
-            body: JSON.stringify({ dates }),
         });
 
-        const bedsAvailable = await response.json();
+        const response = await result.json();
 
-        if (!response.ok) {
-            throw new Error(bedsAvailable.message || 'Error getting bedsAvailable');
+        if (!result.ok) {
+            throw new Error(response.message || 'Error getting bedsAvailable');
         }
 
-        return bedsAvailable;
+        return response;
 
     } catch (error) {
         console.error('Error in getBedsAvailable service', error);

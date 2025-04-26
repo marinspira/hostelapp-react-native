@@ -64,26 +64,7 @@ export default function HostHomeScreen() {
               placeholder='Search guest by @tag or e-mail'
               onPress={() => router.push('/host/(screens)/searchGuest')}
             />
-          </View>
-
-          <InputDate
-            width='48%'
-            label='Check in'
-            onChange={(value) => {
-              console.log(value)
-            }}
-          />
-
-          <InputDate
-            width='48%'
-            label='Check in'
-            onChange={(value) => {
-              console.log(value)
-            }}
-            maximumDate={new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)} // 30 dias
-            minimumDate={new Date(Date.now() + 2 * 60 * 60 * 1000)} // em 2 horas
-            time={true}
-          />
+          </View>                                                                                                                   
 
         </ScrollView>
 
