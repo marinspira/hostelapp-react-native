@@ -17,12 +17,13 @@ import { getHostel } from '@/src/redux/slices/hostel';
 import { useEffect } from 'react';
 import Entypo from '@expo/vector-icons/Entypo';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import InputDate from '@/src/components/inputs/inputDate';
 
 export default function HostHomeScreen() {
   const { t } = useTranslation();
   const dynamicStyles = useTheme()
   const dispatch = useDispatch<AppDispatch>()
-  
+
   const user = useSelector((state: { user: User }) => state.user)
   const hostel = useSelector((state: RootState) => state.hostel.data)
 
@@ -65,7 +66,25 @@ export default function HostHomeScreen() {
             />
           </View>
 
-          
+          <InputDate
+            width='48%'
+            label='Check in'
+            onChange={(value) => {
+              console.log(value)
+            }}
+          />
+
+          <InputDate
+            width='48%'
+            label='Check in'
+            onChange={(value) => {
+              console.log(value)
+            }}
+            maximumDate={new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)} // 30 dias
+            minimumDate={new Date(Date.now() + 2 * 60 * 60 * 1000)} // em 2 horas
+            time={true}
+          />
+
         </ScrollView>
 
         <ButtonCreate

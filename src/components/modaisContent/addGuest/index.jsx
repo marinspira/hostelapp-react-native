@@ -9,6 +9,7 @@ import { Colors } from '@/src/constants/Colors'
 import { router } from 'expo-router'
 import { useGetAllRooms } from "@/src/services/hostel/getRooms";
 import { useCreateReservation } from "@/src/services/hostel/createReservation";
+import { useGetBedsAvailable } from "@/src/services/hostel/getBedsAvailable";
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllGuests } from '@/src/redux/slices/hostelGuests';
 import { showToast } from '@/src/components/toast';
@@ -17,16 +18,16 @@ export default function AddGuest({ guest, setModalVisible }) {
 
     const { t } = useTranslation();
     const dynamicStyles = useTheme()
-
+    const dispatch = useDispatch()
     const hostel = useSelector((state) => state.hostel.data)
 
     const { mutateAsync: getRoomsMutation } = useGetAllRooms();
     const { mutateAsync: createReservationMutation, isPending, error } = useCreateReservation();
+    const { mutateAsync: getBedsAvailableMutation } = useGetBedsAvailable();
+
 
     const [bedsAvailable, setBedsAvailable] = useState(null)
     const [allRooms, setAllRooms] = useState(null)
-
-    const dispatch = useDispatch()
 
     const [reservation, setReservation] = useState({
         user_id_guest: guest.user_id_guest,
@@ -42,30 +43,28 @@ export default function AddGuest({ guest, setModalVisible }) {
         console.log("3: ", hostel.rooms)
         console.log("4: ", allRooms)
     }
+    
+    let dates = []
 
     useEffect(() => {
-        const getAvailableRooms = async () => {
-            try {
-                const response = await getRoomsMutation();
-                const allRooms = response.data;
-                const availableBeds = allRooms.flatMap(room =>
-                    room.beds
-                        .filter(bed => bed.reservation_id === null)
-                        .map(bed => ({
-                            bed_number: bed.bed_number,
-                            roomName: room.name,
-                            roomId: room._id
-                        }))
-                );
-
-                setAllRooms(allRooms);
-                setBedsAvailable(availableBeds);
-            } catch (err) {
-                console.error('Error getting rooms:', err);
-            }
+        if(reservation.checkin_date && reservation.checkout_date) {
+            dates.push(reservation.checkin_date, reservation.checkout_date)
+            console.log(dates)
+            
         }
 
-        getAvailableRooms()
+    }, [reservation.checkin_date, reservation.checkout_date])
+
+    useEffect(() => {
+        // const getAvailableRooms = async () => {
+        //     try {
+        //         const response = await getBedsAvailableMutation(dates);
+        //     } catch (err) {
+        //         console.error('Error getting rooms:', err);
+        //     }
+        // }
+
+        // getAvailableRooms()
     }, [])
 
     async function handleSubmit() {
@@ -99,22 +98,12 @@ export default function AddGuest({ guest, setModalVisible }) {
             reservation.room_number &&
             reservation.bed_number
     }
-    // TODO: Refazer a logica de camas disponiveis
-    const uniqueRooms = [...new Set(
-        (bedsAvailable || []).map(item => item.roomName)
-    )];
-
-    const filteredBeds = (bedsAvailable || [])
-        .filter(bed => bed.roomName === reservation.room_number)
-        .map(bed => bed.bed_number);
-
-
 
     function addOneDay(date) {
         const newDate = new Date(date);
         newDate.setHours(12);
         newDate.setDate(newDate.getDate() + 1);
-        console.log("new date: ", newDate)
+        console.log("minumium checkout date", newDate)
         return newDate;
     }
 
@@ -143,18 +132,17 @@ export default function AddGuest({ guest, setModalVisible }) {
                 <InputDate
                     width='48%'
                     label='Check in'
-                    onChange={(value) => { console.log(value) }}
+                    onChange={(value) => {
+                        console.log(value)
+                    }}
                 />
                 <InputDate
                     width='48%'
                     label='Check out'
-                    minimumDate=""
                     onChange={(value) => {
-                        setReservation(prev => ({
-                            ...prev,
-                            checkout_date: value
-                        }))
+                        console.log("aqui", value)
                     }}
+                    minimumDate={reservation.checkin_date ? addOneDay(reservation.checkin_date) : null}
                     errorMessage={t("Data de checkout precisa ser pelo menos 1 dia após o check-in")}
                 />
             </View>

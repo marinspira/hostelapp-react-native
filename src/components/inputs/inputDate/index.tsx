@@ -30,19 +30,24 @@ const formatToDDMMYYYY = (text: string) => {
 
 const parseDate = (dateText: string): Date | null => {
     const [day, month, year] = dateText.split('/').map(Number);
+
     if (isNaN(day) || isNaN(month) || isNaN(year)) {
         return null;
     }
-    const date = new Date(year, month - 1, day);
-    if (date.getFullYear() !== year || date.getMonth() !== month - 1 || date.getDate() !== day) {
+
+    const utcTimestamp = Date.UTC(year, month - 1, day);
+    const date = new Date(utcTimestamp);
+
+    if (date.getUTCFullYear() !== year || date.getUTCMonth() !== month - 1 || date.getUTCDate() !== day) {
         return null;
     }
+
     return date;
 };
 
 const parseDateTime = (dateText: string, timeText: string): Date | null => {
     const [day, month, year] = dateText.split('/').map(Number);
-    const [hour, minute] = timeText.split(':').map(Number) ?? [12, 0];
+    const [hour, minute] = timeText.split(':').map(Number);
 
     if (
         isNaN(day) || isNaN(month) || isNaN(year) ||
@@ -55,11 +60,15 @@ const parseDateTime = (dateText: string, timeText: string): Date | null => {
         return null;
     }
 
-    const date = new Date(year, month - 1, day, hour, minute);
+    const utcTimestamp = Date.UTC(year, month - 1, day, hour, minute);
+    const date = new Date(utcTimestamp);
+
     if (
-        date.getFullYear() !== year ||
-        date.getMonth() !== month - 1 ||
-        date.getDate() !== day
+        date.getUTCFullYear() !== year ||
+        date.getUTCMonth() !== month - 1 ||
+        date.getUTCDate() !== day ||
+        date.getUTCHours() !== hour ||
+        date.getUTCMinutes() !== minute
     ) {
         return null;
     }
@@ -114,30 +123,31 @@ const InputDate: React.FC<InputDateProps> = ({
         return true;
     };
     
-    const handleChange = () => {
-        let date = parseDate(dateText);
-        const isTimeIncomplete = time && timeText.length < 5;
-    
-        if (time && timeText.length === 5) {
-            date = parseDateTime(dateText, timeText);
+    const handleChange = (currentDateText: string, currentTimeText: string) => {
+
+        let date = parseDate(currentDateText);
+
+        const isTimeIncomplete = time && currentTimeText.length < 5;
+        if (time && currentTimeText.length === 5) {
+            date = parseDateTime(currentDateText, currentTimeText);
         }
-    
+
         const isValid = validateDate(date, isTimeIncomplete);
-    
+        
         if (isValid && !isTimeIncomplete) {
             setError(null); 
             onChange?.(date!);
         }
-    
+        
         if (isValid && isTimeIncomplete) {
             setError(null);
         }
     };
-
+    
     const handleDateChange = (input: string) => {
         const formatted = formatToDDMMYYYY(input);
         setDateText(formatted);
-        if (formatted.length === 10) handleChange();
+        if (formatted.length === 10) handleChange(formatted, timeText);
     };
 
     const handleTimeChange = (input: string) => {
@@ -151,13 +161,13 @@ const InputDate: React.FC<InputDateProps> = ({
         const formatted = `${hour}${minute ? ':' + minute : ''}`;
         setTimeText(formatted);
 
-        if (formatted.length === 5) handleChange();
+        if (formatted.length === 5) handleChange(dateText, formatted);
     };
 
     return (
         <View style={[styles.container, { width }]}>
-            {label && <Text style={dynamicStyles.label}>{label}</Text>}
-            {suportText && <Text style={styles.suportText}>{suportText}</Text>}
+            {typeof label === 'string' && <Text style={dynamicStyles.label}>{label}</Text>}
+            {typeof suportText === 'string' && <Text style={styles.suportText}>{suportText}</Text>}
             <View style={time ? styles.row : {}}>
                 <TextInput
                     style={[styles.input, error ? { borderColor: 'red' } : {}, time && { marginRight: 8, flex: 1 }]}
