@@ -80,18 +80,19 @@ const styles = StyleSheet.create({
     },
     contentContainer: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+        justifyContent: "space-between",
+        alignItems: "center",
     },
     paginator: {
         flexDirection: 'row',
-        position: 'absolute',
-        bottom: 120,
+        // position: 'absolute',
+        // bottom: 120,
         alignSelf: 'center',
+        marginVertical: 20
     },
     dot: {
-        height: 10,
-        width: 10,
+        height: 5,
+        width: 5,
         borderRadius: 5,
         backgroundColor: Colors.light.tint,
         marginHorizontal: 8,
