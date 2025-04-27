@@ -8,8 +8,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/src/redux/store';
 import { getAllGuests, HostelGuests } from '@/src/redux/slices/hostelGuests';
 import { useGetAllConversations } from '@/src/services/chat/getAllConversations';
-import EmptyState from '@/src/components/emptyState';
 import EmptyScreenImage from "@/assets/images/illustrations/undraw/undraw_dog_jfxm.svg"
+import EmptyState from '@/src/components/emptyState';
 
 export default function Chat() {
   const dispatch = useDispatch<AppDispatch>();
@@ -58,12 +58,11 @@ export default function Chat() {
   return (
     <Container>
       <Text style={styles.title}>Conversas</Text>
-      // Corrigir a condição para:
-      {guests.length === 0 || chats.length === 0 ? (
+      {guests?.length === 0 ? (
         <EmptyState
           img={<EmptyScreenImage width={300} />}
-          title="Nenhuma conversa encontrada"
-          text="Conecte a um hostel para conversar"
+          title="Parece que você não tem nenhum guest!"
+          text="Adicione um guest para conversar"
         />
       ) : (
         <>
@@ -80,17 +79,23 @@ export default function Chat() {
                 })) || []
             }
           />
-          {isPending ? (
-            <View style={{ flex: 1 }}>
-              <ActivityIndicator size="large" color="#6c63ff" />
-            </View>
+          {chats.length === 0 ? (
+            isPending ? (
+              <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <ActivityIndicator size="large" color="#6c63ff" />
+              </View>
+            ) : (
+              <EmptyState
+                text="Ainda não há conversas disponíveis."
+              />
+            )
           ) : (
             <ChatList conversations={chats} />
           )}
         </>
       )}
     </Container>
-  )
+  );
 }
 
 const styles = StyleSheet.create({

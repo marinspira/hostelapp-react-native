@@ -1,14 +1,20 @@
 import { useTheme } from "@/src/hooks/useTheme";
 import { StyleSheet, Text, View } from "react-native";
 
-export default function EmptyState({ img, title, text }) {
+interface EmptyStateProps {
+    img?: any,
+    title?: string,
+    text?: string
+}
+
+export default function EmptyState({ img, title, text }: EmptyStateProps) {
 
     const dynamicStyles = useTheme()
 
     return (
-        <View style={styles.emptyScreen}>  
-            {img}
-            <Text style={[dynamicStyles.title, styles.title]}>{title}</Text>
+        <View style={[styles.emptyScreen, !img && styles.margin]}>  
+            {img && img}
+            <Text style={[dynamicStyles.title, styles.title]}>{title && title}</Text>
             <Text style={dynamicStyles.text}>{text}</Text>
         </View>
     )
@@ -22,5 +28,8 @@ const styles = StyleSheet.create({
     },
     title: {
         textAlign: "center"
+    },
+    margin: {
+        marginTop: 150
     }
 })
