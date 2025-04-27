@@ -14,7 +14,7 @@ import InputImage from '@/src/components/inputs/inputImage';
 import InputCheckbox from '@/src/components/inputs/inputCheckbox';
 import { useFormatDate } from '@/src/hooks/useFormateDate';
 import { logout } from '@/src/redux/slices/user';
-import { AppDispatch, RootState } from '@/src/redux/store';
+import { AppDispatch, persistor, RootState } from '@/src/redux/store';
 import { showToast } from '@/src/components/toast';
 import { useUploadGuestImages } from '@/src/services/guest/uploadProfileImages';
 
@@ -57,6 +57,8 @@ export default function Checkin() {
       const handleLogout = async () => {
         try {
           dispatch(logout()).unwrap();
+          await persistor.purge();
+
         } catch (err) {
           console.error('Logout failed:', err);
         }

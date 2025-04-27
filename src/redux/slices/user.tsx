@@ -3,10 +3,7 @@ import { User, UserState } from '../../interfaces/user';
 import { router } from 'expo-router';
 import { showToast } from '@/src/components/toast';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { persistStore } from 'redux-persist';
-import { AppDispatch, persistor, store } from '@/src/redux/store';
 import { resetAppState } from '@/src/redux/globalActions';
-import { useDispatch } from 'react-redux';
 import { BackendResponse } from '@/src/interfaces/backendResponse';
 
 const initialState: UserState = {
@@ -51,12 +48,6 @@ export const isAuthenticated = createAsyncThunk<BackendResponse, void, { rejectV
 
       const user = await response.json();
 
-      // showToast({
-      //   type: user.success === true ? 'success' : 'error',
-      //   title: 'Login',
-      //   message: user.message,
-      // });
-
       return user as BackendResponse;
 
     } catch (error) {
@@ -86,17 +77,10 @@ export const localhostAuth = createAsyncThunk<BackendResponse, { credentials: an
       }
 
       const user = await response.json();
-      console.log('user', user)
 
       if (!user || !user.data) {
         console.error("Usuário inválido recebido:", user);
         return rejectWithValue("Usuário inválido");
-      }
-
-      if (user.data.isNewUser) {
-        router.push(user.data.role === 'guest' ? '/guest/(screens)/checkin' : '/host/createHostel');
-      } else {
-        router.push(user.data.role === 'guest' ? '/guest/(tabs)' : '/host/(tabs)');
       }
 
       return user as BackendResponse;
@@ -127,12 +111,6 @@ export const appleAuth = createAsyncThunk<BackendResponse, { identityToken: stri
       }
 
       const user = await response.json();
-
-      if (user.data.isNewUser) {
-        router.push(user.data.role === 'guest' ? '/guest/(screens)/checkin' : '/host/createHostel');
-      } else {
-        router.push(user.data.role === 'guest' ? '/guest/(tabs)' : '/host/(tabs)');
-      }
 
       return user as BackendResponse;
 
@@ -195,7 +173,6 @@ export const logout = createAsyncThunk<BackendResponse, void, { rejectValue: str
       const result = await response.json()
       await AsyncStorage.clear();
       // persistStore(store).purge();
-      await persistor.purge();
 
       dispatch(resetAppState());
 

@@ -7,18 +7,37 @@ import { showToast } from '@/src/components/toast';
 export default function GuestLayout() {
   const user = useSelector((state: RootState) => state.user.data);
 
+  // useEffect(() => {
+  //   if (!user) {
+  //     console.log('Nenhum user encontrado. User:', user)
+  //     showToast({
+  //       type: 'error',
+  //       title: 'Any user connected',
+  //       message: 'Please contact the suport.',
+  //     });
+  //     return router.push('/public')
+
+  //   }
+  // }, [user])
+
   useEffect(() => {
-    if (!user) {
-      console.log('Nenhum user encontrado. User:', user)
+    if (user) {
+      if (user.isNewUser) {
+        router.push(user.role === 'guest' ? '/guest/(screens)/checkin' : '/host/createHostel');
+      } else {
+        router.push(user.role === 'guest' ? '/guest/(tabs)' : '/host/(tabs)');
+      }
+    } else {
+      console.log('Nenhum user encontrado. User:', user);
       showToast({
         type: 'error',
         title: 'Any user connected',
         message: 'Please contact the suport.',
       });
-      return router.push('/public')
-
+      router.push('/public');
     }
-  }, [user])
+  }, [user]);
+  
 
   return (
     <Stack>
