@@ -2,7 +2,7 @@ import Container from "@/src/components/container";
 import GoBackButton from "@/src/components/goBackButton";
 import { useTheme } from "@/src/hooks/useTheme";
 import { useEffect, useState } from "react";
-import { ActivityIndicator, ScrollView, StyleSheet, Text, useWindowDimensions, View } from "react-native";
+import { ActivityIndicator, RefreshControl, ScrollView, StyleSheet, Text, useWindowDimensions, View } from "react-native";
 import ButtonCreate from '@/src/components/buttons/ButtonCreate'
 import EmptyScreenImage from "@/assets/images/illustrations/undraw/undraw_dog_jfxm.svg"
 import PopUp from "@/src/components/modal";
@@ -13,6 +13,7 @@ import EmptyState from "@/src/components/emptyState"
 import RoomCard from "@/src/components/roomCard"
 
 export default function RoomsScreen() {
+    const [refreshing, setRefreshing] = useState(false);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [rooms, setRooms] = useState([
         {
@@ -25,23 +26,31 @@ export default function RoomsScreen() {
             }]
         }
     ])
+
     const { height } = useWindowDimensions()
     const dynamicStyles = useTheme()
     const { t } = useTranslation()
+
     const { mutateAsync: getRoomsMutation, isPending, error } = useGetAllRooms();
 
-    useEffect(() => {
-        const getRooms = async () => {
-            try {
-                const response = await getRoomsMutation();
-                setRooms(response.data)
-            } catch (err) {
-                console.error('Error getting rooms:', err);
-            }
+    const getRooms = async () => {
+        try {
+            const response = await getRoomsMutation();
+            setRooms(response.data)
+        } catch (err) {
+            console.error('Error getting rooms:', err);
         }
+    }
 
+    useEffect(() => {
         getRooms()
     }, [])
+
+    const onRefresh = async () => {
+        setRefreshing(true);
+        await getRooms();
+        setRefreshing(false);
+    };
 
     return (
         <Container scrollable={false}>
@@ -50,13 +59,18 @@ export default function RoomsScreen() {
                     <GoBackButton />
                     <Text style={dynamicStyles.textUppercase}>Rooms</Text>
                 </View>
-                
+
                 {isPending ? (
                     <ActivityIndicator size="large" color="#6c63ff" />
                 ) : rooms && rooms.length > 0 ? (
-                    <ScrollView showsVerticalScrollIndicator={false}>
+                    <ScrollView
+                        showsVerticalScrollIndicator={false}
+                        refreshControl={
+                            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                        }
+                    >
                         {rooms.map((room, index) => (
-                            <RoomCard room={room} index={index}/>
+                            <RoomCard key={index} room={room} index={index} />
                         ))}
                     </ScrollView>
                 ) : (
