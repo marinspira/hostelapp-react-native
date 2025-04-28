@@ -51,12 +51,16 @@ export default function Chat({ participant, conversationId }: ChatProps) {
 
         try {
             const messageData = {
-                conversationId: conversationId ? conversationId : participant.userId,
+                conversationId: conversationId,
                 recipientId: participant.userId,
                 text: message,
             }
 
             const response = await createNewMessageMutation(messageData);
+            if (!conversationId) {
+                conversationId = response.data.conversation
+            }
+
         } catch (err) {
             console.error('Error sending message:', err);
         }
@@ -70,10 +74,17 @@ export default function Chat({ participant, conversationId }: ChatProps) {
         };
         joinRoom()
 
+        
+
         const getMessages = async () => {
             try {
-                const response = await getMessagesMutation(conversationId);
-                setMessages(response)
+                const response = await getMessagesMutation(conversationId ? conversationId : participant.userId);
+                if (Array.isArray(response)) {
+                    setMessages(response);
+                } else {
+                    console.error('Resposta inesperada ao buscar mensagens:', response);
+                    setMessages([]);
+                }
             } catch (err) {
                 console.error('Error getting messages:', err);
             }
@@ -128,7 +139,7 @@ export default function Chat({ participant, conversationId }: ChatProps) {
                             style={styles.chatContainer}
                             onContentSizeChange={() => scrollViewRef.current?.scrollToEnd({ animated: true })}
                         >
-                            {messages
+                            {messages && messages
                                 .sort((a, b) => new Date(a.time).getTime() - new Date(b.time).getTime())
                                 .map((msg, index) => (
                                     <Text

@@ -8,20 +8,20 @@ interface createNewMessageProps {
 
 const createNewMessage = async (messageData: createNewMessageProps) => {
   try {
-    const response = await fetch(`${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/api/conversation/sendMessage`, {
+    const result = await fetch(`${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/api/conversation/sendMessage`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
       body: JSON.stringify(messageData),
     });
 
-    const message = await response.json();
+    const response = await result.json();
 
-    if (!response.ok) {
-      throw new Error(message.message || 'Erro ao criar message');
+    if (!result.ok) {
+      throw new Error(response.message || 'Erro ao criar message');
     }
 
-    return message;
+    return response;
 
   } catch (error) {
     console.error('Error in createNewMessage service', error);

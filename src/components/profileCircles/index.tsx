@@ -29,7 +29,16 @@ export default function ProfileCircles({ people }: ProfilesCirclesProps) {
                 >
                     {people.length > 0 && people.map((person, index) => (
                         <TouchableOpacity
-                            onPress={() => goToChat((user?.role ?? "guest") as "guest" | "host", person.userId)                        }
+                            onPress={() =>
+                                router.push({
+                                    pathname: `/${user?.role ?? "guest"}/(screens)/chat`,
+                                    params: {
+                                        userId: person.userId,
+                                        name: person.name,
+                                        photo: person.img,
+                                    },
+                                } as any)
+                            }
                             key={index}
                             style={styles.container}
                         >
