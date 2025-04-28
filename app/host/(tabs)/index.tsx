@@ -18,6 +18,7 @@ import { useEffect } from 'react';
 import Entypo from '@expo/vector-icons/Entypo';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import InputDate from '@/src/components/inputs/inputDate';
+import RoomCard from '@/src/components/roomCard';
 
 export default function HostHomeScreen() {
   const { t } = useTranslation();
@@ -64,7 +65,16 @@ export default function HostHomeScreen() {
               placeholder='Search guest by @tag or e-mail'
               onPress={() => router.push('/host/(screens)/searchGuest')}
             />
-          </View>                                                                                                                   
+          </View>
+
+          <View>
+            <Text></Text>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+              {/* {rooms.map((room, index) => (
+              <RoomCard room={room} index={index} />
+            ))} */}
+            </ScrollView>
+          </View>
 
         </ScrollView>
 
