@@ -11,7 +11,7 @@ import {
 
 const { width: screenWidth } = Dimensions.get('window');
 
-const SlideImage = ({ images }) => {
+const SlideImage = ({ images, width = screenWidth - 70 }) => {
   const scrollViewRef = useRef(null);
 
   const scrollTo = (direction) => {
@@ -40,7 +40,7 @@ const SlideImage = ({ images }) => {
           <Image
             key={index}
             source={source}
-            style={styles.img}
+            style={[styles.img, {width}]}
             resizeMode="cover"
           />
         );
@@ -63,7 +63,6 @@ const SlideImage = ({ images }) => {
 
 const styles = StyleSheet.create({
   img: {
-    width: screenWidth - 80,
     height: 180,
     borderRadius: 10,
     marginBottom: 20,

@@ -3,7 +3,7 @@ import { useMutation } from '@tanstack/react-query';
 
 const getHome = async () => {
     try {
-        const result = await fetch(`${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/api/room/getAll`, {
+        const result = await fetch(`${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/api/hostel/getHomeScreen`, {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include',

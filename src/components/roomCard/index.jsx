@@ -6,13 +6,13 @@ import { Colors } from "@/src/constants/Colors";
 import { useTheme } from "@/src/hooks/useTheme";
 import { useState } from "react";
 
-export default function RoomCard({ room, index }) {
+export default function RoomCard({ room, index, horizontalScroll }) {
 
     const [optionsVisible, setOptionsVisible] = useState(false)
     const dynamicStyles = useTheme()
 
     return (
-        <View key={index} style={styles.roomContainer}>
+        <View key={index} style={horizontalScroll ? styles.contaienrHorizontal : styles.roomContainer}>
             <Text style={styles.tag}>{room.type}</Text>
             <Text style={dynamicStyles.h2}>{room.name}</Text>
             <ButtonOptions
@@ -50,6 +50,15 @@ const styles = StyleSheet.create({
         gap: 15,
         marginVertical: 20,
         backgroundColor: "white"
+    },
+    contaienrHorizontal: {
+        borderWidth: 1,
+        borderColor: "#ccc",
+        padding: 20,
+        width: 320,
+        borderRadius: 10,
+        gap: 10,
+        marginHorizontal: 20
     },
     occupation: {
         flexDirection: "row",

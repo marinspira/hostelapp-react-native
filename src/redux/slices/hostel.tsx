@@ -28,7 +28,11 @@ export const getHostel = createAsyncThunk<BackendResponse, void, { rejectValue: 
 
             const response = await result.json()
 
-            const logo = `${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/${response.data.logo}`
+            let logo
+
+            if (response.data.logo) {
+                logo = `${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/${response.data.logo}`
+            }
 
             return {
                 success: response.success,

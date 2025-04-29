@@ -33,7 +33,7 @@ const events = [
 
 storiesOf("components/eventList", module)
     .add("Default", () => (
-        <EventList data={events} btnText='Join'  title="Eventos perto de você"/>
+        <EventList data={events} btnText='Join'/>
     ));
 
 const styles = StyleSheet.create({

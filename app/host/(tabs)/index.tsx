@@ -1,4 +1,4 @@
-import { StyleSheet, View, ScrollView, Text, Pressable, Image } from 'react-native';
+import { StyleSheet, View, ScrollView, Text, Image, RefreshControl } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
 import { User } from '@/src/interfaces/user';
@@ -14,11 +14,16 @@ import { StatusBar } from 'expo-status-bar';
 import { useTheme } from '@/src/hooks/useTheme';
 import { AppDispatch, RootState } from '@/src/redux/store';
 import { getHostel } from '@/src/redux/slices/hostel';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Entypo from '@expo/vector-icons/Entypo';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import InputDate from '@/src/components/inputs/inputDate';
 import RoomCard from '@/src/components/roomCard';
+import EventList from '@/src/components/guest/eventList';
+import { useGetHome } from '@/src/services/hostel/getHome';
+import CardsContainer from "@/src/components/cardsContainer"
+import ProfileCircles from '@/src/components/profileCircles';
+import { getAllGuests, HostelGuests } from '@/src/redux/slices/hostelGuests';
 
 export default function HostHomeScreen() {
   const { t } = useTranslation();
@@ -27,28 +32,63 @@ export default function HostHomeScreen() {
 
   const user = useSelector((state: { user: User }) => state.user)
   const hostel = useSelector((state: RootState) => state.hostel.data)
+  const { data: guests, loading } = useSelector((state: RootState) => state.hostelGuests);
+
+  const [events, setEvents] = useState([])
+  const [rooms, setRooms] = useState([])
+  const [refreshing, setRefreshing] = useState(false);
+
+  const { mutateAsync: getHomeMutation, isPending, error } = useGetHome();
+
+  const fetchHostel = async () => {
+    const result = await dispatch(getHostel())
+  }
+
+  const fetchHomeContent = async () => {
+    try {
+      const response = await getHomeMutation();
+
+      setEvents(response.data.events)
+      setRooms(response.data.rooms)
+
+
+    } catch (err) {
+      console.error('Error getting rooms:', err);
+    }
+  }
 
   useEffect(() => {
-    const fetchHostel = async () => {
-      const result = await dispatch(getHostel())
-    }
-
+    fetchHomeContent()
     fetchHostel()
+    dispatch(getAllGuests());
   }, [])
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await fetchHomeContent();
+    setRefreshing(false);
+  };
 
   return (
     <SafeAreaView style={{ backgroundColor: Colors.light.tint, flex: 1 }}>
       <StatusBar style="light" />
-      <View style={{ minHeight: '100%', backgroundColor: "white" }}>
-        <ScrollView >
+      <View style={{ minHeight: '100%', backgroundColor: "white", paddingBottom: 150 }}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl
+              progressBackgroundColor={Colors.light.tint}
+              refreshing={refreshing}
+              onRefresh={onRefresh} />
+          }
+        >
           <View style={styles.banner} >
             <View style={{ flexDirection: "row" }}>
               <Image
                 source={
                   hostel.logo
                     ? { uri: hostel.logo }
-                    :
-                    require('@/assets/images/unnamed.png')
+                    : require('@/assets/images/unnamed.png')
                 }
                 style={styles.profileImage}
               />
@@ -67,14 +107,40 @@ export default function HostHomeScreen() {
             />
           </View>
 
-          <View>
-            <Text></Text>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-              {/* {rooms.map((room, index) => (
-              <RoomCard room={room} index={index} />
-            ))} */}
-            </ScrollView>
-          </View>
+          {/* <ProfileCircles
+            people={
+              guests
+                .map((guest: HostelGuests) => ({
+                  img: guest.firstPhoto ?? null,
+                  name: guest.name.split(" ")[0] || "",
+                  userId: guest.userId,
+                })) || []
+            }
+          /> */}
+
+          <CardsContainer
+            title={t("Quartos")}
+            data={rooms.length > 0}
+            create={() => console.log("")}
+            seeMore="host/allRooms"
+          >
+            {rooms.map((room, index) => (
+              <RoomCard horizontalScroll key={index} room={room} index={index} />
+            ))}
+          </CardsContainer>
+
+          <CardsContainer
+            data={events.length > 0}
+            title={t("Últimos eventos")}
+            create={() => console.log("")}
+            seeMore="/host/event/all"
+          >
+            <EventList
+              data={events || []}
+              btnText={t("Ver")}
+              horizontalScroll
+            />
+          </CardsContainer>
 
         </ScrollView>
 
@@ -112,6 +178,10 @@ const styles = StyleSheet.create({
   container: {
     padding: 20,
   },
+  cardsContainer: {
+    flexDirection: "row",
+
+  },
   banner: {
     backgroundColor: Colors.light.tint,
     minHeight: 160,
@@ -119,7 +189,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
   searchBar: {
     marginTop: -30,

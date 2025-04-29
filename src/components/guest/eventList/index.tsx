@@ -24,17 +24,16 @@ export interface EventData {
 export interface EventListProps {
     data: EventData[],
     btnText: string,
-    title?: string,
+    horizontalScroll: boolean
 }
 
-function EventList({ data, btnText, title }: EventListProps) {
+function EventList({ data, btnText, horizontalScroll }: EventListProps) {
 
     const dynamicStyles = useTheme()
     const { t } = useTranslation()
 
     return (
-        <View>
-            {title && <Title title={title} />}
+        <>
             {data.map((item, index) => {
                 const { fullString } = formatDate(item.date);
 
@@ -49,13 +48,14 @@ function EventList({ data, btnText, title }: EventListProps) {
                 const imagesWithFullUrl = useAddMainDomain(images);
 
                 return (
-                    <View style={styles.container} key={index}>
-                        <SlideImage images={item.img ? imagesWithFullUrl : [defaultImg]} />
+                    <View style={horizontalScroll ? styles.containerHorizontal : styles.container} key={index}>
+                        <SlideImage width={320} images={item.img ? imagesWithFullUrl : [defaultImg]} />
 
                         <View style={styles.content}>
                             <View style={styles.textContent}>
                                 <Text style={[dynamicStyles.h2, { maxWidth: "70%" }]}>{item.name}</Text>
-                                <Text style={dynamicStyles.h2}>€ {item.price === 0 ? t("Grátis") : item.price},00</Text>
+                                {/* TODO: Add hostel currency simble */}
+                                <Text style={dynamicStyles.h2}>{item.price === 0 ? t("Grátis") : item.price}</Text>
                             </View>
                             <Text style={[dynamicStyles.text, { fontSize: 14, marginBottom: 5 }]}>{fullString}</Text>
                             <View style={styles.content2}>
@@ -79,29 +79,27 @@ function EventList({ data, btnText, title }: EventListProps) {
                     </View>
 
                 )
-            })
-            }
-        </View >
+            })}
+        </ >
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        padding: 20,
+        padding: 15,
         backgroundColor: "#fff",
-        marginTop: 25,
+        marginVertical: 10,
         borderRadius: 10,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
-        // boxShadow: 0.1,
         shadowRadius: 3.84,
         elevation: 5,
+        maxWidth: 400,
     },
-    img: {
-        width: 310,
-        height: 150,
-        borderRadius: 5,
-        marginBottom: 20
+    containerHorizontal: {
+        padding: 0,
+        width: 320,
+        marginLeft: 20
     },
     textContent: {
         flexDirection: "row",
