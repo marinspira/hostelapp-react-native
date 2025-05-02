@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
         width: 320,
         borderRadius: 10,
         gap: 10,
-        marginHorizontal: 20
+        marginRight: 20
     },
     occupation: {
         flexDirection: "row",

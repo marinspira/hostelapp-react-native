@@ -7,7 +7,7 @@ import Feather from '@expo/vector-icons/Feather';
 import { router, useNavigation } from "expo-router";
 import { useRef } from "react";
 
-export default function CardsContainer({ title, children, data, create, seeMore }) {
+export default function CardsContainer({ title, children, data, create, seeMore, vertical }) {
 
     const dynamicStyles = useTheme()
     const { t } = useTranslation()
@@ -31,29 +31,32 @@ export default function CardsContainer({ title, children, data, create, seeMore 
         <View style={styles.container}>
             {title &&
                 <>
-                    <Text style={[dynamicStyles.h2, styles.title]}>{title}</Text>
-                    <View style={styles.divisor} />
+                    {/* <View style={styles.divisor} /> */}
+                    <Text style={[dynamicStyles.textUppercase, styles.title]}>{title}</Text>
                 </>
             }
             {data ? (
                 <ScrollView
-                    style={styles.cardsContainer}
-                    horizontal
+                    style={vertical ? styles.cardsContainer : null}
+                    horizontal={!vertical}
                     showsHorizontalScrollIndicator={false}
+                    showsVerticalScrollIndicator={true}
                     onScroll={handleScroll}
                     scrollEventThrottle={16}
                 >
                     {children}
 
-                    <View style={styles.seeMore}>
-                        <AntDesign name="arrowright" size={40} color="black" />
-                        <Text style={dynamicStyles.text}>{t("Ver todos")}</Text>
-                    </View>
+                    {seeMore &&
+                        <View style={styles.seeMore}>
+                            {!vertical && <AntDesign name="arrowright" size={40} color="black" />}
+                            <Text style={dynamicStyles.text}>{t("Ver todos")}</Text>
+                        </View>
+                    }
                 </ScrollView>
             ) : (
-                <Pressable onPress={() => router.push(seeMore)} style={styles.seeMore}>
+                <Pressable onPress={create} style={styles.emptyStateContainer}>
                     <AntDesign name="pluscircle" size={30} color={Colors.light.tint} />
-                    <Text style={dynamicStyles.text}>{t("Ver todos")}</Text>
+                    <Text style={dynamicStyles.text}>{t("Vazio por aqui. Toque para criar.")}</Text>
                 </Pressable>
             )}
         </View>
@@ -64,16 +67,20 @@ const styles = StyleSheet.create({
     container: {
         paddingVertical: 20,
     },
+    cardsContainer: {
+        maxHeight: 300,
+        borderRadius: 8,
+    },
     title: {
-        paddingLeft: 20
+        fontSize: 20,
+        marginBottom: 20,
     },
     divisor: {
-        width: 100,
+        width: 70,
         height: 3,
         backgroundColor: Colors.light.tint,
         marginTop: 10,
-        marginBottom: 20,
-        marginLeft: 20
+        marginBottom: 5,
     },
     emptyStateContainer: {
         borderWidth: 1,
@@ -87,9 +94,9 @@ const styles = StyleSheet.create({
         alignSelf: "center"
     },
     seeMore: {
-        width: 150,
         justifyContent: "center",
         alignItems: "center",
-        gap: 10
+        gap: 10,
+        padding: 20
     }
 })

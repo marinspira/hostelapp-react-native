@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     containerHorizontal: {
         padding: 0,
         width: 320,
-        marginLeft: 20
+        marginRight: 20
     },
     textContent: {
         flexDirection: "row",

@@ -1,29 +1,27 @@
 import { StyleSheet, View, ScrollView, Text, Image, RefreshControl } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
 import { User } from '@/src/interfaces/user';
 import { useTranslation } from 'react-i18next';
 import '@/assets/translations/i18n'
-import InputSearch from '@/src/components/inputs/inputSearch';
 import { router } from 'expo-router';
 import ButtonCreate from '@/src/components/buttons/ButtonCreate';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Colors } from '@/src/constants/Colors';
-import { StatusBar } from 'expo-status-bar';
 import { useTheme } from '@/src/hooks/useTheme';
 import { AppDispatch, RootState } from '@/src/redux/store';
 import { getHostel } from '@/src/redux/slices/hostel';
 import { useEffect, useState } from 'react';
 import Entypo from '@expo/vector-icons/Entypo';
-import Ionicons from '@expo/vector-icons/Ionicons';
-import InputDate from '@/src/components/inputs/inputDate';
 import RoomCard from '@/src/components/roomCard';
 import EventList from '@/src/components/guest/eventList';
 import { useGetHome } from '@/src/services/hostel/getHome';
 import CardsContainer from "@/src/components/cardsContainer"
 import ProfileCircles from '@/src/components/profileCircles';
 import { getAllGuests, HostelGuests } from '@/src/redux/slices/hostelGuests';
+import Container from '@/src/components/container';
+import GuestsList from '@/src/components/guestsList';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 export default function HostHomeScreen() {
   const { t } = useTranslation();
@@ -70,9 +68,8 @@ export default function HostHomeScreen() {
   };
 
   return (
-    <SafeAreaView style={{ backgroundColor: Colors.light.tint, flex: 1 }}>
-      <StatusBar style="light" />
-      <View style={{ minHeight: '100%', backgroundColor: "white", paddingBottom: 150 }}>
+    <Container>
+      <View style={styles.container}>
         <ScrollView
           showsVerticalScrollIndicator={false}
           refreshControl={
@@ -83,40 +80,54 @@ export default function HostHomeScreen() {
           }
         >
           <View style={styles.banner} >
-            <View style={{ flexDirection: "row" }}>
-              <Image
-                source={
-                  hostel.logo
-                    ? { uri: hostel.logo }
-                    : require('@/assets/images/unnamed.png')
-                }
-                style={styles.profileImage}
-              />
-              <View>
-                <Text style={[dynamicStyles.text, styles.name]}>Hello,</Text>
-                <Text style={[dynamicStyles.text, styles.name]}>{hostel.name}</Text>
-              </View>
+            <Image
+              source={
+                hostel.logo
+                  ? { uri: hostel.logo }
+                  : require('@/assets/images/unnamed.png')
+              }
+              style={styles.profileImage}
+            />
+            <View>
+              <Text style={[dynamicStyles.text, styles.name]}>{hostel.name}</Text>
             </View>
-            <Entypo name="notification" size={24} color="white" />
+            <Entypo name="notification" size={24} color="black" />
           </View>
 
-          <View style={styles.searchBar}>
+          {/* <View style={styles.searchBar}>
             <InputSearch
               placeholder='Search guest by @tag or e-mail'
               onPress={() => router.push('/host/(screens)/searchGuest')}
             />
+          </View> */}
+
+          <View style={styles.incomesBanner}>
+            <MaterialCommunityIcons
+              style={styles.icomesIcon}
+              name="location-enter"
+            />
+            <Text style={styles.incomesText}>Incomes</Text>
+            <Text style={styles.incomesPriceText}>$ 4.000,00</Text>
           </View>
 
-          {/* <ProfileCircles
-            people={
-              guests
-                .map((guest: HostelGuests) => ({
-                  img: guest.firstPhoto ?? null,
-                  name: guest.name.split(" ")[0] || "",
-                  userId: guest.userId,
-                })) || []
-            }
-          /> */}
+          <CardsContainer
+            title={t("Guests")}
+            create={() => console.log("")}
+            seeMore={guests.length > 4 ? "host/allRooms" : false}
+            data={guests.length > 0}
+          >
+            {/* <GuestsList /> */}
+            <ProfileCircles
+              people={
+                guests
+                  .map((guest: HostelGuests) => ({
+                    img: guest.firstPhoto ?? null,
+                    name: guest.name.split(" ")[0] || "",
+                    userId: guest.userId,
+                  })) || []
+              }
+            />
+          </CardsContainer>
 
           <CardsContainer
             title={t("Quartos")}
@@ -170,23 +181,20 @@ export default function HostHomeScreen() {
           ]}
         />
       </View>
-    </SafeAreaView>
+    </Container>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
+    paddingBottom: 100,
   },
   cardsContainer: {
     flexDirection: "row",
 
   },
   banner: {
-    backgroundColor: Colors.light.tint,
-    minHeight: 160,
-    paddingBottom: 30,
-    paddingHorizontal: 20,
+    paddingBottom: 40,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
@@ -202,9 +210,33 @@ const styles = StyleSheet.create({
     borderRadius: 100
   },
   name: {
-    fontSize: 16,
-    color: "white",
-    marginLeft: 10,
+    fontSize: 14,
     fontFamily: "PoppinsBold"
   },
+  incomesBanner: {
+    backgroundColor: Colors.light.tint,
+    borderRadius: 10,
+    marginBottom: 20,
+    padding: 20,
+    gap: 30,
+    overflow: "hidden"
+  },
+  incomesText: {
+    color: "white",
+    fontFamily: "PoppinsBold",
+    fontSize: 18
+  },
+  incomesPriceText: {
+    fontFamily: "PoppinsBold",
+    color: "white",
+    fontSize: 35,
+    alignSelf: "flex-end",
+    position: "relative",
+  },
+  icomesIcon: {
+    position: "absolute",
+    fontSize: 200,
+    color: "white",
+    opacity: 0.2,
+  }
 });
