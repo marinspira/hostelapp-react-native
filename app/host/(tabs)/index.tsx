@@ -152,34 +152,7 @@ export default function HostHomeScreen() {
               horizontalScroll
             />
           </CardsContainer>
-
         </ScrollView>
-
-        <ButtonCreate
-          bottom={170}
-          subButtons={[
-            {
-              text: t('Guest'),
-              icon: <FontAwesome name="user-o" size={16} color="white" />,
-              onPress: () => router.push('/host/(screens)/searchGuest')
-            },
-            {
-              text: t('Room'),
-              icon: <MaterialIcons name="bed" size={16} color="white" />,
-              onPress: () => router.push('/host/(screens)/allRooms')
-            },
-            {
-              text: t('Rol'),
-              icon: <FontAwesome name="desktop" size={14} color="white" />,
-              onPress: () => router.push('/host/(screens)/searchGuest')
-            },
-            {
-              text: t('Event'),
-              icon: <MaterialIcons name="event" size={16} color="white" />,
-              onPress: () => router.push('/host/(screens)/event/all')
-            },
-          ]}
-        />
       </View>
     </Container>
   );

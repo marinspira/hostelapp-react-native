@@ -12,16 +12,17 @@ interface ButtonCreateProps {
     }[],
     onPress?: () => void,
     bottom?: number,
-    right?: number
+    right?: number,
+    menuBtn: boolean
 }
 
-export default function ButtonCreate({ subButtons, onPress, bottom = 120, right = 20 }: ButtonCreateProps) {
+export default function ButtonCreate({ subButtons, onPress, bottom = 120, right = 20, menuBtn }: ButtonCreateProps) {
     const dynamicStyles = useTheme()
 
     const [open, setOpen] = useState(false)
 
     return (
-        <View style={[styles.container, { bottom, right }]}>
+        <View style={menuBtn ? styles.containerBtnMenu : [styles.container, { bottom: bottom, right: right }]}>
             {open && subButtons?.map((subBtn, index) => (
                 <View key={index} style={styles.subButtons}>
                     <TouchableOpacity style={styles.subBtn} onPress={subBtn.onPress}>
@@ -32,7 +33,7 @@ export default function ButtonCreate({ subButtons, onPress, bottom = 120, right 
             ))}
             <Pressable
                 onPress={subButtons ? () => setOpen(!open) : onPress}
-                style={styles.btn}
+                style={menuBtn ? styles.menuBtn : styles.btn}
             >
                 {open ? <AntDesign name="close" size={30} color="white" /> : <AntDesign name="plus" size={30} color="white" />}
             </Pressable>
@@ -41,18 +42,36 @@ export default function ButtonCreate({ subButtons, onPress, bottom = 120, right 
 }
 
 const styles = StyleSheet.create({
+    containerBtnMenu: {
+        position: 'absolute',
+        bottom: -5,
+        alignItems: 'center',
+        flexDirection: 'column',
+        gap: 10,
+    },
     container: {
         position: 'absolute',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-end',
-        gap: 20,
-        zIndex: 4
+        gap: 10,
+        zIndex: 4,
+    },
+    menuBtn: {
+        // backgroundColor: '#9370DB',
+        backgroundColor: Colors.light.tint,
+        width: 60,
+        height: 60,
+        borderRadius: 30,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderWidth: 4,
+        borderColor: '#000',
     },
     btn: {
         backgroundColor: Colors.light.tint,
-        width: 70,
-        height: 70,
+        width: 60,
+        height: 60,
         borderRadius: 100,
         alignItems: 'center',
         justifyContent: 'center',

@@ -1,13 +1,18 @@
-import { Tabs } from 'expo-router';
+import { router, Tabs } from 'expo-router';
 import React from 'react';
 import { Platform, View, StyleSheet } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, FontAwesome, MaterialIcons } from '@expo/vector-icons';
+import ButtonCreate from '../buttons/ButtonCreate';
+import { useTranslation } from 'react-i18next';
 
 interface MenuProps {
   tabIcons: any
 }
 
 export default function Menu({ tabIcons }: MenuProps) {
+
+  const { t } = useTranslation()
+
   return (
     <Tabs
       screenOptions={{
@@ -41,9 +46,50 @@ export default function Menu({ tabIcons }: MenuProps) {
           key={route}
           name={route}
           options={{
-            tabBarIcon: ({ color, focused }) => (
-              <TabIcon color={color} focused={focused} name={icon} />
-            ),
+            tabBarIcon: ({ color, focused }) => {
+              if (route === 'index') {
+                return (
+                  <>
+                    {focused ? (
+                      <ButtonCreate
+                        menuBtn
+                        bottom={0}
+                        subButtons={[
+                          {
+                            text: t('Guest'),
+                            icon: <FontAwesome name="user-o" size={16} color="white" />,
+                            onPress: () => router.push('/host/(screens)/searchGuest')
+                          },
+                          {
+                            text: t('Room'),
+                            icon: <MaterialIcons name="bed" size={16} color="white" />,
+                            onPress: () => router.push('/host/(screens)/allRooms')
+                          },
+                          {
+                            text: t('Rol'),
+                            icon: <FontAwesome name="desktop" size={14} color="white" />,
+                            onPress: () => router.push('/host/(screens)/searchGuest')
+                          },
+                          {
+                            text: t('Event'),
+                            icon: <MaterialIcons name="event" size={16} color="white" />,
+                            onPress: () => router.push('/host/(screens)/event/all')
+                          },
+                        ]}
+                      />
+                    ) : (
+                      <View style={[focused ? styles.activeContainer : styles.iconContainer]}>
+                        <AntDesign name="home" size={30} color={focused ? '#fff' : color} />
+                      </View>
+                    )}
+                  </>
+                );
+              }
+
+              return (
+                <TabIcon color={color} focused={focused} name={icon} />
+              );
+            },
           }}
         />
       ))}
@@ -51,7 +97,6 @@ export default function Menu({ tabIcons }: MenuProps) {
   );
 }
 
-// Componente para os ícones com o círculo ativo
 function TabIcon({ name, color, focused }: { name: any; color: string; focused: boolean }) {
   return (
     <View style={[focused ? styles.activeContainer : styles.iconContainer]}>
@@ -65,12 +110,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1
-  }, 
+  },
   activeContainer: {
     backgroundColor: '#9370DB',
     width: 60,
     height: 60,
-    borderRadius: 30, 
+    borderRadius: 30,
     position: 'absolute',
     bottom: -5,
     justifyContent: 'center',
