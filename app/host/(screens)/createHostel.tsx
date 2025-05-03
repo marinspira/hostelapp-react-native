@@ -36,7 +36,7 @@ export default function CreateHostel() {
           borderColor: '#6c63ff',
           borderWidth: 5,
           imgWidth: 200,
-          onUpload: (img: any) => setImage(img)
+          onUpload: (img: any) => setImage(img),
         },
         {
           component: Input,
@@ -44,7 +44,6 @@ export default function CreateHostel() {
           placeholder: 'HostelApp',
           label: t("Nome e logo do seu hostel"),
           required: true,
-          errorMessage: '',
           inputTexting: true,
         },
       ],
@@ -89,6 +88,7 @@ export default function CreateHostel() {
           component: InputPhone,
           name: 'phone',
           label: 'Seu número de celular',
+          required: true,
         },
         {
           component: Input,

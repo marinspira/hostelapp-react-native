@@ -106,21 +106,19 @@ const styles = StyleSheet.create({
         fontSize: 16,
     },
     inputCursor: {
-        height: 80,
+        height: 45,
         width: 4,
         backgroundColor: 'black',
-        marginLeft: 5,
-        marginBottom: 25,
+        marginLeft: 10,
+        marginBottom: 10,
     },
     inputTexting: {
-        fontSize: 60,
+        fontSize: 45,
         fontFamily: 'PoppinsBold',
-        paddingRight: 0,
     },
     inputTextingContainer: {
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'center',
         alignItems: 'flex-end',
         minWidth: '100%'
     },

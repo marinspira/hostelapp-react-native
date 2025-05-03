@@ -16,15 +16,24 @@ export default function Container({ children, scrollable = true, refreshControl 
     return (
         <SafeAreaView style={dynamicStyles.safeArea}>
             <StatusBar style={dynamicStyles.statusBar} />
-            <ScrollView
-                style={[style.container, dynamicStyles.container]}
-                contentContainerStyle={{ flexGrow: 1 }}
-                refreshControl={refreshControl}
-                scrollEnabled={scrollable}
-                showsVerticalScrollIndicator={false}
-            >
-                {children}
-            </ScrollView>
+            {scrollable ? (
+                <ScrollView
+                    style={[style.container, dynamicStyles.container]}
+                    contentContainerStyle={{ flexGrow: 1 }}
+                    refreshControl={refreshControl}
+                    scrollEnabled={scrollable}
+                    showsVerticalScrollIndicator={false}
+                >
+                    {children}
+                </ScrollView>
+            ) : (
+                <View
+                    style={[style.container, dynamicStyles.container]}
+                >
+                    {children}
+                </View>
+            )}
+
         </SafeAreaView>
     )
 }

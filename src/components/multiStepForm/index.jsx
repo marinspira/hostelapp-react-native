@@ -9,47 +9,52 @@ const MultiStepForm = ({ steps, sendForm, value, setValue, sendBtnText }) => {
     const [isStepValid, setIsStepValid] = useState(false);
 
     useEffect(() => {
-        validateStep();
+        validateStepWithValue(value);
     }, [value, currentStep]);
 
-    const handleChange = (name, value) => {
-        setValue((prev) => ({
-            ...prev,
-            [name]: value,
-        }));
-    };
-
-    const isValidEmail = (email) => {
-        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return regex.test(email.trim());
-    };
-
-    const validateStep = () => {
+    const validateStepWithValue = (updatedValue) => {
         const fields = steps[currentStep].fields;
 
         const allValid = fields.every((field) => {
-            const fieldValue = value[field.name];
+            if (!field.name) return true;
 
-            if (field.name === 'policies' && fieldValue !== true) {
-                return false;
-            }
-
-            if (field.name === 'experience_with_volunteers' && fieldValue === null) {
-                return false;
-            }
+            const fieldValue = updatedValue?.[field.name];
 
             if (field.required) {
-                if (fieldValue === null || fieldValue === '') return false;
+                if (fieldValue === null || fieldValue === undefined || fieldValue === '') {
+                    return false;
+                }
 
                 if (field.name === 'email' && !isValidEmail(fieldValue)) {
                     return false;
                 }
             }
 
+            if (field.name === 'policies' && fieldValue !== true) {
+                return false;
+            }
+
+            if (field.name === 'experience_with_volunteers' && fieldValue == null) {
+                return false;
+            }
+
             return true;
         });
 
         setIsStepValid(allValid);
+    };
+
+    const handleChange = (name, value) => {
+        setValue((prev) => {
+            const updated = { ...prev, [name]: value };
+            validateStepWithValue(updated);
+            return updated;
+        });
+    };
+
+    const isValidEmail = (email) => {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return regex.test(email.trim());
     };
 
     const nextStep = () => {
@@ -71,7 +76,7 @@ const MultiStepForm = ({ steps, sendForm, value, setValue, sendBtnText }) => {
         >
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View style={styles.container}>
-                    <ScrollView vertical showsVerticalScrollIndicator={false} style={{paddingBottom: 100}}>
+                    <ScrollView vertical showsVerticalScrollIndicator={false} style={{ paddingBottom: 100 }}>
                         <Text style={styles.title}>{steps[currentStep].title}</Text>
                         {steps[currentStep].fields.map((field, index) => {
                             const Component = field.component;
@@ -107,6 +112,7 @@ const MultiStepForm = ({ steps, sendForm, value, setValue, sendBtnText }) => {
                                 style={[styles.btnNext, !isStepValid && { opacity: 0.5 }]}
                                 onPress={nextStep}
                                 disabled={!isStepValid}
+                                testID="next"
                             >
                                 <Text style={{ color: 'white', fontSize: 20, fontWeight: '700' }}>Next</Text>
                             </TouchableOpacity>
