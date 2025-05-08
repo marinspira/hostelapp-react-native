@@ -7,6 +7,8 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 const MultiStepForm = ({ steps, sendForm, value, setValue, sendBtnText }) => {
     const [currentStep, setCurrentStep] = useState(0);
     const [isStepValid, setIsStepValid] = useState(false);
+    const [touched, setTouched] = useState({});
+    const [errors, setErrors] = useState({});
 
     useEffect(() => {
         validateStepWithValue(value);
@@ -50,8 +52,25 @@ const MultiStepForm = ({ steps, sendForm, value, setValue, sendBtnText }) => {
             validateStepWithValue(updated);
             return updated;
         });
+
+        setErrors((prev) => ({ ...prev, [name]: undefined }));
     };
 
+    const validateField = (name, val) => {
+        const field = steps[currentStep].fields.find((f) => f.name === name);
+        if (!field) return;
+    
+        let error = '';
+    
+        if (field.required && (!val || val.trim() === '')) {
+            error = 'This field is required';
+        } else if (name === 'email' && !isValidEmail(val)) {
+            error = 'Invalid email';
+        }
+    
+        setErrors((prev) => ({ ...prev, [name]: error }));
+    };
+    
     const isValidEmail = (email) => {
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return regex.test(email.trim());
@@ -84,8 +103,13 @@ const MultiStepForm = ({ steps, sendForm, value, setValue, sendBtnText }) => {
                             return (
                                 <View key={index} style={{ alignItems: 'center' }}>
                                     <Component
-                                        value={value[field.name] || ''}
-                                        onChange={(value) => handleChange(field.name, value)}
+                                        value={value[field.name]}
+                                        onChange={(val) => handleChange(field.name, val)}
+                                        onBlur={() => {
+                                            setTouched((prev) => ({ ...prev, [field.name]: true }));
+                                            validateField(field.name, value[field.name]);
+                                        }}
+                                        error={touched[field.name] && errors[field.name]}
                                         {...field}
                                     />
                                 </View>

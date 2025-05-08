@@ -14,7 +14,8 @@ interface InputProps {
     errorMessage?: string;
     inputTexting?: boolean;
     onBlur?: () => void;
-    onlyNumbers?: boolean
+    onlyNumbers?: boolean;
+    testID: string
 }
 
 const Input: React.FC<InputProps> = ({
@@ -25,16 +26,17 @@ const Input: React.FC<InputProps> = ({
     onPress,
     required = false,
     errorMessage,
-    inputTexting,
+    inputTexting = false,
     onBlur,
-    onlyNumbers
+    onlyNumbers,
+    testID
 }) => {
     const { t } = useTranslation();
     const dynamicStyles = useTheme()
     const [isTouched, setIsTouched] = useState(false);
     const [inputFocus, setInputFocus] = useState(false);
 
-    const showError = required && isTouched && !value;
+    const showError = required && isTouched && (value === '');
 
     const cursorOpacity = useRef(new Animated.Value(1)).current;
 
@@ -67,21 +69,24 @@ const Input: React.FC<InputProps> = ({
                 <TextInput
                     style={[(inputTexting ? styles.inputTexting : styles.input), showError && styles.inputError]}
                     placeholder={t(placeholder)}
-                    value={value}
+                    value={value ?? ''}
                     onChangeText={(text) => {
                         const cleanText = onlyNumbers ? text.replace(/[^0-9]/g, '') : text;
                         if (onChange) onChange(cleanText);
+                    }}
+                    onFocus={() => {
+                        setInputFocus(true);
                         if (!isTouched) setIsTouched(true);
                     }}
                     onBlur={() => {
-                        setIsTouched(true)
+                        // setIsTouched(true)
                         if (onBlur) onBlur();
                     }}
                     onPress={onPress}
-                    onFocus={() => setInputFocus(true)}
                     keyboardType={onlyNumbers ? 'numeric' : 'default'}
                     multiline={true}
                     placeholderTextColor="#bbb"
+                    testID={testID}
                 />
                 {inputTexting && !inputFocus && (
                     <Animated.View style={[styles.inputCursor, { opacity: cursorOpacity }]} />

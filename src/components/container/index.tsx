@@ -7,7 +7,7 @@ import { ReactNode } from 'react';
 interface ContainerProps {
     children: ReactNode;
     scrollable?: boolean;
-    refreshControl?: JSX.Element;
+    refreshControl?: any;
 }
 
 export default function Container({ children, scrollable = true, refreshControl }: ContainerProps) {

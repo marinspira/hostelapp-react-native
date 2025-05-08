@@ -36,6 +36,7 @@ export interface Hostel {
   events?: Event[]; 
   volunteer_opportunities?: Position[];
   created_at?: Date;
+  policies: boolean
 }
 
 export interface HostelHome {
