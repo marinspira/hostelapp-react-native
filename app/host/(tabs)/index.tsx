@@ -101,14 +101,14 @@ export default function HostHomeScreen() {
             />
           </View> */}
 
-          <View style={styles.incomesBanner}>
+          {/* <View style={styles.incomesBanner}>
             <MaterialCommunityIcons
               style={styles.icomesIcon}
               name="location-enter"
             />
             <Text style={styles.incomesText}>Incomes</Text>
             <Text style={styles.incomesPriceText}>$ 4.000,00</Text>
-          </View>
+          </View> */}
 
           <CardsContainer
             title={t("Guests")}

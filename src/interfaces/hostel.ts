@@ -7,13 +7,6 @@ interface Bed {
     reservation_id: string | null;
 }
 
-export interface Address {
-  street: string;
-  city: string;
-  country: string;
-  zip?: string;
-}
-
 export type HostelStatus = 'pending' | 'approved' | 'rejected' | 'suspended';
 
 export interface Hostel {
@@ -23,7 +16,10 @@ export interface Hostel {
   logo?: string;
   username: string;
   name: string;
-  address: Address;
+  street: string;
+  city: string;
+  country: string;
+  zip?: string;
   phone?: string;
   email: string;
   website?: string;

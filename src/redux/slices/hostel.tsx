@@ -121,7 +121,7 @@ const hostelSlice = createSlice({
             })
             .addCase(createHostel.rejected, (state, action) => {
                 state.loading = false;
-                state.error = action.payload || 'Failed to fetch guests.';
+                state.error = action.payload || 'Creation failed';
             })
             // get hostel
             .addCase(getHostel.pending, (state) => {
@@ -134,7 +134,7 @@ const hostelSlice = createSlice({
             })
             .addCase(getHostel.rejected, (state, action) => {
                 state.loading = false;
-                state.error = action.payload || 'Failed to fetch guests.';
+                state.error = action.payload || 'Get hostel data failed';
             });
     },
 });

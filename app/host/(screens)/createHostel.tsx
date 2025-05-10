@@ -2,7 +2,7 @@ import MultiStepForm from '@/src/components/multiStepForm';
 import Input from '@/src/components/inputs/input';
 import InputImage from '@/src/components/inputs/inputImage';
 import InputPhone from '@/src/components/inputs/inputPhone';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import countries from '@/src/utils/coutries'
 import Container from '@/src/components/container';
@@ -25,21 +25,23 @@ export default function CreateHostel() {
     name: '',
     username: "",
     currency: "",
-    address: {
-      zip: '',
-      street: '',
-      city: '',
-      country: '',
-    },
+    zip: '',
+    street: '',
+    city: '',
+    country: '',
     phone: '',
     email: '',
     website: '',
     experience_with_volunteers: undefined,
     policies: false,
-});
+  });
   const { loading: isPending, error } = useSelector((state: RootState) => state.hostel);
 
   const [image, setImage] = useState()
+
+  const handleImageUpload = useCallback((img: any) => {
+    setImage(img);
+  }, []);
 
   const steps = useMemo(() => [
     {
@@ -51,7 +53,7 @@ export default function CreateHostel() {
           borderColor: '#6c63ff',
           borderWidth: 5,
           imgWidth: 250,
-          onUpload: (img: any) => setImage(img),
+          onUpload: handleImageUpload,
         },
         {
           component: Input,
@@ -163,7 +165,8 @@ export default function CreateHostel() {
       <MultiStepForm
         steps={steps}
         sendForm={sendForm}
-        value={hostelData} setValue={setHostelData}
+        value={hostelData}
+        setValue={setHostelData}
         sendBtnText={t("Criar hostel")}
       />
       {isPending && <ActivityIndicator size="large" color="#6c63ff" />}
