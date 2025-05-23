@@ -77,8 +77,10 @@ const MultiStepForm = ({ steps, sendForm, value, setHostel, sendBtnText }) => {
     };
 
     const isValidEmail = (email) => {
-        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return regex.test(email.trim());
+        if (email) {
+            const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return regex.test(email.trim());
+        }
     };
 
     const nextStep = () => {

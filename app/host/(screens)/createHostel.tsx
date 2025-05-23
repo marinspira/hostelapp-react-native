@@ -106,24 +106,24 @@ export default function CreateHostel() {
         },
       ]
     },
-    {
-      title: t('Como podemos entrar em contato com você?'),
-      fields: [
-        {
-          component: InputPhone,
-          name: 'phone',
-          label: t('Telefone do seu hostel'),
-          required: true,
-        },
-        {
-          component: Input,
-          name: 'email',
-          label: t('E-mail do seu hostel'),
-          placeholder: 'admin@hostelApp.com',
-          required: true,
-        },
-      ],
-    },
+    // {
+    //   title: t('Como podemos entrar em contato com você?'),
+    //   fields: [
+    //     {
+    //       component: InputPhone,
+    //       name: 'phone',
+    //       label: t('Telefone do seu hostel'),
+    //       required: true,
+    //     },
+    //     {
+    //       component: Input,
+    //       name: 'email',
+    //       label: t('E-mail do seu hostel'),
+    //       placeholder: 'admin@hostelApp.com',
+    //       required: true,
+    //     },
+    //   ],
+    // },
     {
       title: t('Só mais algumas informações...'),
       fields: [
@@ -157,11 +157,13 @@ export default function CreateHostel() {
     try {
       const response = await dispatch(createHostel({ hostelData, image })).unwrap();
 
+
+      // TODO: Change at the database as well 
       if (response.success) {
         dispatch(updateUserField({ key: 'isNewUser', value: false }));
       }
 
-      router.push('/host/(screens)/waitingApproval');
+      // router.push('/host/(screens)/waitingApproval');
 
     } catch (err) {
       console.error('Erro ao criar hostel:', err);

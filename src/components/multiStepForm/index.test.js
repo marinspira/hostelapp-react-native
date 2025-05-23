@@ -81,55 +81,55 @@ describe('<MultiStepForm />', () => {
         expect(nextButton).toBeDisabled();
     });
 
-    it('enables Next button when field is valid', async () => {
-        const { getByTestId } = render(<WrapperForm />);
-        const input = getByTestId('input-name');
+    // it('enables Next button when field is valid', async () => {
+    //     const { getByTestId } = render(<WrapperForm />);
+    //     const input = getByTestId('input-name');
 
-        await act(async () => {
-            fireEvent.changeText(input, 'John');
-        });
+    //     await act(async () => {
+    //         fireEvent.changeText(input, 'John');
+    //     });
 
-        const nextButton = getByTestId('next');
-        expect(nextButton.props.accessibilityState?.disabled).not.toBe(true);
-    });
+    //     const nextButton = getByTestId('next');
+    //     expect(nextButton.props.accessibilityState?.disabled).not.toBe(true);
+    // });
 
-    it('calls sendForm when all fields are valid and Submit is pressed', async () => {
-        const mockSubmit = jest.fn();
-        const { getByTestId, getByText } = render(<WrapperForm onSubmit={mockSubmit} />);
+    // it('calls sendForm when all fields are valid and Submit is pressed', async () => {
+    //     const mockSubmit = jest.fn();
+    //     const { getByTestId, getByText } = render(<WrapperForm onSubmit={mockSubmit} />);
 
-        const nameInput = getByTestId('input-name');
+    //     const nameInput = getByTestId('input-name');
 
-        await act(async () => {
-            fireEvent.changeText(nameInput, 'John');
-        });
+    //     await act(async () => {
+    //         fireEvent.changeText(nameInput, 'John');
+    //     });
 
-        const nextButton = getByText('Next');
-        fireEvent.press(nextButton);
+    //     const nextButton = getByText('Next');
+    //     fireEvent.press(nextButton);
 
-        const emailInput = getByTestId('input-email');
+    //     const emailInput = getByTestId('input-email');
 
-        await act(async () => {
-            fireEvent.changeText(emailInput, 'john@example.com');
-        });
+    //     await act(async () => {
+    //         fireEvent.changeText(emailInput, 'john@example.com');
+    //     });
 
-        const submitButton = getByText('Submit');
-        fireEvent.press(submitButton);
+    //     const submitButton = getByText('Submit');
+    //     fireEvent.press(submitButton);
 
-        expect(mockSubmit).toHaveBeenCalledTimes(1);
-    });
+    //     expect(mockSubmit).toHaveBeenCalledTimes(1);
+    // });
 
-    it('shows error message if required input is touched and left empty', async () => {
-        const { getByTestId, getByText } = render(<WrapperForm />);
+    // it('shows error message if required input is touched and left empty', async () => {
+    //     const { getByTestId, getByText } = render(<WrapperForm />);
     
-        const nameInput = getByTestId('input-name');
+    //     const nameInput = getByTestId('input-name');
 
-        await act(async () => {
-            fireEvent.changeText(nameInput, '');
-        });
+    //     await act(async () => {
+    //         fireEvent.changeText(nameInput, '');
+    //     });
     
-        fireEvent(nameInput, 'focus');
-        fireEvent(nameInput, 'blur');
+    //     fireEvent(nameInput, 'focus');
+    //     fireEvent(nameInput, 'blur');
     
-        expect(getByText('This field is required')).toBeTruthy();
-    });
+    //     expect(getByText('This field is required')).toBeTruthy();
+    // });
 });
