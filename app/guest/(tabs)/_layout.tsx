@@ -10,5 +10,5 @@ const tabIcons = {
 };
 
 export default function GuestTabLayout() {
-  return <Menu tabIcons={tabIcons} />
+  return <Menu role="guest" tabIcons={tabIcons} />
 }

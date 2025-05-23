@@ -10,5 +10,5 @@ const tabIcons = {
 };
 
 export default function TabLayout() {
-  return <Menu tabIcons={tabIcons} />
+  return <Menu role="host" tabIcons={tabIcons} />
 }

@@ -6,10 +6,11 @@ import ButtonCreate from '../buttons/ButtonCreate';
 import { useTranslation } from 'react-i18next';
 
 interface MenuProps {
-  tabIcons: any
+  tabIcons: any,
+  role: string
 }
 
-export default function Menu({ tabIcons }: MenuProps) {
+export default function Menu({ tabIcons, role }: MenuProps) {
 
   const { t } = useTranslation()
 
@@ -47,7 +48,7 @@ export default function Menu({ tabIcons }: MenuProps) {
           name={route}
           options={{
             tabBarIcon: ({ color, focused }) => {
-              if (route === 'index') {
+              if (role === "host" && route === 'index') {
                 return (
                   <>
                     {focused ? (

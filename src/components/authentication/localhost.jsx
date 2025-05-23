@@ -29,7 +29,7 @@ export default function LocalhostLogin({ role }) {
 
     return (
         <TouchableOpacity style={styles.btn} onPress={onSubmit}>
-            <Text style={styles.text}>Login as developer</Text>
+            <Text style={styles.text}>I just want to check it out</Text>
         </TouchableOpacity>
     )
 }

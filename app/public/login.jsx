@@ -47,7 +47,7 @@ function LoginScreen() {
       <Logo width={120} height={120} />
       <Text style={styles.title}>Logar como {role === 'guest' ? 'Hóspede' : 'Host'}</Text>
 
-      {Platform.OS === 'ios' && <IOSAuthentication role={role} />}
+      {/* {Platform.OS === 'ios' && <IOSAuthentication role={role} />} */}
       <GoogleAuthentication role={role} />
       <LocalhostLogin role={role} />
 
