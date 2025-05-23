@@ -34,13 +34,19 @@ export default function CreateHostel() {
     website: '',
     experience_with_volunteers: undefined,
     policies: false,
+    logo: ""
   });
   const { loading: isPending, error } = useSelector((state: RootState) => state.hostel);
 
-  const [image, setImage] = useState()
+  const [image, setImage] = useState(null)
 
   const handleImageUpload = useCallback((img: any) => {
     setImage(img);
+    
+    setHostelData(prev => ({
+      ...prev,
+      logo: img?.name || img?.uri || 'uploaded-image'
+    }));
   }, []);
 
   const steps = useMemo(() => [
@@ -54,6 +60,8 @@ export default function CreateHostel() {
           borderWidth: 5,
           imgWidth: 250,
           onUpload: handleImageUpload,
+          name: "logo",
+          required: true,
         },
         {
           component: Input,
@@ -71,28 +79,28 @@ export default function CreateHostel() {
         {
           component: Input,
           name: 'zip',
-          label: 'CEP',
+          label: t('CEP'),
           placeholder: '2000-000',
           required: true,
         },
         {
           component: Input,
           name: 'street',
-          label: 'Endereço',
+          label: t('Endereço'),
           placeholder: 'Av. Paulista',
           required: true,
         },
         {
           component: Input,
           name: 'city',
-          label: 'Cidade',
+          label: t('Cidade'),
           placeholder: 'São Paulo',
           required: true,
         },
         {
           component: InputSelect,
           name: 'country',
-          label: 'País',
+          label: t('País'),
           required: true,
           selectInputItems: countries
         },
@@ -104,13 +112,13 @@ export default function CreateHostel() {
         {
           component: InputPhone,
           name: 'phone',
-          label: 'Seu número de celular',
+          label: t('Telefone do seu hostel'),
           required: true,
         },
         {
           component: Input,
           name: 'email',
-          label: 'Your hostel e-mail',
+          label: t('E-mail do seu hostel'),
           placeholder: 'admin@hostelApp.com',
           required: true,
         },
@@ -122,8 +130,8 @@ export default function CreateHostel() {
         {
           component: Input,
           name: 'website',
-          label: 'Hostel Website',
-          placeholder: t('Qual é o site do seu hostel?'),
+          label: t('Qual é o site do seu hostel?'),
+          placeholder: "www.hostelapp.io",
           required: true,
           errorMessage: '',
         },
@@ -166,7 +174,7 @@ export default function CreateHostel() {
         steps={steps}
         sendForm={sendForm}
         value={hostelData}
-        setValue={setHostelData}
+        setHostel={setHostelData}
         sendBtnText={t("Criar hostel")}
       />
       {isPending && <ActivityIndicator size="large" color="#6c63ff" />}

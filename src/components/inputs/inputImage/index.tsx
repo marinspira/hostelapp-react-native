@@ -75,7 +75,7 @@ const InputImage: React.FC<InputImageProps> = ({
                 img.append('imageId', id);
                 img.append('photo', { uri: imageUri, name: filename, type } as any);
 
-                onUpload && onUpload(img)
+                onUpload && img && onUpload(img)
 
             } catch (error) {
                 console.error('Error resizing image:', error)

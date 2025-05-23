@@ -55,8 +55,9 @@ export default function CardsContainer({ title, children, data, create, seeMore,
                 </ScrollView>
             ) : (
                 <Pressable onPress={create} style={styles.emptyStateContainer}>
-                    <AntDesign name="pluscircle" size={30} color={Colors.light.tint} />
-                    <Text style={dynamicStyles.text}>{t("Vazio por aqui. Toque para criar.")}</Text>
+                    {/* <AntDesign name="pluscircle" size={30} color={Colors.light.tint} />
+                    <Text style={dynamicStyles.text}>{t("Vazio por aqui. Toque para criar.")}</Text> */}
+                    <Text style={dynamicStyles.text}>{t("Em breve")}</Text>
                 </Pressable>
             )}
         </View>

@@ -4,7 +4,7 @@ import { Colors } from '@/src/constants/Colors';
 import { KeyboardAvoidingView, Platform } from 'react-native';
 import AntDesign from '@expo/vector-icons/AntDesign';
 
-const MultiStepForm = ({ steps, sendForm, value, setValue, sendBtnText }) => {
+const MultiStepForm = ({ steps, sendForm, value, setHostel, sendBtnText }) => {
     const [currentStep, setCurrentStep] = useState(0);
     const [isStepValid, setIsStepValid] = useState(false);
     const [touched, setTouched] = useState({});
@@ -47,30 +47,35 @@ const MultiStepForm = ({ steps, sendForm, value, setValue, sendBtnText }) => {
     };
 
     const handleChange = (name, value) => {
-        setValue((prev) => {
-            const updated = { ...prev, [name]: value };
-            validateStepWithValue(updated);
-            return updated;
-        });
-
+        setHostel((prev) => ({ ...prev, [name]: value }));
         setErrors((prev) => ({ ...prev, [name]: undefined }));
     };
+
+    // const handleChange = (name, value) => {
+    //     setHostel((prev) => {
+    //         const updated = { ...prev, [name]: value };
+    //         validateStepWithValue(updated);
+    //         return updated;
+    //     });
+
+    //     setErrors((prev) => ({ ...prev, [name]: undefined }));
+    // };
 
     const validateField = (name, val) => {
         const field = steps[currentStep].fields.find((f) => f.name === name);
         if (!field) return;
-    
+
         let error = '';
-    
+
         if (field.required && (!val || val.trim() === '')) {
             error = 'This field is required';
         } else if (name === 'email' && !isValidEmail(val)) {
             error = 'Invalid email';
         }
-    
+
         setErrors((prev) => ({ ...prev, [name]: error }));
     };
-    
+
     const isValidEmail = (email) => {
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return regex.test(email.trim());

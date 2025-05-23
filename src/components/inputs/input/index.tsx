@@ -75,11 +75,11 @@ const Input: React.FC<InputProps> = ({
                         if (onChange) onChange(cleanText);
                     }}
                     onFocus={() => {
-                        setInputFocus(true);
                         if (!isTouched) setIsTouched(true);
+                        setIsTouched(false)
                     }}
                     onBlur={() => {
-                        // setIsTouched(true)
+                        setIsTouched(true)
                         if (onBlur) onBlur();
                     }}
                     onPress={onPress}
