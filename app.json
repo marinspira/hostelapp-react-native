@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "mobile",
-    "slug": "mobile",
-    "version": "1.0.0",
+    "name": "HostelApp",
+    "slug": "hostelapp",
+    "version": "0.1",
     "orientation": "portrait",
     "icon": "./assets/images/logo/hostelapp.png",
     "splash": {
@@ -12,7 +12,10 @@
     },
     "scheme": "hostelapp",
     "deepLinking": true,
-    "platforms": ["android", "ios"],
+    "platforms": [
+      "android",
+      "ios"
+    ],
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
@@ -27,7 +30,7 @@
       "permissions": [
         "android.permission.RECORD_AUDIO"
       ],
-      "package": "com.marinspira.mobile"
+      "package": "com.marinspira.HostelApp"
     },
     "web": {
       "bundler": "metro",
@@ -86,8 +89,9 @@
         "origin": false
       },
       "eas": {
-        "projectId": "e33c9e7a-0840-4f65-902e-f536c4405ed7"
+        "projectId": "15ce5807-73d8-4f51-aa2b-2414b842f269"
       }
-    }
+    },
+    "owner": "marinspira"
   }
 }
