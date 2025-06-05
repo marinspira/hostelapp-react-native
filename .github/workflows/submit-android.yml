@@ -2,11 +2,11 @@ name: Expo CI/CD
 
 on:
   push:
-    branches: ['main'] 
+    branches:
+      - main
 
 jobs:
   build-and-submit:
-    name: Build and Submit Android App
     runs-on: ubuntu-latest
 
     steps:
@@ -14,9 +14,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 18
 
       - name: Install dependencies
         run: npm install
@@ -24,14 +24,14 @@ jobs:
       - name: Install EAS CLI
         run: npm install -g eas-cli
 
-      - name: Log in to Expo
+      - name: Authenticate with Expo
         run: eas login --token ${{ secrets.EXPO_TOKEN }}
 
-      - name: Restore service account key
-        run: echo '${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}' > google-play-service-account.json
+      - name: Create Google Play Service Account Key
+        run: echo '${{ secrets.GOOGLE_PLAY_KEY }}' > google-play-service-account.json
 
-      - name: Build Android app
-        run: eas build --platform android --profile production --non-interactive
+      # - name: Build Android App
+      #   run: eas build --platform android --profile production --non-interactive --output=build.aab
 
       - name: Submit to Google Play
-        run: eas submit --platform android --profile production --non-interactive
+        run: eas submit --platform android --profile production --non-interactive --path build.aab
