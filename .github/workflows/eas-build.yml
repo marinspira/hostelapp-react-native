@@ -37,4 +37,4 @@ jobs:
         env:
           GOOGLE_PLAY_KEY: ${{ secrets.GOOGLE_PLAY_KEY }}
         run: |
-          eas build:submit --platform android --profile production --non-interactive
+          eas build:submit --platform android --profile production --non-interactive --latest-build
