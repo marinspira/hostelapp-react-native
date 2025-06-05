@@ -6,32 +6,81 @@ on:
       - main
 
 jobs:
-  build-and-submit:
+  install:
+    name: Install Dependencies
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 18
-
+          cache: npm
       - name: Install dependencies
-        run: npm install
+        run: npm install --frozen-lockfile
+      - uses: actions/upload-artifact@v4
+        with:
+          name: node-modules
+          path: node_modules/
+          retention-days: 7
 
-      - name: Install EAS CLI
-        run: npm install -g eas-cli
+  build:
+    name: Build Android
+    runs-on: ubuntu-latest
+    needs: install
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: node-modules
+          path: node_modules/
+      - uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
 
-      - name: Authenticate with Expo
-        run: eas login --token ${{ secrets.EXPO_TOKEN }}
+      - name: Build Android
+        run: eas build --platform android --profile production --non-interactive
+        
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-build
+          path: "*.aab"
+          retention-days: 7
+
+  submit:
+    name: Submit to Google Play
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: node-modules
+          path: node_modules/
+      - uses: actions/download-artifact@v4
+        with:
+          name: android-build
+          path: .
+      - uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
 
       - name: Create Google Play Service Account Key
-        run: echo '${{ secrets.GOOGLE_PLAY_KEY }}' > google-play-service-account.json
+        env:
+          GOOGLE_PLAY_KEY: ${{ secrets.GOOGLE_PLAY_KEY }}
+        run: echo "$GOOGLE_PLAY_KEY" > google-play-service-account.json
 
-      # - name: Build Android App
-      #   run: eas build --platform android --profile production --non-interactive --output=build.aab
+      - name: Find AAB File
+        id: find_aab
+        run: |
+          AAB_FILE=$(ls *.aab | head -n 1)
+          if [ -z "$AAB_FILE" ]; then
+            echo "Error: No AAB file found"
+            exit 1
+          fi
+          echo "aab_file=$AAB_FILE" >> $GITHUB_OUTPUT
 
       - name: Submit to Google Play
-        run: eas submit --platform android --profile production --non-interactive --path build.aab
+        run: eas build:submit --platform android --profile production --non-interactive --path "${{ steps.find_aab.outputs.aab_file }}"
