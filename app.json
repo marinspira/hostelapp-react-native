@@ -1,5 +1,6 @@
 {
   "expo": {
+    "jsEngine": "hermes",
     "name": "HostelApp",
     "slug": "hostelapp",
     "version": "0.1",
@@ -20,7 +21,11 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "usesAppleSignIn": true
+      "usesAppleSignIn": true,
+      "jsEngine": "jsc",
+      "runtimeVersion": {
+        "policy": "appVersion"
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -28,9 +33,11 @@
         "backgroundColor": "#ffffff"
       },
       "permissions": [
+        "android.permission.RECORD_AUDIO",
         "android.permission.RECORD_AUDIO"
       ],
-      "package": "com.marinspira.HostelApp"
+      "package": "com.marinspira.HostelApp",
+      "runtimeVersion": "1.0.0"
     },
     "web": {
       "bundler": "metro",
@@ -92,6 +99,9 @@
         "projectId": "15ce5807-73d8-4f51-aa2b-2414b842f269"
       }
     },
-    "owner": "marinspira"
+    "owner": "marinspira",
+    "updates": {
+      "url": "https://u.expo.dev/15ce5807-73d8-4f51-aa2b-2414b842f269"
+    }
   }
 }
