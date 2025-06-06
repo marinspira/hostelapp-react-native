@@ -3,6 +3,7 @@
   "main": "expo-router/entry",
   "version": "0.1",
   "scripts": {
+    "prebuild": "cp $ENVFILE .env",
     "start": "expo start --tunnel",
     "reset-project": "node ./scripts/reset-project.js",
     "android": "expo run:android",
