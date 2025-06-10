@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ImageBackground } from 'react-native';
 import Trip from '@/assets/images/illustrations/vacations.svg';
 import ButtonWithIcon from '@/src/components/buttons/ButtonWithIcon';
 import { Colors } from '@/src/constants/Colors';
@@ -8,12 +8,18 @@ import '@/assets/translations/i18n'
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { useRouter } from "expo-router";
 import { StatusBar } from 'expo-status-bar';
+import backgroundImage from "@/assets/images/background.jpg"
 
 function WelcomeScreen() {
     const { t, i18n } = useTranslation();
     const router = useRouter();
 
     return (
+        <ImageBackground
+            source={backgroundImage} 
+            style={styles.container}
+            resizeMode="cover"
+        >
         <View style={styles.container}>
             <StatusBar style="dark" />
             <View style={styles.content}>
@@ -25,7 +31,7 @@ function WelcomeScreen() {
                 <ButtonWithIcon
                     text={t("Começar como Hóspede")}
                     width="100%"
-                    icon={<AntDesign name="arrowright" size={24} color={Colors.light.tint} />}
+                    // icon={<AntDesign name="arrowright" size={24} color={Colors.light.tint} />}
                     borderColor='#fff'
                     backgroundColor={Colors.light.tint}
                     textColor='#fff'
@@ -37,7 +43,7 @@ function WelcomeScreen() {
                     backgroundColor='#fff'
                     text={t("Começar como Host")}
                     width="100%"
-                    icon={<AntDesign name="arrowright" size={24} color='#fff' />}
+                    // icon={<AntDesign name="arrowright" size={24} color='#fff' />}
                     borderColor={Colors.light.tint}
                     textColor={Colors.light.tint}
                     onPress={() => {
@@ -46,6 +52,7 @@ function WelcomeScreen() {
                 />
             </View>
         </View>
+        </ImageBackground>
     );
 }
 
@@ -55,7 +62,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 20,
-        backgroundColor: 'white',
     },
     content: {
         flex: 1,
@@ -65,14 +71,16 @@ const styles = StyleSheet.create({
     buttonContainer: {
         paddingBottom: 20,
         gap: 20,
+        display: "flex",
+        alignItems: "center"
     },
     title: {
         fontSize: 30,
-        fontWeight: '600',
         fontFamily: 'PoppinsBold',
         color: 'black',
-        marginTop: 5,
-        width: '100%'
+        marginTop: 15,
+        width: '100%',
+        textAlign: "center"
     },
     greetings: {
         color: Colors.light.tint,
@@ -80,5 +88,6 @@ const styles = StyleSheet.create({
         width: '100%',
         fontFamily: 'PoppinsBold',
         marginTop: 30,
+        textAlign: "center"
     }
 });
