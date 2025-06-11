@@ -45,7 +45,8 @@ export default function ButtonWithIcon
 
 const styles = StyleSheet.create({
     button: {
-        maxWidth: 340,
+        width: 340,
+        minWidth: 340,
         paddingVertical: 15,
         paddingHorizontal: 15,
         borderRadius: 100,

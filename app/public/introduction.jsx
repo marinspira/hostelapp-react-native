@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 import '@/assets/translations/i18n'
 import Slide from "@/src/components/slide";
 import IntroductionItems from "@/src/components/introductionItems";
-import SimpleButton from '@/src/components/buttons/SimpleButton'
+import ButtonWithIcon from '@/src/components/buttons/ButtonWithIcon'
 import { Colors } from '@/src/constants/Colors'
 
 function IntroductionScreen() {
@@ -77,18 +77,23 @@ function IntroductionScreen() {
                 renderButtons={(isLastSlide, handleNextSlide) => (
                     <>
                         {isLastSlide ? (
-                            <SimpleButton
+                            <ButtonWithIcon
                                 text={t("Começar")}
                                 onPress={role === "guest" ?
                                     () => { router.push('/public/login?role=guest'); }
                                     :
                                     () => { router.push('/public/login?role=host'); }
                                 }
+                                textColor="#fff"
                             />
                         ) : (
-                            <SimpleButton text={t("Próximo")} onPress={handleNextSlide} />
+                            <ButtonWithIcon
+                                text={t("Próximo")}
+                                onPress={handleNextSlide}
+                                textColor="#fff"
+                            />
                         )}
-                        <SimpleButton
+                        <ButtonWithIcon
                             text={role === "guest" ? t("Sou host") : t("Sou hóspede")}
                             onPress={() => router.push("/public")}
                             backgroundColor="transparent"

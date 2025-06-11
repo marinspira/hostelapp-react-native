@@ -64,7 +64,7 @@ i18n
                     'Conecte-se com outros viajantes, descubra eventos perto de você e troque serviços por hospedagens em qualquer lugar do mundo.': 'Connect with other travelers, discover events near you and exchange services for accommodation anywhere in the world.',
                     'Conecte-se e converse com viajantes hospedados com você': 'Connect and chat with travelers staying with you',
                     'Veja os perfis dos hóspedes que estão hospedados com você, curta e habilite o chat quando eles te curtirem de volta': 'See the profiles of guests who are staying with you, like them and enable chat when they like you back.',
-                    'Sugira e participe de eventos no hotel ou na cidade': 'Suggest and participate in events at the hotel or in the city',
+                    'Sugira e participe de eventos no hotel ou na cidade': 'Suggest and participate in events and activities',
                     'Descubra eventos criados por outros hóspedes ou pelo hostel e participe de experiências únicas.': 'Discover events created by other guests or the hostel and participate in unique experiences.',
                     'Hospede-se em qualquer lugar do mundo sem pagar nada!': 'Stay anywhere in the world paying anything!',
                     'Troque serviços por hospedagens em qualquer lugar do mundo e aprimore suas habilidades e experiências.': 'Exchange services for accommodation anywhere in the world and improve your skills and experience.',
