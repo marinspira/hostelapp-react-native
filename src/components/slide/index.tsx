@@ -102,6 +102,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         gap: 10,
         width: '100%',
-        bottom: 0
+        bottom: 0,
+        justifyContent: "center",
+        alignItems: "center"
     }
 });

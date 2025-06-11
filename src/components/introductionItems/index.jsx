@@ -25,18 +25,20 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         width: '100%',
-        padding: 20
+        padding: 20,
     },
     title: {
         fontFamily: 'PoppinsBold',
         width: '100%',
-        fontSize: 28,
-        marginBottom: 10
+        fontSize: 25,
+        marginBottom: 20,
+        textAlign: "center"
     },
     description: {
         fontFamily: 'PoppinsRegular',
         width: '100%',
-        fontSize: 18,
+        fontSize: 16,
+        textAlign: "center"
     }
 });
 

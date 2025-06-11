@@ -48,7 +48,7 @@ function LoginScreen() {
       <Text style={styles.title}>Logar como {role === 'guest' ? 'Hóspede' : 'Host'}</Text>
 
       {/* {Platform.OS === 'ios' && <IOSAuthentication role={role} />} */}
-      {/* <GoogleAuthentication role={role} /> */}
+      <GoogleAuthentication role={role} />
       <LocalhostLogin role={role} />
 
       <SimpleButton
