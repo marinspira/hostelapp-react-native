@@ -140,10 +140,9 @@ export const googleAuth = createAsyncThunk<BackendResponse, { token: string, rol
 
       const user = await response.json();
 
-      if (user.data.isNewUser) {
-        router.push(user.data.role === 'guest' ? '/guest/checkin' : '/host/createHostel');
-      } else {
-        router.push(user.data.role === 'guest' ? '/guest/(tabs)' : '/host/(tabs)');
+      if (!user || !user.data) {
+        console.error("Usuário inválido recebido:", user);
+        return rejectWithValue("Usuário inválido");
       }
 
       return user as BackendResponse;
