@@ -4,6 +4,7 @@ import { Platform, View, StyleSheet } from 'react-native';
 import { AntDesign, FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import ButtonCreate from '../buttons/ButtonCreate';
 import { useTranslation } from 'react-i18next';
+import { useFeatureFlag } from '@/src/hooks/useFeatureFlag';
 
 interface MenuProps {
   tabIcons: any,
@@ -13,6 +14,10 @@ interface MenuProps {
 export default function Menu({ tabIcons, role }: MenuProps) {
 
   const { t } = useTranslation()
+
+  const showRoomFeatures = useFeatureFlag('rooms');
+  const showEventFeatures = useFeatureFlag('events');
+  const showReservationFeatures = useFeatureFlag('reservation');
 
   return (
     <Tabs
@@ -56,26 +61,19 @@ export default function Menu({ tabIcons, role }: MenuProps) {
                         menuBtn
                         bottom={0}
                         subButtons={[
-                          {
-                            text: t('Guest'),
-                            icon: <FontAwesome name="user-o" size={16} color="white" />,
-                            onPress: () => router.push('/host/(screens)/searchGuest')
-                          },
-                          {
+                          ...(showRoomFeatures ? [{
                             text: t('Room'),
-                            icon: <MaterialIcons name="bed" size={16} color="white" />,
                             onPress: () => router.push('/host/(screens)/allRooms')
-                          },
-                          {
-                            text: t('Rol'),
-                            icon: <FontAwesome name="desktop" size={14} color="white" />,
+                          }] : []),
+                          ...(showReservationFeatures ? [{
+                            text: t('Guest'),
                             onPress: () => router.push('/host/(screens)/searchGuest')
-                          },
-                          {
+                          }] : []),
+                          ...(showEventFeatures ? [{
                             text: t('Event'),
-                            icon: <MaterialIcons name="event" size={16} color="white" />,
                             onPress: () => router.push('/host/(screens)/event/all')
-                          },
+                            // icon: <MaterialIcons name="event" size={16} color="white" />,
+                          }] : []),
                         ]}
                       />
                     ) : (

@@ -5,6 +5,7 @@ import { router } from 'expo-router'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/src/redux/store'
 import goToChat from '@/src/utils/goToChat'
+import { useFeatureFlag } from '@/src/hooks/useFeatureFlag'
 
 interface ProfilesCirclesProps {
     people: {
@@ -19,6 +20,8 @@ export default function ProfileCircles({ people }: ProfilesCirclesProps) {
     const dynamicStyles = useTheme();
     const user = useSelector((state: RootState) => state.user.data);
 
+    const showChatFeatures = useFeatureFlag('chat');
+
     if (people) {
         return (
             <View>
@@ -30,7 +33,7 @@ export default function ProfileCircles({ people }: ProfilesCirclesProps) {
                     {people.length > 0 && people.map((person, index) => (
                         <TouchableOpacity
                             onPress={() =>
-                                router.push({
+                                showChatFeatures && router.push({
                                     pathname: `/${user?.role ?? "guest"}/(screens)/chat`,
                                     params: {
                                         userId: person.userId,

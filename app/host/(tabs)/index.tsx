@@ -22,6 +22,7 @@ import { getAllGuests, HostelGuests } from '@/src/redux/slices/hostelGuests';
 import Container from '@/src/components/container';
 import GuestsList from '@/src/components/guestsList';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { useFeatureFlag } from '@/src/hooks/useFeatureFlag';
 
 export default function HostHomeScreen() {
   const { t } = useTranslation();
@@ -35,6 +36,10 @@ export default function HostHomeScreen() {
   const [events, setEvents] = useState([])
   const [rooms, setRooms] = useState([])
   const [refreshing, setRefreshing] = useState(false);
+
+  const showRoomFeatures = useFeatureFlag('rooms');
+  const showEventFeatures = useFeatureFlag('events');
+  const showReservationFeatures = useFeatureFlag('reservation');
 
   const { mutateAsync: getHomeMutation, isPending, error } = useGetHome();
 
@@ -91,15 +96,9 @@ export default function HostHomeScreen() {
             <View>
               <Text style={[dynamicStyles.text, styles.name]}>{hostel.name}</Text>
             </View>
-            <Entypo name="notification" size={24} color="black" />
+            <View/>
+            {/* <Entypo name="notification" size={24} color={dynamicStyles.item} /> */}
           </View>
-
-          {/* <View style={styles.searchBar}>
-            <InputSearch
-              placeholder='Search guest by @tag or e-mail'
-              onPress={() => router.push('/host/(screens)/searchGuest')}
-            />
-          </View> */}
 
           {/* <View style={styles.incomesBanner}>
             <MaterialCommunityIcons
@@ -110,48 +109,57 @@ export default function HostHomeScreen() {
             <Text style={styles.incomesPriceText}>$ 4.000,00</Text>
           </View> */}
 
-          <CardsContainer
-            title={t("Guests")}
-            create={() => console.log("")}
-            seeMore={guests.length > 4 ? "host/allRooms" : false}
-            data={guests.length > 0}
-          >
-            {/* <GuestsList /> */}
-            <ProfileCircles
-              people={
-                guests
-                  .map((guest: HostelGuests) => ({
-                    img: guest.firstPhoto ?? null,
-                    name: guest.name.split(" ")[0] || "",
-                    userId: guest.userId,
-                  })) || []
-              }
-            />
-          </CardsContainer>
+          {showReservationFeatures &&
+            <CardsContainer
+              title={t("Guests")}
+              create={() => console.log("")}
+              seeMore={guests.length > 4 ? "host/allRooms" : false}
+              data={guests.length > 0}
+              vertical={false}
+            >
+              {/* <GuestsList /> */}
+              <ProfileCircles
+                people={
+                  guests
+                    .map((guest: HostelGuests) => ({
+                      img: guest.firstPhoto ?? null,
+                      name: guest.name.split(" ")[0] || "",
+                      userId: guest.userId,
+                    })) || []
+                }
+              />
+            </CardsContainer>
+          }
 
-          <CardsContainer
-            title={t("Quartos")}
-            data={rooms.length > 0}
-            create={() => console.log("")}
-            seeMore="host/allRooms"
-          >
-            {rooms.map((room, index) => (
-              <RoomCard horizontalScroll key={index} room={room} index={index} />
-            ))}
-          </CardsContainer>
+          {showRoomFeatures &&
+            <CardsContainer
+              title={t("Quartos")}
+              data={rooms.length > 0}
+              create={() => console.log("")}
+              seeMore="host/allRooms"
+              vertical={false}
+            >
+              {rooms.map((room, index) => (
+                <RoomCard horizontalScroll key={index} room={room} index={index} />
+              ))}
+            </CardsContainer>
+          }
 
-          <CardsContainer
-            data={events.length > 0}
-            title={t("Últimos eventos")}
-            create={() => console.log("")}
-            seeMore="/host/event/all"
-          >
-            <EventList
-              data={events || []}
-              btnText={t("Ver")}
-              horizontalScroll
-            />
-          </CardsContainer>
+          {showEventFeatures &&
+            <CardsContainer
+              data={events.length > 0}
+              title={t("Últimos eventos")}
+              create={() => console.log("")}
+              seeMore="/host/event/all"
+              vertical={false}
+            >
+              <EventList
+                data={events || []}
+                btnText={t("Ver")}
+                horizontalScroll
+              />
+            </CardsContainer>
+          }
         </ScrollView>
       </View>
     </Container>

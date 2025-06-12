@@ -1,4 +1,5 @@
 import { Colors } from "@/src/constants/Colors";
+import { useFeatureFlag } from "@/src/hooks/useFeatureFlag";
 import { useTheme } from "@/src/hooks/useTheme";
 import { User } from "@/src/interfaces/user";
 import { RootState } from "@/src/redux/store";
@@ -17,16 +18,14 @@ export default function GuestsList() {
 
   const dynamicStyles = useTheme()
 
-  useEffect(() => {
-    console.log("guests", guests)
-  }, [])
+  const showChatFeatures = useFeatureFlag('chat');
 
   return (
     <>
       {guests.length > 0 && guests.map((person, index) => (
         <TouchableOpacity
           onPress={() =>
-            router.push({
+            showChatFeatures && router.push({
               pathname: `/${user?.role ?? "guest"}/(screens)/chat`,
               params: {
                 userId: person.userId,
