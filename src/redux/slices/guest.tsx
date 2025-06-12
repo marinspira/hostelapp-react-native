@@ -50,8 +50,6 @@ export const saveGuest = createAsyncThunk<BackendResponse, void, { state: RootSt
                 throw new Error('Failed to send user data');
             }
 
-            router.push('/guest/(tabs)');
-
             const result = await response.json();
             return result as BackendResponse
 

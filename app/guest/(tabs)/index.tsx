@@ -60,10 +60,10 @@ export default function HomeScreen() {
       console.error('Error getting rooms:', err);
     }
   }
-  useEffect(() => {
+  // useEffect(() => {
 
-    getHome()
-  }, [])
+  //   getHome()
+  // }, [])
 
   return (
     <Container>

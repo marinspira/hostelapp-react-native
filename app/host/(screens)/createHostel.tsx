@@ -156,15 +156,6 @@ export default function CreateHostel() {
   const sendForm = async (): Promise<void> => {
     try {
       const response = await dispatch(createHostel({ hostelData, image })).unwrap();
-
-
-      // TODO: Change at the database as well 
-      if (response.success) {
-        dispatch(updateUserField({ key: 'isNewUser', value: false }));
-      }
-
-      // router.push('/host/(screens)/waitingApproval');
-
     } catch (err) {
       console.error('Erro ao criar hostel:', err);
     }

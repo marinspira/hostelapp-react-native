@@ -17,6 +17,7 @@ import { logout } from '@/src/redux/slices/user';
 import { AppDispatch, persistor, RootState } from '@/src/redux/store';
 import { showToast } from '@/src/components/toast';
 import { useUploadGuestImages } from '@/src/services/guest/uploadProfileImages';
+import { useTheme } from '@/src/hooks/useTheme';
 
 export default function Checkin() {
   const { t } = useTranslation();
@@ -73,19 +74,19 @@ export default function Checkin() {
 
   const save = async () => {
     const result = await dispatch(saveGuest())
-
-    if (result) {
-      dispatch(updateUserField({ key: 'isNewUser', value: false }));
-      console.log(user)
-    }
   }
 
+  const dynamicStyles = useTheme()
+
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <SafeAreaView style={dynamicStyles.safeArea}>
       <StatusBar style='dark' />
-      <View style={styles.container}>
-        <Text style={styles.checkinText}>Check in</Text>
-        <ScrollView style={styles.scrollView}>
+      <View style={[dynamicStyles.container, styles.container]}>
+        <Text style={[styles.checkinText, dynamicStyles.textUppercase]}>Check in</Text>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={styles.scrollView}
+        >
           <View style={styles.userContent}>
             <InputImage
               id='0'
@@ -95,8 +96,8 @@ export default function Checkin() {
               onUpload={handleUploadGuestImages}
             />
             <View>
-              <Text style={styles.userName}>{user?.name}</Text>
-              <Text style={styles.suportText}>{t('Complete seu perfil')}</Text>
+              <Text style={dynamicStyles.title}>{user?.name}</Text>
+              <Text style={dynamicStyles.text}>{t('Complete seu perfil')}</Text>
             </View>
           </View>
           <InputDate
@@ -130,7 +131,6 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 20,
     alignItems: 'center',
-    backgroundColor: "#fff",
     height: '100%',
     justifyContent: 'space-between'
   },
@@ -153,11 +153,8 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   checkinText: {
-    fontFamily: 'PoppinsBold',
-    fontSize: 20,
     width: '100%',
     textAlign: 'center',
-    textTransform: 'uppercase',
     marginTop: 10
   },
   text: {

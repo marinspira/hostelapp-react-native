@@ -91,13 +91,12 @@ export default function HostHomeScreen() {
                   ? { uri: hostel.logo }
                   : require('@/assets/images/unnamed.png')
               }
-              style={styles.profileImage}
+              style={[styles.profileImage, { maxWidth: "33%" }]}
             />
             <View>
-              <Text style={[dynamicStyles.text, styles.name]}>{hostel.name}</Text>
+              <Text style={[dynamicStyles.text, styles.name, { textAlign: "center", marginLeft: -20 }]}>{hostel.name}</Text>
             </View>
-            <View/>
-            {/* <Entypo name="notification" size={24} color={dynamicStyles.item} /> */}
+            <Entypo name="notification" size={24} color="transparent" />
           </View>
 
           {/* <View style={styles.incomesBanner}>
