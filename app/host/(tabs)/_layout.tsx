@@ -6,7 +6,7 @@ const tabIcons = {
   // volunteers: 'team',
   index: 'home',
   // notifications: 'bells',
-  chat: 'message1',
+  // chat: 'message1',
 };
 
 export default function TabLayout() {

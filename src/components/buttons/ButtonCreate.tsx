@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 interface ButtonCreateProps {
     subButtons?: {
         text: string;
-        icon: any;
+        icon?: any;
         onPress: any;
     }[],
     onPress?: () => void,
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
         borderRadius: 100,
         alignItems: 'center',
         justifyContent: 'center',
-        width: 80,
+        width: 100,
         height: 40,
         flexDirection: "row",
         gap: 6

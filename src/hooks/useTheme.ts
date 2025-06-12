@@ -50,7 +50,7 @@ export const useTheme = () => {
     } as TextStyle,
 
     suportText: {
-      fontSize: 16,
+      fontSize: 14,
       color: color.text,
     } as TextStyle,
 

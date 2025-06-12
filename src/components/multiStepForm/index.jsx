@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, Key
 import { Colors } from '@/src/constants/Colors';
 import { KeyboardAvoidingView, Platform } from 'react-native';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import { useTheme } from '@/src/hooks/useTheme';
 
 const MultiStepForm = ({ steps, sendForm, value, setHostel, sendBtnText }) => {
     const [currentStep, setCurrentStep] = useState(0);
@@ -95,6 +96,8 @@ const MultiStepForm = ({ steps, sendForm, value, setHostel, sendBtnText }) => {
         }
     };
 
+    const dynamicStyles = useTheme()
+
     return (
         <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -103,7 +106,7 @@ const MultiStepForm = ({ steps, sendForm, value, setHostel, sendBtnText }) => {
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View style={styles.container}>
                     <ScrollView vertical showsVerticalScrollIndicator={false} style={{ paddingBottom: 100 }}>
-                        <Text style={styles.title}>{steps[currentStep].title}</Text>
+                        <Text style={[dynamicStyles.title, styles.title]}>{steps[currentStep].title}</Text>
                         {steps[currentStep].fields.map((field, index) => {
                             const Component = field.component;
 
@@ -166,7 +169,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: 40,
         marginTop: 40,
-        color: 'black',
         paddingRight: 10
     },
     buttonContainer: {

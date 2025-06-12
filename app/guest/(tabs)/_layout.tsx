@@ -6,7 +6,7 @@ const tabIcons = {
   // staff: 'team',
   index: 'home',
   // notifications: 'bells',
-  chat: 'message1',
+  // chat: 'message1',
 };
 
 export default function GuestTabLayout() {
