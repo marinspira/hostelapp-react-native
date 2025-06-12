@@ -69,27 +69,18 @@ export default function HomeScreen() {
     <Container>
       <Greetings
         username={user?.name}
-        supportText={home === null ?
-          t("Voce nao esta hospedada em nenhum hostel! :(")
-          :
-          `${t("Voce esta hospedada em ")} ${home?.hostel?.name}`
-        } />
+      // supportText={home === null ?
+      //   t("Voce nao esta hospedada em nenhum hostel! :(")
+      //   :
+      //   `${t("Voce esta hospedada em ")} ${home?.hostel?.name}`
+      // }
+      />
       <Pressable onPress={getHome}>
-        <Title title={t('Conecte-se para explorar')} text={t("Hospede-se em um hostel que usa nossos serviços e desfrute das nossas funcionalides")} marginTop={40} />
-        <ProfilesSlide />
-          {/* <EventList title={t('Eventos perto de você')} data={events} btnText='Join' /> */}
+        {/* <Title title={t('Conecte-se para explorar')} text={t("Hospede-se em um hostel que usa nossos serviços e desfrute das nossas funcionalides")} marginTop={40} /> */}
+        {/* <ProfilesSlide /> */}
+        {/* <EventList title={t('Eventos perto de você')} data={events} btnText='Join' /> */}
 
       </Pressable>
-      {home === null ? (
-        <View>
-
-        </View>
-      ) : (
-        <>
-          <ProfilesSlide title={t('Converse com quem está hospedado com você')} />
-          {/* <EventList title={t('Eventos perto de você')} data={events} btnText='Join' /> */}
-        </>
-      )}
     </Container>
   );
 }
