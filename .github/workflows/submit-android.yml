@@ -6,37 +6,17 @@ on:
       - production
 
 jobs:
-  prepare_files:
-    name: Prepare environment files
+  build_and_submit:
+    name: Build and Submit Android to Google Play
     runs-on: ubuntu-latest
-    outputs:
-      envfile-path: .env.production.local
-      google-play-key-path: google-play-service-account.json
+
     steps:
       - uses: actions/checkout@v4
-      
-      - name: Create .env.production.local file
-        run: |
-          echo "${{ secrets.PROD_EXPO_PUBLIC_SERVER_ADDRESS }}" >> .env.production.local
-          echo "${{ secrets.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID }}" >> .env.production.local
-          echo "${{ secrets.EXPO_PUBLIC_GOOGLE_EXPO_CLIENT_ID }}" >> .env.production.local
-          echo "${{ secrets.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID }}" >> .env.production.local
-          echo "${{ secrets.EXPO_PUBLIC_GOOGLE_ANDROID_CLIENT_ID }}" >> .env.production.local
 
-      - name: Create Google Play Service Account Key file
-        run: echo "${{ secrets.GOOGLE_PLAY_KEY }}" > google-play-service-account.json
-
-  build:
-    name: Build Android app
-    runs-on: ubuntu-latest
-    needs: prepare_files
-    steps:
-      - uses: actions/checkout@v4
-      
       - uses: actions/setup-node@v4
         with:
           node-version: 18
-      
+
       - run: npm ci
 
       - uses: expo/expo-github-action@v8
@@ -44,21 +24,19 @@ jobs:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
-      - name: Copy prepared env file
-        run: cp ${{ needs.prepare_files.outputs.envfile-path }} .
+      - name: Create .env.production.local
+        run: |
+          echo "${{ secrets.PROD_EXPO_PUBLIC_SERVER_ADDRESS }}" >> .env.production.local
+          echo "${{ secrets.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID }}" >> .env.production.local
+          echo "${{ secrets.EXPO_PUBLIC_GOOGLE_EXPO_CLIENT_ID }}" >> .env.production.local
+          echo "${{ secrets.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID }}" >> .env.production.local
+          echo "${{ secrets.EXPO_PUBLIC_GOOGLE_ANDROID_CLIENT_ID }}" >> .env.production.local
 
-      - name: Build app
+      - name: Create Google Play Service Account Key
+        run: echo "${{ secrets.GOOGLE_PLAY_KEY }}" > google-play-service-account.json
+
+      - name: Build Android App
         run: eas build --platform android --profile production --non-interactive
 
-  submit:
-    name: Submit build to Google Play
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Copy Google Play Service Account Key file
-        run: cp ${{ needs.prepare_files.outputs.google-play-key-path }} .
-
-      - name: Submit build to Google Play
+      - name: Submit to Google Play
         run: eas submit --platform android --profile production --non-interactive
