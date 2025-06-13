@@ -9,7 +9,7 @@
       "autoIncrement": true,
       "distribution": "internal",
       "env": {
-        "ENVFILE": ".env.production.local"
+        "ENVFILE": ".env.production"
       }
     },
     "preview": {
@@ -24,7 +24,7 @@
         "buildType": "app-bundle"
       },
       "env": {
-        "ENVFILE": ".env.production.local"
+        "ENVFILE": ".env.production"
       }
     }
   },
