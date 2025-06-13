@@ -35,8 +35,5 @@ jobs:
       - name: Create Google Play Service Account Key
         run: echo "${{ secrets.GOOGLE_PLAY_KEY }}" > google-play-service-account.json
 
-      - name: Build Android App
-        run: eas build --platform android --profile production --non-interactive
-
-      - name: Submit to Google Play
-        run: eas submit --platform android --profile production --non-interactive
+      - name: Build and Submit to Google Play
+        run: eas build --platform android --profile production --non-interactive --auto-submit
