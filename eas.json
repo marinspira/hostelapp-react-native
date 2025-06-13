@@ -6,9 +6,10 @@
   "build": {
     "development": {
       "developmentClient": true,
+      "autoIncrement": true,
       "distribution": "internal",
       "env": {
-        "ENVFILE": ".env.development.local"
+        "ENVFILE": ".env.production.local"
       }
     },
     "preview": {
