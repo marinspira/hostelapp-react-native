@@ -1,7 +1,7 @@
 {
   "name": "hostelapp",
   "main": "expo-router/entry",
-  "version": "0.1",
+  "version": "1.0",
   "scripts": {
     "prebuild": "cp $ENVFILE .env",
     "start": "expo start --tunnel",
