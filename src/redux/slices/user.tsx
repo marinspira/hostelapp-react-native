@@ -124,7 +124,7 @@ export const appleAuth = createAsyncThunk<BackendResponse, { identityToken: stri
 export const googleAuth = createAsyncThunk<BackendResponse, { token: string, role: string }, { rejectValue: string }>(
   'user/sendToBackend',
   async ({ token, role }, { rejectWithValue }) => {
-    console.log(token)
+
     try {
       const response = await fetch(`${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/api/auth/googleLogin`, {
         method: 'POST',
