@@ -1,6 +1,7 @@
 import { Image, Platform, StyleSheet, Text, TouchableOpacity } from "react-native";
 import * as WebBrowser from 'expo-web-browser'
 import * as Google from 'expo-auth-session/providers/google'
+import * as AuthSession from 'expo-auth-session';
 import { useEffect } from "react";
 import google from '@/assets/images/google.png'
 import { useDispatch } from 'react-redux';

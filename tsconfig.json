@@ -14,5 +14,5 @@
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
-, "app/guest/v2/staff.jsx", "app/_layout.tsx", "src/services/hostel/createEvent.jsx", "src/utils/appendToFormData.jsx", "src/services/hostel/createHostel.jsx", "src/components/modaisContent/addGuest/index.jsx", "app/public/login.jsx"  ]
+, "app/guest/v2/staff.jsx", "app/_layout.tsx", "src/services/hostel/createEvent.jsx", "src/utils/appendToFormData.jsx", "src/services/hostel/createHostel.jsx", "src/components/modaisContent/addGuest/index.jsx", "app/public/login.jsx", "app/oauthredirect/index.jsx"  ]
 }
