@@ -18,6 +18,7 @@ import { AppDispatch, persistor, RootState } from '@/src/redux/store';
 import { showToast } from '@/src/components/toast';
 import { useUploadGuestImages } from '@/src/services/guest/uploadProfileImages';
 import { useTheme } from '@/src/hooks/useTheme';
+import { router } from 'expo-router';
 
 export default function Checkin() {
   const { t } = useTranslation();
@@ -72,9 +73,19 @@ export default function Checkin() {
     save()
   }
 
+  // const save = async () => {
+  //   const result = await dispatch(saveGuest())
+  // }
+
   const save = async () => {
-    const result = await dispatch(saveGuest())
-  }
+    try {
+      const result = await dispatch(saveGuest()).unwrap();
+      router.replace('/guest/(tabs)');
+    } catch (error) {
+      console.error("Erro ao salvar convidado:", error);
+    }
+  };
+
 
   const dynamicStyles = useTheme()
 

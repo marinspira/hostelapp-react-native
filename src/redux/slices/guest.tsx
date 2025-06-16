@@ -35,8 +35,6 @@ export const saveGuest = createAsyncThunk<BackendResponse, void, { state: RootSt
             const state = getState() as RootState;
             const guestData = state.guest.data;
 
-            console.log('slice', guestData)
-
             const response = await fetch(`${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/api/guest/saveGuest`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
