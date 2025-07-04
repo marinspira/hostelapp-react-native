@@ -1,59 +1,96 @@
-# Welcome to your Expo app 👋
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`]
+# HostelApp React Native (Expo)
+Mobile client for **HostelApp**: browse hostels, rooms, chat in real‑time, and manage your stays. Built with Expo, React Native & TypeScript.
 
-## Get started
-1. Install dependencies
-   npm install
-
-2. Start the app
-    npx expo start
-
-3. Open on a android simulator
-   npm run android
-
-## Get a fresh project
-When you're ready, run:
-   npm run reset-project
-
-## Problemas para rodar a porta 8081
-
-   netstat -ano | findstr :8081
-
-   tasklist /FI "PID eq 4072"
-
-   taskkill /PID 4072 /F
+![Hostel App Screenshots](./assets/images/screenshots/hostelapp.png)
 
 
-# Checkin configurações
--- O guest é criado no banco antes do checkin ser enviado com a data de nascimento nas situações:
-1. Ele loga com o Google e possui foto de perfil, então o guest é criado com o item guestPhotos e a foto do Google
-2. Ele adiciona uma foto de perfil na parte de checkin
+## Case Study
 
--- O valor isNewGuest só atualiza após ele enviar o form de checkin
+Learn more about the development process, app idea, functional and non-functional requirements in this Medium article I wrote:
 
+https://medium.com/@mariaferreira.developer/case-hostelapp-how-i-built-a-fullstack-mobile-application-d2dbeee99234
 
-# Uso do tema
-Como utilizar o tema centralizado na sua aplicação React Native usando o hook useTheme. Esse hook retorna estilos dinâmicos baseados no tema atual armazenado no estado global (Redux).
+⎯⎯⎯⎯⎯⎯⎯
 
-Estrutura
-O arquivo principal do hook, useThemeColors.ts, contém a lógica para acessar o estado global do tema e retornar os estilos baseados em Colors.
+## Backend Service
 
-Definição do Hook
-   [`@/src/hooks/useThemeColors.ts`]
+This client communicates with a **Express.j API**:
 
-## Como Usar o Hook
-1. Importar o Hook
-Certifique-se de importar o useTheme no componente onde deseja aplicar estilos dinâmicos.
-   [`import { useTheme } from '@/hook/useThemeColors'`]
+- **Repository**: https://github.com/marinspira/hostelapp-express
+- **Endpoints**: `/api/auth`, `/api/hostel`, `/api/room`, `/api/reservation` and more.
+- **WebSockets**: real‑time messaging via Socket.IO
 
-2. Obter os Estilos Dinâmicos
-Chame o hook dentro do componente para acessar os estilos baseados no tema.
+⎯⎯⎯⎯⎯⎯⎯
 
-  [`const dynamicStyles = useTheme();`]
+## Internal Testing (Google Play)
 
-3. Aplicar Estilos
-Use os estilos retornados pelo hook diretamente nos componentes.
+The app is currently in internal testing on Google Play.
 
-   <View style={dynamicStyles.container}>
-      <Text style={dynamicStyles.text}>Este texto segue o tema atual.</Text>
-   </View>
+To request access and help with testing, please send an email to **mariaferreira.developer@gmail.com** with your Google account.
+
+You'll receive an invitation to join the internal test track.
+
+⎯⎯⎯⎯⎯⎯⎯
+
+## Tech Stack
+- Expo (SDK 52)
+- React Native & TypeScript
+- Redux Toolkit + Redux Persist
+- Socket.IO Client
+- react-i18next
+- expo-auth-session
+- expo-image-picker
+- Storybook
+- Jest + React Native Testing Library
+
+⎯⎯⎯⎯⎯⎯⎯
+
+## 📂 Project Structure
+```text
+hostelapp-react-native/
+├── .storybook/            # Storybook configuration & stories
+├── android/               # Android native project files
+├── ios/                   # iOS native project files
+├── src/
+│   ├── assets/            # Images, fonts, icons
+│   ├── components/        # Reusable UI components
+│   ├── hooks/             # Custom hooks (useTheme, useFeatureFlag)
+│   ├── navigation/        # React Navigation stacks & tabs
+│   ├── screens/           # Feature screen components
+│   ├── services/          # API & socket clients
+│   ├── store/             # Redux slices & store setup
+│   ├── theme/             # Color palettes & typography
+│   ├── utils/             # Helpers & Type definitions
+│   └── App.tsx            # Entry point
+├── .env.example           # Environment variables template
+├── app.json               # Expo configuration
+├── eas.json               # EAS build profiles
+├── package.json
+└── tsconfig.json
+```
+
+⎯⎯⎯⎯⎯⎯⎯
+
+## 📱 Features
+**Authentication**  
+  - Google Sign‑In (via `expo-auth-session`) and Apple Sign‑In  
+
+**Hostel & Room Browsing**  
+
+**Real‑time Chat**  
+  - In‑app messaging powered by `socket.io-client`  
+
+**Theming & Styling**  
+  - Dynamic light/dark theme via `useTheme` hook  
+
+**Internationalization**  
+  - Multi‑language support with `react-i18next`  
+
+**File Uploads**  
+  - Profile pictures via `expo-image-picker`  
+
+**UI Component Catalog**  
+  - Storybook setup for isolated component development  
+  
+**Offline & Caching**  
+  - Data persistence with Redux Toolkit & `redux-persist`  
