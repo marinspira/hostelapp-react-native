@@ -8,7 +8,7 @@ import SelectItens from "@/src/components/inputs/selectItens";
 import { useTranslation } from "react-i18next";
 import { ActivityIndicator, Text, View } from "react-native";
 import countries from '@/src/utils/coutries'
-import MultiStepForm from "@/src/components/multiStepForm";
+import MultiStepForm from "@/src/components/multiStepForm/index.stories";
 import { useState } from "react";
 
 export default function CreatePosition() {

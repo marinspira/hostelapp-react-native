@@ -16,13 +16,12 @@ export const isAuthenticated = createAsyncThunk<BackendResponse, void, { rejectV
   'user/isAuthenticated',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await fetch(`${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/api/auth/isAuthenticated`, {
+      const response = await fetch(`${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/api/auth/is-authenticated`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
       });
 
-      // Verifica se a resposta está OK antes de tentar processar
       if (!response.ok) {
         if (response.status === 401) {
           return rejectWithValue('Login to continue');
@@ -39,7 +38,6 @@ export const isAuthenticated = createAsyncThunk<BackendResponse, void, { rejectV
         return rejectWithValue('Failed to authenticate');
       }
 
-      // Verifica se a resposta contém JSON antes de tentar fazer o parsing
       const contentType = response.headers.get("content-type");
       if (!contentType || !contentType.includes("application/json")) {
         console.error("Unexpected response format", contentType);
@@ -61,7 +59,7 @@ export const localhostAuth = createAsyncThunk<BackendResponse, { credentials: an
   'user/localhostAuth',
   async ({ credentials, role }, { rejectWithValue }) => {
     try {
-      const response = await fetch(`${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/api/auth/localhostLogin`, {
+      const response = await fetch(`${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/api/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

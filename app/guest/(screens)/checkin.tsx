@@ -86,7 +86,6 @@ export default function Checkin() {
     }
   };
 
-
   const dynamicStyles = useTheme()
 
   return (
