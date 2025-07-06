@@ -3,13 +3,13 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/src/redux/store';
 import { isAuthenticated } from '@/src/redux/slices/user';
-import StorybookUI from "../storybook";
+// import StorybookUI from "../storybook";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useQueryClient } from '@tanstack/react-query';
 
 export default function Index() {
 
-  const [useStorybook] = useState(false);
+  // const [useStorybook] = useState(false);
 
   const user = useSelector((state: RootState) => state.user.data);
   const queryClient = useQueryClient();
@@ -68,9 +68,9 @@ export default function Index() {
     fetchUser()
   }, [user, queryClient]);
 
-  if (useStorybook) {
-    return <StorybookUI />
-  } else {
+  // if (useStorybook) {
+  //   return <StorybookUI />
+  // } else {
     if (!user) {
       return <Redirect href='/public' />
     }
@@ -90,5 +90,5 @@ export default function Index() {
         return <Redirect href="/host/(tabs)" />;
       }
     }
-  }
+  // }
 }

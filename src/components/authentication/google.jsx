@@ -23,7 +23,12 @@ function GoogleAuthentication({ role }) {
         iosClientId: Platform.OS === 'ios' ? ios : undefined,
         androidClientId: Platform.OS === 'android' ? android : undefined,
         webClientId: web,
-        scopes: ["profile", "email"]
+        scopes: ["profile", "email"],
+        redirectUri: AuthSession.makeRedirectUri({
+            // useProxy: false,
+            native: "com.marinspira.mobile://",
+            // preferLocalhost: true, 
+        }),
     });
 
     useEffect(() => {

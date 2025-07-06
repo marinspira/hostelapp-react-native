@@ -39,7 +39,7 @@ function WelcomeScreen() {
                         router.push('/public/introduction?role=guest');
                     }}
                 />
-                <ButtonWithIcon
+                {/* <ButtonWithIcon
                     backgroundColor='#fff'
                     text={t("Começar como Host")}
                     width="100%"
@@ -49,7 +49,7 @@ function WelcomeScreen() {
                     onPress={() => {
                         router.push('/public/introduction?role=host');
                     }}
-                />
+                /> */}
             </View>
         </View>
         </ImageBackground>

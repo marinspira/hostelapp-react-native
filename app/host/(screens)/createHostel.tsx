@@ -1,8 +1,8 @@
-import MultiStepForm from '@/src/components/multiStepForm';
+import MultiStepFormContainer from '@/src/components/multiStepForm/container';
 import Input from '@/src/components/inputs/input';
 import InputImage from '@/src/components/inputs/inputImage';
 import InputPhone from '@/src/components/inputs/inputPhone';
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import countries from '@/src/utils/coutries'
 import Container from '@/src/components/container';
@@ -20,29 +20,13 @@ import { createHostel } from '@/src/redux/slices/hostel';
 export default function CreateHostel() {
 
   const { t } = useTranslation();
-
-  const [hostelData, setHostelData] = useState<Hostel>({
-    name: '',
-    username: "",
-    currency: "",
-    zip: '',
-    street: '',
-    city: '',
-    country: '',
-    phone: '',
-    email: '',
-    website: '',
-    experience_with_volunteers: undefined,
-    policies: false,
-    logo: ""
-  });
   const { loading: isPending, error } = useSelector((state: RootState) => state.hostel);
 
   const [image, setImage] = useState(null)
 
   const handleImageUpload = useCallback((img: any) => {
     setImage(img);
-    
+
     setHostelData(prev => ({
       ...prev,
       logo: img?.name || img?.uri || 'uploaded-image'
@@ -56,9 +40,9 @@ export default function CreateHostel() {
           component: InputImage,
           id: 'hostelImage',
           borderRadius: '100%',
-          borderColor: '#6c63ff',
-          borderWidth: 5,
-          imgWidth: 250,
+          // borderColor: '#6c63ff',
+          // borderWidth: 5,
+          imgWidth: 150,
           onUpload: handleImageUpload,
           name: "logo",
           required: true,
@@ -69,7 +53,7 @@ export default function CreateHostel() {
           placeholder: 'HostelApp',
           label: t("Nome e logo do seu hostel"),
           required: true,
-          inputTexting: true,
+          // inputTexting: true,
         },
       ],
     },
@@ -149,7 +133,11 @@ export default function CreateHostel() {
         },
       ],
     },
-  ], [t])
+  ], [t, handleImageUpload])
+
+  // useEffect(() => {
+  //   console.log(hostelData)
+  // }, [hostelData])
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -163,15 +151,31 @@ export default function CreateHostel() {
 
   return (
     <Container scrollable={false}>
-      <MultiStepForm
+      <Text>teste</Text>
+      {/* <MultiStepFormContainer
         steps={steps}
-        sendForm={sendForm}
-        value={hostelData}
-        setHostel={setHostelData}
+        defaultValues={{
+          name: '',
+          username: "",
+          currency: "",
+          zip: '',
+          street: '',
+          city: '',
+          country: '',
+          phone: '',
+          email: '',
+          website: '',
+          experience_with_volunteers: undefined,
+          policies: false,
+          logo: ""
+        }}
+        onSubmit={sendForm}
+        // value={hostelData}
+        // setHostel={setHostelData}
         sendBtnText={t("Criar hostel")}
       />
       {isPending && <ActivityIndicator size="large" color="#6c63ff" />}
-      {error && <Text style={{ color: 'red' }}>{error}</Text>}
+      {error && <Text style={{ color: 'red' }}>{error}</Text>} */}
     </Container>
   );
 }

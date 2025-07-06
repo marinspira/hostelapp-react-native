@@ -6,9 +6,9 @@ export default function LocalhostLogin({ role }) {
 
     const owner = {
         name: "Eduarda Owner",
-        email: "aushausha@h43434ostelapp.com",
+        email: "dsdssfsdfsvcfvscsdc@h43434ostelapp.com",
         googleId: null,
-        appleId: "233244253",
+        appleId: "328392304",
         role: "owner",
     }
 

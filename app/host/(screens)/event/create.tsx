@@ -3,7 +3,7 @@ import Input from "@/src/components/inputs/input";
 import InputDate from "@/src/components/inputs/inputDate";
 import InputImage from "@/src/components/inputs/inputImage";
 import SelectItens from "@/src/components/inputs/selectItens";
-import MultiStepForm from "@/src/components/multiStepForm";
+import MultiStepForm from "@/src/components/multiStepForm/index.stories";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import EventStripeSettings from "@/src/components/eventStripeSettings"
@@ -248,13 +248,13 @@ export default function CreateEventScreen() {
 
     return (
         <Container scrollable={false}>
-            <MultiStepForm
+            {/* <MultiStepForm
                 steps={steps}
                 value={event}
                 setValue={setEvent}
                 sendForm={event?.receive_online && hostel && !stripeAccountId ? handleCreateEventAndConnectAccount : handleCreateEvent}
                 sendBtnText={event?.receive_online && hostel && !stripeAccountId ? t("Criar evento e configurar Stripe") : t("Criar evento")}
-            />
+            /> */}
         </Container>
     )
 }
