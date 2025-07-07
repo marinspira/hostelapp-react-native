@@ -54,7 +54,7 @@
     "i18next": "^24.1.2",
     "react": "18.3.1",
     "react-dom": "^18.3.1",
-    "react-hook-form": "^7.59.0",
+    "react-hook-form": "^7.60.0",
     "react-i18next": "^15.2.0",
     "react-native": "0.76.5",
     "react-native-gesture-handler": "~2.20.2",
@@ -71,7 +71,8 @@
     "react-redux": "^9.2.0",
     "redux-persist": "^6.0.0",
     "socket.io-client": "^4.8.1",
-    "yup": "^1.6.1"
+    "yup": "^1.6.1",
+    "zod": "^3.25.75"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

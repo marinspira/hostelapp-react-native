@@ -72,6 +72,16 @@
           "configureAndroidBackup": true,
           "faceIDPermission": "Allow HostelApp to access your Face ID biometric data."
         }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "compileSdkVersion": 35,
+            "targetSdkVersion": 35,
+            "buildToolsVersion": "35.0.0"
+          }
+        }
       ]
     ],
     "experiments": {

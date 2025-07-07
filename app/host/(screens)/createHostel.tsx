@@ -1,4 +1,3 @@
-import MultiStepFormContainer from '@/src/components/multiStepForm/container';
 import Input from '@/src/components/inputs/input';
 import InputImage from '@/src/components/inputs/inputImage';
 import InputPhone from '@/src/components/inputs/inputPhone';
@@ -16,12 +15,38 @@ import { updateUserField } from '@/src/redux/slices/user';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/src/redux/store';
 import { createHostel } from '@/src/redux/slices/hostel';
+import { MultiStepFormContainer } from '@/src/components/multiForm/MultiStepFormContainer';
+import { MultiStepFormStep } from '@/src/components/multiForm/MultiStepFormStep';
+import z from 'zod';
 
 export default function CreateHostel() {
 
   const { t } = useTranslation();
   const { loading: isPending, error } = useSelector((state: RootState) => state.hostel);
 
+  const step1Schema = z.object({
+    firstName: z.string().min(1, "First name is required"),
+  });
+
+  const step2Schema = z.object({
+    email: z.string().email("Invalid email"),
+  });
+
+  const [hostelData, setHostelData] = useState({
+    name: '',
+    username: "",
+    currency: "",
+    zip: '',
+    street: '',
+    city: '',
+    country: '',
+    phone: '',
+    email: '',
+    website: '',
+    experience_with_volunteers: undefined,
+    policies: false,
+    logo: ""
+  })
   const [image, setImage] = useState(null)
 
   const handleImageUpload = useCallback((img: any) => {
@@ -152,30 +177,30 @@ export default function CreateHostel() {
   return (
     <Container scrollable={false}>
       <Text>teste</Text>
-      {/* <MultiStepFormContainer
-        steps={steps}
-        defaultValues={{
-          name: '',
-          username: "",
-          currency: "",
-          zip: '',
-          street: '',
-          city: '',
-          country: '',
-          phone: '',
-          email: '',
-          website: '',
-          experience_with_volunteers: undefined,
-          policies: false,
-          logo: ""
-        }}
-        onSubmit={sendForm}
-        // value={hostelData}
-        // setHostel={setHostelData}
-        sendBtnText={t("Criar hostel")}
+      <MultiStepFormContainer
+        onSubmit={(data) => console.log("Form Submitted:", data)}
+        steps={[
+          {
+            id: "step1",
+            schema: step1Schema,
+            component: (
+              <MultiStepFormStep>
+                <FormInput name="firstName" label="First Name" placeholder="John" />
+                <FormInput name="firstName" label="First Name" placeholder="John" />
+              </MultiStepFormStep>
+            ),
+          },
+          {
+            id: "step2",
+            schema: step2Schema,
+            component: (
+              <MultiStepFormStep>
+                <FormInput name="email" label="Email" placeholder="example@mail.com" />
+              </MultiStepFormStep>
+            ),
+          },
+        ]}
       />
-      {isPending && <ActivityIndicator size="large" color="#6c63ff" />}
-      {error && <Text style={{ color: 'red' }}>{error}</Text>} */}
     </Container>
   );
 }
