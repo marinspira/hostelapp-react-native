@@ -94,7 +94,7 @@ export const appleAuth = createAsyncThunk<BackendResponse, { identityToken: stri
   'user/appleAuth',
   async ({ identityToken, fullName, role }, { rejectWithValue }) => {
     try {
-      const response = await fetch(`${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/api/auth/appleLogin`, {
+      const response = await fetch(`${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/api/auth/apple`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -124,7 +124,7 @@ export const googleAuth = createAsyncThunk<BackendResponse, { token: string, rol
   async ({ token, role }, { rejectWithValue }) => {
 
     try {
-      const response = await fetch(`${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/api/auth/googleLogin`, {
+      const response = await fetch(`${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/api/auth/google`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ token, role }),
