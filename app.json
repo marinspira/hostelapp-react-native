@@ -29,6 +29,7 @@
       }
     },
     "android": {
+      "targetSdkVersion": 35,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/logo/hostelapp.png",
         "backgroundColor": "#ffffff"
