@@ -53,7 +53,7 @@ function LoginScreen() {
 
       {Platform.OS === 'ios' && <IOSAuthentication role={role} />}
       <GoogleAuthentication role={role} />
-      {/* <LocalhostLogin role={role} /> */}
+      <LocalhostLogin role={role} />
 
       <SimpleButton
         text={role === "guest" ? t("Não é hospede? Logar como host") : t("Não é host? Logar como hóspede")}
