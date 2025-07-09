@@ -121,7 +121,7 @@ export default function HostHomeScreen() {
             />
           } */}
 
-          {showRoomFeatures &&
+          {/* {showRoomFeatures &&
             <CardsContainer
               title={t("Quartos")}
               data={rooms.length > 0}
@@ -133,7 +133,7 @@ export default function HostHomeScreen() {
                 <RoomCard horizontalScroll key={index} room={room} index={index} />
               ))}
             </CardsContainer>
-          }
+          } */}
 
           {showEventFeatures &&
             <CardsContainer
