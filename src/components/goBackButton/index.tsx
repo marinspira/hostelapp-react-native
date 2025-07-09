@@ -1,3 +1,4 @@
+import { useTheme } from "@/src/hooks/useTheme";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { Pressable, StyleSheet } from "react-native";
@@ -8,9 +9,10 @@ interface GoBackButtonProps {
 }
 
 export default function GoBackButton({ absolutePostion, color }: GoBackButtonProps) {
+    const dynamicStyles = useTheme()
     return (
         <Pressable style={absolutePostion ? styles.position : ''} onPress={() => router.back()}>
-            <FontAwesome5 name="arrow-left" size={22} color={color} />
+            <FontAwesome5 name="arrow-left" size={22} color={dynamicStyles.icon} />
         </Pressable>
     )
 }

@@ -1,9 +1,8 @@
 import { useMutation } from '@tanstack/react-query';
-import { useEffect } from 'react';
 
 const getAllRooms = async () => {
     try {
-        const response = await fetch(`${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/api/room/getAll`, {
+        const response = await fetch(`${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/api/rooms`, {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include',

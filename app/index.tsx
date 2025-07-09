@@ -85,7 +85,7 @@ export default function Index() {
 
       if (user.role === 'host') {
         if (user.isNewUser) {
-          return <Redirect href="/host/(screens)/createHostel" />;
+          return <Redirect href="/host/hostel/create" />;
         }
         return <Redirect href="/host/(tabs)" />;
       }

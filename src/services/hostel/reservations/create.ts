@@ -24,7 +24,6 @@ const createReservation = async (reservationData: any) => {
   }
 };
 
-
 export function useCreateReservation() {
   return useMutation({ mutationFn: createReservation });
 }

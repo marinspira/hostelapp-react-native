@@ -3,13 +3,13 @@ import Input from "@/src/components/inputs/input";
 import InputDate from "@/src/components/inputs/inputDate";
 import InputImage from "@/src/components/inputs/inputImage";
 import SelectItens from "@/src/components/inputs/selectItens";
-import MultiStepForm from "@/src/components/multiStepForm/index.stories";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import EventStripeSettings from "@/src/components/eventStripeSettings"
 import { createStripeAccount } from "@/src/services/hostel/createStripeAccount";
-import { createEvent } from "@/src/services/hostel/createEvent";
+import { createEvent } from "@/src/services/hostel/events/create";
 import { router } from "expo-router";
+import { Text } from "react-native";
 
 export interface Event {
     name: string,
@@ -248,6 +248,7 @@ export default function CreateEventScreen() {
 
     return (
         <Container scrollable={false}>
+            <Text>Teste</Text>
             {/* <MultiStepForm
                 steps={steps}
                 value={event}

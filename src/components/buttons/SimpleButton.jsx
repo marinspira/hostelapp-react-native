@@ -15,7 +15,7 @@ export default function SimpleButton
         borderRadius = 5,
         paddingHorizontal = 20,
         paddingVertical = 12,
-        marginTop
+        marginTop = 0
     }) {
     return (
         <Pressable

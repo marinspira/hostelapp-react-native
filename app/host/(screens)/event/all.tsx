@@ -4,7 +4,7 @@ import EmptyState from "@/src/components/emptyState";
 import GoBackButton from "@/src/components/goBackButton";
 import EventList, { EventData } from "@/src/components/guest/eventList";
 import { useTheme } from "@/src/hooks/useTheme";
-import { useGetAllEvents } from "@/src/services/hostel/getAllEvents";
+import { useGetAllEvents } from "@/src/services/hostel/events/list";
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";

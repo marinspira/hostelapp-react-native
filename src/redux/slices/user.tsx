@@ -45,9 +45,7 @@ export const isAuthenticated = createAsyncThunk<BackendResponse, void, { rejectV
       }
 
       const user = await response.json();
-
       return user as BackendResponse;
-
     } catch (error) {
       console.error("Unexpected error occurred during authentication", error);
       return rejectWithValue("Unexpected error occurred");

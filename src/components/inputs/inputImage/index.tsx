@@ -5,9 +5,6 @@ import { showToast } from '@/src/components/toast';
 import { useTranslation } from 'react-i18next';
 import '@/assets/translations/i18n';
 import * as ImageManipulator from "expo-image-manipulator";
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '@/src/redux/store';
-import { deleteGuestImage, uploadGuestImage } from '@/src/redux/slices/guest';
 import useGenerateRandomFilename from '@/src/hooks/useRandomName';
 import { useTheme } from '@/src/hooks/useTheme';
 
@@ -23,7 +20,8 @@ interface InputImageProps {
     defaultImg?: string
     imgHeight?: number,
     onUpload: any,
-    onDelete?: any
+    onDelete?: any,
+    imgPickerBtnText?: string
 }
 
 const InputImage: React.FC<InputImageProps> = ({
@@ -37,7 +35,8 @@ const InputImage: React.FC<InputImageProps> = ({
     onUpload,
     borderColor = '#ccc',
     borderWidth = 2,
-    onDelete
+    onDelete,
+    imgPickerBtnText
 }) => {
 
     const [image, setImage] = useState<string | null>(defaultImg || null);
@@ -123,7 +122,7 @@ const InputImage: React.FC<InputImageProps> = ({
                     </Pressable>
                 ) : (
                     <Pressable onPress={pickImage} style={[styles.imgPickerBtn, { borderRadius, width: imgWidth, height: imgHeight, zIndex: 10, borderColor, borderWidth }]}>
-                        <Text style={styles.imgPickerBtnText}>{'+'}</Text>
+                        <Text style={styles.imgPickerBtnText}>{imgPickerBtnText ? imgPickerBtnText : '+'}</Text>
                     </Pressable>
                 )}
             </View>
@@ -155,7 +154,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     imgPickerBtnText: {
-        fontSize: 30
+        fontSize: 20
     },
     suportText: {
         fontSize: 12,

@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 
 const getNewGuest = async (username: string) => {
     try {
-        const response = await fetch(`${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/api/guest/${username}`, {
+        const response = await fetch(`${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/api/guests/${username}`, {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include',

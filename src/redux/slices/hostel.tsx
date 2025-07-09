@@ -14,7 +14,7 @@ export const getHostel = createAsyncThunk<BackendResponse, void, { rejectValue: 
     'getHostel/hostel',
     async (_, { rejectWithValue }) => {
         try {
-            const result = await fetch(`${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/api/hostel/get`, {
+            const result = await fetch(`${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/api/hostels/mine`, {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
@@ -44,15 +44,15 @@ export const getHostel = createAsyncThunk<BackendResponse, void, { rejectValue: 
             } as BackendResponse
 
         } catch (error: any) {
-            console.error('Error in getHostel Slice:', error);
+            console.error('Error in get hostel slice:', error);
             return rejectWithValue(error.message || 'Unknown error');
         }
     }
 )
 
-export const createHostel = createAsyncThunk<BackendResponse, { hostelData: Hostel, image: any }, { rejectValue: string }>(
+export const createHostel = createAsyncThunk<BackendResponse, { data: Hostel, image: any }, { rejectValue: string }>(
     'createHostel/hostel',
-    async ({ hostelData, image }, { rejectWithValue }) => {
+    async ({ data, image }, { rejectWithValue }) => {
         const formData = new FormData();
 
         const appendToFormData = (data: Record<string, any>, prefix: string) => {
@@ -72,7 +72,7 @@ export const createHostel = createAsyncThunk<BackendResponse, { hostelData: Host
                 }
             }
         };
-        appendToFormData(hostelData, 'hostel');
+        appendToFormData(data, 'hostel');
 
         if (image instanceof FormData) {
             for (const [key, value] of image.entries()) {
@@ -81,7 +81,7 @@ export const createHostel = createAsyncThunk<BackendResponse, { hostelData: Host
         }
 
         try {
-            const result = await fetch(`${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/api/hostel/create`, {
+            const result = await fetch(`${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/api/hostels/create`, {
                 method: 'POST',
                 headers: {},
                 credentials: 'include',
@@ -91,13 +91,13 @@ export const createHostel = createAsyncThunk<BackendResponse, { hostelData: Host
             const response = await result.json();
 
             if (!result.ok) {
-                throw new Error(response.message || 'Erro ao criar hostel');
+                throw new Error(response.message || 'Error creating hostel');
             }
 
             return response as BackendResponse
 
         } catch (error: any) {
-            console.error('Error in fetchHostel:', error);
+            console.error('Error in create hostel slice:', error);
             return rejectWithValue(error.message || 'Unknown error');
         }
     }
