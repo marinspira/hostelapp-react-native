@@ -15,17 +15,19 @@ import RoomCard from "@/src/components/roomCard"
 export default function RoomsScreen() {
     const [refreshing, setRefreshing] = useState(false);
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [rooms, setRooms] = useState([
-        {
-            type: "",
-            name: "",
-            capacity: null,
-            beds: [{
-                bed_number: '',
-                reservation_id: null
-            }]
-        }
-    ])
+    const [rooms, setRooms] = useState([])
+
+    // const [rooms, setRooms] = useState([
+    //     {
+    //         type: "",
+    //         name: "",
+    //         capacity: null,
+    //         beds: [{
+    //             bed_number: '',
+    //             reservation_id: null
+    //         }]
+    //     }
+    // ])
 
     const { height } = useWindowDimensions()
     const dynamicStyles = useTheme()
@@ -70,7 +72,7 @@ export default function RoomsScreen() {
                         }
                     >
                         {rooms.map((room, index) => (
-                            <RoomCard key={index} room={room} index={index} />
+                            <RoomCard horizontalScroll={false} key={index} room={room} index={index} />
                         ))}
                     </ScrollView>
                 ) : (

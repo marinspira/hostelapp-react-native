@@ -24,6 +24,7 @@ export default function AddGuest({ guest, setModalVisible }) {
     const { mutateAsync: createReservationMutation, isPending, error } = useCreateReservation();
     const { mutateAsync: getBedsAvailableMutation } = useGetBedsAvailable();
 
+
     const [bedsAvailable, setBedsAvailable] = useState(null)
 
     const [reservation, setReservation] = useState({
@@ -127,9 +128,9 @@ export default function AddGuest({ guest, setModalVisible }) {
                     }
                 />
                 <View>
-                    <Text style={dynamicStyles.title}>{guest.name}</Text>
+                    <Text style={[dynamicStyles.title]}>{guest.name}</Text>
                     <Pressable onPress={() => router.push("/")}>
-                        <Text style={[dynamicStyles.text, { marginTop: -5 }]}>Ver perfil</Text>
+                        <Text style={[dynamicStyles.text, { marginTop: -5 }]}>{t("Ver perfil")}</Text>
                     </Pressable>
                 </View>
             </View>
@@ -211,16 +212,14 @@ export default function AddGuest({ guest, setModalVisible }) {
             ) : (
                 <Pressable
                     onPress={() => {
-                        router.push('/host/allRooms');
+                        router.push('/host/room/list');
                         setModalVisible(false);
                     }}
                     style={{ marginBottom: 20 }}
                 >
-                    <Text style={dynamicStyles.text}>Você não tem nenhum quarto criado, {' '}
-                        <Text style={{ color: Colors.light.tint, fontFamily: 'PoppinsBold', fontSize: 16 }}>
-                            clique aqui para criar um.
+                        <Text style={{ color: Colors.light.tint, fontFamily: 'PoppinsBold', fontSize: 16, textAlign: "center" }}>
+                            {t("Clique aqui para criar um quarto")}.
                         </Text>
-                    </Text>
                 </Pressable>
             )}
         </View >

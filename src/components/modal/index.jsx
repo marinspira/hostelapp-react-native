@@ -16,7 +16,7 @@ export default function PopUp({ modalVisible, setModalVisible, children }) {
             <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
                 <View style={styles.modalBackground}>
                     <TouchableWithoutFeedback>
-                        <View style={[styles.modalContainer, { width: width * 0.95, maxHeight: height * 0.80 }]}>
+                        <View style={[styles.modalContainer, dynamicStyles.container, { width: width * 0.95, maxHeight: height * 0.80 }]}>
                             <Pressable style={styles.closeButton} onPress={() => setModalVisible(false)}>
                                 <Text style={dynamicStyles.text}>X</Text>
                             </Pressable>
@@ -39,7 +39,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     modalContainer: {
-        backgroundColor: '#fff',
         padding: 20,
         borderRadius: 10,
         minHeight: 150,

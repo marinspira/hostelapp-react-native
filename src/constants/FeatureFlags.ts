@@ -17,8 +17,8 @@ export const featureFlags: FeatureFlags = {
     enabled: false,
   },
   reservation: {
-    enabled: false,
-    dependsOn: ['rooms'],
+    enabled: true,
+    // dependsOn: ['rooms'],
   },
   events: {
     enabled: false,

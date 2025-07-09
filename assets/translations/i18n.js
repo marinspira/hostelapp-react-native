@@ -145,7 +145,7 @@ i18n
                     "URL inválida": "Invalid URL",
                     "Escolha pelo menos uma opção": "Choose at least one option",
                     "Você deve aceitar as políticas de privacidade": "You must accept the privacy policy",
-                    "": "",
+                    "Clique aqui para criar um quarto": "Click here to create a room",
                     "": "",
                     "": "",
                     "": "",

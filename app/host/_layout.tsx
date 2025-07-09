@@ -28,7 +28,7 @@ export default function HostLayout() {
   return (
     <Stack>
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen name="(screens)/allRooms" options={{ headerShown: false }} />
+      <Stack.Screen name="(screens)/room/list" options={{ headerShown: false }} />
 
       <Stack.Screen name="(screens)/hostel/create" options={{ headerShown: false }} />
       <Stack.Screen name="(screens)/createPosition" options={{ headerShown: false }} />

@@ -102,13 +102,8 @@ export default function HostHomeScreen() {
           </View>
 
           <Greetings
-                  username={hostel?.name}
-                // supportText={home === null ?
-                //   t("Voce nao esta hospedada em nenhum hostel! :(")
-                //   :
-                //   `${t("Voce esta hospedada em ")} ${home?.hostel?.name}`
-                // }
-                />
+            username={hostel?.name}
+          />
 
           {/* <View style={styles.incomesBanner}>
             <MaterialCommunityIcons
@@ -119,32 +114,12 @@ export default function HostHomeScreen() {
             <Text style={styles.incomesPriceText}>$ 4.000,00</Text>
           </View> */}
 
-          {showReservationFeatures &&
-            // <CardsContainer
-            //   title={t("Guests")}
-            //   create={() => console.log("")}
-            //   seeMore={guests.length > 4 ? "host/allRooms" : false}
-            //   data={guests.length > 0}
-            //   vertical={false}
-            // >
-            //   <GuestsList />
-            //   <ProfileCircles
-            //     people={
-            //       guests
-            //         .map((guest: HostelGuests) => ({
-            //           img: guest.firstPhoto ?? null,
-            //           name: guest.name.split(" ")[0] || "",
-            //           userId: guest.userId,
-            //         })) || []
-            //     }
-            //   />
-            // </CardsContainer>
+          {/* {showReservationFeatures &&
             <InputSearch
-              // ref={inputRef}
               onChange={(username) => console.log(username)}
               placeholder='Search guest by name, user or email'
             />
-          }
+          } */}
 
           {showRoomFeatures &&
             <CardsContainer
