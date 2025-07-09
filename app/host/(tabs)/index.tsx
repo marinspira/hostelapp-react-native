@@ -4,6 +4,7 @@ import { User } from '@/src/interfaces/user';
 import { useTranslation } from 'react-i18next';
 import '@/assets/translations/i18n'
 import { router } from 'expo-router';
+import Greetings from '@/src/components/greetings'
 import ButtonCreate from '@/src/components/buttons/ButtonCreate';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
@@ -23,6 +24,7 @@ import Container from '@/src/components/container';
 import GuestsList from '@/src/components/guestsList';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { useFeatureFlag } from '@/src/hooks/useFeatureFlag';
+import InputSearch from '@/src/components/inputs/inputSearch';
 
 export default function HostHomeScreen() {
   const { t } = useTranslation();
@@ -99,6 +101,15 @@ export default function HostHomeScreen() {
             <Entypo name="notification" size={24} color="transparent" />
           </View>
 
+          <Greetings
+                  username={hostel?.name}
+                // supportText={home === null ?
+                //   t("Voce nao esta hospedada em nenhum hostel! :(")
+                //   :
+                //   `${t("Voce esta hospedada em ")} ${home?.hostel?.name}`
+                // }
+                />
+
           {/* <View style={styles.incomesBanner}>
             <MaterialCommunityIcons
               style={styles.icomesIcon}
@@ -109,25 +120,30 @@ export default function HostHomeScreen() {
           </View> */}
 
           {showReservationFeatures &&
-            <CardsContainer
-              title={t("Guests")}
-              create={() => console.log("")}
-              seeMore={guests.length > 4 ? "host/allRooms" : false}
-              data={guests.length > 0}
-              vertical={false}
-            >
-              {/* <GuestsList /> */}
-              <ProfileCircles
-                people={
-                  guests
-                    .map((guest: HostelGuests) => ({
-                      img: guest.firstPhoto ?? null,
-                      name: guest.name.split(" ")[0] || "",
-                      userId: guest.userId,
-                    })) || []
-                }
-              />
-            </CardsContainer>
+            // <CardsContainer
+            //   title={t("Guests")}
+            //   create={() => console.log("")}
+            //   seeMore={guests.length > 4 ? "host/allRooms" : false}
+            //   data={guests.length > 0}
+            //   vertical={false}
+            // >
+            //   <GuestsList />
+            //   <ProfileCircles
+            //     people={
+            //       guests
+            //         .map((guest: HostelGuests) => ({
+            //           img: guest.firstPhoto ?? null,
+            //           name: guest.name.split(" ")[0] || "",
+            //           userId: guest.userId,
+            //         })) || []
+            //     }
+            //   />
+            // </CardsContainer>
+            <InputSearch
+              // ref={inputRef}
+              onChange={(username) => console.log(username)}
+              placeholder='Search guest by name, user or email'
+            />
           }
 
           {showRoomFeatures &&

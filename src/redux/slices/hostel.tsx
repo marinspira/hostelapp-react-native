@@ -14,7 +14,7 @@ export const getHostel = createAsyncThunk<BackendResponse, void, { rejectValue: 
     'getHostel/hostel',
     async (_, { rejectWithValue }) => {
         try {
-            const result = await fetch(`${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/api/hostels/get`, {
+            const result = await fetch(`${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/api/hostels/mine`, {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
@@ -44,7 +44,7 @@ export const getHostel = createAsyncThunk<BackendResponse, void, { rejectValue: 
             } as BackendResponse
 
         } catch (error: any) {
-            console.error('Error in getHostel Slice:', error);
+            console.error('Error in get hostel slice:', error);
             return rejectWithValue(error.message || 'Unknown error');
         }
     }

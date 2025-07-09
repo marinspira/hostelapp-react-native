@@ -12,7 +12,7 @@ const InputSearch = forwardRef<TextInput, InputSearchProps>(
     ({ onChange, onPress, placeholder, ...rest }, ref) => {
         return (
             <View style={styles.container}>
-                <Feather name="search" size={24} color="black" />
+                <Feather name="search" size={20} color="#bbb" />
                 <TextInput
                     ref={ref}
                     style={[styles.input]}
