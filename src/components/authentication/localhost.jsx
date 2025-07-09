@@ -5,10 +5,10 @@ import { localhostAuth } from "@/src/redux/slices/user";
 export default function LocalhostLogin({ role }) {
 
     const owner = {
-        name: "Eduarda Owner",
-        email: "dsdssfsdfsvcfvscsdc@h43434ostelapp.com",
+        name: "Mario",
+        email: "mario@gmail.com",
         googleId: null,
-        appleId: "328392304",
+        appleId: "484738489283",
         role: "owner",
     }
 

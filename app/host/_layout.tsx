@@ -10,7 +10,7 @@ export default function HostLayout() {
   useEffect(() => {
       if (user) {
         if (user.isNewUser) {
-          router.push(user.role === 'guest' ? '/guest/(screens)/checkin' : '/host/(screens)/createHostel');
+          router.push(user.role === 'guest' ? '/guest/(screens)/checkin' : '/host/hostel/create');
         } else {
           router.push(user.role === 'guest' ? '/guest/(tabs)' : '/host/(tabs)');
         }
@@ -30,7 +30,7 @@ export default function HostLayout() {
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen name="(screens)/allRooms" options={{ headerShown: false }} />
 
-      <Stack.Screen name="(screens)/createHostel" options={{ headerShown: false }} />
+      <Stack.Screen name="(screens)/hostel/create" options={{ headerShown: false }} />
       <Stack.Screen name="(screens)/createPosition" options={{ headerShown: false }} />
 
       <Stack.Screen name="(screens)/waitingApproval" options={{ headerShown: false }} />

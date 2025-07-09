@@ -1,6 +1,7 @@
 import React from "react";
-import { TextInput, View, Text } from "react-native";
+import { TextInput, View, Text, StyleSheet } from "react-native";
 import { Controller, useFormContext } from "react-hook-form";
+import { useTheme } from "@/src/hooks/useTheme";
 
 type FormInputProps = {
   name: string;
@@ -11,9 +12,11 @@ type FormInputProps = {
 export const FormInput: React.FC<FormInputProps> = ({ name, label, placeholder }) => {
   const { control, formState: { errors } } = useFormContext();
 
+  const dynamicStyles = useTheme()
+
   return (
     <View style={{ marginBottom: 16 }}>
-      <Text style={{ marginBottom: 4 }}>{label}</Text>
+      <Text style={dynamicStyles.label}>{label}</Text>
       <Controller
         control={control}
         name={name}
@@ -23,12 +26,7 @@ export const FormInput: React.FC<FormInputProps> = ({ name, label, placeholder }
             onChangeText={field.onChange}
             onBlur={field.onBlur}
             placeholder={placeholder}
-            style={{
-              borderColor: errors[name] ? "red" : "#ccc",
-              borderWidth: 1,
-              padding: 8,
-              borderRadius: 4,
-            }}
+            style={styles.input}
           />
         )}
       />
@@ -40,3 +38,15 @@ export const FormInput: React.FC<FormInputProps> = ({ name, label, placeholder }
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  input: {
+    backgroundColor: '#f7f7f7',
+    minWidth: '100%',
+    padding: 18,
+    borderRadius: 8,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    fontSize: 16,
+  },
+});

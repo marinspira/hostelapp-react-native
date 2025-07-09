@@ -23,7 +23,7 @@ export default function GuestLayout() {
   useEffect(() => {
     if (user) {
       if (user.isNewUser) {
-        router.push(user.role === 'guest' ? '/guest/(screens)/checkin' : '/host/createHostel');
+        router.push(user.role === 'guest' ? '/guest/(screens)/checkin' : '/host/hostel/create');
       } else {
         router.push(user.role === 'guest' ? '/guest/(tabs)' : '/host/(tabs)');
       }

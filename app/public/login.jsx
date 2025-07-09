@@ -11,10 +11,6 @@ import GoogleAuthentication from '@/src/components/authentication/google';
 import LocalhostLogin from '@/src/components/authentication/localhost';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { z } from "zod";
-import { MultiStepFormContainer } from '@/src/components/multiForm/MultiStepFormContainer';
-import { MultiStepFormStep } from '@/src/components/multiForm/MultiStepFormStep';
-import { FormInput } from '@/src/components/multiForm/FormInput';
 
 function LoginScreen() {
 
@@ -37,7 +33,7 @@ function LoginScreen() {
 
       if (user.role === 'host') {
         if (user.isNewUser) {
-          router.replace('/host/(screens)/createHostel');
+          router.replace('/host/hostel/create');
         } else {
           router.replace('/host/(tabs)');
         }
