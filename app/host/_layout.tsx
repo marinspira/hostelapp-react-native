@@ -31,10 +31,10 @@ export default function HostLayout() {
       <Stack.Screen name="(screens)/room/list" options={{ headerShown: false }} />
 
       <Stack.Screen name="(screens)/hostel/create" options={{ headerShown: false }} />
-      <Stack.Screen name="(screens)/createPosition" options={{ headerShown: false }} />
+      <Stack.Screen name="(screens)/volunteer/create" options={{ headerShown: false }} />
 
       <Stack.Screen name="(screens)/waitingApproval" options={{ headerShown: false }} />
-      <Stack.Screen name="(screens)/searchGuest" options={{ headerShown: false }} />
+      <Stack.Screen name="(screens)/guest/searchGuest" options={{ headerShown: false }} />
 
       <Stack.Screen name="(screens)/[chat]" options={{ headerShown: false }} />
 

@@ -45,7 +45,7 @@ export default function Volunteers() {
                     />
                 )}
             </View>
-            <ButtonCreate bottom={70} onPress={() => router.push("/host/(screens)/createPosition")} />
+            <ButtonCreate bottom={70} onPress={() => router.push("/host/(screens)/volunteer/create")} />
         </Container>
     )
 }

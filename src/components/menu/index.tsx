@@ -67,7 +67,7 @@ export default function Menu({ tabIcons, role }: MenuProps) {
                           }] : []),
                           ...(showReservationFeatures ? [{
                             text: t('Guest'),
-                            onPress: () => router.push('/host/(screens)/searchGuest')
+                            onPress: () => router.push('/host/(screens)/guest/searchGuest')
                           }] : []),
                           ...(showEventFeatures ? [{
                             text: t('Event'),
