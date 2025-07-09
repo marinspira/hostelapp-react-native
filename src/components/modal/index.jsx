@@ -8,26 +8,29 @@ export default function PopUp({ modalVisible, setModalVisible, children }) {
 
     return (
         <Modal
-            animationType="slide"
-            visible={modalVisible}
-            onRequestClose={() => setModalVisible(false)}
-            transparent
-        >
-            <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
-                <View style={styles.modalBackground}>
-                    <TouchableWithoutFeedback>
-                        <View style={[styles.modalContainer, dynamicStyles.container, { width: width * 0.95, maxHeight: height * 0.80 }]}>
-                            <Pressable style={styles.closeButton} onPress={() => setModalVisible(false)}>
-                                <Text style={dynamicStyles.text}>X</Text>
-                            </Pressable>
-                            <ScrollView>
-                                {children}
-                            </ScrollView>
-                        </View>
-                    </TouchableWithoutFeedback>
-                </View>
-            </TouchableWithoutFeedback>
-        </Modal>
+        animationType="slide"
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+        transparent
+      >
+        <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
+          <View style={styles.modalBackground}>
+            <View
+              style={[
+                styles.modalContainer,
+                dynamicStyles.container,
+                { width: width * 0.95, maxHeight: height * 0.80 },
+              ]}
+            >
+              <Pressable style={styles.closeButton} onPress={() => setModalVisible(false)}>
+                <Text style={dynamicStyles.text}>X</Text>
+              </Pressable>
+              <ScrollView>{children}</ScrollView>
+            </View>
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
+      
     );
 }
 

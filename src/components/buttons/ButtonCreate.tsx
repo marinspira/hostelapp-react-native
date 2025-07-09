@@ -13,7 +13,7 @@ interface ButtonCreateProps {
     onPress?: () => void,
     bottom?: number,
     right?: number,
-    menuBtn: boolean
+    menuBtn?: boolean
 }
 
 export default function ButtonCreate({ subButtons, onPress, bottom = 120, right = 20, menuBtn }: ButtonCreateProps) {

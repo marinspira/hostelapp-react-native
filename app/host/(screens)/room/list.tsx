@@ -8,7 +8,7 @@ import EmptyScreenImage from "@/assets/images/illustrations/undraw/undraw_dog_jf
 import PopUp from "@/src/components/modal";
 import CreateRoomModal from "@/src/components/modaisContent/createRoom"
 import { useTranslation } from "react-i18next";
-import { useGetAllRooms } from "@/src/services/hostel/getRooms";
+import { useGetAllRooms } from "@/src/services/hostel/rooms/getAll";
 import EmptyState from "@/src/components/emptyState"
 import RoomCard from "@/src/components/roomCard"
 
@@ -76,17 +76,24 @@ export default function RoomsScreen() {
                         ))}
                     </ScrollView>
                 ) : (
-                    <EmptyState
-                        img={<EmptyScreenImage width={300} />}
-                        title={t("Nenhum quarto encontrado")}
-                        text={t("Clique no botão + para criar")}
-                    />
+                        <ScrollView
+                            refreshControl={
+                                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                            }
+                            showsVerticalScrollIndicator={false}
+                        >
+                            <EmptyState
+                                img={<EmptyScreenImage width={300} />}
+                                title={t("Nenhum quarto encontrado")}
+                                text={t("Clique no botão + para criar")}
+                            />
+                        </ScrollView>
                 )}
                 <ButtonCreate right={0} onPress={() => setIsModalVisible(true)} />
 
                 {isModalVisible === true &&
                     <PopUp setModalVisible={setIsModalVisible} modalVisible={isModalVisible}>
-                        <CreateRoomModal setModalVisible={setIsModalVisible} />
+                        <CreateRoomModal callback={getRooms} setModalVisible={setIsModalVisible} />
                     </PopUp>
                 }
             </View>

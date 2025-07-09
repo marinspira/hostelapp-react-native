@@ -63,7 +63,7 @@ export default function Menu({ tabIcons, role }: MenuProps) {
                         subButtons={[
                           ...(showRoomFeatures ? [{
                             text: t('Room'),
-                            onPress: () => router.push('/host/(screens)/allRooms')
+                            onPress: () => router.push('/host/(screens)/room/list')
                           }] : []),
                           ...(showReservationFeatures ? [{
                             text: t('Guest'),

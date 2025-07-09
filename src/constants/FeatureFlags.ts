@@ -14,11 +14,11 @@ type FeatureFlags = {
 export const featureFlags: FeatureFlags = {
   // creation and management of rooms
   rooms: {
-    enabled: false,
+    enabled: true,
   },
   reservation: {
     enabled: true,
-    // dependsOn: ['rooms'],
+    dependsOn: ['rooms'],
   },
   events: {
     enabled: false,

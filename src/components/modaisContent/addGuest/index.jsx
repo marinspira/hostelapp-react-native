@@ -7,8 +7,8 @@ import { useTheme } from '@/src/hooks/useTheme'
 import { useEffect, useMemo, useState } from "react";
 import { Colors } from '@/src/constants/Colors'
 import { router } from 'expo-router'
-import { useGetAllRooms } from "@/src/services/hostel/getRooms";
-import { useCreateReservation } from "@/src/services/hostel/createReservation";
+import { useGetAllRooms } from "@/src/services/hostel/rooms/getAll";
+import { useCreateReservation } from "@/src/services/hostel/reservations/create";
 import { useGetBedsAvailable } from "@/src/services/hostel/getBedsAvailable";
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllGuests } from '@/src/redux/slices/hostelGuests';
