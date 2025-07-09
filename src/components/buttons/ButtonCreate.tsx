@@ -22,23 +22,39 @@ export default function ButtonCreate({ subButtons, onPress, bottom = 120, right 
     const [open, setOpen] = useState(false)
 
     return (
-        <View style={menuBtn ? styles.containerBtnMenu : [styles.container, { bottom: bottom, right: right }]}>
+        <>
+          {open && (
+            <Pressable
+              onPress={() => setOpen(false)}
+              style={StyleSheet.absoluteFill}
+            />
+          )}
+          <View style={menuBtn ? styles.containerBtnMenu : [styles.container, { bottom, right }]}>
             {open && subButtons?.map((subBtn, index) => (
-                <View key={index} style={styles.subButtons}>
-                    <TouchableOpacity style={styles.subBtn} onPress={subBtn.onPress}>
-                        {subBtn.icon}
-                        <Text style={[dynamicStyles.text, styles.subBtnText]}>{subBtn.text}</Text>
-                    </TouchableOpacity>
-                </View>
+              <View key={index} style={styles.subButtons}>
+                <TouchableOpacity
+                  style={styles.subBtn}
+                  onPress={() => {
+                    setOpen(false);
+                    subBtn.onPress();
+                  }}
+                >
+                  {subBtn.icon}
+                  <Text style={[dynamicStyles.text, styles.subBtnText]}>{subBtn.text}</Text>
+                </TouchableOpacity>
+              </View>
             ))}
             <Pressable
-                onPress={subButtons ? () => setOpen(!open) : onPress}
-                style={menuBtn ? styles.menuBtn : styles.btn}
+              onPress={subButtons ? () => setOpen(!open) : onPress}
+              style={menuBtn ? styles.menuBtn : styles.btn}
             >
-                {open ? <AntDesign name="close" size={30} color="white" /> : <AntDesign name="plus" size={30} color="white" />}
+              {open
+                ? <AntDesign name="close" size={30} color="white" />
+                : <AntDesign name="plus" size={30} color="white" />}
             </Pressable>
-        </View>
-    )
+          </View>
+        </>
+      );      
 }
 
 const styles = StyleSheet.create({
