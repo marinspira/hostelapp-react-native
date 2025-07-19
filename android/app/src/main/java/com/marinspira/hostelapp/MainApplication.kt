@@ -1,4 +1,4 @@
-package com.marinspira.mobile
+package com.marinspira.hostelapp
 
 import android.app.Application
 import android.content.res.Configuration
