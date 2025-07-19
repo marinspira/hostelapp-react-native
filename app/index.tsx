@@ -1,72 +1,25 @@
 import { Redirect } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/src/redux/store';
 import { isAuthenticated } from '@/src/redux/slices/user';
-// import StorybookUI from "../storybook";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useQueryClient } from '@tanstack/react-query';
+// import StorybookUI from "@/src/storybook";
 
 export default function Index() {
 
   // const [useStorybook] = useState(false);
 
   const user = useSelector((state: RootState) => state.user.data);
-  const queryClient = useQueryClient();
-
   const dispatch = useDispatch<AppDispatch>()
-
-  const logAllAsyncStorage = async () => {
-    try {
-      const keys = await AsyncStorage.getAllKeys();
-      const stores = await AsyncStorage.multiGet(keys);
-
-      console.log("🔍 --- AsyncStorage Dump Start --- 🔍");
-
-      stores.forEach(([key, value]) => {
-        console.log(`\n📁 Key: %c${key}`, "color: purple; font-weight: bold");
-
-        try {
-          const parsedValue = JSON.parse(value || 'null');
-          console.log("📦 Value:", parsedValue);
-        } catch (e) {
-          console.log("⚠️ Could not parse JSON, raw value:", value);
-        }
-      });
-
-      console.log("✅ --- AsyncStorage Dump End --- ✅");
-
-    } catch (error) {
-      console.error("❌ Error reading AsyncStorage:", error);
-    }
-  };
-
-  const logReactQueryCache = () => {
-    const queries = queryClient.getQueryCache().getAll();
-  
-    console.log("🔍 --- React Query Cache Dump Start --- 🔍");
-  
-    queries.forEach((query) => {
-      const queryKey = query.queryKey;
-      const queryData = query.state.data;
-  
-      console.log(`\n🗝️ Query Key:`, queryKey);
-      console.log(`📦 Data:`, queryData);
-    });
-  
-    console.log("✅ --- React Query Cache Dump End --- ✅");
-  };
 
   useEffect(() => {
     console.log('Index. User State:', user);
-    // logAllAsyncStorage()
-    // logReactQueryCache()
 
     const fetchUser = async () => {
       const result = await dispatch(isAuthenticated())
     }
     fetchUser()
-  }, [user, queryClient]);
+  }, [user]);
 
   // if (useStorybook) {
   //   return <StorybookUI />
