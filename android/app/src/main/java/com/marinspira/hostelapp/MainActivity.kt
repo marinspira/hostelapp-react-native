@@ -1,4 +1,4 @@
-package com.marinspira.mobile
+package com.marinspira.hostelapp
 import expo.modules.splashscreen.SplashScreenManager
 
 import android.os.Build
