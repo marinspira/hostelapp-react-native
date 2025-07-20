@@ -14,7 +14,9 @@ export default function Index() {
   const dispatch = useDispatch<AppDispatch>()
 
   useEffect(() => {
-    console.log('Index. User State:', user);
+    if (user) {
+      console.log('Index. User State:', user);
+    }
 
     const fetchUser = async () => {
       const result = await dispatch(isAuthenticated())

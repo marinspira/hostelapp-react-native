@@ -12,9 +12,15 @@ const logBuffer = [];
 
 function logHandler(type, ...args) {
   const timestamp = new Date().toISOString();
-  const message = `[${timestamp}] [${type}] ${args.join(' ')}`;
 
-  logBuffer.push({ type, message });
+  const message = args.map(arg => {
+    if (arg instanceof Error) return arg.stack || arg.message;
+    return typeof arg === 'object' ? JSON.stringify(arg) : String(arg);
+  }).join(' ');
+
+  const cleanMessage = message.replace(/\u001b\[.*?m/g, ''); // remove ANSI codes
+
+  logBuffer.push({ type, message: cleanMessage, timestamp });
 
   sendLogsToBackend(logBuffer).then(() => {
     logBuffer.length = 0;
