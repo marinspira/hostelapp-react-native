@@ -33,10 +33,6 @@ export default function FormGuest() {
         }, 20000);
     }
 
-    useEffect(() => {
-        console.log('guest', guest)
-    }, [guest])
-
     return (
         <View style={styles.container}>
             <View style={styles.form}>
