@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/src/redux/store';
 import { isAuthenticated } from '@/src/redux/slices/user';
 // import StorybookUI from "@/src/storybook";
+import "@/src/utils/logger"
 
 export default function Index() {
 
