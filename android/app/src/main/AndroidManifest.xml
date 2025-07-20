@@ -29,7 +29,6 @@
         <category android:name="android.intent.category.BROWSABLE"/>
         <data android:scheme="hostelapp"/>
         <data android:scheme="com.marinspira.hostelapp"/>
-        <data android:scheme="exp+hostelapp"/>
       </intent-filter>
     </activity>
   </application>

@@ -2,7 +2,7 @@ import { LogBox } from 'react-native';
 import { sendLogsToBackend } from "@/src/services/sendLogs.js"
 
 // Suppress warning boxes
-LogBox.ignoreAllLogs();
+// LogBox.ignoreAllLogs();
 
 // Backup original console methods
 const originalConsole = { ...console };
