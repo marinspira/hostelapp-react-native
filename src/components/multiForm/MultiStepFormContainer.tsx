@@ -5,6 +5,7 @@ import { z, ZodObject } from "zod";
 import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
 import { useTheme } from "@/src/hooks/useTheme";
 import { Colors } from "@/src/constants/Colors";
+import Feather from '@expo/vector-icons/Feather';
 
 type Step = {
   id: string;
@@ -80,7 +81,7 @@ export const MultiStepFormContainer: React.FC<MultiStepFormContainerProps> = ({
             </TouchableOpacity>
           ) : (
             <TouchableOpacity onPress={handleNext} style={styles.nextButton}>
-              <Text style={styles.nextButtonText}>→</Text>
+              <Feather name="arrow-right" size={24} color="white" />
             </TouchableOpacity>
           )}
         </View>
