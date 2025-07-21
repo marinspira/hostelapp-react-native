@@ -26,7 +26,7 @@ function GoogleAuthentication({ role }) {
         scopes: ["profile", "email"],
         redirectUri: AuthSession.makeRedirectUri({
             // useProxy: false,
-            native: "com.marinspira.mobile://",
+            native: "com.marinspira.hostelapp://",
             // preferLocalhost: true, 
         }),
     });

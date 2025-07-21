@@ -13,7 +13,7 @@ interface InputImageProps {
     label?: string,
     maxSelections?: number,
     suportText?: string,
-    borderRadius?: string,
+    borderRadius?: number,
     borderWidth?: number,
     borderColor?: string,
     imgWidth?: number,

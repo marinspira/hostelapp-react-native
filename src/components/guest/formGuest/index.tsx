@@ -48,12 +48,12 @@ export default function FormGuest() {
                     value={guest.phoneNumber}
                 />
                 {/* TODO: Add passaport upload function */}
-                <InputImage
+                {/* <InputImage
                     label={t('Foto do seu Passaporte/Identidade')}
                     suportText={t('Apenas a administração do hotel pode ver essa informação')}
                     id='passaport'
                     onUpload=""
-                />
+                /> */}
                 <SelectItens
                     label={t('Você é nômade digital?')}
                     suportText={t('Você trabalha online enquanto viaja?')}

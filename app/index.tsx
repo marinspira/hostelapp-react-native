@@ -22,6 +22,12 @@ export default function Index() {
     checkAuth();
   }, []);
 
+  useEffect(() => {
+    if (user) {
+      console.log(user)
+    }
+  }, [user])
+
   if (!checkedAuth || loading) {
     return <Text>Loading...</Text>
   }

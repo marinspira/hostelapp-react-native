@@ -86,7 +86,7 @@ export default function Settings() {
   return (
     <Container>
       <View style={{ paddingBottom: 80 }}>
-        <TouchableOpacity onPress={() => router.push('/guest/(screens)/profile')} style={styles.profile}>
+        {/* <TouchableOpacity onPress={() => router.push('/guest/(screens)/profile')} style={styles.profile}>
           <Image
             style={styles.image}
             source={guest.guestPhotos?.[0] ? { uri: guest.guestPhotos?.[0] } : require('../../../assets/images/unnamed.png')}
@@ -95,7 +95,7 @@ export default function Settings() {
             <Text style={[styles.name, dynamicStyles.text]}>{user?.name}</Text>
             <Text style={dynamicStyles.suportText}>{t('Ver perfil')}</Text>
           </View>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <ThemeSwitch />
         <IconTextList content={settings} />
       </View>
