@@ -56,7 +56,7 @@ export default function CreateHostel() {
   const sendForm = async (data: Hostel): Promise<void> => {
     try {
       const response = await dispatch(createHostel({ data, image })).unwrap();
-      // router.push(`/host/(tabs)`)
+      router.push(`/host/(tabs)`)
     } catch (err) {
       console.error('Erro ao criar hostel:', err);
     }
@@ -75,7 +75,7 @@ export default function CreateHostel() {
                 <View style={{ alignItems: "center" }}>
                   <InputImage
                     id='hostelImage'
-                    borderRadius='100%'
+                    borderRadius={9999}
                     onUpload={handleImageUpload}
                     imgWidth={150}
                     imgPickerBtnText="LOGO"

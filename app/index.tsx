@@ -3,92 +3,50 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/src/redux/store';
 import { isAuthenticated } from '@/src/redux/slices/user';
-// import StorybookUI from "../storybook";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useQueryClient } from '@tanstack/react-query';
+import "@/src/utils/logger"
+import { Text } from 'react-native';
 
 export default function Index() {
-
-  // const [useStorybook] = useState(false);
-
+  const dispatch = useDispatch<AppDispatch>();
   const user = useSelector((state: RootState) => state.user.data);
-  const queryClient = useQueryClient();
-
-  const dispatch = useDispatch<AppDispatch>()
-
-  const logAllAsyncStorage = async () => {
-    try {
-      const keys = await AsyncStorage.getAllKeys();
-      const stores = await AsyncStorage.multiGet(keys);
-
-      console.log("🔍 --- AsyncStorage Dump Start --- 🔍");
-
-      stores.forEach(([key, value]) => {
-        console.log(`\n📁 Key: %c${key}`, "color: purple; font-weight: bold");
-
-        try {
-          const parsedValue = JSON.parse(value || 'null');
-          console.log("📦 Value:", parsedValue);
-        } catch (e) {
-          console.log("⚠️ Could not parse JSON, raw value:", value);
-        }
-      });
-
-      console.log("✅ --- AsyncStorage Dump End --- ✅");
-
-    } catch (error) {
-      console.error("❌ Error reading AsyncStorage:", error);
-    }
-  };
-
-  const logReactQueryCache = () => {
-    const queries = queryClient.getQueryCache().getAll();
+  const loading = useSelector((state: RootState) => state.user.loading);
   
-    console.log("🔍 --- React Query Cache Dump Start --- 🔍");
-  
-    queries.forEach((query) => {
-      const queryKey = query.queryKey;
-      const queryData = query.state.data;
-  
-      console.log(`\n🗝️ Query Key:`, queryKey);
-      console.log(`📦 Data:`, queryData);
-    });
-  
-    console.log("✅ --- React Query Cache Dump End --- ✅");
-  };
+  const [checkedAuth, setCheckedAuth] = useState(false);
 
   useEffect(() => {
-    console.log('Index. User State:', user);
-    // logAllAsyncStorage()
-    // logReactQueryCache()
+    const checkAuth = async () => {
+      await dispatch(isAuthenticated());
+      setCheckedAuth(true);
+    };
 
-    const fetchUser = async () => {
-      const result = await dispatch(isAuthenticated())
-    }
-    fetchUser()
-  }, [user, queryClient]);
+    checkAuth();
+  }, []);
 
-  // if (useStorybook) {
-  //   return <StorybookUI />
-  // } else {
-    if (!user) {
-      return <Redirect href='/public' />
-    }
-
+  useEffect(() => {
     if (user) {
-      if (user.role === 'guest') {
-        if (user.isNewUser) {
-          return <Redirect href="/guest/(screens)/checkin" />;
-        }
-        return <Redirect href="/guest/(tabs)" />;
-      }
-
-      if (user.role === 'host') {
-        if (user.isNewUser) {
-          return <Redirect href="/host/hostel/create" />;
-        }
-        return <Redirect href="/host/(tabs)" />;
-      }
+      console.log(user)
     }
-  // }
+  }, [user])
+
+  if (!checkedAuth || loading) {
+    return <Text>Loading...</Text>
+  }
+
+  if (!user) {
+    return <Redirect href="/public" />;
+  }
+
+  if (user.role === 'guest') {
+    return user.isNewUser 
+      ? <Redirect href="/guest/(screens)/checkin" />
+      : <Redirect href="/guest/(tabs)" />;
+  }
+
+  if (user.role === 'host') {
+    return user.isNewUser 
+      ? <Redirect href="/host/hostel/create" />
+      : <Redirect href="/host/(tabs)" />;
+  }
+
+  return null;
 }

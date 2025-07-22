@@ -35,7 +35,7 @@ export const saveGuest = createAsyncThunk<BackendResponse, void, { state: RootSt
             const state = getState() as RootState;
             const guestData = state.guest.data;
 
-            const response = await fetch(`${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/api/guest/saveGuest`, {
+            const response = await fetch(`${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/api/guests/create`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
@@ -127,11 +127,11 @@ export const updateGuest = createAsyncThunk<BackendResponse, void, { state: Root
     }
 )
 
-export const uploadGuestImage = createAsyncThunk<BackendResponse, { file: any, endpoint: string }, { state: RootState; rejectValue: string }>(
+export const uploadGuestImage = createAsyncThunk<BackendResponse, { file: any }, { state: RootState; rejectValue: string }>(
     'guest/uploadImages',
-    async ({ file, endpoint }, { rejectWithValue }) => {
+    async ({ file }, { rejectWithValue }) => {
         try {
-            const response = await fetch(`${process.env.EXPO_PUBLIC_SERVER_ADDRESS}${endpoint}`, {
+            const response = await fetch(`${process.env.EXPO_PUBLIC_SERVER_ADDRESS}/api/guests/save-images`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'multipart/form-data'
@@ -203,7 +203,7 @@ const guestSlice = createSlice({
             .addCase(saveGuest.fulfilled, (state, action: PayloadAction<BackendResponse>) => {
                 state.loading = false;
                 if (action.payload.success) {
-                    return { ...state, ...action.payload.data };
+                    state.data = action.payload.data as Guest;
                 } else {
                     state.error = action.payload.message || 'Failed to save guest data.';
                 }

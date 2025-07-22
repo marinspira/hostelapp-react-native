@@ -44,7 +44,6 @@ export default function Checkin() {
   }
 
   function handleForm() {
-    console.log('form', guest)
     if (!guest.birthday || !guest.country) {
       showToast({
         type: 'error',
@@ -73,10 +72,6 @@ export default function Checkin() {
     save()
   }
 
-  // const save = async () => {
-  //   const result = await dispatch(saveGuest())
-  // }
-
   const save = async () => {
     try {
       const result = await dispatch(saveGuest()).unwrap();
@@ -100,7 +95,7 @@ export default function Checkin() {
           <View style={styles.userContent}>
             <InputImage
               id='0'
-              borderRadius='100%'
+              borderRadius={9999}
               imgWidth={75}
               defaultImg={guest?.guestPhotos?.[0]}
               onUpload={handleUploadGuestImages}
