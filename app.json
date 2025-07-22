@@ -39,7 +39,7 @@
       "permissions": [
         "android.permission.RECORD_AUDIO"
       ],
-      "package": "com.marinspira.hostelapp",
+      "package": "com.marinspira.marinspira",
       "runtimeVersion": "1.0.0"
     },
     "web": {

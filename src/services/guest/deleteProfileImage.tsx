@@ -2,7 +2,7 @@ import { deleteGuestImage} from '@/src/redux/slices/guest';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/src/redux/store';
 import { useTranslation } from 'react-i18next';
-import { showToast } from '@/src/components/toast';
+import { showToast } from '@/src/components/layout/ToastNotification';
 
 export const handleDeleteGuestImage = async (id: string) => {
 

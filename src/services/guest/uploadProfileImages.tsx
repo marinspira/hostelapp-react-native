@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/src/redux/store';
 import { useTranslation } from 'react-i18next';
-import { showToast } from '@/src/components/toast';
+import { showToast } from '@/src/components/layout/ToastNotification';
 import { uploadGuestImage } from '@/src/redux/slices/guest';
 
 export const useUploadGuestImages = () => {
@@ -13,7 +13,6 @@ export const useUploadGuestImages = () => {
       try {
         const response = await dispatch(uploadGuestImage({
           file,
-          endpoint: '/api/guest/saveGuestProfileImages'
         }));
 
         showToast({
