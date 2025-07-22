@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { User, UserState } from '../../interfaces/user';
 import { router } from 'expo-router';
-import { showToast } from '@/src/components/toast';
+import { showToast } from '@/src/components/layout/ToastNotification';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { resetAppState } from '@/src/redux/globalActions';
 import { BackendResponse } from '@/src/interfaces/backendResponse';

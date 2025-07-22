@@ -86,9 +86,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace 'com.marinspira.hostelapp'
+    namespace 'com.marinspira.mobile'
     defaultConfig {
-        applicationId 'com.marinspira.hostelapp'
+        applicationId 'com.marinspira.mobile'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
